@@ -12,11 +12,12 @@ type Props<I extends string> = {
   dibujos: Record<I, Dibujo>;
   efectos: Record<I, Golpe[]>;
   volumenMusica?: number;
+  mostrarAvatar?: boolean;
 };
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16 }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -48,15 +49,17 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
 
       <Subtitulos texto={escena.texto} clave={escena.clave} frameLocal={local} duracion={framesDe(escena.segundos)} />
 
+      {mostrarAvatar && (
       <div style={{ position: "absolute", left: -40 + entradaAvatar, bottom: 20 }}>
         <Marioneta
-          gesto={escena.gesto}
-          gestoAnterior={actual > 0 ? escenas[actual - 1].gesto : null}
+          gesto={escena.gesto ?? "presentar"}
+          gestoAnterior={actual > 0 ? (escenas[actual - 1].gesto ?? "presentar") : null}
           frameLocal={local}
           frameGlobal={frame}
           altura={900}
         />
       </div>
+      )}
     </AbsoluteFill>
   );
 }

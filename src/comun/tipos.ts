@@ -13,11 +13,12 @@ export type Escena<I extends string = string> = {
   texto: string;
   segundos: number;
   ilustracion: I;
-  gesto: Gesto;
+  gesto?: Gesto; // solo se usa si el reel muestra el avatar
   clave?: string[]; // palabras que se resaltan en amarillo
 };
 
-export type Efecto = "whoosh" | "pop" | "burbuja" | "boing" | "error" | "alarma" | "brillo" | "ding" | "tic";
+export type Efecto =
+  | "whoosh" | "pop" | "burbuja" | "boing" | "error" | "alarma" | "brillo" | "ding" | "tic" | "olas" | "campana";
 export type Golpe = [frameLocal: number, efecto: Efecto, volumen?: number];
 
 export type Dibujo = React.FC<{ f: number }>;
