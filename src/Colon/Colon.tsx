@@ -1,7 +1,7 @@
 import React from "react";
 import { spring, useVideoConfig } from "remotion";
 
-export type PoseColon = "reposo" | "mapa" | "senalar" | "reverencia" | "bandera" | "pensar";
+export type PoseColon = "reposo" | "mapa" | "senalar" | "reverencia" | "bandera" | "pensar" | "presentar";
 
 // ángulos en grados: hombro (0 = brazo colgando) y codo (relativo al brazo)
 type Brazo = { hombro: number; codo: number };
@@ -14,6 +14,7 @@ const POSES: Record<PoseColon, Pose> = {
   reverencia: { izq: { hombro: -30, codo: -100 }, der: { hombro: -10, codo: 4 }, cabeza: 16, agacha: 22 },
   bandera: { izq: { hombro: 8, codo: -6 }, der: { hombro: -26, codo: -140 }, cabeza: -5, agacha: 0 },
   pensar: { izq: { hombro: -16, codo: -150 }, der: { hombro: 18, codo: 70 }, cabeza: 10, agacha: 0 },
+  presentar: { izq: { hombro: 8, codo: -6 }, der: { hombro: -40, codo: -60 }, cabeza: -6, agacha: 0 },
 };
 
 const mezclar = (a: Pose, b: Pose, k: number): Pose => {

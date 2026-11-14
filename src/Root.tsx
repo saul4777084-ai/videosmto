@@ -9,6 +9,8 @@ import { ReelBanoRoto } from "./BanoRoto/Reel";
 import { DURACION_TOTAL as DURACION_BANO } from "./BanoRoto/escenas";
 import { ReelColon } from "./Colon/Reel";
 import { DURACION_TOTAL as DURACION_COLON } from "./Colon/escenas";
+import { ReelDescubrimiento } from "./Colon60/Reel";
+import { DURACION_TOTAL as DURACION_DESCUBRIMIENTO } from "./Colon60/escenas";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -92,6 +94,14 @@ export const RemotionRoot: React.FC = () => {
         id="ReelColon"
         component={ReelColon}
         durationInFrames={DURACION_COLON}
+        fps={FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="ReelDescubrimiento"
+        component={ReelDescubrimiento}
+        durationInFrames={DURACION_DESCUBRIMIENTO}
         fps={FPS}
         width={1080}
         height={1920}

@@ -13,11 +13,12 @@ type Props<I extends string> = {
   efectos: Record<I, Golpe[]>;
   volumenMusica?: number;
   mostrarAvatar?: boolean;
+  voz?: string; // archivo de voz en public/ que suena de principio a fin
 };
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -32,6 +33,7 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
+      {voz && <Audio src={staticFile(voz)} volume={1} />}
       <Sonidos escenas={escenas} efectos={efectos} inicios={inicios} duracion={duracion} volumenMusica={volumenMusica} />
 
       {escenas.map((e, i) => {
@@ -47,7 +49,13 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
       {/* oscurecer arriba para que se lean los subtítulos */}
       <AbsoluteFill style={{ background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0) 30%)" }} />
 
-      <Subtitulos texto={escena.texto} clave={escena.clave} frameLocal={local} duracion={framesDe(escena.segundos)} />
+      <Subtitulos
+        texto={escena.texto}
+        clave={escena.clave}
+        frameLocal={local}
+        duracion={framesDe(escena.segundos)}
+        tiempos={escena.tiempos?.map((t) => t * 30)}
+      />
 
       {mostrarAvatar && (
       <div style={{ position: "absolute", left: -40 + entradaAvatar, bottom: 20 }}>
@@ -75,7 +83,8 @@ const Capa: React.FC<{ primera: boolean; children: (f: number) => React.ReactNod
 const ticsDe = (e: Escena): Golpe[] => {
   const palabras = e.texto.split(" ");
   const porPalabra = (framesDe(e.segundos) * 0.78) / palabras.length;
-  return palabras.flatMap((p, k): Golpe[] => ((e.clave ?? []).includes(p) ? [[Math.round(k * porPalabra), "tic", 0.3]] : []));
+  const t = (k: number) => (e.tiempos && e.tiempos[k] !== undefined ? e.tiempos[k] * 30 : k * porPalabra);
+  return palabras.flatMap((p, k): Golpe[] => ((e.clave ?? []).includes(p) ? [[Math.round(t(k)), "tic", 0.25]] : []));
 };
 
 function Sonidos<I extends string>({

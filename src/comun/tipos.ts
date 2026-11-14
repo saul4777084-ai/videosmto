@@ -15,6 +15,7 @@ export type Escena<I extends string = string> = {
   ilustracion: I;
   gesto?: Gesto; // solo se usa si el reel muestra el avatar
   clave?: string[]; // palabras que se resaltan en amarillo
+  tiempos?: number[]; // segundos (desde el inicio de la escena) en que se dice cada palabra
 };
 
 export type Efecto =

@@ -67,7 +67,7 @@ type Props = {
   camara: Camara;
   niebla?: number; // 0..1, oculta América
   espana?: number; // 0..1, pinta España con su bandera
-  brillo?: { nombre: string; intensidad: number }; // país que parpadea
+  brillo?: { nombre: string; intensidad: number; color?: string }; // país que parpadea (color en "r,g,b")
 };
 
 export const Mapa: React.FC<Props> = ({ camara, niebla = 0, espana = 0, brillo }) => (
@@ -114,7 +114,7 @@ export const Mapa: React.FC<Props> = ({ camara, niebla = 0, espana = 0, brillo }
         <path
           key={`b-${p.nombre}`}
           d={p.d}
-          fill={brillo && p.nombre === brillo.nombre ? `rgba(255,235,59,${0.55 * brillo.intensidad})` : "none"}
+          fill={brillo && p.nombre === brillo.nombre ? `rgba(${brillo.color ?? "255,235,59"},${0.6 * brillo.intensidad})` : "none"}
           stroke="rgba(25,35,20,0.55)"
           strokeWidth={1.4}
           vectorEffect="non-scaling-stroke"

@@ -12,18 +12,18 @@ const suave = Easing.inOut(Easing.cubic);
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 // ---------- lugares ----------
-const PALOS: LonLat = [-6.9, 37.2];
-const CANARIAS: LonLat = [-17.2, 28.1];
-const GUANAHANI: LonLat = [-74.5, 24.05];
-const RUTA: LonLat[] = [PALOS, [-9.5, 35.2], [-13.5, 31.2], CANARIAS, [-28, 28], [-42, 27.6], [-56, 26.6], [-66, 25.5], GUANAHANI];
+export const PALOS: LonLat = [-6.9, 37.2];
+export const CANARIAS: LonLat = [-17.2, 28.1];
+export const GUANAHANI: LonLat = [-74.5, 24.05];
+export const RUTA: LonLat[] = [PALOS, [-9.5, 35.2], [-13.5, 31.2], CANARIAS, [-28, 28], [-42, 27.6], [-56, 26.6], [-66, 25.5], GUANAHANI];
 
 // cámara que va de A a B durante la escena
-const camaraEntre = (f: number, dur: number, a: Camara, b: Camara) =>
+export const camaraEntre = (f: number, dur: number, a: Camara, b: Camara) =>
   mezclarCamara(a, b, interpolate(f, [0, dur], [0, 1], { ...clamp, easing: suave }));
 
 // ---------- elementos gráficos ----------
 
-const Etiqueta: React.FC<{ f: number; x: number; y: number; texto: string; inicio?: number; color?: string; tam?: number }> = ({
+export const Etiqueta: React.FC<{ f: number; x: number; y: number; texto: string; inicio?: number; color?: string; tam?: number }> = ({
   f,
   x,
   y,
@@ -59,7 +59,7 @@ const Etiqueta: React.FC<{ f: number; x: number; y: number; texto: string; inici
   );
 };
 
-const Calendario: React.FC<{ f: number; mes: string; dia: string; anio: string; inicio?: number; izquierda?: boolean }> = ({ f, mes, dia, anio, inicio = 6, izquierda = false }) => {
+export const Calendario: React.FC<{ f: number; mes: string; dia: string; anio: string; inicio?: number; izquierda?: boolean }> = ({ f, mes, dia, anio, inicio = 6, izquierda = false }) => {
   const { fps } = useVideoConfig();
   const s = spring({ frame: f - inicio, fps, config: { damping: 10 } });
   return (
@@ -85,7 +85,7 @@ const Calendario: React.FC<{ f: number; mes: string; dia: string; anio: string; 
   );
 };
 
-const Corona: React.FC<{ x: number; y: number; s: number }> = ({ x, y, s }) => (
+export const Corona: React.FC<{ x: number; y: number; s: number }> = ({ x, y, s }) => (
   <g transform={`translate(${x} ${y}) scale(${s})`}>
     <path d="M -70 30 L -80 -40 L -40 -5 L 0 -60 L 40 -5 L 80 -40 L 70 30 Z" fill="#ffc400" stroke="#8d6e00" strokeWidth={6} />
     <rect x={-72} y={26} width={144} height={26} rx={6} fill="#ffb300" stroke="#8d6e00" strokeWidth={6} />
@@ -98,7 +98,7 @@ const Corona: React.FC<{ x: number; y: number; s: number }> = ({ x, y, s }) => (
   </g>
 );
 
-const RutaPunteada: React.FC<{ camara: Camara; t: number; color?: string }> = ({ camara, t, color = "#fff" }) => {
+export const RutaPunteada: React.FC<{ camara: Camara; t: number; color?: string }> = ({ camara, t, color = "#fff" }) => {
   const pts = rutaHasta(RUTA, t).map((ll) => aPantalla(camara, ll));
   return (
     <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
@@ -116,7 +116,7 @@ const RutaPunteada: React.FC<{ camara: Camara; t: number; color?: string }> = ({
 };
 
 // tres barcos en formación siguiendo la ruta
-const Flota: React.FC<{ camara: Camara; t: number; f: number; escala: number; nombres?: boolean; aparicion?: number }> = ({
+export const Flota: React.FC<{ camara: Camara; t: number; f: number; escala: number; nombres?: boolean; aparicion?: number }> = ({
   camara,
   t,
   f,
@@ -154,7 +154,7 @@ const Flota: React.FC<{ camara: Camara; t: number; f: number; escala: number; no
   );
 };
 
-const Titulo: React.FC<{ f: number; texto: string; y: number; tam: number; color?: string; inicio?: number }> = ({
+export const Titulo: React.FC<{ f: number; texto: string; y: number; tam: number; color?: string; inicio?: number }> = ({
   f,
   texto,
   y,
@@ -186,7 +186,7 @@ const Titulo: React.FC<{ f: number; texto: string; y: number; tam: number; color
   );
 };
 
-const Burbuja: React.FC<{ f: number; x: number; y: number; texto: string; inicio?: number; pensamiento?: boolean }> = ({
+export const Burbuja: React.FC<{ f: number; x: number; y: number; texto: string; inicio?: number; pensamiento?: boolean }> = ({
   f,
   x,
   y,
