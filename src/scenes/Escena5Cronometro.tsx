@@ -17,8 +17,8 @@ const LEN = s(ESCENAS.cronometro.fin - ESCENAS.cronometro.inicio);
 /** ESCENA 5 — Cronómetro central, corazones y llamas. */
 export const Escena5Cronometro: React.FC = () => {
   const f = useCurrentFrame();
-  const runStart = s(0.9);
-  const runEnd = LEN - s(1.0);
+  const runStart = s(0.6);
+  const runEnd = LEN - s(0.6);
   const prog = tween(f, [runStart, runEnd], [0, 1], Easing.inOut(Easing.quad));
   const seconds = prog * CONTADORES.cronometro.minutos * 60;
   const kcal = prog * CONTADORES.cronometro.kcalHasta;
@@ -53,7 +53,7 @@ export const Escena5Cronometro: React.FC = () => {
         unit={ROTULOS.cronometro.etiqueta}
         scale={0.7 * pop(f, s(0.6))}
       />
-      <Pill x={540} y={1770} text={ROTULOS.cronometro.ritmo} appear={pop(f, s(3.6))} color="#ffd84a" size={44} />
+      <Pill x={540} y={1770} text={ROTULOS.cronometro.ritmo} appear={pop(f, s(1.8))} color="#ffd84a" size={44} />
     </AbsoluteFill>
   );
 };

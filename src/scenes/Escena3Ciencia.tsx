@@ -53,7 +53,7 @@ const Estudio: React.FC = () => {
         ))}
       </div>
       {C.tarjetas.map((t, i) => (
-        <Pill key={t} x={i === 1 ? 600 : 560} y={1300 + i * 140} text={t} appear={pop(f, s(2.2) + i * s(1.2))} color={['#ffd84a', '#5dd8ff', '#ff7ab8'][i]} size={46} />
+        <Pill key={t} x={i === 1 ? 600 : 560} y={1300 + i * 140} text={t} appear={pop(f, s(1.8) + i * s(0.8))} color={['#ffd84a', '#5dd8ff', '#ff7ab8'][i]} size={46} />
       ))}
     </AbsoluteFill>
   );

@@ -10,7 +10,7 @@ export const VIDEO = {
   fps: 30,
   ancho: 1080,
   alto: 1920,
-  duracionSegundos: 59.5,
+  duracionSegundos: 48.27,
 
   narracion: 'narracion.mp3' as string | null, // archivo dentro de /public
   volumenNarracion: 1,
@@ -18,7 +18,7 @@ export const VIDEO = {
   retrasoNarracion: 0,
 
   /** Muestra u oculta los subtítulos (config/textos.ts). */
-  mostrarSubtitulos: false,
+  mostrarSubtitulos: true,
 
   musica: null as string | null, // p. ej. 'musica.mp3'
   volumenMusica: 0.18,

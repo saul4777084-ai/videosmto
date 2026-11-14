@@ -41,7 +41,7 @@ export const Subtitles: React.FC<{top?: number}> = ({top = 210}) => {
   const tokens = tokenize(cue.texto);
   const startF = cue.inicio * FPS;
   const endF = cue.fin * FPS;
-  const span = (endF - startF) * 0.78;
+  const span = (endF - startF) * 0.88;
   const step = span / tokens.length;
   const outOp = interpolate(frame, [endF - 6, endF], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   let current = -1;
@@ -62,7 +62,7 @@ export const Subtitles: React.FC<{top?: number}> = ({top = 210}) => {
         columnGap: 18,
         rowGap: 8,
         fontFamily: 'Poppins',
-        fontSize: 62,
+        fontSize: cue.texto.length > 70 ? 52 : 62,
         lineHeight: 1.18,
         textAlign: 'center',
         opacity: outOp,
