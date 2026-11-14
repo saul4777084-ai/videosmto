@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
-import { Avatar } from "./Avatar";
+import { Marioneta } from "./Marioneta";
 import { DURACION_TOTAL, ESCENAS, INICIOS, framesDe } from "./escenas";
 import { Ilustraciones } from "./Ilustraciones";
 import { Subtitulos } from "./Subtitulos";
@@ -42,8 +42,14 @@ export const Reel: React.FC = () => {
 
       <Subtitulos texto={escena.texto} clave={escena.clave} frameLocal={local} duracion={framesDe(escena.segundos)} />
 
-      <div style={{ position: "absolute", left: 10 + entradaAvatar, bottom: 40 }}>
-        <Avatar gesto={escena.gesto} frameLocal={local} frameGlobal={frame} altura={860} />
+      <div style={{ position: "absolute", left: -40 + entradaAvatar, bottom: 20 }}>
+        <Marioneta
+          gesto={escena.gesto}
+          gestoAnterior={actual > 0 ? ESCENAS[actual - 1].gesto : null}
+          frameLocal={local}
+          frameGlobal={frame}
+          altura={900}
+        />
       </div>
     </AbsoluteFill>
   );

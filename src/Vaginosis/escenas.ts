@@ -6,7 +6,8 @@ export type Gesto =
   | "explicar" // mano sube y baja marcando el ritmo
   | "alarma" // mano en alto, temblando
   | "contar" // golpes de mano, enumerando
-  | "saludar"; // despedida
+  | "saludar" // despedida
+  | "leer"; // lee el libro abierto con las dos manos
 
 export type Ilustracion =
   | "pez"
@@ -32,8 +33,8 @@ export type Escena = {
 export const ESCENAS: Escena[] = [
   { texto: "¿Tu flujo huele a pescado?", segundos: 3.5, ilustracion: "pez", gesto: "senalar", clave: ["pescado?"] },
   { texto: "Tranquila, no es falta de higiene.", segundos: 3.5, ilustracion: "jabon", gesto: "negar", clave: ["higiene."] },
-  { texto: "Por dentro te protegen bacterias buenas: los lactobacilos.", segundos: 4.5, ilustracion: "lacto", gesto: "presentar", clave: ["buenas:", "lactobacilos."] },
-  { texto: "Fabrican ácido y mantienen el pH bajo.", segundos: 4, ilustracion: "acido", gesto: "explicar", clave: ["ácido", "pH"] },
+  { texto: "Por dentro te protegen bacterias buenas: los lactobacilos.", segundos: 4.5, ilustracion: "lacto", gesto: "explicar", clave: ["buenas:", "lactobacilos."] },
+  { texto: "Fabrican ácido y mantienen el pH bajo.", segundos: 4, ilustracion: "acido", gesto: "leer", clave: ["ácido", "pH"] },
   { texto: "Pero cuando bajan, otras bacterias crecen sin control.", segundos: 4.5, ilustracion: "invasion", gesto: "alarma", clave: ["bajan,", "control."] },
   { texto: "Eso se llama vaginosis bacteriana.", segundos: 3.5, ilustracion: "nombre", gesto: "presentar", clave: ["vaginosis", "bacteriana."] },
   { texto: "Las duchas vaginales y el sexo sin condón aumentan el riesgo.", segundos: 5, ilustracion: "riesgo", gesto: "contar", clave: ["duchas", "condón", "riesgo."] },
