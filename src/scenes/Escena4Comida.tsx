@@ -40,7 +40,7 @@ const Platos: React.FC = () => {
       <Counter x={290 + inL} y={930 + osc(f, 60, 6)} value={vA} color="azul" label={R.azul} scale={0.74 * pop(f, s(0.4))} />
       <Counter x={800 + inR} y={990 + osc(f, 60, 6, 1)} value={vR} color="rosa" label={R.rosa} digits={2} scale={0.74 * pop(f, s(3.6))} />
       <Pill x={290} y={1500} text={R.platoAzul} appear={pop(f, s(2.8))} color="#3fc3ff" size={40} />
-      <Pill x={800} y={1560} text={R.platoRosa} appear={pop(f, s(6.0))} color="#ff5fb0" size={40} />
+      <Pill x={700} y={1515} text={R.platoRosa} appear={pop(f, s(6.0))} color="#ff5fb0" size={40} />
     </AbsoluteFill>
   );
 };

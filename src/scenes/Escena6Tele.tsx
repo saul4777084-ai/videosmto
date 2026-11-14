@@ -45,8 +45,8 @@ export const Escena6Tele: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          left: 290,
-          right: 50,
+          left: 50,
+          right: 290,
           top: 1310,
           padding: '34px 44px 44px',
           borderRadius: 36,
@@ -63,7 +63,7 @@ export const Escena6Tele: React.FC = () => {
       </div>
       {f > COMP + 64 && (
         <svg viewBox="0 0 1080 1920" width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
-          <Flame x={950} y={1300} size={90 * pop(f, COMP + 64)} seed={41} />
+          <Flame x={130} y={1300} size={90 * pop(f, COMP + 64)} seed={41} />
         </svg>
       )}
     </AbsoluteFill>

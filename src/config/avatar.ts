@@ -13,9 +13,13 @@ export const AVATAR = {
   mostrar: true,
   /** Ancho en pantalla del lienzo de la pose (px). */
   ancho: 640,
-  /** Posición: esquina inferior izquierda. */
-  izquierda: -150,
+  /** Esquina en la que aparece: 'izquierda' o 'derecha'. */
+  lado: 'derecha' as 'izquierda' | 'derecha',
+  /** Distancia al borde lateral (negativo = parte fuera de pantalla) y al borde inferior. */
+  margen: -150,
   abajo: -110,
+  /** Voltea el avatar para que sus gestos miren hacia el centro de la pantalla. */
+  espejo: true,
   gestos: [
     {desde: 0, gesto: 'presentar'},
     {desde: 4.28, gesto: 'explicar'},

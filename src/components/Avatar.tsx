@@ -61,12 +61,14 @@ export const Avatar: React.FC = () => {
   const m = movimiento(gesto, t);
   const respira = 1 + Math.sin(t * 2.2) * 0.008;
   const entrada = interpolate(frame, [0, 14], [-500, 0], {extrapolateRight: 'clamp'});
+  const derecha = AVATAR.lado === 'derecha';
+  const lado = derecha ? {right: AVATAR.margen + entrada} : {left: AVATAR.margen + entrada};
   const escala = AVATAR.ancho / ANCHO;
   const img = (archivo: string, op: number) => (
     <Img src={staticFile(`poses/${archivo}.png`)} style={{position: 'absolute', left: 0, top: 0, width: ANCHO * escala, height: ALTO * escala, opacity: op}} />
   );
   return (
-    <div style={{position: 'absolute', left: AVATAR.izquierda + entrada, bottom: AVATAR.abajo}}>
+    <div style={{position: 'absolute', ...lado, bottom: AVATAR.abajo, transform: AVATAR.espejo ? 'scaleX(-1)' : undefined}}>
       <div
         style={{
           position: 'absolute',
