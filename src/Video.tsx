@@ -9,6 +9,7 @@ import {Escena6Tele} from './scenes/Escena6Tele';
 import {Escena7Final} from './scenes/Escena7Final';
 import {Subtitles} from './components/Subtitles';
 import {Avatar} from './components/Avatar';
+import {Sonidos} from './components/Sonidos';
 import {Clip} from './components/Clip';
 import {ESCENAS, NombreEscena} from './config/escenas';
 import {VIDEO} from './config/video';
@@ -56,6 +57,7 @@ export const Video: React.FC = () => {
       })}
       <Avatar />
       {VIDEO.mostrarSubtitulos && <Subtitles />}
+      <Sonidos />
       {VIDEO.musica && <Audio src={staticFile(VIDEO.musica)} volume={VIDEO.volumenMusica} />}
       {VIDEO.narracion && (
         <Sequence from={Math.round(VIDEO.retrasoNarracion * fps)}>

@@ -22,6 +22,7 @@ npm run render   # exporta out/calorias-cama.mp4
 | Subtítulos y rótulos          | `src/config/textos.ts` (`*palabra*` = resaltado) |
 | Valores de los contadores     | `src/config/contadores.ts`      |
 | Colores de los personajes     | `src/characters/palette.ts`     |
+| Efectos de sonido y música    | `src/config/sonidos.ts` (archivos en `public/sfx/`) |
 | Avatar y sus gestos           | `src/config/avatar.ts` (poses en `public/poses/`) |
 
 ## Estructura
