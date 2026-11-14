@@ -1,3 +1,22 @@
+# Reglas del proyecto (videos para redes)
+
+- **Idioma:** responde siempre en español.
+- **Avatar:** todos los videos con avatar lo muestran **en la esquina inferior izquierda, pequeño y de la
+  cintura hacia arriba**, usando las poses de `public/poses/` (componente `src/comun/AvatarPoses.tsx`).
+  Es la opción por defecto de `ReelBase` (`avatar="poses"`); no la cambies salvo que el usuario lo pida.
+  Gestos disponibles: reposo, senalar, explicar, presentar, alarma, cruzar, negar, contar, saludar, leer.
+- **Plantilla:** cada video nuevo se hace con `src/comun/ReelBase.tsx` (escenas + subtítulos + avatar + sonidos)
+  en su propia carpeta `src/<Video>/` (escenas.ts, Ilustraciones.tsx, efectos.ts, Reel.tsx) y se registra en `src/Root.tsx`.
+- **Formato:** vertical 1080×1920, 30 fps.
+- **Voz:** si el usuario manda un audio, alinéalo con `python3 scripts/alinear_voz.py AUDIO guion.json tiempos.json`
+  (modelo Parakeet en `~/.cache/becario-reels/`) y pasa `voz` y `tiempos` a la plantilla. Si pesa más de ~28 MB,
+  recomprime el MP4 final con ffmpeg (crf 23 + loudnorm) para que se pueda descargar en el teléfono.
+- **Sonidos:** biblioteca en `public/sfx/` (lista en `EFECTOS_DISPONIBLES` de `src/comun/tipos.ts`;
+  se regeneran con `scripts/sonidos_extra.py`). Muestrario: composición `MuestrarioSonidos`.
+- **Mapas:** `src/Colon/Mapa.tsx` (fronteras reales con world-atlas + d3-geo, cámara, niebla, rutas).
+- **Entrega:** copia cada video terminado a `videos/`, envíaselo al usuario y haz commit y push a `main`.
+- **Publicar:** descripciones y hashtags en `publicaciones/descripciones.md`. Nunca publiques en redes sin el OK del usuario.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
