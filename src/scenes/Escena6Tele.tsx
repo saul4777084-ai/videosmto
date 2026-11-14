@@ -16,7 +16,7 @@ const Barra: React.FC<{label: string; value: number; max: number; color: string;
   const w = Math.max(0, Math.min(1, grow)) * (value / max);
   return (
     <div style={{marginTop: delay ? 30 : 0}}>
-      <div style={{display: 'flex', justifyContent: 'space-between', color: '#fff', fontFamily: 'Poppins', fontWeight: 700, fontSize: 40, marginBottom: 10}}>
+      <div style={{display: 'flex', justifyContent: 'space-between', color: '#fff', fontFamily: 'Poppins', fontWeight: 700, fontSize: 36, marginBottom: 10}}>
         <span>{label}</span>
         <span style={{color, fontWeight: 800}}>{Math.round(value * Math.max(0, Math.min(1, grow)))} kcal</span>
       </div>
@@ -45,9 +45,9 @@ export const Escena6Tele: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          left: 80,
-          right: 80,
-          top: 1330,
+          left: 290,
+          right: 50,
+          top: 1310,
           padding: '34px 44px 44px',
           borderRadius: 36,
           background: 'rgba(16,12,32,0.86)',

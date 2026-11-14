@@ -8,6 +8,7 @@ import {Escena5Cronometro} from './scenes/Escena5Cronometro';
 import {Escena6Tele} from './scenes/Escena6Tele';
 import {Escena7Final} from './scenes/Escena7Final';
 import {Subtitles} from './components/Subtitles';
+import {Avatar} from './components/Avatar';
 import {Clip} from './components/Clip';
 import {ESCENAS, NombreEscena} from './config/escenas';
 import {VIDEO} from './config/video';
@@ -53,6 +54,7 @@ export const Video: React.FC = () => {
           </Clip>
         );
       })}
+      <Avatar />
       {VIDEO.mostrarSubtitulos && <Subtitles />}
       {VIDEO.musica && <Audio src={staticFile(VIDEO.musica)} volume={VIDEO.volumenMusica} />}
       {VIDEO.narracion && (
