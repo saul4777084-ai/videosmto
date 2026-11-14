@@ -18,8 +18,18 @@ export type Escena<I extends string = string> = {
   tiempos?: number[]; // segundos (desde el inicio de la escena) en que se dice cada palabra
 };
 
-export type Efecto =
-  | "whoosh" | "pop" | "burbuja" | "boing" | "error" | "alarma" | "brillo" | "ding" | "tic" | "olas" | "campana";
+// Todos los efectos de public/sfx (ver scripts/sonidos_extra.py y src/Muestrario)
+export const EFECTOS_DISPONIBLES = {
+  interfaz: ["pop", "tic", "clic", "tecla", "ding", "exito", "notificacion", "moneda", "caja_registradora", "camara", "magia", "brillo", "error", "negacion", "alarma"],
+  movimiento: ["whoosh", "swoosh", "subida", "caida", "puff", "papel", "boing"],
+  clima: ["trueno", "rayo", "lluvia", "tormenta", "viento", "brisa", "nubes"],
+  agua: ["gota", "burbuja", "burbujas", "salpicadura", "chapuzon", "arroyo", "vertido", "olas"],
+  hielo: ["cubitos", "hielo_crujido", "congelar", "cristal", "cristal_roto"],
+  golpes: ["toc", "toc_toc", "madera", "metal", "golpe", "pasos", "latido", "reloj", "campana", "proyector"],
+  fuego: ["fuego", "explosion"],
+} as const;
+
+export type Efecto = (typeof EFECTOS_DISPONIBLES)[keyof typeof EFECTOS_DISPONIBLES][number];
 export type Golpe = [frameLocal: number, efecto: Efecto, volumen?: number];
 
 export type Dibujo = React.FC<{ f: number }>;
