@@ -60,13 +60,25 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
       />
 
       {mostrarAvatar && avatar === "poses" && (
-        <div style={{ position: "absolute", left: -230 + entradaAvatar, bottom: -170 }}>
+        <div style={{ position: "absolute", left: -150 + entradaAvatar, bottom: -110 }}>
+          {/* halo suave detrás para que se separe del fondo */}
+          <div
+            style={{
+              position: "absolute",
+              left: 120,
+              top: 40,
+              width: 400,
+              height: 400,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 70%)",
+            }}
+          />
           <AvatarPoses
             gesto={escena.gesto ?? "presentar"}
             gestoAnterior={actual > 0 ? (escenas[actual - 1].gesto ?? "presentar") : null}
             frameLocal={local}
             frameGlobal={frame}
-            ancho={1000}
+            ancho={640}
           />
         </div>
       )}
