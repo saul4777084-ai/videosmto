@@ -1,6 +1,6 @@
 import React from "react";
 import { Img, interpolate, spring, staticFile, useVideoConfig } from "remotion";
-import { Gesto } from "./escenas";
+import { Gesto } from "./tipos";
 
 // Lienzo original de las piezas (todas comparten el mismo tamaño y posición)
 const ANCHO = 1024;

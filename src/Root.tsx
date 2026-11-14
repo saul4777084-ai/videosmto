@@ -5,6 +5,8 @@ import { Title } from "./HelloWorld/Title";
 import { Intro } from "./Intro";
 import { Reel } from "./Vaginosis/Reel";
 import { DURACION_TOTAL, FPS } from "./Vaginosis/escenas";
+import { ReelBanoRoto } from "./BanoRoto/Reel";
+import { DURACION_TOTAL as DURACION_BANO } from "./BanoRoto/escenas";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -72,6 +74,14 @@ export const RemotionRoot: React.FC = () => {
         id="ReelVaginosis"
         component={Reel}
         durationInFrames={DURACION_TOTAL}
+        fps={FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="ReelBanoRoto"
+        component={ReelBanoRoto}
+        durationInFrames={DURACION_BANO}
         fps={FPS}
         width={1080}
         height={1920}
