@@ -18,7 +18,15 @@ export type BedroomProps = {
   corazones?: boolean;
   llamas?: boolean;
   idPrefix?: string;
+  /**
+   * Qué parte dibujar, para la cámara por capas:
+   * 'fondo' pared, ventana, reloj y luz · 'pareja' cama, personajes y efectos
+   * 'frente' pie de cama y suelo · 'vineta' oscurecido de bordes · 'todo'.
+   */
+  capa?: CapaBedroom;
 };
+
+export type CapaBedroom = 'todo' | 'fondo' | 'pareja' | 'frente' | 'vineta';
 
 const gauss = (x: number, s: number) => Math.exp(-(x * x) / (2 * s * s));
 
@@ -30,7 +38,9 @@ export const Bedroom: React.FC<BedroomProps> = ({
   corazones = true,
   llamas = true,
   idPrefix = 'bd',
+  capa = 'todo',
 }) => {
+  const ver = (c: CapaBedroom) => capa === 'todo' || capa === c;
   const f = useCurrentFrame();
   const id = (s: string) => `${idPrefix}-${s}`;
   const awake = modo === 'despiertos';
@@ -130,6 +140,8 @@ export const Bedroom: React.FC<BedroomProps> = ({
         </radialGradient>
       </defs>
 
+      {ver('fondo') && (
+      <>
       {/* pared */}
       <rect width={1080} height={1920} fill={`url(#${id('wall')})`} />
       {new Array(12).fill(0).map((_, i) => (
@@ -160,6 +172,11 @@ export const Bedroom: React.FC<BedroomProps> = ({
       {/* luz de lámpara */}
       <rect width={1080} height={1920} fill={`url(#${id('lamp')})`} opacity={lampFlicker} />
 
+      </>
+      )}
+
+      {ver('pareja') && (
+      <>
       {/* cabecero */}
       <rect x={140} y={950} width={800} height={380} rx={70} fill={`url(#${id('head')})`} />
       <rect x={140} y={950} width={800} height={380} rx={70} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={6} />
@@ -202,9 +219,19 @@ export const Bedroom: React.FC<BedroomProps> = ({
       <ellipse cx={hA.x + 92} cy={topY(hA.x + 92) + 16} rx={30} ry={22} fill={PERSONAJES.el.piel} />
       <ellipse cx={hB.x - 92} cy={topY(hB.x - 92) + 16} rx={28} ry={21} fill={PERSONAJES.ella.piel} />
 
+      </>
+      )}
+
       {/* frente de la cama y suelo */}
-      <rect x={0} y={1760} width={1080} height={160} fill="#1f1529" />
-      <rect x={60} y={1748} width={960} height={40} rx={14} fill="#3a2550" />
+      {ver('frente') && (
+        <>
+          <rect x={0} y={1760} width={1080} height={160} fill="#1f1529" />
+          <rect x={60} y={1748} width={960} height={40} rx={14} fill="#3a2550" />
+        </>
+      )}
+
+      {ver('pareja') && (
+      <>
 
       {/* efectos */}
       {corazones && awake && <FloatingHearts count={7} area={[300, 1050, 780, 1200]} rise={420} seed="bedh" />}
@@ -237,7 +264,9 @@ export const Bedroom: React.FC<BedroomProps> = ({
         </g>
       )}
       <Sparkles count={22} color="#ffd6ea" seed="bedsp" speed={0.5} size={4} />
-      <rect width={1080} height={1920} fill={`url(#${id('vig')})`} />
+      </>
+      )}
+      {ver('vineta') && <rect width={1080} height={1920} fill={`url(#${id('vig')})`} />}
     </g>
   );
 };

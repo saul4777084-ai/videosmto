@@ -1,9 +1,23 @@
 import React from 'react';
 import {Audio, interpolate, Sequence, staticFile, useVideoConfig} from 'remotion';
-import {MUSICA, SONIDOS} from '../config/sonidos';
+import {MUSICA, SONIDOS, Sonido} from '../config/sonidos';
+import type {ConfigCamara, NombrePlano} from '../camera/esquema';
+import {inicioPlano} from '../camera/sincro';
+
+/** Sonidos asociados a efectos de cámara (campo "sonido" de cada efecto). */
+const sonidosCamara = (c?: ConfigCamara): Sonido[] => {
+  if (!c) return [];
+  const out: Sonido[] = [];
+  (Object.keys(c.planos) as NombrePlano[]).forEach((p) =>
+    c.planos[p].forEach((e) => {
+      if (e.activo && e.sonido !== 'ninguno') out.push({t: inicioPlano(p) + e.inicio, sfx: e.sonido, vol: e.volumen});
+    }),
+  );
+  return out;
+};
 
 /** Reproduce la música de fondo y todos los efectos de config/sonidos.ts. */
-export const Sonidos: React.FC = () => {
+export const Sonidos: React.FC<{camara?: ConfigCamara}> = ({camara}) => {
   const {fps, durationInFrames} = useVideoConfig();
   return (
     <>
@@ -17,7 +31,7 @@ export const Sonidos: React.FC = () => {
           }
         />
       )}
-      {SONIDOS.map((s, i) => {
+      {[...SONIDOS, ...sonidosCamara(camara)].map((s, i) => {
         const from = Math.round(s.t * fps);
         const dur = s.hasta ? Math.max(1, Math.round((s.hasta - s.t) * fps)) : Math.round(fps * 5);
         const vol = s.vol ?? 0.5;

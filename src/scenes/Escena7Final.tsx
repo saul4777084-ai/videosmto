@@ -1,7 +1,8 @@
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from 'remotion';
 import {Stage} from '../components/Clip';
-import {Bedroom} from '../sets/Bedroom';
+import {capasHabitacion, vinetaHabitacion} from '../sets/BedroomCapas';
+import {Camara} from '../camera/Camara';
 import {Counter} from '../components/Counter';
 import {FloatingHearts} from '../components/Heart';
 import {CONTADORES} from '../config/contadores';
@@ -18,8 +19,6 @@ export const Escena7Final: React.FC = () => {
   const F = ROTULOS.final;
   const el = tween(f, [s(0.3), s(1.8)], [0, CONTADORES.final.el], Easing.out(Easing.cubic));
   const ella = tween(f, [s(0.5), s(2.0)], [0, CONTADORES.final.ella], Easing.out(Easing.cubic));
-  // cámara: lento acercamiento a la pareja
-  const zoom = tween(f, [0, LEN], [1, 1.18], Easing.inOut(Easing.sin));
   // contadores se juntan en el total al final
   const merge = tween(f, [s(2.3), s(3.0)], [0, 1], Easing.inOut(Easing.cubic));
   const total = pop(f, s(2.8), 18);
@@ -30,15 +29,33 @@ export const Escena7Final: React.FC = () => {
   const fadeOut = interpolate(f, [LEN - 22, LEN], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{transform: `scale(${zoom})`, transformOrigin: '50% 62%'}}>
-        <Stage>
-          <Bedroom modo="despiertos" movimiento={0.8} reloj={(fr) => 23 * 60 + 55 + fr * 0.05} idPrefix="e7" />
-          <FloatingHearts count={10} area={[200, 1150, 880, 1350]} rise={700} seed="e7h" start={s(2.8)} />
-        </Stage>
-      </AbsoluteFill>
-      <Counter x={300 + merge * 240} y={545} value={el} color="azul" label={F.el} scale={0.7 * pop(f, 6) * (1 - merge)} opacity={1 - merge} />
-      <Counter x={790 - merge * 250} y={545} value={ella} digits={2} color="rosa" label={F.ella} scale={0.7 * pop(f, 12) * (1 - merge)} opacity={1 - merge} />
-      {f >= s(2.8) && <Counter x={540} y={545} value={totalVal} color="rojo" label="TOTAL" scale={0.95 * total} />}
+      <Camara
+        plano="final"
+        capas={[
+          ...capasHabitacion({modo: 'despiertos', movimiento: 0.8, reloj: (fr) => 23 * 60 + 55 + fr * 0.05, idPrefix: 'e7'}),
+          {
+            id: 'corazones',
+            profundidad: 1.1,
+            contenido: (
+              <Stage>
+                <FloatingHearts count={10} area={[200, 1150, 880, 1350]} rise={700} seed="e7h" start={s(2.8)} />
+              </Stage>
+            ),
+          },
+          {
+            id: 'hud',
+            hud: true,
+            contenido: (
+              <>
+                <Counter x={300 + merge * 240} y={545} value={el} color="azul" label={F.el} scale={0.7 * pop(f, 6) * (1 - merge)} opacity={1 - merge} />
+                <Counter x={790 - merge * 250} y={545} value={ella} digits={2} color="rosa" label={F.ella} scale={0.7 * pop(f, 12) * (1 - merge)} opacity={1 - merge} />
+                {f >= s(2.8) && <Counter x={540} y={545} value={totalVal} color="rojo" label="TOTAL" scale={0.95 * total} />}
+              </>
+            ),
+          },
+        ]}
+        superposicion={vinetaHabitacion('e7')}
+      />
       <AbsoluteFill style={{background: '#0a0616', opacity: dim}} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 1000, textAlign: 'center', fontFamily: 'Poppins'}}>
         <div style={{fontWeight: 700, fontSize: 58, color: '#fff', opacity: t1, transform: `scale(${t1})`, textShadow: '0 6px 20px rgba(0,0,0,0.7)'}}>{F.cierre}</div>

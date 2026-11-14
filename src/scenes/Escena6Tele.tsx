@@ -1,9 +1,10 @@
 import React from 'react';
-import {AbsoluteFill, Easing, useCurrentFrame} from 'remotion';
+import {Easing, useCurrentFrame} from 'remotion';
 import {Stage} from '../components/Clip';
 import {TvRoom} from '../sets/TvRoom';
 import {Counter} from '../components/Counter';
 import {Flame} from '../components/Flame';
+import {Camara} from '../camera/Camara';
 import {CONTADORES} from '../config/contadores';
 import {ESCENAS} from '../config/escenas';
 import {ROTULOS} from '../config/textos';
@@ -37,35 +38,45 @@ export const Escena6Tele: React.FC = () => {
   const g2 = tween(f, [COMP + 22, COMP + 64], [0, 1], Easing.out(Easing.cubic));
   const T = ROTULOS.tele;
   return (
-    <AbsoluteFill>
-      <Stage>
-        <TvRoom tvZoom={tvZoom} />
-      </Stage>
-      <Counter x={540} y={1215} value={sofa} digits={2} color="azul" icon="reloj" label={T.sofa} scale={0.62 * pop(f, s(0.4))} />
-      <div
-        style={{
-          position: 'absolute',
-          left: 50,
-          right: 290,
-          top: 1310,
-          padding: '34px 44px 44px',
-          borderRadius: 36,
-          background: 'rgba(16,12,32,0.86)',
-          border: '3px solid rgba(255,255,255,0.14)',
-          boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
-          transform: `scale(${panel}) translateY(${(1 - panel) * 60}px)`,
-          opacity: Math.min(1, panel * 1.4),
-        }}
-      >
-        <div style={{textAlign: 'center', color: '#ffd84a', fontFamily: 'Poppins', fontWeight: 800, fontSize: 44, marginBottom: 20, letterSpacing: 2}}>{T.titulo}</div>
-        <Barra label={T.sofa} value={CONTADORES.tele.sofa} max={CONTADORES.tele.cama} color="#3fc3ff" grow={g1} delay={0} />
-        <Barra label={T.cama} value={CONTADORES.tele.cama} max={CONTADORES.tele.cama} color="#ff5fb0" grow={g2} delay={1} />
-      </div>
-      {f > COMP + 64 && (
-        <svg viewBox="0 0 1080 1920" width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
-          <Flame x={130} y={1300} size={90 * pop(f, COMP + 64)} seed={41} />
-        </svg>
-      )}
-    </AbsoluteFill>
+    <Camara
+      plano="tele"
+      capas={[
+        {id: 'salon', profundidad: 0.8, cubrir: true, contenido: <Stage><TvRoom tvZoom={tvZoom} capa="fondo" /></Stage>},
+        {id: 'sillon', profundidad: 1.35, principal: true, contenido: <Stage><TvRoom tvZoom={tvZoom} capa="sillon" /></Stage>},
+        {
+          id: 'hud',
+          hud: true,
+          contenido: (
+            <>
+            <Counter x={540} y={1215} value={sofa} digits={2} color="azul" icon="reloj" label={T.sofa} scale={0.62 * pop(f, s(0.4))} />
+            <div
+              style={{
+                position: 'absolute',
+                left: 50,
+                right: 290,
+                top: 1310,
+                padding: '34px 44px 44px',
+                borderRadius: 36,
+                background: 'rgba(16,12,32,0.86)',
+                border: '3px solid rgba(255,255,255,0.14)',
+                boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
+                transform: `scale(${panel}) translateY(${(1 - panel) * 60}px)`,
+                opacity: Math.min(1, panel * 1.4),
+              }}
+            >
+              <div style={{textAlign: 'center', color: '#ffd84a', fontFamily: 'Poppins', fontWeight: 800, fontSize: 44, marginBottom: 20, letterSpacing: 2}}>{T.titulo}</div>
+              <Barra label={T.sofa} value={CONTADORES.tele.sofa} max={CONTADORES.tele.cama} color="#3fc3ff" grow={g1} delay={0} />
+              <Barra label={T.cama} value={CONTADORES.tele.cama} max={CONTADORES.tele.cama} color="#ff5fb0" grow={g2} delay={1} />
+            </div>
+            {f > COMP + 64 && (
+              <svg viewBox="0 0 1080 1920" width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
+                <Flame x={130} y={1300} size={90 * pop(f, COMP + 64)} seed={41} />
+              </svg>
+            )}
+            </>
+          ),
+        },
+      ]}
+    />
   );
 };

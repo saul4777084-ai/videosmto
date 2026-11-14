@@ -5,7 +5,7 @@ import {FPS} from '../lib/anim';
 
 type Token = {text: string; hl: boolean};
 
-const tokenize = (t: string): Token[] => {
+export const tokenize = (t: string): Token[] => {
   const out: Token[] = [];
   t.split(/(\*[^*]+\*)/g).forEach((part) => {
     if (!part) return;

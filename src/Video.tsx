@@ -13,6 +13,8 @@ import {Sonidos} from './components/Sonidos';
 import {Clip} from './components/Clip';
 import {ESCENAS, NombreEscena} from './config/escenas';
 import {VIDEO} from './config/video';
+import {ProveedorCamara} from './camera/Camara';
+import type {ConfigCamara, NombrePlano} from './camera/esquema';
 
 /** Orden y componente de cada escena. */
 export const ESCENA_COMPONENTES: Record<NombreEscena, React.FC> = {
@@ -36,12 +38,14 @@ const useFonts = () => {
   }, [handle]);
 };
 
-export const Video: React.FC = () => {
+/** Recibe la configuración de cámara como props (editable en el panel Props del Studio). */
+export const Video: React.FC<ConfigCamara> = (camara) => {
   useFonts();
   const fps = VIDEO.fps;
   const ov = VIDEO.solapeTransicion;
   const keys = Object.keys(ESCENA_COMPONENTES) as NombreEscena[];
   return (
+    <ProveedorCamara config={camara}>
     <AbsoluteFill style={{background: '#000'}}>
       {keys.map((k, i) => {
         const C = ESCENA_COMPONENTES[k]!;
@@ -50,14 +54,23 @@ export const Video: React.FC = () => {
         const last = i === keys.length - 1;
         const dur = Math.round((e.fin - e.inicio) * fps) + (last ? 0 : ov);
         return (
-          <Clip key={k} from={from} dur={dur} fadeIn={i === 0 ? 0 : ov} fadeOut={last ? 0 : ov} entryScale={1.04}>
+          <Clip
+            key={k}
+            from={from}
+            dur={dur}
+            fadeIn={i === 0 ? 0 : ov}
+            fadeOut={last ? 0 : ov}
+            entrada={camara.transiciones[k as NombrePlano]}
+            salida={last ? 'fundido' : camara.transiciones[keys[i + 1] as NombrePlano]}
+            entryScale={1.04}
+          >
             <C />
           </Clip>
         );
       })}
       <Avatar />
       {VIDEO.mostrarSubtitulos && <Subtitles />}
-      <Sonidos />
+      <Sonidos camara={camara} />
       {VIDEO.musica && <Audio src={staticFile(VIDEO.musica)} volume={VIDEO.volumenMusica} />}
       {VIDEO.narracion && (
         <Sequence from={Math.round(VIDEO.retrasoNarracion * fps)}>
@@ -65,5 +78,6 @@ export const Video: React.FC = () => {
         </Sequence>
       )}
     </AbsoluteFill>
+    </ProveedorCamara>
   );
 };

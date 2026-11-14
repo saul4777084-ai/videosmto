@@ -78,15 +78,19 @@ export const GymBackground: React.FC = () => {
 };
 
 /** Pareja corriendo en dos cintas. */
-export const GymRunners: React.FC<{scale?: number}> = ({scale = 1}) => (
+export const GymRunners: React.FC<{scale?: number; solo?: 'el' | 'ella'}> = ({scale = 1, solo}) => (
   <g>
+    {solo !== 'el' && (
     <g transform="translate(300 1300)">
       <Treadmill x={0} y={0} scale={0.82 * scale} />
       <Runner x={-10} y={-215 * 0.82 * scale} scale={0.82 * scale} who="ella" period={19} />
     </g>
+    )}
+    {solo !== 'ella' && (
     <g transform="translate(720 1640)">
       <Treadmill x={0} y={0} scale={0.95 * scale} color="#565f96" />
       <Runner x={-10} y={-215 * 0.95 * scale} scale={0.95 * scale} who="el" period={20} phase={1.2} />
     </g>
+    )}
   </g>
 );

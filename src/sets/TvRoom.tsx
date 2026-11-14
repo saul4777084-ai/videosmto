@@ -6,7 +6,10 @@ import {Sparkles} from '../components/Particles';
 import {osc} from '../lib/anim';
 
 /** Salón oscuro visto desde atrás: persona en sillón mirando la tele. */
-export const TvRoom: React.FC<{tvZoom?: number}> = ({tvZoom = 1}) => {
+/** capa: 'fondo' (salón y tele) · 'sillon' (persona en el sillón, primer término) · 'todo'. */
+export const TvRoom: React.FC<{tvZoom?: number; capa?: 'todo' | 'fondo' | 'sillon'}> = ({tvZoom = 1, capa = 'todo'}) => {
+  const fondo = capa !== 'sillon';
+  const sillon = capa !== 'fondo';
   const f = useCurrentFrame();
   const flick = 0.75 + osc(f, 23, 0.1) + osc(f, 7, 0.05) + osc(f, 61, 0.08);
   const hue = osc(f, 120, 1);
@@ -39,6 +42,8 @@ export const TvRoom: React.FC<{tvZoom?: number}> = ({tvZoom = 1}) => {
           <stop offset="40%" stopColor="#fff" stopOpacity={0} />
         </linearGradient>
       </defs>
+      {fondo && (
+      <>
       <rect width={1080} height={1920} fill="url(#tvWall)" />
       <rect x={0} y={1280} width={1080} height={640} fill="#120f22" />
       <rect width={1080} height={1920} fill="url(#tvGlow)" opacity={flick} />
@@ -57,6 +62,11 @@ export const TvRoom: React.FC<{tvZoom?: number}> = ({tvZoom = 1}) => {
       <rect x={sx} y={sy} width={sw} height={sh} fill="url(#screenGlass)" />
       <rect x={sx} y={sy} width={sw} height={sh} fill="#000" opacity={0.08 + osc(f, 5, 0.03)} />
       <circle cx={sx + sw - 10} cy={sy + sh + 12} r={5} fill="#ff4f6e" />
+      <Sparkles count={10} color={tvColor} seed="tvsp" speed={0.3} size={3} />
+      </>
+      )}
+      {sillon && (
+      <>
       {/* persona en el sillón, de espaldas */}
       <g transform={`translate(540 1430) rotate(${headTilt})`}>
         <path d="M -150 120 C -150 40 -80 10 0 10 C 80 10 150 40 150 120 L 150 260 L -150 260 Z" fill="#3b4a7a" />
@@ -80,7 +90,8 @@ export const TvRoom: React.FC<{tvZoom?: number}> = ({tvZoom = 1}) => {
         <rect x={40} y={-70 + press * 0.3} width={34} height={90} rx={12} fill="#15131f" transform="rotate(20 57 -25)" />
         <circle cx={62} cy={-52 + press * 0.3} r={5} fill="#ff4f6e" />
       </g>
-      <Sparkles count={10} color={tvColor} seed="tvsp" speed={0.3} size={3} />
+      </>
+      )}
     </g>
   );
 };

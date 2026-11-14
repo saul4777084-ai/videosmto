@@ -6,6 +6,9 @@ import '@fontsource/poppins/800.css';
 import {Video, ESCENA_COMPONENTES} from './Video';
 import {VIDEO} from './config/video';
 import {ESCENAS} from './config/escenas';
+import {CAMARA} from './config/camara';
+import {esquemaCamara, ConfigCamara} from './camera/esquema';
+import {ProveedorCamara} from './camera/Camara';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -13,6 +16,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="CaloriasCama"
         component={Video}
+        schema={esquemaCamara}
+        defaultProps={CAMARA}
         durationInFrames={Math.round(VIDEO.duracionSegundos * VIDEO.fps)}
         fps={VIDEO.fps}
         width={VIDEO.ancho}
@@ -27,11 +32,15 @@ export const RemotionRoot: React.FC = () => {
             <Composition
               key={k}
               id={`Escena${i + 1}-${k}`}
-              component={() => (
-                <AbsoluteFill style={{background: '#000'}}>
-                  <C />
-                </AbsoluteFill>
+              component={(props: ConfigCamara) => (
+                <ProveedorCamara config={props}>
+                  <AbsoluteFill style={{background: '#000'}}>
+                    <C />
+                  </AbsoluteFill>
+                </ProveedorCamara>
               )}
+              schema={esquemaCamara}
+              defaultProps={CAMARA}
               durationInFrames={Math.round((e.fin - e.inicio) * VIDEO.fps)}
               fps={VIDEO.fps}
               width={VIDEO.ancho}
