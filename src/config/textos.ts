@@ -9,23 +9,27 @@
 export type Subtitulo = {inicio: number; fin: number; texto: string};
 
 export const SUBTITULOS: Subtitulo[] = [
-  {inicio: 0.3, fin: 3.6, texto: '¿Sabías que pasar un rato *en la cama*'},
-  {inicio: 3.6, fin: 7.8, texto: 'con tu pareja también *quema calorías*?'},
-  {inicio: 8.0, fin: 11.8, texto: 'Mucha gente cree que es como *correr en el gimnasio*...'},
-  {inicio: 11.8, fin: 15.8, texto: 'pero la ciencia dice *otra cosa*.'},
-  {inicio: 16.0, fin: 19.8, texto: 'Un estudio en *Canadá* midió a *21 parejas*'},
-  {inicio: 19.8, fin: 23.0, texto: 'con pulseras que calculan el *gasto de energía*.'},
-  {inicio: 23.0, fin: 27.8, texto: 'Durante un mes registraron cada encuentro: unos *25 minutos* de media.'},
-  {inicio: 28.0, fin: 31.8, texto: 'Ellos quemaron unas *101 calorías* y ellas unas *69*.'},
-  {inicio: 31.8, fin: 34.6, texto: 'Más o menos *una tostada* o *un huevo*.'},
-  {inicio: 34.6, fin: 39.8, texto: 'En 30 minutos de cinta se queman hasta *276*.'},
-  {inicio: 40.0, fin: 43.8, texto: 'El corazón se acelera: unas *4 calorías por minuto*.'},
-  {inicio: 43.8, fin: 47.8, texto: 'Es un ejercicio de *intensidad moderada*.'},
-  {inicio: 48.0, fin: 51.8, texto: 'Aun así, gana por goleada al *sofá y la tele*,'},
-  {inicio: 51.8, fin: 55.8, texto: 'donde apenas gastas *1 caloría por minuto*.'},
-  {inicio: 56.0, fin: 60.0, texto: 'Así que no sustituye al gimnasio...'},
-  {inicio: 60.0, fin: 63.6, texto: 'pero *suma*. Y se disfruta *mucho más*.'},
-  {inicio: 63.6, fin: 66.6, texto: '¿Se lo mandas a *tu pareja*?'},
+  // 1. Intro (0 – 5,2 s)
+  {inicio: 0.2, fin: 5.1, texto: '¿Sabías que pasar un rato *en la cama* con tu pareja también *quema calorías*?'},
+  // 2. Gimnasio (5,2 – 14,5 s)
+  {inicio: 5.3, fin: 11.1, texto: 'Mucha gente dice que es como correr media hora en el gimnasio, donde se queman hasta *276 calorías*.'},
+  {inicio: 11.2, fin: 14.4, texto: 'Pero la ciencia dice *otra cosa*.'},
+  // 3. Ciencia (14,5 – 28,9 s)
+  {inicio: 14.6, fin: 20.5, texto: 'Un estudio en *Canadá* midió a *21 parejas* con pulseras de actividad.'},
+  {inicio: 20.6, fin: 24.6, texto: 'Durante un mes registraron cada encuentro.'},
+  {inicio: 24.7, fin: 28.8, texto: 'De media duraron unos *25 minutos*.'},
+  // 4. Comida y cinta (28,9 – 38,0 s)
+  {inicio: 29.0, fin: 32.3, texto: 'Ellos gastaron unas *101 calorías*: como una tostada.'},
+  {inicio: 32.4, fin: 35.2, texto: 'Ellas, unas *69*: más o menos un huevo.'},
+  {inicio: 35.3, fin: 37.9, texto: 'En la cinta serían *276*.'},
+  // 5. Cronómetro (38,0 – 44,5 s)
+  {inicio: 38.1, fin: 44.4, texto: 'El corazón se acelera: unas *4 calorías por minuto*. Intensidad moderada.'},
+  // 6. Tele (44,5 – 51,6 s)
+  {inicio: 44.6, fin: 47.9, texto: 'Aun así, es mucho más que el *sofá*:'},
+  {inicio: 48.0, fin: 51.5, texto: '25 minutos de tele son solo *30 calorías*.'},
+  // 7. Final (51,6 – 59,5 s)
+  {inicio: 51.7, fin: 55.6, texto: 'En total, la pareja quema unas *170 calorías*.'},
+  {inicio: 55.7, fin: 59.4, texto: 'No sustituye al gimnasio... ¡pero *suma*!'},
 ];
 
 /** Textos fijos que aparecen dentro de las escenas. */
