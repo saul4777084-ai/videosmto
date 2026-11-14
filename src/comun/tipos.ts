@@ -7,7 +7,9 @@ export type Gesto =
   | "alarma" // las dos manos arriba, temblando
   | "contar" // golpes de mano, enumerando
   | "saludar" // despedida
-  | "leer"; // lee el libro abierto con las dos manos
+  | "leer" // lee el libro abierto con las dos manos
+  | "cruzar" // brazos cruzados
+  | "reposo"; // de pie, sin gesto
 
 export type Escena<I extends string = string> = {
   texto: string;

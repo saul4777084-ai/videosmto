@@ -1,6 +1,7 @@
 import React from "react";
 import { Audio } from "@remotion/media";
 import { AbsoluteFill, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
+import { AvatarPoses } from "./AvatarPoses";
 import { Marioneta } from "./Marioneta";
 import { Subtitulos } from "./Subtitulos";
 import { Dibujo, duracionDe, Escena, framesDe, Golpe, iniciosDe } from "./tipos";
@@ -14,11 +15,12 @@ type Props<I extends string> = {
   volumenMusica?: number;
   mostrarAvatar?: boolean;
   voz?: string; // archivo de voz en public/ que suena de principio a fin
+  avatar?: "poses" | "marioneta"; // poses: dorso hacia arriba con poses dibujadas
 };
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses" }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -57,16 +59,27 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
         tiempos={escena.tiempos?.map((t) => t * 30)}
       />
 
-      {mostrarAvatar && (
-      <div style={{ position: "absolute", left: -40 + entradaAvatar, bottom: 20 }}>
-        <Marioneta
-          gesto={escena.gesto ?? "presentar"}
-          gestoAnterior={actual > 0 ? (escenas[actual - 1].gesto ?? "presentar") : null}
-          frameLocal={local}
-          frameGlobal={frame}
-          altura={900}
-        />
-      </div>
+      {mostrarAvatar && avatar === "poses" && (
+        <div style={{ position: "absolute", left: -230 + entradaAvatar, bottom: -170 }}>
+          <AvatarPoses
+            gesto={escena.gesto ?? "presentar"}
+            gestoAnterior={actual > 0 ? (escenas[actual - 1].gesto ?? "presentar") : null}
+            frameLocal={local}
+            frameGlobal={frame}
+            ancho={1000}
+          />
+        </div>
+      )}
+      {mostrarAvatar && avatar === "marioneta" && (
+        <div style={{ position: "absolute", left: -40 + entradaAvatar, bottom: 20 }}>
+          <Marioneta
+            gesto={escena.gesto ?? "presentar"}
+            gestoAnterior={actual > 0 ? (escenas[actual - 1].gesto ?? "presentar") : null}
+            frameLocal={local}
+            frameGlobal={frame}
+            altura={900}
+          />
+        </div>
       )}
     </AbsoluteFill>
   );

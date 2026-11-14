@@ -27,6 +27,9 @@ const REPOSO: Pose = {
 const poseDe = (gesto: Gesto, t: number): Pose => {
   const s = Math.sin;
   switch (gesto) {
+    case "cruzar":
+    case "reposo":
+      return { ...REPOSO, cabeza: s(t * 1.2) * 2 };
     case "senalar":
       return { ...REPOSO, der: { abd: 78 + s(t * 5) * 3, flex: 12 }, cabeza: 4, cuerpo: 1.5 };
     case "negar":
