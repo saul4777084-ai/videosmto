@@ -16,6 +16,9 @@ import {ESCENAS_SUENO, NOMBRES_PLANO_SUENO, SUBTITULOS_SUENO, VIDEO_SUENO} from 
 import {ESCENA_COMPONENTES_SUENO} from './videos/sueno/escenas';
 import {crearEsquemaCamara} from './camera/esquema';
 import {LAMINAS} from './catalogo/Catalogo';
+import {CAMARA_25D, Demo25D, DURACION_DEMO_25D, REPARTO_25D} from './mundo25d/Demo25D';
+
+const esquema25D = crearEsquemaCamara(REPARTO_25D.map((r) => r.e));
 
 const esquemaSueno = crearEsquemaCamara(NOMBRES_PLANO_SUENO);
 const metadatosSueno = crearCalcularMetadatos(SUBTITULOS_SUENO, VIDEO_SUENO.duracionSegundos, VIDEO_SUENO.fps);
@@ -33,6 +36,17 @@ export const RemotionRoot: React.FC = () => {
         fps={VIDEO.fps}
         width={VIDEO.ancho}
         height={VIDEO.alto}
+      />
+      {/* Mundo 2.5D: vídeo de muestra */}
+      <Composition
+        id="Mundo25D"
+        component={Demo25D}
+        schema={esquema25D}
+        defaultProps={CAMARA_25D as never}
+        durationInFrames={Math.round(DURACION_DEMO_25D * 30)}
+        fps={30}
+        width={1080}
+        height={1920}
       />
       {/* Catálogo de escenarios, personajes, expresiones y temas (imágenes) */}
       <Folder name="Catalogo">

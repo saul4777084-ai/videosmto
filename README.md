@@ -184,3 +184,26 @@ Los 13 escenarios nuevos están en `src/sets/Escenarios.tsx` (lista en `ESCENARI
 <Stage><Insomne {...PERSONAJES_INSOMNE.sara} /></Stage>  // personaje (profundidad 1)
 <Stage><Playa capa="frente" id="p1" /></Stage>     // primer término (profundidad 1.2)
 ```
+
+---
+
+# Mundo 2.5D
+
+Composición `Mundo25D` (vídeo de muestra de 29 s: `out/mundo-25d.mp4`) y láminas `Catalogo-25D-*`.
+
+**8 escenarios 2.5D** (`src/mundo25d/escenarios25d.tsx`, lista `ESCENARIOS_25D`): ciudad cyberpunk, selva
+tropical, castillo, volcán, estación espacial, jardín japonés, granja y taller steampunk. Cada uno es una lista
+de **planos con profundidad** (cielo, lejos, medio, suelo, frente) que la cámara mueve a distinta velocidad.
+Los objetos se dibujan con `Caja`, que los extruye hacia un punto de fuga y muestra sus caras laterales, y los
+planos lejanos llevan niebla atmosférica.
+
+**8 personajes 2.5D** (`src/mundo25d/Personaje25D.tsx`, `PERSONAJES_25D`): Dra. Vega (científica), Kai
+(astronauta), Chef Rossi, Amara (exploradora), Don Tomás (abuelo), Lía (niña), B-07 (robot) y Dr. Okafor
+(doctor). El rig tiene volumen (luz y sombra) y un parámetro `giro` (-1…1): cada parte se desplaza según su
+profundidad (nariz más que ojos, orejas y pelo en sentido contrario, el ojo lejano se estrecha), así la cabeza
+gira sin deformar el dibujo. También: `habla`, `boca`, `mirada`, `cejas`.
+
+```tsx
+const planos = ESCENARIOS_25D.volcan.planos('v1');      // capas para <Camara capas={…}>
+<Personaje25D diseno={PERSONAJES_25D.cientifica} giro={0.4} habla />
+```

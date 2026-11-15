@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, continueRender, delayRender, Freeze, Img, staticFile} from 'remotion';
 import {ESCENARIOS, NombreEscenario} from '../sets/Escenarios';
+import {ESCENARIOS_25D, EscenarioCompleto, NombreEscenario25} from '../mundo25d/escenarios25d';
+import {Personaje25D, PERSONAJES_25D} from '../mundo25d/Personaje25D';
+import {REPARTO_25D} from '../mundo25d/Demo25D';
 import {Stage} from '../components/Clip';
 import {Bedroom} from '../sets/Bedroom';
 import {GymBackground, GymRunners} from '../sets/Gym';
@@ -281,7 +284,60 @@ export const CatalogoEscenarios4: React.FC = () => (
   </Lamina>
 );
 
+/* ------------------------------------------------ 9 · MUNDO 2.5D */
+const Pj25: React.FC<{p: keyof typeof PERSONAJES_25D; y: number; x?: number; giro?: number; esc?: number}> = ({p, y, x = 540, giro = 0.3, esc = 1.05}) => (
+  <svg viewBox="0 0 1080 1920" width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
+    <g transform={`translate(${x} ${y}) scale(${esc})`}>
+      <Personaje25D diseno={PERSONAJES_25D[p]} giro={giro} boca="sonrisa" ojos={1} />
+    </g>
+  </svg>
+);
+export const Catalogo25DEscenarios: React.FC = () => (
+  <Lamina titulo="Mundo 2.5D · escenarios" sub="Varios planos de profundidad, objetos extruidos en perspectiva y niebla atmosférica">
+    {REPARTO_25D.map((r, i) => {
+      const E = ESCENARIOS_25D[r.e];
+      return (
+        <Mini key={r.e} nombre={E.nombre} detalle={E.detalle}>
+          <EscenarioCompleto nombre={r.e} id={`ce${i}`} personaje={<Pj25 p={r.p} y={E.personajeY} giro={i % 2 ? -0.35 : 0.35} />} />
+        </Mini>
+      );
+    })}
+    <Mini nombre="Planos separados" detalle="cielo · lejos · medio · suelo · frente">
+      <AbsoluteFill style={{background: '#0b0d22'}}>
+        {ESCENARIOS_25D.cyberpunk.planos('cs').map((q, i, arr) => (
+          <div key={q.id} style={{position: 'absolute', inset: 0, transform: `translate(${(i - arr.length / 2) * 70}px, ${(i - arr.length / 2) * -50}px) scale(0.78)`, opacity: 0.95, outline: '6px solid rgba(255,216,74,0.6)'}}>
+            {q.contenido}
+          </div>
+        ))}
+      </AbsoluteFill>
+    </Mini>
+  </Lamina>
+);
+export const Catalogo25DPersonajes: React.FC = () => (
+  <Lamina titulo="Mundo 2.5D · personajes" sub="Rig con volumen y giro: cada parte se desplaza según su profundidad">
+    {(Object.keys(PERSONAJES_25D) as (keyof typeof PERSONAJES_25D)[]).map((p, i) => (
+      <Mini key={p} nombre={PERSONAJES_25D[p].nombre} detalle={p}>
+        <AbsoluteFill style={{background: `radial-gradient(circle at 50% 55%, hsl(${i * 45}, 45%, 38%), hsl(${i * 45}, 50%, 12%))`}}>
+          <Pj25 p={p} y={1640} esc={1.5} giro={[0.3, -0.3][i % 2]} />
+        </AbsoluteFill>
+      </Mini>
+    ))}
+    <Mini nombre="Giro 2.5D" detalle="giro -0.8 · 0 · 0.8">
+      <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 55%, #3a3a6a, #10102a)'}}>
+        <Pj25 p="cientifica" x={220} y={1480} esc={0.62} giro={-0.8} />
+        <Pj25 p="cientifica" x={540} y={1480} esc={0.62} giro={0} />
+        <Pj25 p="cientifica" x={860} y={1480} esc={0.62} giro={0.8} />
+        <Pj25 p="robot" x={220} y={1060} esc={0.5} giro={-0.8} />
+        <Pj25 p="robot" x={540} y={1060} esc={0.5} giro={0} />
+        <Pj25 p="robot" x={860} y={1060} esc={0.5} giro={0.8} />
+      </AbsoluteFill>
+    </Mini>
+  </Lamina>
+);
+
 export const LAMINAS = {
+  'Catalogo-25D-Escenarios': Catalogo25DEscenarios,
+  'Catalogo-25D-Personajes': Catalogo25DPersonajes,
   'Catalogo-Escenarios-3': CatalogoEscenarios3,
   'Catalogo-Escenarios-4': CatalogoEscenarios4,
   'Catalogo-Escenarios-1': CatalogoEscenarios,
