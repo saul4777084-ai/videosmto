@@ -207,3 +207,47 @@ gira sin deformar el dibujo. También: `habla`, `boca`, `mirada`, `cejas`.
 const planos = ESCENARIOS_25D.volcan.planos('v1');      // capas para <Camara capas={…}>
 <Personaje25D diseno={PERSONAJES_25D.cientifica} giro={0.4} habla />
 ```
+
+---
+
+# Mundo 3D (three.js)
+
+Composición `Mundo3D` (vídeo de muestra de 32 s: `out/mundo-3d.mp4`) y láminas `Catalogo-3D-*`
+(carpeta *Catalogo3D* del Studio). Es 3D real con **`@remotion/three`** + **`@react-three/fiber`** + **`three`**:
+luces con sombras, niebla atmosférica, cielo en degradado y una cámara que orbita de verdad alrededor del
+personaje. Todo está hecho con primitivas (cajas, esferas, cilindros, conos…), sin modelos externos.
+
+```bash
+npm run render:3d     # exporta out/mundo-3d.mp4
+npm run catalogo:3d   # láminas out/catalogo/Catalogo-3D-*.png
+```
+
+> El render usa `--gl=swangle` (WebGL por CPU, funciona en cualquier máquina o servidor). Si tu equipo tiene
+> GPU, `--gl=angle` es más rápido.
+
+**8 escenarios 3D** (`src/mundo3d/escenarios3d.tsx`, `ESCENARIOS_3D`): isla pirata (mar, palmeras, cofre,
+galeón, gaviotas), Polo Norte (iglú, icebergs, aurora boreal, nieve que cae), Marte (cúpula, rover, antena,
+cráteres, lunas), Antiguo Egipto (pirámides, templo con columnas, obelisco), feria nocturna (noria que gira,
+carpa de circo, guirnaldas, globos), país de las golosinas (piruletas, bastón de caramelo, magdalena gigante,
+río de chocolate), Lejano Oeste (saloon con puertas batientes, cactus, mesetas, bola de rastrojos) y estadio
+(césped a franjas, portería con red, público haciendo la ola, focos, confeti).
+
+**8 personajes 3D** (`src/mundo3d/Personaje3D.tsx`, `PERSONAJES_3D`): Capitana Brisa (pirata), Tobías
+(pingüino), Zorp (alienígena de tres ojos), Ramsés (momia), Lulú (malabarista), Hada Merengue, Sheriff Rosa
+(vaquera) y Dani (futbolista). Comparten un rig (cadera → piernas, torso → brazos, cuello → cabeza) que
+anda, saluda, habla y parpadea en función del tiempo.
+
+```tsx
+import {Escena3D} from './mundo3d/Demo3D';
+
+// escenario + personaje + cámara orbital (t = segundos dentro del plano)
+<Escena3D escenario="marte" personaje="zorp" t={t} dur={4}
+  mov={{orbita: [-0.3, 0.8], dist: [1.3, 0.85], alto: [1.2, 0], fov: 50}} />
+
+// o el personaje solo, dentro de tu propio <ThreeCanvas>
+<Personaje3D d={PERSONAJES_3D.tobias} t={t} anda={1} saluda={0} habla />
+```
+
+Para crear un personaje nuevo, copia una entrada de `PERSONAJES_3D` y cambia colores, `cabeza`, `ancho`,
+`ojos` y las `piezas` (accesorios de cabeza, torso y manos). Para un escenario nuevo, añade un componente
+con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.

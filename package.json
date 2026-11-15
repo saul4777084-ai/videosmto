@@ -9,19 +9,25 @@
     "still": "remotion still CaloriasCama out/frame.png --frame=60",
     "render:sueno": "remotion render SieteDiasSinDormir out/7-dias-sin-dormir.mp4",
     "audio:sueno": "python3 tools/sintetizar_sueno.py",
-    "catalogo": "node tools/catalogo.mjs"
+    "catalogo": "node tools/catalogo.mjs",
+    "render:3d": "remotion render Mundo3D out/mundo-3d.mp4 --gl=swangle",
+    "catalogo:3d": "remotion still Catalogo-3D-Escenarios out/catalogo/Catalogo-3D-Escenarios.png --gl=swangle && remotion still Catalogo-3D-Personajes out/catalogo/Catalogo-3D-Personajes.png --gl=swangle"
   },
   "dependencies": {
     "@fontsource/poppins": "^5.1.0",
+    "@react-three/fiber": "8.18.0",
     "@remotion/cli": "4.0.543",
     "@remotion/media-utils": "^4.0.543",
+    "@remotion/three": "4.0.543",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "remotion": "4.0.543",
+    "three": "0.170.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/react": "18.3.12",
+    "@types/three": "0.170.0",
     "typescript": "5.6.3"
   }
 }

@@ -17,6 +17,8 @@ import {ESCENA_COMPONENTES_SUENO} from './videos/sueno/escenas';
 import {crearEsquemaCamara} from './camera/esquema';
 import {LAMINAS} from './catalogo/Catalogo';
 import {CAMARA_25D, Demo25D, DURACION_DEMO_25D, REPARTO_25D} from './mundo25d/Demo25D';
+import {Demo3D, DURACION_DEMO_3D} from './mundo3d/Demo3D';
+import {Catalogo3DEscenarios, Catalogo3DPersonajes} from './mundo3d/Catalogo3D';
 
 const esquema25D = crearEsquemaCamara(REPARTO_25D.map((r) => r.e));
 
@@ -48,6 +50,12 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      {/* Mundo 3D (three.js): vídeo de muestra y láminas */}
+      <Composition id="Mundo3D" component={Demo3D} durationInFrames={Math.round(DURACION_DEMO_3D * 30)} fps={30} width={1080} height={1920} />
+      <Folder name="Catalogo3D">
+        <Still id="Catalogo-3D-Escenarios" component={Catalogo3DEscenarios} width={1080} height={1920} />
+        <Still id="Catalogo-3D-Personajes" component={Catalogo3DPersonajes} width={1080} height={1920} />
+      </Folder>
       {/* Catálogo de escenarios, personajes, expresiones y temas (imágenes) */}
       <Folder name="Catalogo">
         {Object.entries(LAMINAS).map(([id, C]) => (
