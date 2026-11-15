@@ -1,5 +1,10 @@
-import type {ConfigCamara, Efecto, TipoEfecto} from '../camera/esquema';
-import {en, palabra} from '../camera/sincro';
+import type {ConfigCamara, Efecto, NombrePlano} from '../camera/esquema';
+import {en, inicioPlano, palabra} from '../camera/sincro';
+import {ESCENAS} from './escenas';
+import {VIDEO} from './video';
+import {cierre, dramatico, ef, generalAPrimerPlano, lateral, objeto, orbita, plano, pregunta, revelacion, revelarVertical, seguir, sorpresa} from '../camera/director';
+
+export {ef};
 
 /**
  * CÁMARA CINEMATOGRÁFICA — plan de cada plano.
@@ -25,51 +30,44 @@ import {en, palabra} from '../camera/sincro';
  *   sonido, volumen    -> SFX que se dispara con el efecto
  */
 
-const BASE: Omit<Efecto, 'tipo' | 'inicio' | 'duracion'> = {
-  activo: true,
-  intensidad: 1,
-  velocidad: 1,
-  curva: 'suave',
-  mantener: true,
-  focoX: 0.5,
-  focoY: 0.5,
-  centrar: 0,
-  planoDesde: 1,
-  planoHasta: 1,
-  dirX: 0,
-  dirY: 0,
-  sonido: 'ninguno',
-  volumen: 0.4,
+const w = (p: NombrePlano, texto: string, desde = 0) => en(p, palabra(texto, desde));
+
+// Duración de cada plano (s)
+const D = {
+  intro: ESCENAS.intro.fin - ESCENAS.intro.inicio,
+  gimnasio: ESCENAS.gimnasio.tomas.vueltaHabitacion,
+  gimnasioVuelta: ESCENAS.gimnasio.fin - inicioPlano('gimnasioVuelta'),
+  ciencia: ESCENAS.ciencia.tomas.habitacion,
+  cienciaHabitacion: ESCENAS.ciencia.fin - inicioPlano('cienciaHabitacion'),
+  comida: ESCENAS.comida.tomas.cinta,
+  comidaCinta: ESCENAS.comida.fin - inicioPlano('comidaCinta'),
+  cronometro: ESCENAS.cronometro.fin - ESCENAS.cronometro.inicio,
+  tele: ESCENAS.tele.fin - ESCENAS.tele.inicio,
+  final: ESCENAS.final.fin - ESCENAS.final.inicio,
 };
 
-/** Crea un efecto con valores por defecto razonables. */
-export const ef = (tipo: TipoEfecto, inicio: number, duracion: number, o: Partial<Efecto> = {}): Efecto => ({
-  ...BASE,
-  tipo,
-  inicio: Math.round(inicio * 100) / 100,
-  duracion,
-  ...o,
-});
-
-// Momentos clave de la narración (segundos absolutos del vídeo)
-const N = {
-  enLaCama: palabra('en la cama'),
-  quema: palabra('quema calorías'),
-  k276: palabra('276 calorías'),
-  canada: palabra('Canadá'),
-  parejas: palabra('21 parejas'),
-  min25: palabra('25 minutos', 19),
-  ellas: palabra('Ellas'),
-  cinta276: palabra('276', 29),
-  acelera: palabra('acelera'),
-  porMinuto: palabra('4 calorías por minuto'),
-  intensidad: palabra('Intensidad'),
-  cal30: palabra('30 calorías'),
-  total: palabra('170 calorías'),
-  suma: palabra('suma'),
+// Posiciones (0..1 de la pantalla) de lo que se menciona en la narración
+const P = {
+  pareja: [0.5, 0.62] as [number, number],
+  ella: [0.28, 0.6] as [number, number],
+  el: [0.66, 0.72] as [number, number],
+  bandera: [0.5, 0.42] as [number, number],
+  tarjeta1: [0.52, 0.68] as [number, number],
+  tarjeta2: [0.56, 0.75] as [number, number],
+  tostada: [0.27, 0.67] as [number, number],
+  huevo: [0.74, 0.71] as [number, number],
+  piernas: [0.52, 0.8] as [number, number],
+  corazon: [0.18, 0.86] as [number, number],
+  cronometro: [0.5, 0.57] as [number, number],
+  tele: [0.5, 0.44] as [number, number],
+  sillon: [0.5, 0.8] as [number, number],
+  presentador: [0.84, 0.86] as [number, number],
 };
+const TXT: [number, number] = [0.5, 0.4];
+const foco = (f: [number, number]) => ({focoX: f[0], focoY: f[1]});
 
 export const CAMARA: ConfigCamara = {
+  audio: {archivo: VIDEO.narracion ?? '', volumen: VIDEO.volumenNarracion, sincronizar: true, sensibilidad: 0.5, anclas: []},
   global: {
     intensidadGeneral: 1,
     respiracion: 1,
@@ -93,99 +91,129 @@ export const CAMARA: ConfigCamara = {
     cronometro: 'zoom',
     tele: 'desenfoque',
     final: 'fundido',
+    presentador: 'fundido',
   },
 
   planos: {
-    // 1 · Pregunta inicial: se revela la pareja desenfocada y la cámara se acerca a la cama
-    intro: [
-      ef('focusPull', 0, 1.3, {intensidad: 0.9, curva: 'salida', planoDesde: 0.4, planoHasta: 1}),
-      ef('profundidad', 0.3, 1.2, {intensidad: 0.7, planoHasta: 1}),
-      ef('parallax', 0, 4.7, {intensidad: 0.45, dirX: 1, curva: 'lineal'}),
-      ef('zoomIn', en('intro', N.enLaCama) - 0.2, 1.6, {intensidad: 0.14, focoX: 0.5, focoY: 0.63, centrar: 0.3}),
-      ef('temblor', en('intro', N.quema), 0.45, {intensidad: 0.45, sonido: 'pop', volumen: 0.3}),
-    ],
+    // 1 · PREGUNTA: plano general que se revela, acercamiento lento a la pareja durante
+    //     la pregunta, pausa, revelación en "quema calorías" y alejamiento a la transición.
+    intro: plano(
+      D.intro,
+      [ef('focusPull', 0, 1.0, {intensidad: 0.8, curva: 'salida', planoDesde: 0.4, planoHasta: 1})],
+      lateral(0, 4.7, 1, 0.4),
+      [ef('resaltar', w('intro', 'en la cama'), 1.3, {radio: 0.36, intensidad: 0.6, ...foco(P.pareja)})],
+      pregunta(0.3, w('intro', 'quema calorías'), {foco: P.pareja}),
+      revelacion(w('intro', 'quema calorías'), {texto: '¡QUEMA CALORÍAS!', textoEn: TXT, desde: 0.5, hasta: 1, sonido: 'pop'}),
+      cierre(w('intro', 'quema calorías') + 0.4, D.intro),
+    ),
 
-    // 2 · Gimnasio: travelling lateral (parallax) y rack focus de ella a él; golpe en "276"
-    gimnasio: [
-      ef('parallax', 0, 7.6, {intensidad: 0.9, dirX: -1}),
-      ef('profundidad', 0, 0.8, {intensidad: 0.9, planoHasta: 0.85}),
-      ef('rackFocus', 2.6, 1.0, {intensidad: 0.9, planoDesde: 0.85, planoHasta: 1.15}),
-      ef('zoomIn', en('gimnasio', N.k276) - 0.15, 0.9, {intensidad: 0.22, velocidad: 1.5, curva: 'salida', focoX: 0.66, focoY: 0.77, centrar: 0.25}),
-      ef('temblor', en('gimnasio', 10.4), 0.5, {intensidad: 0.4}),
-    ],
+    // 2 · Gimnasio: movimiento lateral con parallax, paneo siguiendo a los corredores
+    //     (de ella a él) y acercamiento dramático en "276 calorías".
+    gimnasio: plano(
+      D.gimnasio,
+      lateral(0, 3.2, -1, 0.8),
+      [ef('profundidad', 0, 0.8, {intensidad: 0.9, planoHasta: 0.85})],
+      seguir(w('gimnasio', 'correr') - 0.3, 1.8, 1, 0.5),
+      [ef('rackFocus', w('gimnasio', 'correr'), 0.9, {intensidad: 0.9, planoDesde: 0.85, planoHasta: 1.15})],
+      dramatico(w('gimnasio', '276 calorías'), {foco: P.el, plano: 1.15, texto: '276 kcal', textoEn: [0.5, 0.47]}),
+    ),
 
-    // "Pero la ciencia dice otra cosa": corte seco con alejamiento en látigo y motion blur
-    gimnasioVuelta: [
-      ef('zoomOut', 0, 0.7, {intensidad: 0.35, curva: 'latigo', focoX: 0.5, focoY: 0.62}),
-      ef('motionBlur', 0, 0.45, {intensidad: 1}),
-      ef('temblor', en('gimnasioVuelta', 11.6), 0.5, {intensidad: 0.4}),
-      ef('profundidad', 0.3, 0.8, {intensidad: 0.6, planoHasta: 1}),
-    ],
+    // "Pero la ciencia dice otra cosa": zoom de sorpresa, revelación y alejamiento a la transición
+    gimnasioVuelta: plano(
+      D.gimnasioVuelta,
+      sorpresa(0, {foco: P.pareja}),
+      revelacion(w('gimnasioVuelta', 'otra cosa'), {texto: 'OTRA COSA', textoEn: TXT, desde: 0.45, hasta: 1}),
+      cierre(1.1, D.gimnasioVuelta),
+    ),
 
-    // 3 · Canadá: focus pull antes de revelar la bandera y paneo vertical hasta los datos
-    ciencia: [
-      ef('focusPull', 0, 1.4, {intensidad: 1, curva: 'salida', planoDesde: 0.3, planoHasta: 0.95}),
-      ef('zoomIn', 0.2, 1.4, {intensidad: 0.16, curva: 'salida', focoX: 0.5, focoY: 0.45, centrar: 0.2}),
-      ef('temblor', en('ciencia', N.canada) + 0.1, 0.35, {intensidad: 0.3}),
-      ef('profundidad', 1.2, 0.8, {intensidad: 0.7, planoHasta: 0.95}),
-      ef('paneo', en('ciencia', N.parejas) - 0.1, 1.8, {intensidad: 0.55, dirY: 1}),
-      ef('rackFocus', en('ciencia', N.parejas), 1.0, {intensidad: 0.6, planoDesde: 0.95, planoHasta: 1.1}),
-    ],
+    // 3 · Canadá: se enfoca la bandera al nombrarla, paneo vertical que revela los datos
+    //     y resaltado de cada tarjeta cuando la voz la menciona.
+    ciencia: plano(
+      D.ciencia,
+      [ef('focusPull', 0, 1.2, {intensidad: 1, curva: 'salida', planoDesde: 0.3, planoHasta: 0.95})],
+      objeto(w('ciencia', 'Canadá'), {foco: P.bandera, plano: 0.95, desde: 0.3, radio: 0.3, zoom: 0.06, centrar: 0}),
+      revelarVertical(w('ciencia', '21 parejas') - 0.1, 1.6, 1, 0.35),
+      objeto(w('ciencia', '21 parejas'), {foco: P.tarjeta1, plano: 1.1, desde: 0.95, radio: 0.17, zoom: 0, centrar: 0}),
+      objeto(w('ciencia', 'pulseras'), {foco: P.tarjeta2, plano: 1.1, desde: 1.1, radio: 0.22, zoom: 0, centrar: 0, duracion: 1.3}),
+      cierre(3.4, D.ciencia),
+    ),
 
-    // Paso del tiempo: dolly zoom lento mientras corren los días; alejamiento al dato
-    cienciaHabitacion: [
-      ef('profundidad', 0, 1, {intensidad: 0.7, planoHasta: 1}),
-      ef('dollyZoom', 0, en('cienciaHabitacion', N.min25), {intensidad: 0.3, focoX: 0.5, focoY: 0.63}),
-      ef('zoomOut', en('cienciaHabitacion', N.min25), 1.4, {intensidad: 0.12, focoX: 0.5, focoY: 0.6}),
-      ef('temblor', en('cienciaHabitacion', 22.0), 0.4, {intensidad: 0.3}),
-    ],
+    // Paso del tiempo: de plano general a primer plano, revelación de "25 minutos" y alejamiento
+    cienciaHabitacion: plano(
+      D.cienciaHabitacion,
+      generalAPrimerPlano(0, 2.2, {foco: P.pareja}),
+      [ef('dollyZoom', 0.2, 2.4, {intensidad: 0.15, ...foco(P.pareja)})],
+      revelacion(w('cienciaHabitacion', '25 minutos', 19), {texto: '25 MIN', textoEn: TXT, desde: 0.45, hasta: 1}),
+      cierre(4.4, D.cienciaHabitacion),
+    ),
 
-    // 4 · Platos: enfoque en la tostada, paneo + rack focus al huevo
-    comida: [
-      ef('profundidad', 0, 0.6, {intensidad: 0.8, planoHasta: 1}),
-      ef('zoomIn', 0.3, 1.8, {intensidad: 0.12, focoX: 0.3, focoY: 0.66, centrar: 0.15}),
-      ef('temblor', en('comida', 24.55), 0.35, {intensidad: 0.25}),
-      ef('rackFocus', en('comida', N.ellas) - 0.3, 0.9, {intensidad: 0.8, planoDesde: 1, planoHasta: 1.25}),
-      ef('paneo', en('comida', N.ellas) - 0.3, 1.4, {intensidad: 0.4, dirX: 1}),
-      ef('temblor', en('comida', 27.55), 0.35, {intensidad: 0.25}),
-    ],
+    // 4 · Platos: revelación de "101", zoom y resaltado de la tostada; paneo hacia ella,
+    //     revelación de "69" y resaltado del huevo; alejamiento.
+    comida: plano(
+      D.comida,
+      [ef('profundidad', 0, 0.6, {intensidad: 0.8, planoHasta: 1})],
+      revelacion(w('comida', '101 calorías'), {texto: '101 kcal', textoEn: [0.5, 0.36], desde: 0.4, hasta: 1}),
+      objeto(w('comida', 'tostada'), {foco: P.tostada, plano: 1, desde: 1, radio: 0.2}),
+      seguir(w('comida', 'Ellas') - 0.1, 1.2, 1, 0.45),
+      revelacion(w('comida', '69'), {texto: '69 kcal', textoEn: [0.5, 0.36], desde: 1, hasta: 1.25}),
+      objeto(w('comida', 'huevo'), {foco: P.huevo, plano: 1.25, desde: 1.25, radio: 0.2, zoom: 0, duracion: 1.0}),
+      cierre(w('comida', 'huevo') + 0.05, D.comida),
+    ),
 
-    // "En la cinta serían 276": entrada con motion blur, avance continuo y golpe en el dato
-    comidaCinta: [
-      ef('motionBlur', 0, 0.4, {intensidad: 1.2}),
-      ef('zoomIn', 0, 2.6, {intensidad: 0.18, curva: 'lineal', focoX: 0.52, focoY: 0.78, centrar: 0.2}),
-      ef('parallax', 0, 2.8, {intensidad: 0.8, dirX: 1}),
-      ef('temblor', en('comidaCinta', N.cinta276), 0.5, {intensidad: 0.55, sonido: 'pop', volumen: 0.35}),
-    ],
+    // "En la cinta serían 276": entrada con motion blur, zoom a la cinta y revelación
+    comidaCinta: plano(
+      D.comidaCinta,
+      [ef('motionBlur', 0, 0.4, {intensidad: 1.2})],
+      lateral(0, 2.8, 1, 0.7),
+      objeto(w('comidaCinta', 'cinta'), {foco: P.piernas, plano: 1, radio: 0.3, zoom: 0.1}),
+      revelacion(w('comidaCinta', '276', 29), {texto: '276 kcal', textoEn: [0.5, 0.42], desde: 0.35, hasta: 1, sonido: 'pop'}),
+      cierre(1.9, D.comidaCinta),
+    ),
 
-    // 5 · Cronómetro: alejamiento en látigo, clic con impacto y dolly zoom en "se acelera"
-    cronometro: [
-      ef('zoomOut', 0, 0.8, {intensidad: 0.3, curva: 'latigo', focoX: 0.5, focoY: 0.57}),
-      ef('profundidad', 0, 0.6, {intensidad: 0.8, planoHasta: 1}),
-      ef('temblor', en('cronometro', 32.45), 0.35, {intensidad: 0.35}),
-      ef('dollyZoom', en('cronometro', N.acelera) - 0.1, 1.6, {intensidad: 0.3, mantener: false, focoX: 0.5, focoY: 0.57}),
-      ef('temblor', en('cronometro', N.porMinuto), 0.6, {intensidad: 0.25, velocidad: 1.6}),
-      ef('zoomIn', en('cronometro', N.intensidad), 1.2, {intensidad: 0.1, focoX: 0.5, focoY: 0.57}),
-    ],
+    // 5 · Cronómetro: alejamiento en látigo, el corazón al nombrarlo, dolly zoom en
+    //     "se acelera", revelación del ritmo y alejamiento en "Intensidad moderada".
+    cronometro: plano(
+      D.cronometro,
+      [ef('zoomOut', 0, 0.8, {intensidad: 0.3, curva: 'latigo', ...foco(P.cronometro)})],
+      [ef('profundidad', 0, 0.6, {intensidad: 0.8, planoHasta: 1})],
+      [ef('temblor', en('cronometro', 32.45), 0.3, {intensidad: 0.3})],
+      objeto(w('cronometro', 'corazón'), {foco: P.corazon, plano: 1.3, desde: 1, radio: 0.12, zoom: 0.05, centrar: 0}),
+      [ef('dollyZoom', w('cronometro', 'acelera') - 0.1, 1.4, {intensidad: 0.28, mantener: false, ...foco(P.cronometro)})],
+      revelacion(w('cronometro', '4 calorías por minuto'), {texto: '4 kcal / min', textoEn: [0.5, 0.43], desde: 1.3, hasta: 1}),
+      cierre(w('cronometro', 'Intensidad'), D.cronometro),
+    ),
 
-    // 6 · Tele: rack focus de la persona a la pantalla, desenfoque antes de la comparación
-    tele: [
-      ef('rackFocus', 0, 1.4, {intensidad: 0.8, planoDesde: 1.35, planoHasta: 0.8}),
-      ef('zoomIn', 0.2, 2.2, {intensidad: 0.15, focoX: 0.5, focoY: 0.44}),
-      ef('focusPull', en('tele', N.cal30) - 0.35, 0.9, {intensidad: 0.6, planoDesde: 0.8, planoHasta: 0.8}),
-      ef('zoomOut', 3.1, 1.6, {intensidad: 0.1, focoX: 0.5, focoY: 0.44}),
-      ef('temblor', en('tele', 41.3), 0.4, {intensidad: 0.25}),
-    ],
+    // 6 · Tele: "sofá" -> enfoque y resaltado del sillón; "tele" -> enfoque de la pantalla;
+    //     revelación de "30 calorías" y alejamiento.
+    tele: plano(
+      D.tele,
+      lateral(0, 1.6, 1, 0.5),
+      [ef('profundidad', 0, 0.6, {intensidad: 0.8, planoHasta: 0.8})],
+      objeto(w('tele', 'sofá'), {foco: P.sillon, plano: 1.35, desde: 0.8, radio: 0.25, zoom: 0.07}),
+      objeto(w('tele', 'tele', 39), {foco: P.tele, plano: 0.8, desde: 1.35, radio: 0.32, zoom: 0.1}),
+      revelacion(w('tele', '30 calorías'), {texto: '30 kcal', textoEn: [0.5, 0.33], desde: 0.5, hasta: 0.8}),
+      cierre(4.9, D.tele),
+    ),
 
-    // 7 · Final: acercamiento a la pareja, desenfoque antes del total, alejamiento de cierre
-    final: [
-      ef('profundidad', 0, 1, {intensidad: 0.6, planoHasta: 1}),
-      ef('zoomIn', 0, 2.6, {intensidad: 0.16, focoX: 0.5, focoY: 0.62, centrar: 0.2}),
-      ef('focusPull', en('final', N.total) + 0.1, 0.75, {intensidad: 0.7, planoHasta: 1}),
-      ef('temblor', 2.82, 0.45, {intensidad: 0.45}),
-      ef('zoomOut', 3.0, 2.6, {intensidad: 0.16, focoX: 0.5, focoY: 0.62}),
-      ef('parallax', 3.0, 3.0, {intensidad: 0.5, dirX: -1}),
-      ef('temblor', 3.85, 0.5, {intensidad: 0.4}),
+    // 7 · Final: acercamiento dramático a la pareja en "170 calorías", impacto en
+    //     "¡pero suma!" y alejamiento cinematográfico que cierra el vídeo.
+    final: plano(
+      D.final,
+      [ef('profundidad', 0, 1, {intensidad: 0.6, planoHasta: 1})],
+      dramatico(w('final', '170 calorías'), {foco: P.pareja, intensidad: 0.9}),
+      lateral(3.0, 3.0, -1, 0.5),
+      revelacion(w('final', 'pero', 45), {impacto: 1.3, desde: 0.6, hasta: 1}),
+      cierre(4.6, D.final - 0.45),
+    ),
+
+    // CÁMARA GLOBAL: órbitas 2.5D alrededor del presentador en sus gestos clave.
+    // El presentador no se deforma nunca: solo se mueven las capas a su alrededor.
+    presentador: [
+      ...orbita(0.4, 3.4, {foco: P.presentador, dir: 1, intensidad: 0.4, acercar: 0.03}),
+      ...orbita(13.1, 3.4, {foco: P.presentador, dir: -1, intensidad: 0.4, acercar: 0.03}),
+      ...orbita(31.95, 3.6, {foco: P.presentador, dir: 1, intensidad: 0.4, acercar: 0.03}),
+      ...orbita(42.3, 2.9, {foco: P.presentador, dir: -1, intensidad: 0.4, acercar: 0.03}),
+      ...orbita(46.9, 1.4, {foco: P.presentador, dir: 1, intensidad: 0.4, acercar: 0.03, mantener: true}),
     ],
   },
 };
@@ -197,7 +225,7 @@ export const revisarPlan = (c: ConfigCamara) => {
       .filter((e) => e.activo && (e.tipo === 'zoomIn' || e.tipo === 'zoomOut'))
       .map((e) => `${e.tipo}:${e.intensidad}:${e.curva}`)
       .join('|');
-  const nombres = Object.keys(c.planos) as (keyof ConfigCamara['planos'])[];
+  const nombres = (Object.keys(c.planos) as (keyof ConfigCamara['planos'])[]).filter((n) => n !== 'presentador');
   const avisos: string[] = [];
   nombres.forEach((n, i) => {
     if (i === 0) return;

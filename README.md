@@ -17,7 +17,8 @@ npm run render   # exporta out/calorias-cama.mp4
 
 | Quieres cambiar…              | Archivo                         |
 |-------------------------------|---------------------------------|
-| Narración / música / duración | `src/config/video.ts` (audio en `public/`) |
+| Narración (MP3/WAV) y sincronía | panel **Props** → `audio`, o `audio` en `src/config/camara.ts` (archivo en `public/`) |
+| Música / duración base        | `src/config/video.ts` |
 | Tiempos de cada escena        | `src/config/escenas.ts`         |
 | Subtítulos y rótulos          | `src/config/textos.ts` (`*palabra*` = resaltado) |
 | Valores de los contadores     | `src/config/contadores.ts`      |
@@ -72,3 +73,52 @@ desenfoque de movimiento), `desenfoque`, `corte`.
 panel **Props**. Ahí se puede activar/desactivar cada efecto y cambiar su intensidad, duración, velocidad, curva y
 posición del foco con vista previa inmediata. Para renderizar con unos ajustes propios sin tocar el código:
 `npx remotion render CaloriasCama out/video.mp4 --props=mis-ajustes.json`.
+
+## Edición de documental: la cámara sigue a la narración
+
+`src/camera/director.ts` convierte lo que pasa en la voz en movimientos de cámara. El plan de cada plano en
+`src/config/camara.ts` está escrito con estas piezas, siempre colgadas de palabras reales de la narración
+(`w('plano', 'palabra')`):
+
+| Cuando la voz…               | Función               | Qué hace la cámara |
+|------------------------------|-----------------------|--------------------|
+| hace una **pregunta**        | `pregunta()`          | acercamiento lento durante la frase + pequeña pausa visual |
+| **menciona un objeto**       | `objeto()`            | zoom hacia el objeto, enfoque en su profundidad (lo secundario se desenfoca) y resaltado con foco de luz y anillo |
+| **revela información**       | `revelacion()`        | cambio rápido de enfoque, pequeño impacto (temblor + golpe de zoom) y rótulo grande en pantalla |
+| dice **algo importante**     | `dramatico()`         | plano general → acercamiento lento → fondo desenfocándose con el personaje nítido → pausa → zoom extra rápido en el impacto → regreso lento al general |
+| se **sorprende** ("Pero…")   | `sorpresa()`          | zoom rápido con motion blur |
+| **termina una idea**         | `cierre()`            | alejamiento que deshace los acercamientos del plano y desemboca en la transición |
+| —                            | `seguir()` / `revelarVertical()` | paneo horizontal siguiendo al personaje / paneo vertical que revela objetos |
+| —                            | `generalAPrimerPlano()`, `lateral()` | de plano general a primer plano / desplazamiento lateral con parallax |
+| —                            | `orbita()`            | órbita 2.5D alrededor del personaje con acercamiento durante el giro |
+
+- Las velocidades de los acercamientos se van alternando (`RITMOS`) para que dos zooms seguidos nunca sean iguales.
+- `plano()` rellena con un desplazamiento lateral suave cualquier tramo de más de 1,1 s en el que la cámara se quedaría quieta.
+- Todo usa curvas con aceleración y frenado suaves. La cámara solo traslada, gira y escala de forma uniforme:
+  ninguna ilustración se estira (el avatar ya tampoco "respira" estirándose; sube y baja).
+
+## Sincronización con un MP3 o WAV real
+
+1. Copia el audio en `public/` (por ejemplo `public/voz.wav`).
+2. En el Studio, panel **Props** → `audio.archivo` = `voz.wav` (o cámbialo en `src/config/camara.ts`).
+3. Con `audio.sincronizar` activado, antes de mostrar o renderizar se analiza el audio: se detecta dónde
+   empieza y acaba la voz y sus pausas, y cada frase de `src/config/textos.ts` se alinea con su posición real
+   (`src/audio/alinear.ts`). Toda la parte visual —escenas, cámara, subtítulos, gestos del avatar y efectos de
+   sonido— se reproduce a través de ese mapa de tiempo, y la duración del vídeo pasa a ser la del audio.
+4. Las anclas calculadas aparecen en `audio.anclas` y se pueden retocar a mano (con `sincronizar` desactivado).
+   `audio.sensibilidad` ajusta la detección de pausas.
+
+Requisito: el texto de los subtítulos debe ser lo que dice la voz, con las mismas frases y en el mismo orden.
+La alineación es por frases (pausas y valles de energía), no reconocimiento de voz palabra a palabra; dentro de
+cada frase las palabras se reparten como en los subtítulos. Con la narración actual recupera los tiempos
+ajustados a mano con una desviación máxima de 0,17 s, y con la misma voz ralentizada al 90 % y 1,5 s de
+silencio delante sigue las frases con ±0,15 s.
+
+## Cámara orbital alrededor del presentador
+
+El vídeo completo pasa por una cámara global (plano `presentador`) con dos capas: la escena como escenario de
+fondo y el presentador (cabeza negra sin rostro, traje marrón a rayas…) como capa principal. En las órbitas
+la escena se desplaza y se escala según su profundidad, gira ligeramente en perspectiva y la cámara se acerca
+durante el giro; el presentador hace de pivote y conserva su ilustración original intacta (sin giros 3D, sin
+deformar y sin inventar otros ángulos). Las órbitas están en sus gestos clave (presentación, señalar, explicar,
+cierre y despedida) y se editan en `planos.presentador`.

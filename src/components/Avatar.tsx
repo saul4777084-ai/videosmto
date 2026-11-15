@@ -59,7 +59,8 @@ export const Avatar: React.FC = () => {
   const distinto = anterior && anterior !== actual;
   const pop = 1 + (1 - cambio) * 0.04 * (distinto ? 1 : 0);
   const m = movimiento(gesto, t);
-  const respira = 1 + Math.sin(t * 2.2) * 0.008;
+  // respiración como leve desplazamiento vertical: el diseño nunca se estira
+  const respira = Math.sin(t * 2.2) * 2.5;
   const entrada = interpolate(frame, [0, 14], [-500, 0], {extrapolateRight: 'clamp'});
   const derecha = AVATAR.lado === 'derecha';
   const lado = derecha ? {right: AVATAR.margen + entrada} : {left: AVATAR.margen + entrada};
@@ -85,7 +86,7 @@ export const Avatar: React.FC = () => {
           width: ANCHO * escala,
           height: ALTO * escala,
           position: 'relative',
-          transform: `translateY(${-m.salto}px) rotate(${m.giro}deg) scale(${pop}) scaleY(${respira})`,
+          transform: `translateY(${-m.salto + respira}px) rotate(${m.giro}deg) scale(${pop})`,
           transformOrigin: '50% 100%',
           filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.45))',
         }}

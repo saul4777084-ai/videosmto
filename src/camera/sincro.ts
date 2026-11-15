@@ -19,6 +19,7 @@ export const PLANOS: Record<NombrePlano, {escena: NombreEscena; desde: number}> 
   cronometro: {escena: 'cronometro', desde: 0},
   tele: {escena: 'tele', desde: 0},
   final: {escena: 'final', desde: 0},
+  presentador: {escena: 'intro', desde: 0},
 };
 
 /** Segundo absoluto del vídeo en el que empieza un plano. */
@@ -42,6 +43,7 @@ const normal = (s: string) =>
  */
 export const palabra = (texto: string, desde = 0): number => {
   const buscado = normal(texto);
+  if (!buscado) throw new Error(`palabra(): "${texto}" no contiene letras ni números`);
   for (const cue of SUBTITULOS) {
     if (cue.fin < desde) continue;
     const tokens = tokenize(cue.texto);

@@ -63,7 +63,7 @@ export const Escena5Cronometro: React.FC = () => {
               <Flame x={210} y={860} size={70 * pop(f, s(2.4))} seed={33} />
               <Flame x={880} y={820} size={80 * pop(f, s(2.7))} seed={34} />
               <g transform={`translate(${190} ${1660})`}>
-                <Heart x={0} y={0} size={110 * pop(f, s(2))} beat />
+                <Heart x={0} y={0} size={110 * pop(f, s(0.3))} beat />
               </g>
             </Stage>
           ),

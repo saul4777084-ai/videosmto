@@ -1,10 +1,11 @@
 /**
  * Ajustes generales del vídeo.
  *
- * NARRACIÓN: copia tu archivo de audio dentro de la carpeta /public
- * (por ejemplo public/narracion.mp3) y escribe aquí su nombre:
- *   narracion: 'narracion.mp3'
- * Lo mismo para la música de fondo.
+ * NARRACIÓN: copia tu archivo MP3 o WAV dentro de la carpeta /public y
+ * escribe aquí su nombre (es el valor inicial de audio.archivo; también se
+ * puede cambiar en el panel Props del Studio). Con audio.sincronizar la
+ * animación se ajusta sola a los tiempos reales de la voz.
+ * duracionSegundos es la duración del guion; la del vídeo final sale del audio.
  */
 export const VIDEO = {
   fps: 30,
@@ -14,8 +15,6 @@ export const VIDEO = {
 
   narracion: 'narracion.mp3' as string | null, // archivo dentro de /public
   volumenNarracion: 1,
-  /** Segundos de retraso de la narración respecto al inicio del vídeo. */
-  retrasoNarracion: 0,
 
   /** Muestra u oculta los subtítulos (config/textos.ts). */
   mostrarSubtitulos: true,

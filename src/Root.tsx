@@ -9,6 +9,7 @@ import {ESCENAS} from './config/escenas';
 import {CAMARA} from './config/camara';
 import {esquemaCamara, ConfigCamara} from './camera/esquema';
 import {ProveedorCamara} from './camera/Camara';
+import {calcularMetadatos} from './audio/metadatos';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ export const RemotionRoot: React.FC = () => {
         component={Video}
         schema={esquemaCamara}
         defaultProps={CAMARA}
+        calculateMetadata={calcularMetadatos}
         durationInFrames={Math.round(VIDEO.duracionSegundos * VIDEO.fps)}
         fps={VIDEO.fps}
         width={VIDEO.ancho}

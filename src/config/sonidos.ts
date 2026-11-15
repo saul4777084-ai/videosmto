@@ -83,11 +83,11 @@ export const SONIDOS: Sonido[] = [
   // 7 · Final
   {t: 42.22, sfx: 'whoosh', vol: 0.5},
   {t: 42.4, sfx: 'pop', vol: 0.45},
-  ...tics(42.55, 44.1, 0.12, 0.12),
-  {t: 44.5, sfx: 'magia', vol: 0.35},
-  {t: 45.05, sfx: 'pop', vol: 0.5},
-  ...tics(45.1, 46.0, 0.1, 0.12),
-  {t: 46.05, sfx: 'exito', vol: 0.45},
-  {t: 46.1, sfx: 'brillo', vol: 0.3},
+  ...tics(42.55, 43.75, 0.12, 0.12),
+  {t: 43.8, sfx: 'magia', vol: 0.35},
+  {t: 44.27, sfx: 'pop', vol: 0.5},
+  ...tics(44.3, 45.3, 0.1, 0.12),
+  {t: 46.5, sfx: 'exito', vol: 0.45},
+  {t: 46.55, sfx: 'brillo', vol: 0.3},
   {t: 47.4, sfx: 'whoosh', vol: 0.3},
 ];

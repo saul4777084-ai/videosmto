@@ -19,13 +19,13 @@ export const Escena7Final: React.FC = () => {
   const F = ROTULOS.final;
   const el = tween(f, [s(0.3), s(1.8)], [0, CONTADORES.final.el], Easing.out(Easing.cubic));
   const ella = tween(f, [s(0.5), s(2.0)], [0, CONTADORES.final.ella], Easing.out(Easing.cubic));
-  // contadores se juntan en el total al final
-  const merge = tween(f, [s(2.3), s(3.0)], [0, 1], Easing.inOut(Easing.cubic));
-  const total = pop(f, s(2.8), 18);
-  const totalVal = tween(f, [s(2.8), s(3.9)], [0, CONTADORES.final.el + CONTADORES.final.ella], Easing.out(Easing.cubic));
+  // contadores se juntan en el total justo cuando la voz dice "170 calorías"
+  const merge = tween(f, [s(1.5), s(2.1)], [0, 1], Easing.inOut(Easing.cubic));
+  const total = pop(f, s(2.05), 18);
+  const totalVal = tween(f, [s(2.05), s(3.1)], [0, CONTADORES.final.el + CONTADORES.final.ella], Easing.out(Easing.cubic));
   const dim = tween(f, [CIERRE - 10, CIERRE + 10], [0, 0.55]);
   const t1 = pop(f, CIERRE + 4, 18);
-  const t2 = pop(f, CIERRE + 22, 20);
+  const t2 = pop(f, s(4.25), 20);
   const fadeOut = interpolate(f, [LEN - 22, LEN], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill>
@@ -38,7 +38,7 @@ export const Escena7Final: React.FC = () => {
             profundidad: 1.1,
             contenido: (
               <Stage>
-                <FloatingHearts count={10} area={[200, 1150, 880, 1350]} rise={700} seed="e7h" start={s(2.8)} />
+                <FloatingHearts count={10} area={[200, 1150, 880, 1350]} rise={700} seed="e7h" start={s(2.05)} />
               </Stage>
             ),
           },
@@ -49,7 +49,7 @@ export const Escena7Final: React.FC = () => {
               <>
                 <Counter x={300 + merge * 240} y={545} value={el} color="azul" label={F.el} scale={0.7 * pop(f, 6) * (1 - merge)} opacity={1 - merge} />
                 <Counter x={790 - merge * 250} y={545} value={ella} digits={2} color="rosa" label={F.ella} scale={0.7 * pop(f, 12) * (1 - merge)} opacity={1 - merge} />
-                {f >= s(2.8) && <Counter x={540} y={545} value={totalVal} color="rojo" label="TOTAL" scale={0.95 * total} />}
+                {f >= s(2.05) && <Counter x={540} y={545} value={totalVal} color="rojo" label="TOTAL" scale={0.95 * total} />}
               </>
             ),
           },

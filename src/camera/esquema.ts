@@ -20,6 +20,9 @@ export const TIPOS_EFECTO = [
   'dollyZoom', // 8. el personaje se acerca mientras el fondo cambia de escala
   'focusPull', // 9. desenfoca toda la escena y enfoca progresivamente el elemento
   'temblor', // 10. camera shake de impacto
+  'orbita', // órbita lateral 2.5D alrededor del foco (capas, parallax y giro del escenario)
+  'resaltar', // foco de luz y anillo sobre el objeto mencionado
+  'rotulo', // texto importante en pantalla
 ] as const;
 export type TipoEfecto = (typeof TIPOS_EFECTO)[number];
 
@@ -46,6 +49,8 @@ export const NOMBRES_PLANO = [
   'cronometro',
   'tele',
   'final',
+  /** Cámara global sobre el vídeo completo (escena + presentador). Tiempos absolutos. */
+  'presentador',
 ] as const;
 export type NombrePlano = (typeof NOMBRES_PLANO)[number];
 
@@ -62,6 +67,7 @@ export const esquemaEfecto = z.object({
    * rackFocus/profundidad: ×10 px de desenfoque por unidad de profundidad
    * focusPull: ×18 px de desenfoque inicial · temblor: ×28 px de amplitud
    * motionBlur: refuerzo del obturador (+200 % por unidad) y barrido ×260 px
+   * orbita: ×25° de arco · resaltar: oscurecido alrededor (0..1) · rotulo: tamaño
    */
   intensidad: z.number().min(0).max(3).step(0.01),
   /**
@@ -84,6 +90,10 @@ export const esquemaEfecto = z.object({
   /** Dirección (paneo, parallax, barrido). */
   dirX: z.number().min(-1).max(1).step(0.05),
   dirY: z.number().min(-1).max(1).step(0.05),
+  /** Radio del resaltado (fracción del ancho de pantalla). */
+  radio: z.number().min(0.02).max(1).step(0.01),
+  /** Texto del rótulo. */
+  texto: z.string(),
   /** Efecto de sonido sincronizado con el inicio del movimiento. */
   sonido: z.enum(SFX),
   volumen: z.number().min(0).max(1).step(0.05),
@@ -117,7 +127,33 @@ export const esquemaGlobal = z.object({
 });
 export type CamaraGlobal = z.infer<typeof esquemaGlobal>;
 
+export const esquemaAncla = z.object({
+  /** Segundo del guion (tiempos de config/textos.ts). */
+  guion: z.number(),
+  /** Segundo real en el archivo de audio. */
+  audio: z.number(),
+});
+export type Ancla = z.infer<typeof esquemaAncla>;
+
+export const esquemaAudio = z.object({
+  /** Archivo MP3 o WAV dentro de /public (p. ej. "narracion.mp3" o "voz.wav"). */
+  archivo: z.string(),
+  volumen: z.number().min(0).max(2).step(0.05),
+  /**
+   * true = analiza el audio y alinea cada frase del guion (config/textos.ts)
+   * con su posición real; toda la animación, los subtítulos y los efectos se
+   * reajustan a esos tiempos y la duración pasa a ser la del audio.
+   */
+  sincronizar: z.boolean(),
+  /** Sensibilidad para detectar pausas (0..1). Más alto = detecta pausas más suaves. */
+  sensibilidad: z.number().min(0).max(1).step(0.05),
+  /** Anclas guion -> audio. Se calculan solas al sincronizar; se pueden retocar a mano. */
+  anclas: z.array(esquemaAncla),
+});
+export type ConfigAudio = z.infer<typeof esquemaAudio>;
+
 export const esquemaCamara = z.object({
+  audio: esquemaAudio,
   global: esquemaGlobal,
   transiciones: z.object(
     Object.fromEntries(NOMBRES_PLANO.map((p) => [p, z.enum(TRANSICIONES)])) as Record<NombrePlano, z.ZodEnum<{[K in Transicion]: K}>>,

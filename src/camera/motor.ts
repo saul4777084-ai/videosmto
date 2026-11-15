@@ -43,6 +43,7 @@ export type EstadoCamara = {
   sx: number; // temblor
   sy: number;
   mb: number; // multiplicador del obturador
+  orb: number; // ángulo de órbita (grados)
 };
 
 type Progreso = {t: number; p: number; dentro: boolean};
@@ -93,7 +94,7 @@ export const calcularZoomBase = (efectos: Efecto[], fps: number, ig: number) => 
 };
 
 export const evaluarCamara = (efectos: Efecto[], f: number, fps: number, g: CamaraGlobal, zoomBase: number): EstadoCamara => {
-  const st: EstadoCamara = {z: zoomBase, cx: SX, cy: SY, rot: 0, plano: 1, apertura: 0, global: 0, dolly: 0, dfx: SX, dfy: SY, px: 0, py: 0, sx: 0, sy: 0, mb: 1};
+  const st: EstadoCamara = {z: zoomBase, cx: SX, cy: SY, rot: 0, plano: 1, apertura: 0, global: 0, dolly: 0, dfx: SX, dfy: SY, px: 0, py: 0, sx: 0, sy: 0, mb: 1, orb: 0};
   const ig = g.intensidadGeneral;
   const ordenados = efectos.filter((e) => e.activo).sort((a, b) => a.inicio - b.inicio);
   ordenados.forEach((e, idx) => {
@@ -135,6 +136,7 @@ export const evaluarCamara = (efectos: Efecto[], f: number, fps: number, g: Cama
         }
         break;
       case 'rackFocus':
+        if (t < 0) break;
         st.apertura = Math.max(st.apertura, I * 10);
         st.plano = lerp(e.planoDesde, e.planoHasta, p);
         break;
@@ -166,6 +168,17 @@ export const evaluarCamara = (efectos: Efecto[], f: number, fps: number, g: Cama
         st.mb = Math.max(st.mb, 1 + I * 0.5);
         break;
       }
+      case 'orbita': {
+        // arco lateral alrededor del plano del personaje (profundidad 1)
+        const dir = e.dirX === 0 ? 1 : Math.sign(e.dirX);
+        st.orb += dir * I * 25 * p;
+        st.cx = lerp(st.cx, Fx, e.centrar * p * 0.3);
+        st.cy = lerp(st.cy, Fy, e.centrar * p * 0.3);
+        break;
+      }
+      case 'resaltar':
+      case 'rotulo':
+        break;
       case 'motionBlur':
         if (dentro) st.mb = Math.max(st.mb, 1 + I * 2);
         st.cx += e.dirX * I * 260 * p;
@@ -205,9 +218,14 @@ export type DefCapa = {
   principal?: boolean;
   /** Rótulos y contadores: fijos en pantalla salvo temblor y el seguimiento indicado. */
   hud?: boolean;
+  /** Escenario: puede girar en perspectiva durante las órbitas (nunca se aplica a personajes). */
+  escenario?: boolean;
+  /** Tipo de motion blur de esta capa (por defecto el global). 'no' lo desactiva. */
+  motionBlur?: 'global' | 'direccional' | 'no';
 };
 
-export type TransformCapa = {m: Matriz; blur: number};
+/** m: matriz 2D (solo traslación, giro y escala uniforme: nunca estira la ilustración). rotY: giro en perspectiva del escenario. */
+export type TransformCapa = {m: Matriz; blur: number; rotY: number};
 
 /** Peso del dolly zoom por profundidad: el fondo cambia mucho de escala, el personaje poco. */
 const pesoDolly = (d: number) => (d < 1 ? 0.3 + 1.5 * (1 - d) : 0.3 * d);
@@ -244,6 +262,13 @@ export const transformarCapa = (st: EstadoCamara, capa: DefCapa, g: CamaraGlobal
     // parallax: el fondo y el primer término se mueven en sentidos opuestos
     tx += st.px * (1 - d);
     ty += st.py * (1 - d);
+    // órbita: las capas se desplazan según su distancia al personaje (pivote d = 1)
+    if (st.orb !== 0) {
+      const a = (st.orb * Math.PI) / 180;
+      tx += 900 * (1 - d) * Math.sin(a);
+      k *= 1 + 0.35 * Math.max(0, 1 - d) * (1 - Math.cos(a));
+      if (capa.escenario) rot += st.orb * 0.05;
+    }
     // temblor: más fuerte cuanto más cerca
     const sh = 0.55 + 0.45 * d;
     tx += st.sx * sh;
@@ -279,7 +304,46 @@ export const transformarCapa = (st: EstadoCamara, capa: DefCapa, g: CamaraGlobal
     cos * (tx - SX) - sin * (ty - SY) + SX,
     sin * (tx - SX) + cos * (ty - SY) + SY,
   ];
-  return {m, blur};
+  const rotY = capa.escenario && !capa.principal ? -st.orb * 0.3 : 0;
+  return {m, blur, rotY};
+};
+
+/** Resaltados y rótulos activos en un frame. */
+export type Resalte = {x: number; y: number; r: number; a: number; d: number; pulso: number};
+export type Rotulo = {texto: string; x: number; y: number; a: number; escala: number; salida: number};
+
+export const elementosPantalla = (efectos: Efecto[], f: number, fps: number) => {
+  const resaltes: Resalte[] = [];
+  const rotulos: Rotulo[] = [];
+  efectos.forEach((e) => {
+    if (!e.activo || (e.tipo !== 'resaltar' && e.tipo !== 'rotulo')) return;
+    const start = e.inicio * fps;
+    const len = Math.max(1, e.duracion * fps);
+    const t = (f - start) / len;
+    if (t < 0 || t > 1) return;
+    const entra = Math.min(1, (f - start) / Math.max(1, 0.25 * fps / e.velocidad));
+    const sale = Math.min(1, (start + len - f) / Math.max(1, 0.3 * fps));
+    if (e.tipo === 'resaltar') {
+      resaltes.push({
+        x: e.focoX * W,
+        y: e.focoY * H,
+        r: e.radio * W,
+        a: Math.min(Easing.out(Easing.cubic)(entra), Easing.inOut(Easing.cubic)(sale)) * Math.min(1, e.intensidad),
+        d: e.planoHasta,
+        pulso: (f - start) / fps,
+      });
+    } else {
+      rotulos.push({
+        texto: e.texto,
+        x: e.focoX * W,
+        y: e.focoY * H,
+        a: Easing.out(Easing.back(1.8))(clamp(entra, 0, 1)),
+        escala: e.intensidad,
+        salida: Easing.in(Easing.cubic)(1 - clamp(sale, 0, 1)),
+      });
+    }
+  });
+  return {resaltes, rotulos};
 };
 
 /** Desplazamiento máximo en pantalla (px) entre dos transformaciones de una capa. */

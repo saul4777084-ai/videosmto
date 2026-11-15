@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {AbsoluteFill, Audio, continueRender, delayRender, Sequence, staticFile} from 'remotion';
+import {AbsoluteFill, Audio, continueRender, delayRender, Freeze, staticFile, useCurrentFrame} from 'remotion';
 import {Escena1Intro} from './scenes/Escena1Intro';
 import {Escena2Gimnasio} from './scenes/Escena2Gimnasio';
 import {Escena3Ciencia} from './scenes/Escena3Ciencia';
@@ -15,6 +15,8 @@ import {ESCENAS, NombreEscena} from './config/escenas';
 import {VIDEO} from './config/video';
 import {ProveedorCamara} from './camera/Camara';
 import type {ConfigCamara, NombrePlano} from './camera/esquema';
+import {Camara} from './camera/Camara';
+import {audioAGuion} from './audio/tiempo';
 
 /** Orden y componente de cada escena. */
 export const ESCENA_COMPONENTES: Record<NombreEscena, React.FC> = {
@@ -38,14 +40,12 @@ const useFonts = () => {
   }, [handle]);
 };
 
-/** Recibe la configuración de cámara como props (editable en el panel Props del Studio). */
-export const Video: React.FC<ConfigCamara> = (camara) => {
-  useFonts();
+/** Todas las escenas encadenadas con sus transiciones (en tiempo del guion). */
+const Escenas: React.FC<{camara: ConfigCamara}> = ({camara}) => {
   const fps = VIDEO.fps;
   const ov = VIDEO.solapeTransicion;
   const keys = Object.keys(ESCENA_COMPONENTES) as NombreEscena[];
   return (
-    <ProveedorCamara config={camara}>
     <AbsoluteFill style={{background: '#000'}}>
       {keys.map((k, i) => {
         const C = ESCENA_COMPONENTES[k]!;
@@ -68,16 +68,42 @@ export const Video: React.FC<ConfigCamara> = (camara) => {
           </Clip>
         );
       })}
-      <Avatar />
-      {VIDEO.mostrarSubtitulos && <Subtitles />}
-      <Sonidos camara={camara} />
-      {VIDEO.musica && <Audio src={staticFile(VIDEO.musica)} volume={VIDEO.volumenMusica} />}
-      {VIDEO.narracion && (
-        <Sequence from={Math.round(VIDEO.retrasoNarracion * fps)}>
-          <Audio src={staticFile(VIDEO.narracion)} volume={VIDEO.volumenNarracion} />
-        </Sequence>
-      )}
     </AbsoluteFill>
+  );
+};
+
+/**
+ * Recibe la configuración de cámara y audio como props (editable en el panel
+ * Props del Studio).
+ *
+ * Toda la parte visual se escribe en "tiempo del guion" y se reproduce a
+ * través del mapa de tiempo guion -> audio (Freeze con el frame remapeado),
+ * de modo que escenas, cámara, subtítulos y gestos caen exactamente donde la
+ * voz real dice cada frase.
+ */
+export const Video: React.FC<ConfigCamara> = (camara) => {
+  useFonts();
+  const frame = useCurrentFrame();
+  const fps = VIDEO.fps;
+  const frameGuion = audioAGuion(frame / fps, camara.audio.anclas) * fps;
+  return (
+    <ProveedorCamara config={camara}>
+      <AbsoluteFill style={{background: '#000'}}>
+        <Freeze frame={Math.max(0, frameGuion)}>
+          {/* cámara global: escena de fondo + presentador en capas para las órbitas 2.5D */}
+          <Camara
+            plano="presentador"
+            capas={[
+              {id: 'escenas', profundidad: 0.7, cubrir: true, escenario: true, motionBlur: 'direccional', contenido: <Escenas camara={camara} />},
+              {id: 'presentador', profundidad: 1, principal: true, contenido: <Avatar />},
+            ]}
+          />
+          {VIDEO.mostrarSubtitulos && <Subtitles />}
+        </Freeze>
+        <Sonidos camara={camara} />
+        {VIDEO.musica && <Audio src={staticFile(VIDEO.musica)} volume={VIDEO.volumenMusica} />}
+        {camara.audio.archivo && <Audio src={staticFile(camara.audio.archivo)} volume={camara.audio.volumen} />}
+      </AbsoluteFill>
     </ProveedorCamara>
   );
 };
