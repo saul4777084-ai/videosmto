@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useMemo} from 'react';
 import {AbsoluteFill, useCurrentFrame, useVideoConfig} from 'remotion';
-import type {ConfigCamara, NombrePlano} from './esquema';
+import type {ConfigCamara} from './esquema';
 import {CAMARA} from '../config/camara';
 import {
   aplicar,
@@ -101,7 +101,7 @@ const RotuloPantalla: React.FC<{texto: string; x: number; y: number; a: number; 
  * El motion blur es real: la capa se expone varias veces dentro del
  * intervalo del obturador y las exposiciones se promedian.
  */
-export const Camara: React.FC<{plano: NombrePlano; capas: Capa[]; superposicion?: React.ReactNode; desfase?: number}> = ({
+export const Camara: React.FC<{plano: string; capas: Capa[]; superposicion?: React.ReactNode; desfase?: number}> = ({
   plano,
   capas,
   superposicion,

@@ -22,34 +22,50 @@ export const PLANOS: Record<NombrePlano, {escena: NombreEscena; desde: number}> 
   presentador: {escena: 'intro', desde: 0},
 };
 
-/** Segundo absoluto del vídeo en el que empieza un plano. */
-export const inicioPlano = (p: NombrePlano) => ESCENAS[PLANOS[p].escena].inicio + PLANOS[p].desde;
-
-/** Convierte un segundo absoluto del vídeo en segundo relativo al plano. */
-export const en = (p: NombrePlano, tAbs: number) => Math.max(0, Math.round((tAbs - inicioPlano(p)) * 100) / 100);
-
 const normal = (s: string) =>
   s
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9 ]/g, '')
     .trim();
 
+type Sub = {inicio: number; fin: number; texto: string};
+
 /**
- * Segundo absoluto en el que aparece una palabra (o grupo resaltado) en los
- * subtítulos, con el mismo reparto temporal que usa components/Subtitles.
- * `desde` permite buscar a partir de un segundo concreto.
+ * Crea las utilidades de sincronización de un vídeo:
+ * inicioPlano(p) · en(p, segundoAbsoluto) · palabra(texto, desde?)
  */
-export const palabra = (texto: string, desde = 0): number => {
-  const buscado = normal(texto);
-  if (!buscado) throw new Error(`palabra(): "${texto}" no contiene letras ni números`);
-  for (const cue of SUBTITULOS) {
-    if (cue.fin < desde) continue;
-    const tokens = tokenize(cue.texto);
-    const step = ((cue.fin - cue.inicio) * 0.88) / tokens.length;
-    const i = tokens.findIndex((t) => normal(t.text).includes(buscado));
-    if (i >= 0) return cue.inicio + i * step;
-  }
-  throw new Error(`palabra(): "${texto}" no aparece en los subtítulos`);
+export const crearSincro = <P extends string>(
+  escenas: Record<string, {inicio: number}>,
+  planos: Record<P, {escena: string; desde: number}>,
+  subtitulos: Sub[],
+) => {
+  const inicioPlano = (p: P) => escenas[planos[p].escena].inicio + planos[p].desde;
+  const en = (p: P, tAbs: number) => Math.max(0, Math.round((tAbs - inicioPlano(p)) * 100) / 100);
+  /**
+   * Segundo absoluto en el que aparece una palabra (o grupo resaltado) en los
+   * subtítulos, con el mismo reparto temporal que usa components/Subtitles.
+   */
+  const palabra = (texto: string, desde = 0): number => {
+    const buscado = normal(texto);
+    if (!buscado) throw new Error(`palabra(): "${texto}" no contiene letras ni números`);
+    for (const cue of subtitulos) {
+      if (cue.fin < desde) continue;
+      const tokens = tokenize(cue.texto);
+      const step = ((cue.fin - cue.inicio) * 0.88) / tokens.length;
+      const i = tokens.findIndex((t) => normal(t.text).includes(buscado));
+      if (i >= 0) return cue.inicio + i * step;
+    }
+    throw new Error(`palabra(): "${texto}" no aparece en los subtítulos`);
+  };
+  return {inicioPlano, en, palabra};
 };
+
+const S = crearSincro(ESCENAS, PLANOS, SUBTITULOS);
+/** Segundo absoluto del vídeo en el que empieza un plano. */
+export const inicioPlano = S.inicioPlano;
+/** Convierte un segundo absoluto del vídeo en segundo relativo al plano. */
+export const en = S.en;
+/** Segundo absoluto en el que se dice una palabra (según los subtítulos). */
+export const palabra = S.palabra;

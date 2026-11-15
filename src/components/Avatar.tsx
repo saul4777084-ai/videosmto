@@ -42,17 +42,17 @@ const movimiento = (g: Gesto, t: number) => {
 };
 
 /** Avatar en la esquina inferior izquierda que cambia de gesto según config/avatar.ts. */
-export const Avatar: React.FC = () => {
+export const Avatar: React.FC<{gestos?: {desde: number; gesto: Gesto}[]}> = ({gestos = AVATAR.gestos}) => {
   const frame = useCurrentFrame();
   if (!AVATAR.mostrar) return null;
   const t = frame / FPS;
   let i = 0;
-  AVATAR.gestos.forEach((g, k) => {
+  gestos.forEach((g, k) => {
     if (t >= g.desde) i = k;
   });
-  const gesto = AVATAR.gestos[i].gesto;
-  const previo = i > 0 ? AVATAR.gestos[i - 1].gesto : null;
-  const local = frame - Math.round(AVATAR.gestos[i].desde * FPS);
+  const gesto = gestos[i].gesto;
+  const previo = i > 0 ? gestos[i - 1].gesto : null;
+  const local = frame - Math.round(gestos[i].desde * FPS);
   const cambio = interpolate(local, [0, 6], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const actual = POSE_DE[gesto];
   const anterior = previo ? POSE_DE[previo] : null;

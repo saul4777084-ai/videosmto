@@ -1,6 +1,6 @@
 import React from 'react';
 import {Easing, interpolate, useCurrentFrame} from 'remotion';
-import {SUBTITULOS} from '../config/textos';
+import {SUBTITULOS, Subtitulo} from '../config/textos';
 import {FPS} from '../lib/anim';
 
 type Token = {text: string; hl: boolean};
@@ -33,10 +33,10 @@ export const tokenize = (t: string): Token[] => {
  * - palabra actual en blanco intenso
  * - palabras clave en amarillo con recuadro
  */
-export const Subtitles: React.FC<{top?: number}> = ({top = 210}) => {
+export const Subtitles: React.FC<{top?: number; subtitulos?: Subtitulo[]}> = ({top = 210, subtitulos = SUBTITULOS}) => {
   const frame = useCurrentFrame();
   const t = frame / FPS;
-  const cue = SUBTITULOS.find((c) => t >= c.inicio && t < c.fin);
+  const cue = subtitulos.find((c) => t >= c.inicio && t < c.fin);
   if (!cue) return null;
   const tokens = tokenize(cue.texto);
   const startF = cue.inicio * FPS;

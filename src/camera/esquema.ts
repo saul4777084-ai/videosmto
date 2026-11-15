@@ -152,12 +152,23 @@ export const esquemaAudio = z.object({
 });
 export type ConfigAudio = z.infer<typeof esquemaAudio>;
 
-export const esquemaCamara = z.object({
-  audio: esquemaAudio,
-  global: esquemaGlobal,
-  transiciones: z.object(
-    Object.fromEntries(NOMBRES_PLANO.map((p) => [p, z.enum(TRANSICIONES)])) as Record<NombrePlano, z.ZodEnum<{[K in Transicion]: K}>>,
-  ),
-  planos: z.object(Object.fromEntries(NOMBRES_PLANO.map((p) => [p, z.array(esquemaEfecto)])) as Record<NombrePlano, z.ZodArray<typeof esquemaEfecto>>),
-});
-export type ConfigCamara = z.infer<typeof esquemaCamara>;
+/** Crea el esquema de controles para un vídeo con los planos indicados. */
+export const crearEsquemaCamara = <P extends string>(planos: readonly P[]) =>
+  z.object({
+    audio: esquemaAudio,
+    global: esquemaGlobal,
+    transiciones: z.object(Object.fromEntries(planos.map((p) => [p, z.enum(TRANSICIONES)])) as Record<P, z.ZodEnum<{[K in Transicion]: K}>>),
+    planos: z.object(Object.fromEntries(planos.map((p) => [p, z.array(esquemaEfecto)])) as Record<P, z.ZodArray<typeof esquemaEfecto>>),
+  });
+
+/** Configuración de cámara de cualquier vídeo (planos con nombre libre). */
+export type ConfigCamara = {
+  audio: ConfigAudio;
+  global: CamaraGlobal;
+  transiciones: Record<string, Transicion>;
+  planos: Record<string, Efecto[]>;
+};
+
+/** Esquema del vídeo "¿Quema calorías la cama?". */
+export const esquemaCamara = crearEsquemaCamara(NOMBRES_PLANO);
+export type ConfigCalorias = z.infer<typeof esquemaCamara>;

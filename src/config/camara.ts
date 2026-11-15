@@ -1,4 +1,4 @@
-import type {ConfigCamara, Efecto, NombrePlano} from '../camera/esquema';
+import type {ConfigCalorias, ConfigCamara, Efecto, NombrePlano} from '../camera/esquema';
 import {en, inicioPlano, palabra} from '../camera/sincro';
 import {ESCENAS} from './escenas';
 import {VIDEO} from './video';
@@ -66,7 +66,7 @@ const P = {
 const TXT: [number, number] = [0.5, 0.4];
 const foco = (f: [number, number]) => ({focoX: f[0], focoY: f[1]});
 
-export const CAMARA: ConfigCamara = {
+export const CAMARA: ConfigCalorias = {
   audio: {archivo: VIDEO.narracion ?? '', volumen: VIDEO.volumenNarracion, sincronizar: true, sensibilidad: 0.5, anclas: []},
   global: {
     intensidadGeneral: 1,

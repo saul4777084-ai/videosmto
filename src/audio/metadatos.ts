@@ -1,7 +1,7 @@
 import {CalculateMetadataFunction, staticFile} from 'remotion';
 import {getAudioData} from '@remotion/media-utils';
-import type {ConfigCamara} from '../camera/esquema';
-import {alinearFrases} from './alinear';
+import type {ConfigCalorias, ConfigCamara} from '../camera/esquema';
+import {alinearFrases, Frase} from './alinear';
 import {guionAAudio} from './tiempo';
 import {SUBTITULOS} from '../config/textos';
 import {VIDEO} from '../config/video';
@@ -12,21 +12,26 @@ import {VIDEO} from '../config/video';
  * La duración del vídeo pasa a ser la del audio (o la del guion reajustado
  * si es mayor) y las anclas resultantes viajan en las props.
  */
-export const calcularMetadatos: CalculateMetadataFunction<ConfigCamara> = async ({props}) => {
+export const crearCalcularMetadatos =
+  <T extends ConfigCamara>(frases: Frase[], duracionGuion: number, fps: number): CalculateMetadataFunction<T> =>
+  async ({props}) => {
   let anclas = props.audio.anclas;
-  let duracion = VIDEO.duracionSegundos;
+  let duracion = duracionGuion;
   if (props.audio.archivo && props.audio.sincronizar) {
     const datos = await getAudioData(staticFile(props.audio.archivo));
     const canales = datos.channelWaveforms;
     const mono = new Float32Array(canales[0].length);
     canales.forEach((c) => c.forEach((v, i) => (mono[i] += v / canales.length)));
-    const r = alinearFrases(mono, datos.sampleRate, SUBTITULOS, props.audio.sensibilidad);
+    const r = alinearFrases(mono, datos.sampleRate, frases, props.audio.sensibilidad);
     anclas = r.anclas;
     duracion = r.duracionAudio + 0.3;
   }
-  duracion = Math.max(duracion, guionAAudio(VIDEO.duracionSegundos, anclas));
+  duracion = Math.max(duracion, guionAAudio(duracionGuion, anclas));
   return {
-    durationInFrames: Math.ceil(duracion * VIDEO.fps),
+    durationInFrames: Math.ceil(duracion * fps),
     props: {...props, audio: {...props.audio, anclas}},
   };
 };
+
+/** Metadatos del vídeo "¿Quema calorías la cama?". */
+export const calcularMetadatos = crearCalcularMetadatos<ConfigCalorias>(SUBTITULOS, VIDEO.duracionSegundos, VIDEO.fps);
