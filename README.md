@@ -166,6 +166,8 @@ npm run audio:sueno    # regenera la música y los efectos sintetizados
 |--------|-----------|
 | Escenarios 1 | dormitorio noche/amanecer, escritorio, dentro del cuerpo, mente, alerta, cuarto oscuro, archivo retro, mesa de comida |
 | Escenarios 2 | habitación pareja, gimnasio, laboratorio, mesa, salón con tele, habitación dormidos |
+| Escenarios 3 | ciudad de noche, parque, playa al atardecer, espacio, bosque, hospital, aula, oficina, montaña con aurora |
+| Escenarios 4 | fondo marino, desierto, laboratorio, cocina + ejemplos personaje + escenario + tema |
 | Personajes | Leo, Sara, Malik, Yuki, Hugo, Nora (`PERSONAJES_INSOMNE`), pareja, corredores, presentador |
 | Expresiones | descansado → zombi → dormido (parámetro `cansancio` y expresión de boca, cejas, mirada…) |
 | Temas de color | original, cálido, frío, neón, pastel, cine negro, retro sepia, terror, bosque (`src/videos/temas.ts`) |
@@ -173,3 +175,12 @@ npm run audio:sueno    # regenera la música y los efectos sintetizados
 
 Ejemplo: `<Insomne {...PERSONAJES_INSOMNE.sara} cansancio={0.6} />` y
 `<AbsoluteFill style={{filter: TEMAS.neon.filtro}}>…</AbsoluteFill>`.
+
+Los 13 escenarios nuevos están en `src/sets/Escenarios.tsx` (lista en `ESCENARIOS`). Cada uno acepta
+`capa="fondo"` / `capa="frente"` para poner el personaje en medio y usar la cámara por capas:
+
+```tsx
+<Stage><Playa capa="fondo" id="p1" /></Stage>      // capa de fondo (profundidad 0.4)
+<Stage><Insomne {...PERSONAJES_INSOMNE.sara} /></Stage>  // personaje (profundidad 1)
+<Stage><Playa capa="frente" id="p1" /></Stage>     // primer término (profundidad 1.2)
+```

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {AbsoluteFill, continueRender, delayRender, Img, staticFile} from 'remotion';
+import {AbsoluteFill, continueRender, delayRender, Freeze, Img, staticFile} from 'remotion';
+import {ESCENARIOS, NombreEscenario} from '../sets/Escenarios';
 import {Stage} from '../components/Clip';
 import {Bedroom} from '../sets/Bedroom';
 import {GymBackground, GymRunners} from '../sets/Gym';
@@ -37,7 +38,9 @@ const Mini: React.FC<{nombre: string; detalle?: string; children: React.ReactNod
   return (
     <div style={{width: ancho}}>
       <div style={{width: ancho, height: alto, borderRadius: 22, overflow: 'hidden', position: 'relative', border: '3px solid rgba(255,255,255,0.15)', boxShadow: '0 14px 30px rgba(0,0,0,0.5)'}}>
-        <div style={{position: 'absolute', left: 0, top: -1920 * k * 0.12, width: 1080, height: 1920, transform: `scale(${k})`, transformOrigin: '0 0', filter: filtro}}>{children}</div>
+        <div style={{position: 'absolute', left: 0, top: -1920 * k * 0.12, width: 1080, height: 1920, transform: `scale(${k})`, transformOrigin: '0 0', filter: filtro}}>
+          <Freeze frame={50}>{children}</Freeze>
+        </div>
       </div>
       <div style={{color: '#fff', fontWeight: 800, fontSize: 30, marginTop: 10, textAlign: 'center'}}>{nombre}</div>
       {detalle && <div style={{color: '#9f9ac8', fontWeight: 500, fontSize: 22, textAlign: 'center', lineHeight: 1.2}}>{detalle}</div>}
@@ -230,7 +233,57 @@ export const CatalogoPresentador: React.FC = () => (
   </Lamina>
 );
 
+/* ------------------------------------------------ 7 · ESCENARIOS NUEVOS */
+const MiniEscenario: React.FC<{n: NombreEscenario}> = ({n}) => {
+  const E = ESCENARIOS[n];
+  return (
+    <Mini nombre={E.nombre} detalle={E.detalle}>
+      <Stage>
+        <E.C id={`m${n}`} />
+      </Stage>
+    </Mini>
+  );
+};
+const NUEVOS: NombreEscenario[] = ['ciudadNoche', 'parque', 'playa', 'espacio', 'bosque', 'hospital', 'aula', 'oficina', 'montana'];
+export const CatalogoEscenarios3: React.FC = () => (
+  <Lamina titulo="Escenarios · 3" sub="Biblioteca nueva (src/sets/Escenarios.tsx) · animados y con capas fondo/frente">
+    {NUEVOS.map((n) => (
+      <MiniEscenario key={n} n={n} />
+    ))}
+  </Lamina>
+);
+
+const COMBOS: {e: NombreEscenario; p: keyof typeof PERSONAJES_INSOMNE; t: NombreTema; ins: InsomneProps}[] = [
+  {e: 'playa', p: 'sara', t: 'original', ins: {boca: 'sonrisa', miradaX: 0.3}},
+  {e: 'espacio', p: 'malik', t: 'original', ins: {boca: 'abierta', pupilas: 0.8, cejas: 1}},
+  {e: 'aula', p: 'yuki', t: 'original', ins: {boca: 'neutra', miradaY: -0.5, miradaX: -0.4}},
+  {e: 'oficina', p: 'hugo', t: 'original', ins: {cansancio: 0.5, boca: 'bostezo'}},
+  {e: 'montana', p: 'nora', t: 'frio', ins: {boca: 'sonrisa', miradaY: -0.6}},
+];
+export const CatalogoEscenarios4: React.FC = () => (
+  <Lamina titulo="Escenarios · 4" sub="Más escenarios y ejemplos combinando personaje + escenario + tema">
+    {(['marino', 'desierto', 'laboratorio', 'cocina'] as NombreEscenario[]).map((n) => (
+      <MiniEscenario key={n} n={n} />
+    ))}
+    {COMBOS.map((c, i) => {
+      const E = ESCENARIOS[c.e].C;
+      const P = PERSONAJES_INSOMNE[c.p];
+      return (
+        <Mini key={i} nombre={`${c.p[0].toUpperCase()}${c.p.slice(1)} · ${ESCENARIOS[c.e].nombre}`} detalle={`ejemplo · tema ${TEMAS[c.t].nombre.toLowerCase()}`} filtro={TEMAS[c.t].filtro}>
+          <Stage>
+            <E capa="fondo" id={`cb${i}`} />
+            <Leo y={1600} esc={1.25} colores={P.colores} peinado={P.peinado} gafas={P.gafas} semilla={i + 2} {...c.ins} />
+            <E capa="frente" id={`cb${i}`} />
+          </Stage>
+        </Mini>
+      );
+    })}
+  </Lamina>
+);
+
 export const LAMINAS = {
+  'Catalogo-Escenarios-3': CatalogoEscenarios3,
+  'Catalogo-Escenarios-4': CatalogoEscenarios4,
   'Catalogo-Escenarios-1': CatalogoEscenarios,
   'Catalogo-Escenarios-2': CatalogoEscenarios2,
   'Catalogo-Personajes': CatalogoPersonajes,
