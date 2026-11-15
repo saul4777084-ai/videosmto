@@ -155,3 +155,21 @@ npm run audio:sueno    # regenera la música y los efectos sintetizados
   "La buena noticia", más golpes, parpadeos, grietas, glitch, susurros y zumbido sincronizados.
 - Los tiempos de las frases se midieron sobre la locución entregada; si se sustituye el audio, la
   sincronización automática reajusta todo.
+
+---
+
+# Catálogo visual (escenarios, personajes, expresiones y temas)
+
+`npm run catalogo` genera 6 láminas en `out/catalogo/` (también visibles en el Studio, carpeta *Catalogo*):
+
+| Lámina | Contenido |
+|--------|-----------|
+| Escenarios 1 | dormitorio noche/amanecer, escritorio, dentro del cuerpo, mente, alerta, cuarto oscuro, archivo retro, mesa de comida |
+| Escenarios 2 | habitación pareja, gimnasio, laboratorio, mesa, salón con tele, habitación dormidos |
+| Personajes | Leo, Sara, Malik, Yuki, Hugo, Nora (`PERSONAJES_INSOMNE`), pareja, corredores, presentador |
+| Expresiones | descansado → zombi → dormido (parámetro `cansancio` y expresión de boca, cejas, mirada…) |
+| Temas de color | original, cálido, frío, neón, pastel, cine negro, retro sepia, terror, bosque (`src/videos/temas.ts`) |
+| Presentador | las 8 poses y los objetos disponibles |
+
+Ejemplo: `<Insomne {...PERSONAJES_INSOMNE.sara} cansancio={0.6} />` y
+`<AbsoluteFill style={{filter: TEMAS.neon.filtro}}>…</AbsoluteFill>`.

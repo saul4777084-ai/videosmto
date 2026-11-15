@@ -25,6 +25,22 @@ export type InsomneProps = {
   semilla?: number;
   /** Mostrar el cuerpo (sudadera). */
   cuerpo?: boolean;
+  /** Paleta del personaje (para crear personajes distintos con el mismo dibujo). */
+  colores?: Partial<ColoresPersonaje>;
+  peinado?: 'corto' | 'largo' | 'rizado' | 'rapado';
+  gafas?: boolean;
+};
+
+export type ColoresPersonaje = {piel: string; pielSombra: string; pelo: string; sudadera: string; sudaderaSombra: string; iris: string};
+
+/** Personajes listos para usar: mismo dibujo, distinta identidad. */
+export const PERSONAJES_INSOMNE: Record<string, {colores: Partial<ColoresPersonaje>; peinado: InsomneProps['peinado']; gafas?: boolean}> = {
+  leo: {colores: {}, peinado: 'corto'},
+  sara: {colores: {pelo: '#7a2f22', sudadera: '#d9487f', sudaderaSombra: '#a8305d', iris: '#3a6a3a'}, peinado: 'largo'},
+  malik: {colores: {piel: '#8d5a3c', pielSombra: '#6e4128', pelo: '#140d0b', sudadera: '#2f9e6e', sudaderaSombra: '#1f7350'}, peinado: 'rizado'},
+  yuki: {colores: {piel: '#f6d6b8', pielSombra: '#e0b48f', pelo: '#101018', sudadera: '#f0a030', sudaderaSombra: '#c47a14'}, peinado: 'largo', gafas: true},
+  hugo: {colores: {piel: '#c98f66', pielSombra: '#a86e48', pelo: '#3a2a20', sudadera: '#6b4fc4', sudaderaSombra: '#4c3596'}, peinado: 'rapado', gafas: true},
+  nora: {colores: {piel: '#5e3a28', pielSombra: '#45291b', pelo: '#e8c35a', sudadera: '#2a9fd6', sudaderaSombra: '#1d77a3', iris: '#2a1810'}, peinado: 'rizado'},
 };
 
 const mezcla = (a: string, b: string, t: number) => {
@@ -33,11 +49,8 @@ const mezcla = (a: string, b: string, t: number) => {
   return `rgb(${pa.map((v, i) => Math.round(v + (pb[i] - v) * t)).join(',')})`;
 };
 
-const PIEL = '#f1c09a';
+const BASE: ColoresPersonaje = {piel: '#f1c09a', pielSombra: '#d89a74', pelo: '#2b1d1a', sudadera: '#3f5aa6', sudaderaSombra: '#2d4180', iris: '#5a3a24'};
 const PIEL_PALIDA = '#d6d2b8';
-const PELO = '#2b1d1a';
-const SUDADERA = '#3f5aa6';
-const SUDADERA_SOMBRA = '#2d4180';
 
 /**
  * PROTAGONISTA: joven en sudadera, dibujado de frente (busto).
@@ -58,11 +71,18 @@ export const Insomne: React.FC<InsomneProps> = ({
   parpadeo = true,
   semilla = 1,
   cuerpo = true,
+  colores,
+  peinado = 'corto',
+  gafas = false,
 }) => {
   const f = useCurrentFrame();
+  const K = {...BASE, ...colores};
+  const PELO = K.pelo;
+  const SUDADERA = K.sudadera;
+  const SUDADERA_SOMBRA = K.sudaderaSombra;
   const c = Math.max(0, Math.min(1, cansancio));
-  const piel = mezcla(PIEL, PIEL_PALIDA, c * 0.75);
-  const pielSombra = mezcla('#d89a74', '#b4ae94', c * 0.75);
+  const piel = mezcla(K.piel, PIEL_PALIDA, c * 0.75);
+  const pielSombra = mezcla(K.pielSombra, '#b4ae94', c * 0.75);
   const bl = parpadeo ? blink(f, semilla) : 1;
   // párpado: con cansancio cae y tiembla
   const caida = c * 0.45 + osc(f, 9, 0.03 * c);
@@ -100,7 +120,8 @@ export const Insomne: React.FC<InsomneProps> = ({
       <rect x={-42} y={-175} width={84} height={70} rx={20} fill={pielSombra} />
       <g transform={`translate(0 ${-175 + cab * 0.6}) rotate(${giro + cabeceo * 6}) translate(0 175)`}>
         {/* pelo trasero */}
-        <ellipse cx={0} cy={-330} rx={162} ry={150} fill={PELO} />
+        {peinado === 'largo' && <path d="M -165 -330 C -200 -150 -190 -80 -150 -40 L 150 -40 C 190 -80 200 -150 165 -330 Z" fill={PELO} />}
+        {peinado !== 'rapado' && <ellipse cx={0} cy={-330} rx={162} ry={150} fill={PELO} />}
         {/* orejas */}
         <ellipse cx={-146} cy={-290} rx={24} ry={36} fill={pielSombra} />
         <ellipse cx={146} cy={-290} rx={24} ry={36} fill={pielSombra} />
@@ -108,15 +129,28 @@ export const Insomne: React.FC<InsomneProps> = ({
         <ellipse cx={0} cy={-290} rx={140} ry={158} fill={piel} />
         {/* tono verdoso de agotamiento */}
         <ellipse cx={0} cy={-260} rx={130} ry={120} fill="#9fb58a" opacity={0.12 * c} />
-        {/* mechones superiores (más revueltos con el cansancio) */}
-        {pelos.map(({a, caos}, i) => (
-          <path
-            key={i}
-            d={`M ${a - 22} -400 Q ${a + caos * 0.5} ${-470 - Math.abs(caos)} ${a + 26 + caos} ${-410 - Math.abs(caos) * 0.6} Z`}
-            fill={PELO}
-          />
-        ))}
-        <path d="M -150 -330 C -120 -440 120 -450 150 -330 C 110 -390 -40 -400 -150 -330 Z" fill={PELO} />
+        {/* peinado */}
+        {peinado === 'corto' && (
+          <>
+            {pelos.map(({a, caos}, i) => (
+              <path
+                key={i}
+                d={`M ${a - 22} -400 Q ${a + caos * 0.5} ${-470 - Math.abs(caos)} ${a + 26 + caos} ${-410 - Math.abs(caos) * 0.6} Z`}
+                fill={PELO}
+              />
+            ))}
+            <path d="M -150 -330 C -120 -440 120 -450 150 -330 C 110 -390 -40 -400 -150 -330 Z" fill={PELO} />
+          </>
+        )}
+        {peinado === 'largo' && (
+          <path d={`M -150 -300 C -150 -470 150 -470 150 -300 C 120 -380 ${-20 + c * 20} -400 ${-40 + osc(f, 60, 4 * c)} -330 C -70 -380 -130 -380 -150 -300 Z`} fill={PELO} />
+        )}
+        {peinado === 'rizado' &&
+          new Array(13).fill(0).map((_, i) => {
+            const a = Math.PI * (0.95 + (i / 12) * 1.1);
+            return <circle key={i} cx={Math.cos(a) * 150} cy={-320 + Math.sin(a) * 135} r={44 + c * 6 + osc(f, 40 + i * 3, 2 * c)} fill={PELO} />;
+          })}
+        {peinado === 'rapado' && <path d="M -140 -330 C -120 -450 120 -450 140 -330 C 100 -400 -100 -400 -140 -330 Z" fill={PELO} opacity={0.85} />}
         {/* ojeras */}
         {[-1, 1].map((s) => (
           <g key={`oj${s}`} opacity={0.15 + 0.7 * c}>
@@ -151,7 +185,7 @@ export const Insomne: React.FC<InsomneProps> = ({
                       opacity={rojez}
                     />
                   ))}
-                <circle cx={cx + miradaX * 14} cy={ojY + miradaY * 10 + 2} r={17} fill="#5a3a24" />
+                <circle cx={cx + miradaX * 14} cy={ojY + miradaY * 10 + 2} r={17} fill={K.iris} />
                 <circle cx={cx + miradaX * 14} cy={ojY + miradaY * 10 + 2} r={8 + 6 * pupilas} fill="#120b0a" />
                 <circle cx={cx + miradaX * 14 + 6} cy={ojY + miradaY * 10 - 5} r={4.5} fill="#fff" />
               </g>
@@ -160,6 +194,13 @@ export const Insomne: React.FC<InsomneProps> = ({
             </g>
           );
         })}
+        {gafas && (
+          <g fill="none" stroke="#1a1426" strokeWidth={8}>
+            <rect x={-ojX - 50} y={ojY - 42} width={100} height={84} rx={26} fill="rgba(200,230,255,0.12)" />
+            <rect x={ojX - 50} y={ojY - 42} width={100} height={84} rx={26} fill="rgba(200,230,255,0.12)" />
+            <path d={`M -8 ${ojY - 6} Q 0 ${ojY - 16} 8 ${ojY - 6}`} />
+          </g>
+        )}
         {/* cejas */}
         {[-1, 1].map((s) => {
           const inner = s * 22;

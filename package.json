@@ -8,7 +8,8 @@
     "render": "remotion render CaloriasCama out/calorias-cama.mp4",
     "still": "remotion still CaloriasCama out/frame.png --frame=60",
     "render:sueno": "remotion render SieteDiasSinDormir out/7-dias-sin-dormir.mp4",
-    "audio:sueno": "python3 tools/sintetizar_sueno.py"
+    "audio:sueno": "python3 tools/sintetizar_sueno.py",
+    "catalogo": "node tools/catalogo.mjs"
   },
   "dependencies": {
     "@fontsource/poppins": "^5.1.0",

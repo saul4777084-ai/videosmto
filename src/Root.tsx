@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Composition, Folder} from 'remotion';
+import {AbsoluteFill, Composition, Folder, Still} from 'remotion';
 import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/800.css';
@@ -15,6 +15,7 @@ import {CAMARA_SUENO} from './videos/sueno/camara';
 import {ESCENAS_SUENO, NOMBRES_PLANO_SUENO, SUBTITULOS_SUENO, VIDEO_SUENO} from './videos/sueno/config';
 import {ESCENA_COMPONENTES_SUENO} from './videos/sueno/escenas';
 import {crearEsquemaCamara} from './camera/esquema';
+import {LAMINAS} from './catalogo/Catalogo';
 
 const esquemaSueno = crearEsquemaCamara(NOMBRES_PLANO_SUENO);
 const metadatosSueno = crearCalcularMetadatos(SUBTITULOS_SUENO, VIDEO_SUENO.duracionSegundos, VIDEO_SUENO.fps);
@@ -33,6 +34,12 @@ export const RemotionRoot: React.FC = () => {
         width={VIDEO.ancho}
         height={VIDEO.alto}
       />
+      {/* Catálogo de escenarios, personajes, expresiones y temas (imágenes) */}
+      <Folder name="Catalogo">
+        {Object.entries(LAMINAS).map(([id, C]) => (
+          <Still key={id} id={id} component={C} width={1080} height={1920} />
+        ))}
+      </Folder>
       {/* ¿Qué pasaría si dejaras de dormir 7 días? */}
       <Composition
         id="SieteDiasSinDormir"
