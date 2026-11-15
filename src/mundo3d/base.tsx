@@ -125,7 +125,7 @@ export const CamaraFija: React.FC<{pos: V3; mira: V3; fov?: number; rollo?: numb
     camera.lookAt(...mira);
     camera.fov = fov;
     camera.near = 0.1;
-    camera.far = 400;
+    camera.far = 2000;
     camera.updateProjectionMatrix();
   });
   return null;

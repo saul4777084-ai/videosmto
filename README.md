@@ -225,12 +225,32 @@ npm run catalogo:3d   # láminas out/catalogo/Catalogo-3D-*.png
 > El render usa `--gl=swangle` (WebGL por CPU, funciona en cualquier máquina o servidor). Si tu equipo tiene
 > GPU, `--gl=angle` es más rápido.
 
-**8 escenarios 3D** (`src/mundo3d/escenarios3d.tsx`, `ESCENARIOS_3D`): isla pirata (mar, palmeras, cofre,
-galeón, gaviotas), Polo Norte (iglú, icebergs, aurora boreal, nieve que cae), Marte (cúpula, rover, antena,
-cráteres, lunas), Antiguo Egipto (pirámides, templo con columnas, obelisco), feria nocturna (noria que gira,
-carpa de circo, guirnaldas, globos), país de las golosinas (piruletas, bastón de caramelo, magdalena gigante,
-río de chocolate), Lejano Oeste (saloon con puertas batientes, cactus, mesetas, bola de rastrojos) y estadio
-(césped a franjas, portería con red, público haciendo la ola, focos, confeti).
+### Realismo (`src/mundo3d/realismo.tsx`)
+
+Todo es procedural (no se descarga ninguna textura ni modelo):
+
+| Pieza | Qué hace |
+|-------|----------|
+| `Terreno` | relieve real con ruido de Perlin/crestas (dunas, cráteres, mesetas, montañas, islas) y color según altura y pendiente |
+| `TEX.*` / `textura()` | texturas generadas con su mapa de relieve: arena con ondas, nieve, roca, tierra, hierba, madera en tablones, sillares, césped a franjas |
+| `CieloFisico` | cielo con dispersión atmosférica (Rayleigh + Mie) según la altura del sol, y luz de entorno para reflejos |
+| `CieloDegradado` | cielos nocturnos o de otros mundos con estrellas, también como luz de entorno |
+| `Agua` | mar, lagos, oasis y charcos con reflejos reales y olas animadas (`charco` = contorno irregular) |
+| `Hierba` | miles de briznas que se mueven con el viento (shader) |
+| `RocaReal` | rocas irregulares deformadas con ruido |
+| `Nubes` | capas de nubes suaves que derivan |
+| `Postpro` | oclusión ambiental (N8AO), resplandor de luces, profundidad de campo enfocada en el personaje, viñeta, grano, curva ACES y gradación de color |
+
+Cada escenario usa además niebla exponencial, sombras suaves de 4096 px y materiales físicos (metal,
+cristal, caramelo con barniz…). Los ajustes de postprocesado por escenario están en `ESCENARIOS_3D[...].post`.
+
+**8 escenarios 3D** (`src/mundo3d/escenarios3d.tsx`, `ESCENARIOS_3D`): isla pirata (mar con reflejos,
+palmeras con frondas, cofre, galeón, islas en la bruma), Polo Norte (aurora boreal, lago helado, iglú de
+bloques iluminado por dentro, bosque nevado, nieve que cae), Marte (cráteres, cúpula de cristal, rover,
+paneles solares, Fobos y Deimos), Antiguo Egipto (dunas, pirámides de sillares, templo, obelisco, oasis),
+feria nocturna (noria, carpa, charcos que reflejan las bombillas), país de las golosinas (caramelo con barniz,
+río de chocolate, magdalena gigante), Lejano Oeste (atardecer, mesetas con estratos, saloon de madera,
+saguaros) y estadio (césped con briznas, focos con haces de luz, público haciendo la ola, confeti).
 
 **8 personajes 3D** (`src/mundo3d/Personaje3D.tsx`, `PERSONAJES_3D`): Capitana Brisa (pirata), Tobías
 (pingüino), Zorp (alienígena de tres ojos), Ramsés (momia), Lulú (malabarista), Hada Merengue, Sheriff Rosa

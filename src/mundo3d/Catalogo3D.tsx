@@ -32,7 +32,7 @@ const Ficha: React.FC<{nombre: string; detalle: string; children: React.ReactNod
 );
 
 export const Catalogo3DEscenarios: React.FC = () => (
-  <Lamina titulo="Mundo 3D · escenarios" sub="three.js en Remotion: luz con sombras, niebla, cielo y objetos animados">
+  <Lamina titulo="Mundo 3D · escenarios" sub="Versión realista: relieve, cielo atmosférico, agua con reflejos y acabado fotográfico">
     {REPARTO_3D.map((r, i) => (
       <Ficha key={r.e} nombre={ESCENARIOS_3D[r.e].nombre} detalle={ESCENARIOS_3D[r.e].detalle}>
         <Escena3D escenario={r.e} personaje={r.p} t={2} dur={4} mov={{orbita: [i % 2 ? 0.45 : -0.45, 0], dist: [1.15, 1.15], alto: [0.6, 0.6], fov: 50}} pos={[0, 0, 0]} giro={0} ancho={W} alto={H} anim={{saluda: 0, anda: 0, habla: false}} />

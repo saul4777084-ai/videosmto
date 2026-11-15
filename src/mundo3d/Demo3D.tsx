@@ -4,6 +4,7 @@ import {ThreeCanvas} from '@remotion/three';
 import {Clip} from '../components/Clip';
 import type {Transicion} from '../camera/esquema';
 import {CamaraFija, V3} from './base';
+import {Postpro} from './realismo';
 import {ESCENARIOS_3D, NombreEscenario3D} from './escenarios3d';
 import {Anim3D, NombrePersonaje3D, Personaje3D, PERSONAJES_3D} from './Personaje3D';
 
@@ -67,6 +68,7 @@ export const Escena3D: React.FC<{
         <Personaje3D d={PERSONAJES_3D[personaje]} p={[0, 0, z]} giro={giro ?? 0} t={t} anda={andar} saluda={saluda} habla={t > 2.6} {...anim} />
         {Extra && <Extra t={t} />}
       </group>
+      <Postpro foco={Math.hypot(camPos[0] - E.foco[0], camPos[1] - 1.1, camPos[2] - z)} rango={4} {...(E as {post?: object}).post} />
     </ThreeCanvas>
   );
 };
