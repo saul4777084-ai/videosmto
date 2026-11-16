@@ -15,7 +15,7 @@ import { ReelNapoleon } from "./Napoleon/Reel";
 import { DURACION_TOTAL as DURACION_NAPOLEON } from "./Napoleon/escenas";
 import { ReelMillon } from "./Millon/Reel";
 import { DURACION_TOTAL as DURACION_MILLON } from "./Millon/escenas";
-import { ReelMillonHoy, ReelMillonHoy2D } from "./MillonHoy/Reel";
+import { ReelMillonHoy, ReelMillonHoy3D } from "./MillonHoy/Reel";
 import { DURACION_TOTAL as DURACION_MILLON_HOY } from "./MillonHoy/escenas";
 import { CatalogoEscenarios, DURACION_ESCENARIOS } from "./Mundo3D/CatalogoEscenarios";
 import { CatalogoPersonajes, DURACION_PERSONAJES } from "./Mundo3D/CatalogoPersonajes";
@@ -140,8 +140,8 @@ export const RemotionRoot: React.FC = () => {
         height={1920}
       />
       <Composition
-        id="ReelMillonHoy2D"
-        component={ReelMillonHoy2D}
+        id="ReelMillonHoy3D"
+        component={ReelMillonHoy3D}
         durationInFrames={DURACION_MILLON_HOY}
         fps={FPS}
         width={1080}
