@@ -19,6 +19,10 @@
   `src/comun/Escenarios3D.tsx` (isla pirata, Polo Norte, Marte, Egipto, feria, golosinas, oeste, estadio) con
   `<Mundo escenario=…>`. Catálogos: composiciones `Mundo3DPersonajes` y `Mundo3DEscenarios`. Render 3D ≈ 4 s/fotograma:
   renderiza por tramos con `--frames` si pasa de ~25 min.
+- **Personaje 2D:** `src/comun/Personaje2D.tsx` (protagonista con sudadera, brazos y piernas articulados con
+  cinemática inversa, expresiones y parpadeo). Acciones: reposo, celebrar, senalar, senalarArriba, sorpresa, alarma,
+  telefono, triste, pensar, silencio, saludar, hablar, pulsar, andar, contento. Se usa con una línea de tiempo:
+  `acciones={[[0, "telefono"], [40, "celebrar"]]}`. Ejemplo: `src/MillonHoyV2`.
 - **Mapas:** `src/Colon/Mapa.tsx` (fronteras reales con world-atlas + d3-geo, cámara, niebla, rutas).
 - **Entrega:** copia cada video terminado a `videos/`, envíaselo al usuario y haz commit y push a `main`.
 - **Publicar:** descripciones y hashtags en `publicaciones/descripciones.md`. Nunca publiques en redes sin el OK del usuario.

@@ -1,5 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, random, spring } from "remotion";
+import { Accion2D, Personaje2D } from "../comun/Personaje2D";
 import { Dibujo } from "../comun/tipos";
 import { ESCENARIOS, Escenario, Ilustracion } from "./escenas";
 
@@ -272,7 +273,7 @@ const Paso: React.FC<{ n: number; f: number; x?: number; y?: number }> = ({ n, f
 
 // ---------- decorado recurrente: el salón de noche ----------
 
-const Salon: React.FC<{ f: number; cara: string; telefono?: number; vecinos?: number; cortina?: number }> = ({ f, cara, telefono, vecinos = 0, cortina = 0 }) => {
+const Salon: React.FC<{ f: number; personaje?: React.ReactNode; vecinos?: number; cortina?: number }> = ({ f, personaje, vecinos = 0, cortina = 0 }) => {
   const minutos = f * 0.9;
   return (
     <AbsoluteFill>
@@ -334,27 +335,6 @@ const Salon: React.FC<{ f: number; cara: string; telefono?: number; vecinos?: nu
       </svg>
       {/* sofá con la persona */}
       <div style={{ position: "absolute", left: 110, top: 1060, width: 700, height: 300, borderRadius: "70px 70px 30px 30px", background: "linear-gradient(#f0628f, #c8336a)", boxShadow: "0 30px 50px rgba(0,0,0,0.45)" }} />
-      {/* persona */}
-      <div style={{ position: "absolute", left: 330, top: 1080, width: 260, height: 300, borderRadius: "110px 110px 40px 40px", background: "linear-gradient(#4a82f0, #2a56c4)" }} />
-      <div style={{ position: "absolute", left: 300, top: 860 + Math.sin(f / 10) * 4, width: 320, height: 320, fontSize: 270, lineHeight: "320px", textAlign: "center", filter: "drop-shadow(0 16px 20px rgba(0,0,0,0.4))" }}>{cara}</div>
-      {telefono !== undefined && (
-        <div
-          style={{
-            position: "absolute",
-            left: 410,
-            top: 1210,
-            width: 100,
-            height: 170,
-            borderRadius: 18,
-            background: "#111",
-            border: "5px solid #333",
-            transform: `rotate(${-8 + Math.sin(f * 2.5) * 3 * telefono}deg)`,
-            boxShadow: `0 0 ${30 + telefono * 60}px rgba(90,160,255,${0.4 + telefono * 0.5})`,
-          }}
-        >
-          <div style={{ margin: 8, height: 144, borderRadius: 10, background: "linear-gradient(#5aa0ff, #2a5fd0)" }} />
-        </div>
-      )}
       <div style={{ position: "absolute", left: 110, top: 1250, width: 700, height: 160, borderRadius: 40, background: "linear-gradient(#e44a7f, #b02a5c)" }}>
         {Array.from({ length: 7 }, (_, i) => (
           <div key={i} style={{ position: "absolute", left: 40 + i * 92, top: 40 + (i % 2) * 40, fontSize: 40, color: "#ff9ec4" }}>
@@ -364,9 +344,13 @@ const Salon: React.FC<{ f: number; cara: string; telefono?: number; vecinos?: nu
       </div>
       <div style={{ position: "absolute", left: 70, top: 1130, width: 120, height: 280, borderRadius: 50, background: "linear-gradient(#f0628f, #b02a5c)" }} />
       <div style={{ position: "absolute", left: 730, top: 1130, width: 120, height: 280, borderRadius: 50, background: "linear-gradient(#f0628f, #b02a5c)" }} />
+      {personaje}
     </AbsoluteFill>
   );
 };
+
+// el protagonista ("tú") con su línea de tiempo de acciones
+const Tu: React.FC<{ f: number; x: number; y: number; escala?: number; acciones: [number, Accion2D][]; mirar?: "derecha" | "izquierda" }> = (p) => <Personaje2D {...p} />;
 
 // ---------- escenas ----------
 
@@ -379,7 +363,7 @@ const gancho = ({ dur }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Camara f={f} dur={dur} de={{ s: 1.18, x: 0, y: 60 }} a={{ s: 1.04, x: 0, y: 0 }}>
-        <Salon f={f} cara={f < m ? "😮" : "🤑"} telefono={f < m ? 0.3 : 1} />
+        <Salon f={f} personaje={<Tu f={f} x={460} y={1650} escala={1.02} acciones={[[0, "telefono"], [m, "celebrar"]]} />} />
       </Camara>
       <LED f={f} valor={v} x={W / 2} y={560} color="#3dff7a" icono="💵" etiqueta="USD" tam={92} escala={0.4 + muelle(f, 0, 12) * 0.6} />
       <LluviaBilletes f={f} desde={m} n={18} />
@@ -404,14 +388,14 @@ const grito = ({ dur }: Escenario): Dibujo => ({ f }) => {
       <Fondo f={f} tono="#3a1a6a" />
       <Camara f={f} dur={dur} de={{ s: 0.92, x: 0, y: 40 }} a={{ s: 1.08, x: tiembla, y: 0 }}>
         {/* antebrazo */}
-        <div style={{ position: "absolute", left: -200, top: 900, width: 1100, height: 300, borderRadius: 150, background: "linear-gradient(#f2c3a2, #c98563)", transform: "rotate(-28deg)", boxShadow: "0 30px 50px rgba(0,0,0,0.45)" }} />
+        <div style={{ position: "absolute", left: -200, top: 760, width: 1100, height: 300, borderRadius: 150, background: "linear-gradient(#f2c3a2, #c98563)", transform: "rotate(-28deg)", boxShadow: "0 30px 50px rgba(0,0,0,0.45)" }} />
         {/* correa y caja del reloj */}
-        <div style={{ position: "absolute", left: 340, top: 620, width: 300, height: 860, borderRadius: 60, background: "linear-gradient(90deg,#1a1a1a,#3a3a3a,#1a1a1a)", transform: "rotate(-28deg)" }} />
+        <div style={{ position: "absolute", left: 340, top: 480, width: 300, height: 860, borderRadius: 60, background: "linear-gradient(90deg,#1a1a1a,#3a3a3a,#1a1a1a)", transform: "rotate(-28deg)" }} />
         <div
           style={{
             position: "absolute",
-            left: 260,
-            top: 820,
+            left: 290,
+            top: 680,
             width: 460,
             height: 430,
             borderRadius: 90,
@@ -434,6 +418,7 @@ const grito = ({ dur }: Escenario): Dibujo => ({ f }) => {
         </div>
       </Camara>
       <Pastilla f={f} desde={0} texto="⏱️ MINUTO 1" x={W / 2} y={490} />
+      <Tu f={f} x={210} y={1870} escala={0.82} acciones={[[0, "sorpresa"], [g, "celebrar"]]} />
       {f > g && (
         <div style={{ position: "absolute", left: 620, top: 520, fontSize: 230, transform: `scale(${muelle(f, g, 8)}) rotate(${Math.sin(f) * 6}deg)`, filter: "drop-shadow(0 16px 20px rgba(0,0,0,0.4))" }}>😱</div>
       )}
@@ -468,10 +453,10 @@ const telefono = ({ dur }: Escenario): Dibujo => ({ f }) => {
         <div
           style={{
             position: "absolute",
-            left: 230,
-            top: 700,
-            width: 560,
-            height: 1060,
+            left: 400,
+            top: 650,
+            width: 500,
+            height: 900,
             borderRadius: 80,
             background: "linear-gradient(135deg,#3a3a44,#121216)",
             padding: 20,
@@ -505,11 +490,9 @@ const telefono = ({ dur }: Escenario): Dibujo => ({ f }) => {
             })}
           </div>
         </div>
-        {/* mano que sujeta el teléfono */}
-        <div style={{ position: "absolute", left: 120, top: 1350, width: 300, height: 420, borderRadius: 140, background: "linear-gradient(90deg,#f2c3a2,#c98563)", transform: "rotate(18deg)" }} />
-        <div style={{ position: "absolute", left: 140, top: 1720, width: 330, height: 400, background: "#3157c9", transform: "rotate(18deg)" }} />
       </Camara>
-      <LED f={f} valor={avisos} digitos={3} prefijo="" x={W / 2} y={540} color="#ff4d6d" icono="🔔" etiqueta="AVISOS" tam={88} escala={muelle(f, 0, 12) * (1 + (llegados ? Math.max(0, 1 - ((f - desde) % cada) / 6) * 0.06 : 0))} />
+      <Tu f={f} x={210} y={1870} escala={0.8} acciones={[[0, "telefono"], [en("telefono", "repente"), "sorpresa"], [en("telefono", "amigos."), "contento"]]} />
+      <LED f={f} valor={avisos} digitos={3} prefijo="" x={W / 2 + 110} y={540} color="#ff4d6d" icono="🔔" etiqueta="AVISOS" tam={88} escala={muelle(f, 0, 12) * (1 + (llegados ? Math.max(0, 1 - ((f - desde) % cada) / 6) * 0.06 : 0))} />
     </AbsoluteFill>
   );
 };
@@ -549,7 +532,8 @@ const impuestos = ({ dur }: Escenario): Dibujo => ({ f }) => {
       </Camara>
       <Pastilla f={f} desde={ti + 4} texto="🏛️ IMPUESTOS" x={manoX - 40} y={860} fondo="#c62828" />
       <LED f={f} valor={v} x={W / 2} y={560} color={f > ti ? "#ff3b3b" : "#3dff7a"} icono="💵" etiqueta="USD" tam={88} escala={muelle(f, 0, 12)} />
-      <Pastilla f={f} desde={tt} texto="hasta 37 % federal + estatal" x={W / 2} y={1420} tam={40} />
+      <Pastilla f={f} desde={tt} texto="hasta 37 % federal + estatal" x={W / 2 + 60} y={1420} tam={40} />
+      <Tu f={f} x={200} y={1870} escala={0.8} acciones={[[0, "contento"], [ti, "alarma"], [tt, "triste"]]} />
     </AbsoluteFill>
   );
 };
@@ -577,9 +561,10 @@ const gastos = ({ dur }: Escenario): Dibujo => ({ f }) => {
       <Fondo f={f} tono="#3a1a6a" />
       <Camara f={f} dur={dur} de={{ s: 1, x: 0, y: 0 }} a={{ s: 1.08, x: 0, y: -20 }}>
         <div style={{ position: "absolute", left: -40, top: 1290, width: W + 80, height: 100, background: "linear-gradient(#5b3a8a,#2e1a52)", borderRadius: 20 }} />
-        <Articulo e="🏰" precio="$400K" x={290} desde={tm - 2} />
-        <Articulo e="🏎️" precio="$150K" x={660} desde={ta - 2} />
+        <Articulo e="🏰" precio="$400K" x={420} desde={tm - 2} />
+        <Articulo e="🏎️" precio="$150K" x={790} desde={ta - 2} />
       </Camara>
+      <Tu f={f} x={190} y={1870} escala={0.8} acciones={[[0, "reposo"], [tm - 4, "senalar"], [te - 2, "alarma"], [tme, "sorpresa"]]} />
       <LED f={f} valor={Math.max(0, v)} x={W / 2} y={570} color={f > te ? "#ff3b3b" : "#3dff7a"} icono={f > te ? "🔥" : "💵"} etiqueta="USD" tam={88} fuego={tramo(f, te - 4, te + 10)} escala={muelle(f, 0, 12)} />
       {f > te &&
         Array.from({ length: 10 }, (_, i) => {
@@ -602,7 +587,7 @@ const loteria = ({ dur }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Fondo f={f} />
-      <Camara f={f} dur={dur} de={{ s: 1.08, x: 0, y: 0 }} a={{ s: 0.98, x: 0, y: 0 }}>
+      <Camara f={f} dur={dur} de={{ s: 1.0, x: 40, y: -30 }} a={{ s: 0.92, x: 50, y: -40 }}>
         {Array.from({ length: 21 }, (_, i) => {
           const col = i % 3;
           const fila = Math.floor(i / 3);
@@ -634,7 +619,8 @@ const loteria = ({ dur }: Escenario): Dibujo => ({ f }) => {
           );
         })}
       </Camara>
-      <Pastilla f={f} desde={tp} texto="💸 problemas de dinero" x={W / 2} y={1520} fondo="#c62828" tam={48} />
+      <Pastilla f={f} desde={tp} texto="💸 problemas de dinero" x={W / 2 + 80} y={1520} fondo="#c62828" tam={48} />
+      <Tu f={f} x={170} y={1880} escala={0.72} acciones={[[0, "pensar"], [ta, "triste"]]} />
     </AbsoluteFill>
   );
 };
@@ -657,7 +643,7 @@ const deudas = ({ dur }: Escenario): Dibujo => ({ f }) => {
       <Camara f={f} dur={dur} de={{ s: 1, x: 0, y: 0 }} a={{ s: 1.06, x: 0, y: -10 }}>
         {colores.map(([a, b], i) => {
           const corte = tramo(f, tp + 8 + i * 6, tp + 18 + i * 6);
-          const base = { left: 210 + i * 40, top: 760 + i * 150, rot: -10 + i * 8 };
+          const base = { left: 250 + i * 40, top: 700 + i * 140, rot: -10 + i * 8 };
           const mitad = (lado: -1 | 1) => (
             <div
               style={{
@@ -692,7 +678,7 @@ const deudas = ({ dur }: Escenario): Dibujo => ({ f }) => {
         <div
           style={{
             position: "absolute",
-            left: 300,
+            left: 420,
             top: 1330,
             width: 320,
             height: 120,
@@ -710,9 +696,10 @@ const deudas = ({ dur }: Escenario): Dibujo => ({ f }) => {
         >
           {f > td ? "✓ PAGADO" : "PAGAR"}
         </div>
-        <Mano x={interpolate(llega, [0, 1], [900, 560])} y={interpolate(llega, [0, 1], [1900, 1400]) + pulsa * 14} giro={-30} pulsa={pulsa} />
+        <Mano x={interpolate(llega, [0, 1], [1000, 680])} y={interpolate(llega, [0, 1], [1900, 1400]) + pulsa * 14} giro={-30} pulsa={pulsa} />
       </Camara>
       <Paso n={1} f={f} />
+      <Tu f={f} x={180} y={1870} escala={0.78} acciones={[[0, "senalar"], [tp, "contento"], [td, "celebrar"]]} />
       <LED f={f} valor={v} digitos={5} x={W / 2 + 60} y={520} color={f > td ? "#3dff7a" : "#ff3b3b"} icono="💳" etiqueta="DEUDA" tam={84} escala={muelle(f, 0, 12)} />
     </AbsoluteFill>
   );
@@ -728,7 +715,7 @@ const emergencias = ({ dur }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Fondo f={f} />
-      <Camara f={f} dur={dur} de={{ s: 1.04, x: 20, y: 0 }} a={{ s: 1.1, x: -10, y: -30 }}>
+      <Camara f={f} dur={dur} de={{ s: 0.96, x: 90, y: -60 }} a={{ s: 1.0, x: 70, y: -80 }}>
         {/* frasco */}
         <div style={{ position: "absolute", left: 120, top: 760, width: 460, height: 640, borderRadius: "60px 60px 80px 80px", background: "rgba(180,220,255,0.12)", border: "8px solid rgba(200,230,255,0.55)", overflow: "hidden", boxShadow: "inset 0 0 40px rgba(180,220,255,0.25)" }}>
           <svg width={460} height={640} style={{ position: "absolute", left: -8, top: -8 }}>
@@ -760,6 +747,7 @@ const emergencias = ({ dur }: Escenario): Dibujo => ({ f }) => {
         </div>
       </Camara>
       <Paso n={2} f={f} />
+      <Tu f={f} x={170} y={1870} escala={0.78} acciones={[[0, "hablar"], [ts, "senalar"], [en("emergencias", "emergencias."), "contento"]]} />
       <Pastilla f={f} desde={ts + 10} texto="📅 6 meses de gastos" x={W / 2} y={560} tam={50} />
     </AbsoluteFill>
   );
@@ -774,7 +762,7 @@ const invertir = ({ dur }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Fondo f={f} tono="#124a5a" />
-      <Camara f={f} dur={dur} de={{ s: 1.0, x: 0, y: 40 }} a={{ s: 1.08, x: 0, y: 0 }}>
+      <Camara f={f} dur={dur} de={{ s: 0.95, x: 110, y: -20 }} a={{ s: 1.0, x: 100, y: -50 }}>
         <svg width={W} height={H} style={{ position: "absolute", left: 0, top: 0 }}>
           <path d={`M 430 1300 C 430 ${1300 - 300 * crece} 470 ${1300 - 450 * crece} 450 ${1300 - 560 * crece}`} stroke="#6b4a2a" strokeWidth={34} fill="none" strokeLinecap="round" />
           {hojas.map((h, i) => {
@@ -800,6 +788,7 @@ const invertir = ({ dur }: Escenario): Dibujo => ({ f }) => {
         <div style={{ position: "absolute", left: 250, top: 1260, width: 400, height: 60, borderRadius: 20, background: "linear-gradient(#f0854a,#c0562a)" }} />
       </Camara>
       <Paso n={3} f={f} />
+      <Tu f={f} x={170} y={1870} escala={0.78} acciones={[[0, "reposo"], [ti, "senalar"], [ta, "hablar"]]} />
       <Pastilla f={f} desde={ti} texto="📈 con calma, a largo plazo" x={W / 2 + 60} y={480} tam={44} />
       <Pastilla f={f} desde={ta} texto="🤝 asesor de confianza" x={W / 2} y={620} tam={48} fondo="#ffffff" color="#0b3954" />
     </AbsoluteFill>
@@ -860,7 +849,8 @@ const interes = ({ dur }: Escenario): Dibujo => ({ f }) => {
         <Mano x={cx + 30 + sale * 500} y={cy - R - 130 + pulsa * 14 - (1 - llega) * 400} giro={-150} pulsa={pulsa} />
       </Camara>
       <Pastilla f={f} desde={tc} texto="$630.000 × 5 % al año" x={W / 2} y={480} tam={46} />
-      <LED f={f} valor={ganado} digitos={5} prefijo="+$" x={W / 2 - 40} y={1440} color="#3dff7a" icono="💰" etiqueta="AL AÑO" tam={82} escala={muelle(f, tt - 6, 12)} />
+      <Tu f={f} x={160} y={1880} escala={0.7} acciones={[[0, "pensar"], [tt, "celebrar"], [en("interes", "tocarlo.") - 2, "contento"]]} />
+      <LED f={f} valor={ganado} digitos={5} prefijo="+$" x={W / 2 + 90} y={1430} color="#3dff7a" icono="💰" etiqueta="AL AÑO" tam={82} escala={muelle(f, tt - 6, 12)} />
     </AbsoluteFill>
   );
 };
@@ -871,10 +861,10 @@ const secreto = ({ dur }: Escenario): Dibujo => ({ f }) => {
   const tc = en("secreto", "cuentes");
   return (
     <AbsoluteFill>
-      <Camara f={f} dur={dur} de={{ s: 1.05, x: 60, y: 120 }} a={{ s: 1.22, x: 140, y: 260 }}>
-        <Salon f={f} cara="🤫" vecinos={tramo(f, 0, ti + 6, salida)} cortina={tramo(f, tc + 2, tc + 22)} />
+      <Camara f={f} dur={dur} de={{ s: 1.12, x: 40, y: 100 }} a={{ s: 1.25, x: 110, y: 200 }}>
+        <Salon f={f} vecinos={tramo(f, 0, ti + 6, salida)} cortina={tramo(f, tc + 2, tc + 22)} personaje={<Tu f={f} x={460} y={1650} escala={1.02} acciones={[[0, "sorpresa"], [ti, "silencio"]]} />} />
       </Camara>
-      <Pastilla f={f} desde={tc} texto="🔒 que nadie se entere" x={W / 2} y={1440} tam={46} />
+      <Pastilla f={f} desde={tc} texto="🔒 que nadie se entere" x={W / 2} y={500} tam={46} />
     </AbsoluteFill>
   );
 };
@@ -891,7 +881,7 @@ const final = ({ dur }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Camara f={f} dur={dur} de={{ s: 1.15, x: 0, y: 60 }} a={{ s: 1.0, x: 0, y: 0 }}>
-        <Salon f={f} cara="🤔" telefono={0.6} />
+        <Salon f={f} personaje={<Tu f={f} x={460} y={1650} escala={1.02} acciones={[[0, "pensar"], [en("final", "Escríbelo") - 4, "saludar"]]} />} />
       </Camara>
       {opciones.map((o, i) => {
         const s = muelle(f, 4 + i * 5, 10);
