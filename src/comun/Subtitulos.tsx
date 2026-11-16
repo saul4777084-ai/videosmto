@@ -2,6 +2,7 @@ import React from "react";
 import { interpolate, spring, useVideoConfig } from "remotion";
 
 type Props = {
+  tam?: number; // tamaño de letra en px (74 por defecto)
   texto: string;
   clave?: string[];
   frameLocal: number;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 // Subtítulos palabra por palabra: la palabra actual brilla, las siguientes están apagadas.
-export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, duracion, tiempos, estilo = "clasico" }) => {
+export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, duracion, tiempos, estilo = "clasico", tam = 74 }) => {
   const { fps } = useVideoConfig();
   const palabras = texto.split(" ");
   const util = duracion * 0.78; // deja un respiro al final de cada escena
@@ -93,7 +94,7 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
         right: 70,
         textAlign: "center",
         fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-        fontSize: 74,
+        fontSize: tam,
         fontWeight: 800,
         lineHeight: 1.25,
         textShadow: "0 4px 18px rgba(0,0,0,0.85), 0 0 4px rgba(0,0,0,0.9)",
@@ -115,7 +116,7 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
             key={i}
             style={{
               display: "inline-block",
-              margin: "0 12px",
+              margin: `0 ${Math.round(tam * 0.16)}px`,
               color: dicha ? (esClave ? "#ffd93b" : "#ffffff") : "rgba(255,255,255,0.45)",
               opacity: opacidad,
               transform: `scale(${esActual ? 1 + 0.12 * pop : 1})`,

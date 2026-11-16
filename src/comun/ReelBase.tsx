@@ -16,6 +16,7 @@ type Props<I extends string> = {
   mostrarAvatar?: boolean;
   voz?: string; // archivo de voz en public/ que suena de principio a fin
   avatar?: "poses" | "marioneta"; // poses: dorso hacia arriba con poses dibujadas
+  tamSubtitulos?: number; // tamaño de letra de los subtítulos (74 por defecto)
   zoomSuave?: boolean; // acercamiento leve en todas las escenas (false = solo en las que tienen "enfasis")
   ladoAvatar?: "izquierda" | "derecha"; // esquina inferior del avatar (izquierda por defecto)
   estiloSubtitulos?: "clasico" | "fino";
@@ -24,7 +25,7 @@ type Props<I extends string> = {
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda", estiloSubtitulos = "clasico", oscurecerArriba = true }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda", estiloSubtitulos = "clasico", oscurecerArriba = true , tamSubtitulos }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -65,6 +66,7 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
         duracion={framesDe(escena.segundos)}
         tiempos={escena.tiempos?.map((t) => t * 30)}
         estilo={estiloSubtitulos}
+        tam={tamSubtitulos}
       />
       )}
 
