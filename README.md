@@ -285,6 +285,11 @@ npm run audio:ayuno    # narración (Piper, voz es-mls_10246, CC BY 4.0) + músi
 npm run render:ayuno   # exporta out/7-dias-sin-comer.mp4 (H.264)
 ```
 
+> Con WebGL por CPU (`--gl=swangle`) el render completo tarda ~2 h 15 min. En entornos con un límite de
+> tiempo por proceso se puede renderizar por tramos sin audio (`--muted --frames=0-949`, `950-1899`,
+> `1900-2829`), unirlos con `ffmpeg -f concat` y añadir la mezcla de `narracion.wav` + `banda.wav`.
+> Con GPU, `--gl=angle` es mucho más rápido.
+
 | Quieres cambiar… | Archivo |
 |---|---|
 | Texto de la narración y pausas | `tools/narrar_ayuno.py` (vuelve a generar `tiempos.json`) |
