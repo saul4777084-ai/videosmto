@@ -17,6 +17,7 @@ import { ReelMillon } from "./Millon/Reel";
 import { DURACION_TOTAL as DURACION_MILLON } from "./Millon/escenas";
 import { ReelMillonHoy, ReelMillonHoy3D } from "./MillonHoy/Reel";
 import { DURACION_TOTAL as DURACION_MILLON_HOY } from "./MillonHoy/escenas";
+import { ReelMillonHoyV2 } from "./MillonHoyV2/Reel";
 import { CatalogoEscenarios, DURACION_ESCENARIOS } from "./Mundo3D/CatalogoEscenarios";
 import { CatalogoPersonajes, DURACION_PERSONAJES } from "./Mundo3D/CatalogoPersonajes";
 import { DURACION_MUESTRARIO, Muestrario } from "./Muestrario/Muestrario";
@@ -142,6 +143,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="ReelMillonHoy3D"
         component={ReelMillonHoy3D}
+        durationInFrames={DURACION_MILLON_HOY}
+        fps={FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="ReelMillonHoyV2"
+        component={ReelMillonHoyV2}
         durationInFrames={DURACION_MILLON_HOY}
         fps={FPS}
         width={1080}

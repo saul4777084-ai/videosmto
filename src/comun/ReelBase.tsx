@@ -18,11 +18,13 @@ type Props<I extends string> = {
   avatar?: "poses" | "marioneta"; // poses: dorso hacia arriba con poses dibujadas
   zoomSuave?: boolean; // acercamiento leve en todas las escenas (false = solo en las que tienen "enfasis")
   ladoAvatar?: "izquierda" | "derecha"; // esquina inferior del avatar (izquierda por defecto)
+  estiloSubtitulos?: "clasico" | "fino";
+  oscurecerArriba?: boolean; // degradado oscuro arriba para leer los subtítulos
 };
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda" }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda", estiloSubtitulos = "clasico", oscurecerArriba = true }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -53,7 +55,7 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
       })}
 
       {/* oscurecer arriba para que se lean los subtítulos */}
-      <AbsoluteFill style={{ background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0) 30%)" }} />
+      {oscurecerArriba && <AbsoluteFill style={{ background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0) 30%)" }} />}
 
       {!escena.sinSubtitulos && (
       <Subtitulos
@@ -62,6 +64,7 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
         frameLocal={local}
         duracion={framesDe(escena.segundos)}
         tiempos={escena.tiempos?.map((t) => t * 30)}
+        estilo={estiloSubtitulos}
       />
       )}
 

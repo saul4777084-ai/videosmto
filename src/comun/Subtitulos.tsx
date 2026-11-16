@@ -7,10 +7,11 @@ type Props = {
   frameLocal: number;
   duracion: number;
   tiempos?: number[]; // frame (local) en que se dice cada palabra, si hay voz alineada
+  estilo?: "clasico" | "fino"; // fino: letra pequeña, aparecen al decirse, clave en recuadro azul
 };
 
 // Subtítulos palabra por palabra: la palabra actual brilla, las siguientes están apagadas.
-export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, duracion, tiempos }) => {
+export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, duracion, tiempos, estilo = "clasico" }) => {
   const { fps } = useVideoConfig();
   const palabras = texto.split(" ");
   const util = duracion * 0.78; // deja un respiro al final de cada escena
@@ -35,6 +36,53 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
     if (b.length) bloques.push(b);
   }
   const visibles = tiempos ? (bloques.find((bl) => bl.includes(Math.max(0, actual))) ?? bloques[0]) : palabras.map((_, i) => i);
+
+  if (estilo === "fino") {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: 200,
+          left: 90,
+          right: 90,
+          textAlign: "center",
+          fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+          fontSize: 54,
+          lineHeight: 1.3,
+          color: "#fff",
+          textShadow: "0 3px 12px rgba(0,0,0,0.8)",
+        }}
+      >
+        {visibles
+          .filter((i) => i <= actual)
+          .map((i) => {
+            const p = palabras[i];
+            const inicio = inicioDe(i);
+            const entra = interpolate(frameLocal - inicio, [0, 5], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+            const esClave = clave.includes(p);
+            const esActual = i === actual;
+            return (
+              <span
+                key={i}
+                style={{
+                  display: "inline-block",
+                  margin: "0 9px",
+                  fontWeight: esActual || esClave ? 800 : 500,
+                  opacity: (esActual || esClave ? 1 : 0.8) * entra,
+                  transform: `translateY(${(1 - entra) * 10}px)`,
+                  padding: esClave ? "0 10px" : undefined,
+                  border: esClave ? "3px solid #4da3ff" : undefined,
+                  background: esClave ? "rgba(30,90,200,0.35)" : undefined,
+                  borderRadius: 6,
+                }}
+              >
+                {p}
+              </span>
+            );
+          })}
+      </div>
+    );
+  }
 
   return (
     <div
