@@ -15,6 +15,8 @@ import { ReelNapoleon } from "./Napoleon/Reel";
 import { DURACION_TOTAL as DURACION_NAPOLEON } from "./Napoleon/escenas";
 import { ReelMillon } from "./Millon/Reel";
 import { DURACION_TOTAL as DURACION_MILLON } from "./Millon/escenas";
+import { CatalogoEscenarios, DURACION_ESCENARIOS } from "./Mundo3D/CatalogoEscenarios";
+import { CatalogoPersonajes, DURACION_PERSONAJES } from "./Mundo3D/CatalogoPersonajes";
 import { DURACION_MUESTRARIO, Muestrario } from "./Muestrario/Muestrario";
 
 // Each <Composition> is an entry in the sidebar!
@@ -127,6 +129,10 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      <Folder name="Mundo3D">
+        <Composition id="Mundo3DEscenarios" component={CatalogoEscenarios} durationInFrames={DURACION_ESCENARIOS} fps={FPS} width={1080} height={1920} />
+        <Composition id="Mundo3DPersonajes" component={CatalogoPersonajes} durationInFrames={DURACION_PERSONAJES} fps={FPS} width={1080} height={1920} />
+      </Folder>
       <Composition
         id="MuestrarioSonidos"
         component={Muestrario}

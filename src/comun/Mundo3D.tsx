@@ -82,8 +82,10 @@ export const Escenario3D: React.FC<{
   desplazar?: number;
   enfoque?: number; // distancia (unidades) a la que enfoca la profundidad de campo
   desenfoque?: number;
+  luz?: number; // multiplica la luz del sol y del cielo (noche < 1)
+  colorLuz?: string;
   children: React.ReactNode;
-}> = ({ camara, mira = [0, 1, 0], fov = 40, desplazar = 0.12, cielo, niebla, sol = {}, luzSol, enfoque, desenfoque = 0, children }) => {
+}> = ({ luz = 1, colorLuz, camara, mira = [0, 1, 0], fov = 40, desplazar = 0.12, cielo, niebla, sol = {}, luzSol, enfoque, desenfoque = 0, children }) => {
   const { elevacion = 32, azimut = 150 } = sol;
   const dirLuz = luzSol ? new THREE.Vector3(...luzSol).normalize() : direccionSol(elevacion, azimut);
   const posLuz = dirLuz.clone().multiplyScalar(30).add(new THREE.Vector3(mira[0], 0, mira[2]));
@@ -103,14 +105,14 @@ export const Escenario3D: React.FC<{
         camera={{ fov, position: camara, near: 0.1, far: 3000 }}
       >
         <Camara pos={camara} mira={mira} fov={fov} desplazar={desplazar} />
-        <Entorno cielo={cieloFinal} brillo={0.7} />
+        <Entorno cielo={cieloFinal} brillo={0.7 * Math.max(0.35, luz)} />
         <fog attach="fog" args={[colorNiebla, 30, 170]} />
-        <hemisphereLight args={[cielo ? cielo[0] : "#cfe6ff", "#6b5a45", cielo ? 0.6 : 0.45]} />
+        <hemisphereLight args={[cielo ? cielo[0] : "#cfe6ff", "#6b5a45", (cielo ? 0.6 : 0.45) * luz]} />
         <directionalLight
           position={[posLuz.x, posLuz.y, posLuz.z]}
           target-position={[mira[0], 0, mira[2]]}
-          color={calida ? "#ffd2a1" : "#fff6ea"}
-          intensity={calida ? 2.6 : 3.2}
+          color={colorLuz ?? (calida ? "#ffd2a1" : "#fff6ea")}
+          intensity={(calida ? 2.6 : 3.2) * luz}
           castShadow
           shadow-bias={-0.0004}
           shadow-normalBias={0.03}
@@ -262,7 +264,7 @@ export const azar = (n: number) => {
   return x - Math.floor(x);
 };
 
-const Mat: React.FC<{ color: string; rugoso?: number; metal?: number; emisivo?: string; laca?: number }> = ({ color, rugoso = 0.6, metal = 0, emisivo, laca = 0 }) =>
+export const Mat: React.FC<{ color: string; rugoso?: number; metal?: number; emisivo?: string; laca?: number }> = ({ color, rugoso = 0.6, metal = 0, emisivo, laca = 0 }) =>
   laca > 0 ? (
     <meshPhysicalMaterial color={color} roughness={rugoso} metalness={metal} clearcoat={laca} clearcoatRoughness={0.08} emissive={emisivo ?? "#000"} emissiveIntensity={emisivo ? 0.6 : 0} />
   ) : (
@@ -270,7 +272,7 @@ const Mat: React.FC<{ color: string; rugoso?: number; metal?: number; emisivo?: 
   );
 
 // tela: color con un poco de relieve
-const Tela: React.FC<{ color: string; rugoso?: number }> = ({ color, rugoso = 0.85 }) => {
+export const Tela: React.FC<{ color: string; rugoso?: number }> = ({ color, rugoso = 0.85 }) => {
   const { relieve } = texturaSuelo("liso", "#808080", 3);
   return <meshStandardMaterial color={color} roughness={rugoso} normalMap={relieve} normalScale={new THREE.Vector2(0.6, 0.6)} />;
 };
@@ -278,7 +280,7 @@ const Tela: React.FC<{ color: string; rugoso?: number }> = ({ color, rugoso = 0.
 
 // caja con bordes redondeados (el detalle que más "realismo" da a objetos simples)
 const cacheCajas = new Map<string, THREE.BufferGeometry>();
-const Redondo: React.FC<{ args: [number, number, number] }> = ({ args }) => {
+export const Redondo: React.FC<{ args: [number, number, number] }> = ({ args }) => {
   const [w, h, d] = args;
   const r = Math.min(w, h, d) * 0.18;
   const k = `${w}|${h}|${d}`;
@@ -384,7 +386,63 @@ export type Estilo = {
   zapatos?: string;
   cinturon?: boolean;
   corbata?: string;
+  nariz?: string; // color de nariz grande (payaso)
+  mangas?: string; // color del antebrazo (manga larga); por defecto, piel
+  guantes?: string; // color de las manos
+  botas?: string; // color de la pierna de abajo (botas altas)
+  piernaBaja?: string; // color de la pierna de abajo (pantalón corto → piel o medias)
+  vendas?: boolean; // momia: todo con vendas
+  falda?: string; // tutú
+  orejas?: boolean;
+  mejillas?: boolean;
+  cuello?: string | null; // color del cuello de la camisa (null = sin cuello)
+  cabezaEscala?: number;
+  rayas?: string; // rayas verticales de este color sobre la camisa
 };
+
+const cacheRayas = new Map<string, THREE.CanvasTexture>();
+const texturaRayas = (fondo: string, raya: string) => {
+  const k = fondo + raya;
+  const hay = cacheRayas.get(k);
+  if (hay) return hay;
+  const c = document.createElement("canvas");
+  c.width = 128;
+  c.height = 16;
+  const d = c.getContext("2d")!;
+  d.fillStyle = fondo;
+  d.fillRect(0, 0, 128, 16);
+  d.fillStyle = raya;
+  for (let x = 0; x < 128; x += 32) d.fillRect(x + 10, 0, 12, 16);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(2, 1);
+  cacheRayas.set(k, t);
+  return t;
+};
+
+// vendas (momia): rayas claras y oscuras con un poco de ruido
+let texVendas: THREE.CanvasTexture | null = null;
+const texturaVendas = () => {
+  if (texVendas) return texVendas;
+  const c = document.createElement("canvas");
+  c.width = 64;
+  c.height = 256;
+  const d = c.getContext("2d")!;
+  for (let y = 0; y < 256; y += 16) {
+    const k = 205 + azar(y) * 30;
+    d.fillStyle = `rgb(${k},${k - 12},${k - 40})`;
+    d.fillRect(0, y, 64, 13);
+    d.fillStyle = "rgb(120,105,80)";
+    d.fillRect(0, y + 13, 64, 3);
+  }
+  texVendas = new THREE.CanvasTexture(c);
+  texVendas.colorSpace = THREE.SRGBColorSpace;
+  texVendas.wrapS = texVendas.wrapT = THREE.RepeatWrapping;
+  texVendas.repeat.set(1, 2);
+  return texVendas;
+};
+const Vendas: React.FC = () => <meshStandardMaterial map={texturaVendas()} roughness={0.95} />;
 
 export const Persona: React.FC<{
   pos?: V3;
@@ -398,7 +456,11 @@ export const Persona: React.FC<{
   estilo?: Estilo;
   f?: number; // frame, para parpadear y respirar
   semilla?: number;
-}> = ({ pos = [0, 0, 0], giro = 0, escala = 1, camisa = "#d6452f", pantalon = "#25324f", piel = "#e9b48f", pelo = "#3a2414", pose = {}, estilo = {}, f = 0, semilla = 0 }) => {
+  enCabeza?: React.ReactNode; // objetos pegados a la cabeza (centro de la cabeza = origen)
+  enTorso?: React.ReactNode; // objetos pegados al cuerpo (origen en los pies, se inclina con el torso)
+  enManoDer?: React.ReactNode; // objeto en la mano derecha (origen en la palma)
+  enManoIzq?: React.ReactNode;
+}> = ({ pos = [0, 0, 0], giro = 0, escala = 1, camisa = "#d6452f", pantalon = "#25324f", piel = "#e9b48f", pelo = "#3a2414", pose = {}, estilo = {}, f = 0, semilla = 0, enCabeza, enTorso, enManoDer, enManoIzq }) => {
   const {
     brazoIzq = 0.12,
     brazoDer = 0.12,
@@ -415,6 +477,11 @@ export const Persona: React.FC<{
     mirada = 0,
   } = pose;
   const { pelo: peinado = "corto", sombrero = "ninguno", colorSombrero = "#6b3f1f", ojos = "#4a2c17", zapatos = "#2a1d16", cinturon = true, corbata } = estilo;
+  const { nariz, mangas, guantes, botas, piernaBaja, vendas = false, falda, orejas = true, mejillas = true, cabezaEscala = 1, rayas } = estilo;
+  const cuelloCamisa = estilo.cuello === undefined ? new THREE.Color(camisa).multiplyScalar(0.8).getStyle() : estilo.cuello;
+  const R: React.FC<{ c: string }> = ({ c }) =>
+    vendas ? <Vendas /> : rayas && c === camisa ? <meshStandardMaterial map={texturaRayas(camisa, rayas)} roughness={0.8} /> : <Tela color={c} />;
+  const P: React.FC<{ c: string }> = ({ c }) => (vendas ? <Vendas /> : <Mat color={c} rugoso={0.5} />);
   const paso = caminar === undefined ? 0 : Math.sin(caminar) * 0.55;
   const bote = caminar === undefined ? 0 : Math.abs(Math.cos(caminar)) * 0.05;
   const respira = Math.sin(f / 14 + semilla) * 0.012;
@@ -431,16 +498,16 @@ export const Persona: React.FC<{
       <group key={l} position={[0.16 * l, 0.92, 0]} rotation={[fase, 0, 0]}>
         <mesh position={[0, -0.22, 0]} castShadow>
           <capsuleGeometry args={[0.13, 0.3, 6, 14]} />
-          <Tela color={pantalon} />
+          <R c={pantalon} />
         </mesh>
         <group position={[0, -0.46, 0]} rotation={[rodilla + pantorrilla * 0, 0, 0]}>
           <mesh position={[0, -0.2, 0]} castShadow>
-            <capsuleGeometry args={[0.115, 0.28, 6, 14]} />
-            <Tela color={pantalon} />
+            <capsuleGeometry args={[botas ? 0.125 : 0.115, 0.28, 6, 14]} />
+            {botas ? <Mat color={botas} rugoso={0.4} laca={0.5} /> : piernaBaja ? <P c={piernaBaja} /> : <R c={pantalon} />}
           </mesh>
           <mesh position={[0, -0.42, 0.06]} castShadow>
             <capsuleGeometry args={[0.11, 0.2, 6, 12]} />
-            <Mat color={zapatos} rugoso={0.35} laca={0.6} />
+            {vendas ? <Vendas /> : <Mat color={zapatos} rugoso={0.35} laca={0.6} />}
           </mesh>
         </group>
       </group>
@@ -451,21 +518,22 @@ export const Persona: React.FC<{
     <group key={l} position={[0.4 * l, 1.6, 0]} rotation={[-adelante, 0, arriba * l]}>
       <mesh position={[0, -0.18, 0]} castShadow>
         <capsuleGeometry args={[0.095, 0.24, 6, 12]} />
-        <Tela color={camisa} />
+        <R c={camisa} />
       </mesh>
       <group position={[0, -0.38, 0]} rotation={[-codo, 0, 0]}>
         <mesh position={[0, -0.15, 0]} castShadow>
-          <capsuleGeometry args={[0.08, 0.22, 6, 12]} />
-          <Mat color={piel} rugoso={0.5} />
+          <capsuleGeometry args={[mangas ? 0.088 : 0.08, 0.22, 6, 12]} />
+          {mangas ? <R c={mangas} /> : <P c={piel} />}
         </mesh>
         <mesh position={[0, -0.34, 0.01]} castShadow scale={[1, 1.1, 0.8]}>
           <sphereGeometry args={[0.1, 16, 16]} />
-          <Mat color={piel} rugoso={0.5} />
+          <P c={guantes ?? piel} />
         </mesh>
         <mesh position={[0.06 * -l, -0.3, 0.05]} rotation={[0, 0, 0.6 * l]} castShadow>
           <capsuleGeometry args={[0.03, 0.06, 4, 8]} />
-          <Mat color={piel} rugoso={0.5} />
+          <P c={guantes ?? piel} />
         </mesh>
+        <group position={[0, -0.36, 0.02]}>{l > 0 ? enManoDer : enManoIzq}</group>
       </group>
     </group>
   );
@@ -484,7 +552,7 @@ export const Persona: React.FC<{
           {/* cadera y cinturón */}
           <mesh position={[0, 0.98, 0]} castShadow scale={[1, 0.7, 0.8]}>
             <sphereGeometry args={[0.31, 20, 16]} />
-            <Tela color={pantalon} />
+            <R c={pantalon} />
           </mesh>
           {cinturon && (
             <mesh position={[0, 1.08, 0]} scale={[1, 1, 0.82]}>
@@ -501,13 +569,26 @@ export const Persona: React.FC<{
           {/* torso */}
           <mesh position={[0, 1.38, 0]} castShadow scale={[1, 1, 0.78]}>
             <capsuleGeometry args={[0.3, 0.42, 8, 20]} />
-            <Tela color={camisa} />
+            <R c={camisa} />
           </mesh>
+          {falda && (
+            <group position={[0, 1.04, 0]}>
+              {Array.from({ length: 3 }, (_, i) => (
+                <mesh key={i} castShadow position={[0, -i * 0.05, 0]} scale={[1, 1, 0.85]}>
+                  <coneGeometry args={[0.5 + i * 0.06, 0.32, 24, 1, true]} />
+                  <meshPhysicalMaterial color={falda} roughness={0.7} sheen={1} sheenColor="#ffffff" side={THREE.DoubleSide} transparent opacity={0.92} />
+                </mesh>
+              ))}
+            </group>
+          )}
           {/* cuello de la camisa */}
-          <mesh position={[0, 1.7, 0.02]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.13, 0.04, 8, 20]} />
-            <Tela color={new THREE.Color(camisa).multiplyScalar(0.8).getStyle()} />
-          </mesh>
+          {cuelloCamisa && !vendas && (
+            <mesh position={[0, 1.7, 0.02]} rotation={[Math.PI / 2, 0, 0]}>
+              <torusGeometry args={[0.13, 0.04, 8, 20]} />
+              <Tela color={cuelloCamisa} />
+            </mesh>
+          )}
+          {enTorso}
           {corbata && (
             <mesh position={[0, 1.45, 0.23]} rotation={[0.08, 0, 0]}>
               <Redondo args={[0.09, 0.42, 0.02]} />
@@ -519,28 +600,37 @@ export const Persona: React.FC<{
           {/* cuello */}
           <mesh position={[0, 1.78, 0]} castShadow>
             <cylinderGeometry args={[0.09, 0.1, 0.18, 14]} />
-            <Mat color={piel} rugoso={0.5} />
+            <P c={piel} />
           </mesh>
           {/* cabeza */}
-          <group position={[0, 2.18, 0]} rotation={[0, cabeza, 0]}>
+          <group position={[0, 1.84 + 0.34 * cabezaEscala, 0]} rotation={[0, cabeza, 0]} scale={cabezaEscala}>
             <mesh castShadow scale={[1, 1.02, 0.95]}>
               <sphereGeometry args={[0.42, 40, 32]} />
-              <meshPhysicalMaterial color={piel} roughness={0.48} sheen={0.4} sheenColor="#ffb6a0" />
+              {vendas ? <Vendas /> : <meshPhysicalMaterial color={piel} roughness={0.48} sheen={0.4} sheenColor="#ffb6a0" />}
             </mesh>
             {/* orejas */}
-            {[-1, 1].map((l) => (
+            {orejas && [-1, 1].map((l) => (
               <mesh key={`o${l}`} position={[0.41 * l, -0.02, 0]} scale={[0.5, 1, 0.8]}>
                 <sphereGeometry args={[0.09, 14, 12]} />
                 <Mat color={piel} rugoso={0.5} />
               </mesh>
             ))}
             {/* nariz */}
-            <mesh position={[0, -0.04, 0.4]} scale={[1, 0.85, 0.9]}>
-              <sphereGeometry args={[0.055, 14, 12]} />
-              <Mat color={new THREE.Color(piel).multiplyScalar(0.94).getStyle()} rugoso={0.45} />
-            </mesh>
+            {nariz ? (
+              <mesh position={[0, -0.05, 0.42]}>
+                <sphereGeometry args={[0.1, 20, 16]} />
+                <meshPhysicalMaterial color={nariz} roughness={0.2} clearcoat={1} />
+              </mesh>
+            ) : (
+              !vendas && (
+                <mesh position={[0, -0.04, 0.4]} scale={[1, 0.85, 0.9]}>
+                  <sphereGeometry args={[0.055, 14, 12]} />
+                  <Mat color={new THREE.Color(piel).multiplyScalar(0.94).getStyle()} rugoso={0.45} />
+                </mesh>
+              )
+            )}
             {/* mejillas */}
-            {[-1, 1].map((l) => (
+            {mejillas && !vendas && [-1, 1].map((l) => (
               <mesh key={`m${l}`} position={[0.22 * l, -0.1, 0.33]} scale={[1, 0.6, 0.4]}>
                 <sphereGeometry args={[0.07, 12, 10]} />
                 <meshStandardMaterial color="#ff8f80" transparent opacity={0.35} roughness={0.6} depthWrite={false} />
@@ -568,20 +658,20 @@ export const Persona: React.FC<{
                 {/* párpado */}
                 <mesh position={[0, 0.002, 0.004]} scale={[1.08, 1.18 * Math.max(0.02, parpado), 0.6]} rotation={[0, 0, 0]}>
                   <sphereGeometry args={[0.1, 20, 16]} />
-                  <Mat color={piel} rugoso={0.5} />
+                  <P c={piel} />
                 </mesh>
                 {/* ceja */}
-                <mesh
+                {!vendas && <mesh
                   position={[0, 0.15 + (boca === "sorpresa" ? 0.03 : 0), 0.04]}
                   rotation={[0, 0, (boca === "triste" ? -0.3 : boca === "seria" ? 0.18 : 0.08) * l]}
                 >
                   <capsuleGeometry args={[0.022, 0.1, 4, 8]} />
                   <Mat color={pelo} rugoso={0.8} />
-                </mesh>
+                </mesh>}
               </group>
             ))}
             {/* boca */}
-            {abre > 0.05 ? (
+            {vendas ? null : abre > 0.05 ? (
               <mesh position={[0, -0.2, 0.37]} scale={[1, 0.4 + abre, 0.4]}>
                 <sphereGeometry args={[0.07, 16, 12]} />
                 <Mat color="#5a1a1f" rugoso={0.4} />
@@ -593,7 +683,7 @@ export const Persona: React.FC<{
               </mesh>
             )}
             {/* pelo */}
-            {peinado !== "calvo" && (
+            {peinado !== "calvo" && !vendas && (
               <mesh position={[0, 0.05, -0.04]} scale={[1.06, 0.98, 1.06]} rotation={[-0.55, 0, 0]}>
                 <sphereGeometry args={[0.42, 32, 24, 0, Math.PI * 2, 0, Math.PI / 2.1]} />
                 <Mat color={pelo} rugoso={0.75} />
@@ -659,6 +749,7 @@ export const Persona: React.FC<{
                 </mesh>
               </group>
             )}
+            {enCabeza}
           </group>
         </group>
       </group>
@@ -1251,4 +1342,27 @@ export const LluviaBilletes: React.FC<{ f: number; inicio: number; n?: number; a
       })}
     </group>
   );
+};
+
+// ---------- animaciones listas para el rig ----------
+export type Accion = "reposo" | "saludar" | "andar" | "hablar" | "celebrar" | "senalar" | "pensar";
+
+export const poseDe = (accion: Accion, f: number, semilla = 0): Pose => {
+  const s = Math.sin((f + semilla * 13) / 9);
+  switch (accion) {
+    case "saludar":
+      return { brazoDer: 2.55 + Math.sin(f / 3.5) * 0.35, codoDer: 0.45, brazoIzq: 0.15, cabeza: s * 0.08, hablar: 0 };
+    case "andar":
+      return { caminar: f / 4, brazoIzq: 0.1, brazoDer: 0.1 };
+    case "hablar":
+      return { hablar: 1, brazoDer: 0.5 + Math.sin(f / 6) * 0.2, adelanteDer: 0.8, codoDer: 1.1, brazoIzq: 0.35, adelanteIzq: 0.5 + Math.sin(f / 7) * 0.2, codoIzq: 1, cabeza: s * 0.15 };
+    case "celebrar":
+      return { brazoIzq: 2.7, brazoDer: 2.7, codoIzq: 0.2, codoDer: 0.2, salto: Math.abs(Math.sin(f / 5)) * 0.35, boca: "sorpresa" };
+    case "senalar":
+      return { adelanteDer: 1.45, brazoDer: 0.15, codoDer: 0.05, brazoIzq: 0.15, cabeza: 0.15 };
+    case "pensar":
+      return { adelanteDer: 1.2, brazoDer: 0.4, codoDer: 2.2, brazoIzq: 0.2, cabeza: 0.2, boca: "seria", mirada: 0.6 };
+    default:
+      return { brazoIzq: 0.12 + s * 0.03, brazoDer: 0.12 - s * 0.03, cabeza: s * 0.06 };
+  }
 };

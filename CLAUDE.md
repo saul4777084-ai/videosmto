@@ -13,6 +13,12 @@
   recomprime el MP4 final con ffmpeg (crf 23 + loudnorm) para que se pueda descargar en el teléfono.
 - **Sonidos:** biblioteca en `public/sfx/` (lista en `EFECTOS_DISPONIBLES` de `src/comun/tipos.ts`;
   se regeneran con `scripts/sonidos_extra.py`). Muestrario: composición `MuestrarioSonidos`.
+- **Mundo 3D:** motor realista en `src/comun/Mundo3D.tsx` (three.js + @remotion/three, render con `--gl=swangle`),
+  8 personajes en `src/comun/Personajes3D.tsx` (Capitana Brisa, Tobías, Zorp, Ramsés, Lulú, Hada Merengue,
+  Sheriff Rosa, Dani; acciones: reposo, saludar, andar, hablar, celebrar, senalar, pensar) y 8 escenarios en
+  `src/comun/Escenarios3D.tsx` (isla pirata, Polo Norte, Marte, Egipto, feria, golosinas, oeste, estadio) con
+  `<Mundo escenario=…>`. Catálogos: composiciones `Mundo3DPersonajes` y `Mundo3DEscenarios`. Render 3D ≈ 4 s/fotograma:
+  renderiza por tramos con `--frames` si pasa de ~25 min.
 - **Mapas:** `src/Colon/Mapa.tsx` (fronteras reales con world-atlas + d3-geo, cámara, niebla, rutas).
 - **Entrega:** copia cada video terminado a `videos/`, envíaselo al usuario y haz commit y push a `main`.
 - **Publicar:** descripciones y hashtags en `publicaciones/descripciones.md`. Nunca publiques en redes sin el OK del usuario.
