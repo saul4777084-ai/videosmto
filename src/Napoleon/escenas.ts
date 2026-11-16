@@ -1,28 +1,40 @@
 // "¿Cómo logró Napoleón conquistar casi toda Europa?" — voz alineada palabra por palabra.
 // Los tiempos salen de scripts/alinear_voz.py → tiempos.json
-import { Escena, framesDe } from "../comun/tipos";
+import { Enfasis, Escena, framesDe } from "../comun/tipos";
 import type { Ilustracion } from "./Ilustraciones";
 import alineado from "./tiempos.json";
 
-const ESCENA: { ilustracion: Ilustracion; clave: string[]; sinSubtitulos?: boolean }[] = [
+// enfasis: palabra en la que se enfoca y punto de enfoque (%). Solo en los 4 momentos clave de la historia.
+type Clave = { palabra: string } & Omit<Enfasis, "en">;
+
+const ESCENA: { ilustracion: Ilustracion; clave: string[]; sinSubtitulos?: boolean; enfasis?: Clave }[] = [
   { ilustracion: "gancho", clave: [], sinSubtitulos: true },
   { ilustracion: "corcega", clave: ["Córcega", "artillería."] },
   { ilustracion: "revolucion", clave: ["Revolución", "mérito,", "apellido."] },
-  { ilustracion: "emperador", clave: ["golpe", "emperador."] },
+  { ilustracion: "emperador", clave: ["golpe", "emperador."], enfasis: { palabra: "coronó", x: 50, y: 48, zoom: 1.12 } },
   { ilustracion: "velocidad", clave: ["velocidad:", "rápido"] },
   { ilustracion: "ligeros", clave: ["ligeros", "convoyes."] },
   { ilustracion: "cuerpos", clave: ["cuerpos", "separados", "atacar."] },
   { ilustracion: "canones", clave: ["cañones:", "rompía"] },
-  { ilustracion: "austerlitz", clave: ["Austerlitz,", "Austria", "Rusia."] },
+  { ilustracion: "austerlitz", clave: ["Austerlitz,", "Austria", "Rusia."], enfasis: { palabra: "Austerlitz,", x: 50, y: 52, zoom: 1.14 } },
   { ilustracion: "jena", clave: ["Prusia", "Jena,", "Friedland."] },
   { ilustracion: "codigo", clave: ["Código", "Civil", "leyes"] },
   { ilustracion: "hermanos", clave: ["hermanos", "reyes"] },
   { ilustracion: "imperio", clave: ["continente,", "Madrid", "Varsovia."] },
-  { ilustracion: "rusia", clave: ["Rusia", "seiscientos", "mil"] },
+  { ilustracion: "rusia", clave: ["Rusia", "seiscientos", "mil"], enfasis: { palabra: "seiscientos", x: 50, y: 74, zoom: 1.2 } },
   { ilustracion: "invierno", clave: ["frío", "hambre", "pocos."] },
-  { ilustracion: "waterloo", clave: ["1815", "Waterloo."] },
+  { ilustracion: "waterloo", clave: ["1815", "Waterloo."], enfasis: { palabra: "cayó", x: 50, y: 62, zoom: 1.15 } },
   { ilustracion: "final", clave: [], sinSubtitulos: true },
 ];
+
+// convierte la palabra clave en el segundo en que se dice
+function enfasisDe(texto: string, tiempos: number[], c?: Clave): Enfasis | undefined {
+  if (!c) return undefined;
+  const { palabra, ...resto } = c;
+  const k = texto.split(" ").indexOf(palabra);
+  if (k < 0) throw new Error(`"${palabra}" no está en: ${texto}`);
+  return { en: tiempos[k], ...resto };
+}
 
 export const ESCENAS: Escena<Ilustracion>[] = alineado.frases.map((fr, i) => ({
   texto: fr.texto,
@@ -31,6 +43,7 @@ export const ESCENAS: Escena<Ilustracion>[] = alineado.frases.map((fr, i) => ({
   ilustracion: ESCENA[i].ilustracion,
   clave: ESCENA[i].clave,
   sinSubtitulos: ESCENA[i].sinSubtitulos,
+  enfasis: enfasisDe(fr.texto, fr.tiempos, ESCENA[i].enfasis),
 }));
 
 export const DURACION_TOTAL = Math.ceil(alineado.duracion * 30);

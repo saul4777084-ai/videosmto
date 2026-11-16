@@ -19,6 +19,16 @@ export type Escena<I extends string = string> = {
   clave?: string[]; // palabras que se resaltan en amarillo
   sinSubtitulos?: boolean; // el texto ya está en pantalla
   tiempos?: number[]; // segundos (desde el inicio de la escena) en que se dice cada palabra
+  enfasis?: Enfasis; // zoom con enfoque/desenfoque: solo para las escenas más importantes
+};
+
+// Momento clave de una escena: desenfoca un instante, enfoca acercándose al punto (x, y) y
+// desenfoca suave al salir. Úsalo con moderación (2–4 escenas por reel).
+export type Enfasis = {
+  en: number; // segundo (desde el inicio de la escena) en que se enfoca
+  x?: number; // punto de enfoque, % del ancho (50 = centro)
+  y?: number; // punto de enfoque, % del alto
+  zoom?: number; // acercamiento máximo (1.22 por defecto)
 };
 
 // Todos los efectos de public/sfx (ver scripts/sonidos_extra.py y src/Muestrario)
