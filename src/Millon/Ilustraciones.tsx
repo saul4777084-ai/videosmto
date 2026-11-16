@@ -22,6 +22,7 @@ import {
   Maletin,
   Mar,
   Moneda,
+  Montanas,
   Nube,
   Palmera,
   Persona,
@@ -147,13 +148,16 @@ const Vineta = () => <AbsoluteFill style={{ background: "radial-gradient(circle 
 // barrio de fondo reutilizable
 const Barrio: React.FC<{ z?: number }> = ({ z = -8 }) => (
   <group>
-    <Suelo />
+    <Suelo sinHierbaZ={[-0.6, 5]} />
     <Calle z={2.2} />
     {[-9, -5.5, 5.5, 9].map((x, i) => (
       <Casa key={x} pos={[x, 0, z]} escala={0.9} techo={["#d9534f", "#3f7fbf", "#f0a030", "#6a4fb3"][i]} />
     ))}
     <Edificio pos={[-1.5, 0, z - 6]} alto={9} />
-    <Edificio pos={[2.5, 0, z - 7]} alto={12} color="#b0bec5" />
+    <Edificio pos={[2.5, 0, z - 7]} alto={12} color="#9fb0bb" />
+    <Edificio pos={[-6, 0, z - 12]} alto={14} color="#c9b8a0" />
+    <Edificio pos={[7, 0, z - 13]} alto={10} color="#a7a39b" />
+    <Montanas />
     {[-7, -3.4, 3.4, 7].map((x) => (
       <Arbol key={x} pos={[x, 0, z + 3]} escala={1.1} />
     ))}
@@ -195,7 +199,10 @@ const impuestos = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Escenario3D camara={lerp3([-1, 4.5, 14], [0.6, 4, 12.5], tramo(f, 0, dur))} mira={[0.9, 1.4, -1]}>
-        <Suelo color="#8bcf7a" />
+        <Suelo />
+        <Montanas />
+        <Arbol pos={[-4, 0, -6]} escala={1.3} />
+        <Arbol pos={[6.5, 0, -7]} escala={1.5} />
         <Gobierno pos={[3.2, 0, -4.5]} giro={-0.35} escala={0.9} />
         <Persona pos={[-1.5, 0, 2]} giro={0.4} escala={0.9} camisa="#ff6b3d" pose={{ boca: f > en("tercio.") ? "triste" : "seria", brazoDer: 0.3 }} />
         {pila.map((p, i) => {
@@ -223,7 +230,8 @@ const gastos = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Escenario3D camara={[camX, 4.5, 17]} mira={[camX, 2, 0]}>
-        <Suelo />
+        <Suelo sinHierbaZ={[-0.4, 5.2]} />
+        <Montanas />
         <Calle z={2.4} />
         <group scale={pop(f, tc - 4)}>
           <Casa pos={[-4, 0, -1]} escala={1.15} techo="#1e88e5" />
@@ -244,7 +252,7 @@ const gastos = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   );
 };
 
-const ruina = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
+const ruina = ({ en }: Escenario): Dibujo => ({ f }) => {
   const tg = en("ganadores");
   const baja = tramo(f, tg, en("años."));
   const filas = Math.max(0, Math.round(8 * (1 - baja)));
@@ -252,7 +260,8 @@ const ruina = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Escenario3D camara={[0.5 + tiembla, 3.4, 12.5]} mira={[0.3, 2, 0]} cielo={["#56606e", "#a9b3bf"]} niebla="#a9b3bf">
-        <Suelo color="#6e8a64" />
+        <Suelo tipo="cesped" color="#55703f" />
+        <Montanas color="#59636b" />
         <Persona pos={[-1, 0, 0.5]} giro={0.3} pose={{ boca: f > tg ? "triste" : "sorpresa", inclinar: baja * 0.25, brazoIzq: 0.05, brazoDer: 0.05 }} />
         {Array.from({ length: filas }, (_, i) => (
           <Fajo key={i} pos={[1.4, i * 0.3, 0.3]} rot={[0, i * 0.15, 0]} />
@@ -288,7 +297,7 @@ const rapido = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   );
 };
 
-const deudas = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
+const deudas = ({ en }: Escenario): Dibujo => ({ f }) => {
   const tp = en("paga");
   const colores = ["#7e57c2", "#1e88e5", "#ef6c00"];
   return (
@@ -370,7 +379,8 @@ const trabaja = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   return (
     <AbsoluteFill>
       <Escenario3D camara={lerp3([2, 3.4, 11.5], [0.5, 3, 10], tramo(f, 0, dur))} mira={[0, 1.2, 0]} cielo={["#ff9e57", "#ffe6a8"]} luzSol={[-6, 9, 5]}>
-        <Suelo color="#f2d8a0" />
+        <Suelo tipo="arena" color="#ead2a0" />
+        <Montanas z={-110} color="#4f7d63" alto={28} />
         <Mar f={f} z={-15} />
         <Sol pos={[-5, 9, -25]} escala={2.6} />
         <Palmera pos={[-2.6, 0, -1.5]} escala={1.1} viento={f / 15} />
@@ -438,7 +448,7 @@ const secreto = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   );
 };
 
-const final = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
+const final = ({ en }: Escenario): Dibujo => ({ f }) => {
   const ang = f / 60;
   return (
     <AbsoluteFill>
