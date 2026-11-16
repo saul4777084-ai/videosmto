@@ -102,6 +102,28 @@ Archivo: `videos/reel-vaginosis.mp4` · Sin narración: añade una música de la
 >
 > #SaludFemenina #Salud #Ginecología
 
+## ¿Cómo logró Napoleón conquistar casi toda Europa?
+Archivo: `videos/reel-napoleon.mp4` · 71 s · Sin narración (texto palabra a palabra + música y efectos).
+
+### TikTok
+> ¿Cómo pasó Napoleón de oficial de artillería a dominar Europa? 🇫🇷⚔️
+>
+> Sus 3 secretos: velocidad, cuerpos de ejército y cañones… y por qué Rusia lo destruyó ❄️
+>
+> ¿Genio militar o tirano? Te leo 👇
+>
+> #napoleon #historia #historiaentiktok #europa #austerlitz #waterloo #aprendeentiktok
+
+### Facebook
+> **¿Cómo logró Napoleón conquistar casi toda Europa?** 🇫🇷
+>
+> De Córcega a emperador: la velocidad de sus tropas, los cuerpos de ejército, la artillería concentrada y el
+> Código Civil. Hasta que en 1812 invadió Rusia con más de 600.000 hombres… y en 1815 cayó en Waterloo.
+>
+> ¿Genio militar o tirano? Escríbelo en los comentarios.
+>
+> #Historia #Napoleón #Europa
+
 ---
 
 ## Consejos para publicar

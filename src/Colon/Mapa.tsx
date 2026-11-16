@@ -68,9 +68,10 @@ type Props = {
   niebla?: number; // 0..1, oculta América
   espana?: number; // 0..1, pinta España con su bandera
   brillo?: { nombre: string; intensidad: number; color?: string }; // país que parpadea (color en "r,g,b")
+  colores?: Record<string, { color: string; opacidad: number }>; // varios países pintados a la vez (color en "r,g,b")
 };
 
-export const Mapa: React.FC<Props> = ({ camara, niebla = 0, espana = 0, brillo }) => (
+export const Mapa: React.FC<Props> = ({ camara, niebla = 0, espana = 0, brillo, colores }) => (
   <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
     <defs>
       <radialGradient id="oceano" cx="50%" cy="45%" r="75%">
@@ -109,6 +110,11 @@ export const Mapa: React.FC<Props> = ({ camara, niebla = 0, espana = 0, brillo }
           <path key={p.nombre} d={p.d} fill="#6f9a45" />
         ))}
       </g>
+      {/* países pintados (imperios, alianzas...) */}
+      {colores &&
+        RUTAS_PAISES.filter((p) => colores[p.nombre] && colores[p.nombre].opacidad > 0).map((p) => (
+          <path key={`k-${p.nombre}`} d={p.d} fill={`rgba(${colores[p.nombre].color},${0.85 * colores[p.nombre].opacidad})`} />
+        ))}
       {/* fronteras */}
       {RUTAS_PAISES.map((p) => (
         <path

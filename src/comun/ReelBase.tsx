@@ -51,6 +51,7 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
       {/* oscurecer arriba para que se lean los subtítulos */}
       <AbsoluteFill style={{ background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0) 30%)" }} />
 
+      {!escena.sinSubtitulos && (
       <Subtitulos
         texto={escena.texto}
         clave={escena.clave}
@@ -58,6 +59,7 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
         duracion={framesDe(escena.segundos)}
         tiempos={escena.tiempos?.map((t) => t * 30)}
       />
+      )}
 
       {mostrarAvatar && avatar === "poses" && (
         <div style={{ position: "absolute", left: -150 + entradaAvatar, bottom: -110 }}>
