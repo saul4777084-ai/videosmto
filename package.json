@@ -11,7 +11,9 @@
     "audio:sueno": "python3 tools/sintetizar_sueno.py",
     "catalogo": "node tools/catalogo.mjs",
     "render:3d": "remotion render Mundo3D out/mundo-3d.mp4 --gl=swangle --timeout=300000",
-    "catalogo:3d": "remotion still Catalogo-3D-Escenarios out/catalogo/Catalogo-3D-Escenarios.png --gl=swangle --timeout=300000 && remotion still Catalogo-3D-Personajes out/catalogo/Catalogo-3D-Personajes.png --gl=swangle --timeout=300000"
+    "catalogo:3d": "remotion still Catalogo-3D-Escenarios out/catalogo/Catalogo-3D-Escenarios.png --gl=swangle --timeout=300000 && remotion still Catalogo-3D-Personajes out/catalogo/Catalogo-3D-Personajes.png --gl=swangle --timeout=300000",
+    "audio:ayuno": "python3 tools/narrar_ayuno.py && python3 tools/sintetizar_ayuno.py",
+    "render:ayuno": "remotion render SieteDiasSinComer out/7-dias-sin-comer.mp4 --gl=swangle --timeout=300000"
   },
   "dependencies": {
     "@fontsource/poppins": "^5.1.0",

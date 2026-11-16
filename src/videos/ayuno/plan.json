@@ -1,0 +1,14 @@
+{
+  "_nota": "Tomas de cada escena. t = segundo de inicio dentro de la escena (las escenas y sus tiempos salen de tiempos.json). Lo leen el vídeo y tools/sintetizar_ayuno.py.",
+  "latido": 0.92,
+  "respiracion": 4.2,
+  "escenas": {
+    "intro": [{"t": 0, "toma": "cuerpoIntro"}],
+    "dia1": [{"t": 0, "toma": "estomago"}, {"t": 4.6, "toma": "higado"}, {"t": 8.6, "toma": "vasoGlucosa"}],
+    "dia2": [{"t": 0, "toma": "hepatocitos"}, {"t": 4.0, "toma": "adipocitos"}, {"t": 8.0, "toma": "vasoGrasa"}],
+    "dia3": [{"t": 0, "toma": "higadoCetonas"}, {"t": 3.2, "toma": "mitocondria"}, {"t": 7.0, "toma": "cerebro"}, {"t": 10.2, "toma": "neuronas"}],
+    "dia45": [{"t": 0, "toma": "cuerpoMusculos"}, {"t": 6.5, "toma": "fibras"}, {"t": 10.5, "toma": "electrolitos"}],
+    "dia67": [{"t": 0, "toma": "corazon"}, {"t": 4.0, "toma": "rinones"}, {"t": 7.8, "toma": "cerebroAlerta"}, {"t": 11.2, "toma": "cuerpoRecorrido"}],
+    "cierre": [{"t": 0, "toma": "cuerpoCierre"}]
+  }
+}

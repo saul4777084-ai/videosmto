@@ -271,3 +271,39 @@ import {Escena3D} from './mundo3d/Demo3D';
 Para crear un personaje nuevo, copia una entrada de `PERSONAJES_3D` y cambia colores, `cabeza`, `ancho`,
 `ojos` y las `piezas` (accesorios de cabeza, torso y manos). Para un escenario nuevo, añade un componente
 con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
+
+---
+
+# Vídeo 3 · ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer?
+
+Composición `SieteDiasSinComer` (1080×1920, 30 fps, ~94 s) · vídeo renderizado: `out/7-dias-sin-comer.mp4` ·
+guion: `guiones/7-dias-sin-comer.md`. Animación médica 3D hecha con three.js (React Three Fiber) dentro de
+Remotion: todos los modelos anatómicos, células y moléculas se generan por código.
+
+```bash
+npm run audio:ayuno    # narración (Piper, voz es-mls_10246, CC BY 4.0) + música y efectos sincronizados
+npm run render:ayuno   # exporta out/7-dias-sin-comer.mp4 (H.264)
+```
+
+| Quieres cambiar… | Archivo |
+|---|---|
+| Texto de la narración y pausas | `tools/narrar_ayuno.py` (vuelve a generar `tiempos.json`) |
+| Qué tomas tiene cada escena | `src/videos/ayuno/plan.json` |
+| Música, efectos y su sincronía | `tools/sintetizar_ayuno.py` |
+| Cámaras, luces y animación de cada toma | `src/videos/ayuno/tomas.tsx` |
+| Órganos, cuerpo y cuerpo anatómico completo | `src/videos/ayuno/escena.tsx` · geometría en `anatomia.ts` |
+| Materiales (tejido húmedo, vasos con sangre que circula, holograma) | `src/videos/ayuno/shaders.ts` |
+| Indicadores de día, panel de energía, etiquetas, subtítulos | `src/videos/ayuno/hud.tsx` |
+
+- **Cuerpo humano**: superficie lisa obtenida con marching cubes sobre una función de distancia con signo
+  (cabeza, torso, brazos y piernas fundidos suavemente); piel que se desvanece hacia un holograma de rayos X.
+- **Órganos originales**: corazón con aurículas, surco y coronarias que late con sístole y segundo golpe;
+  pulmones con cisuras y árbol bronquial que respiran; estómago en J; hígado con vesícula; riñones con
+  suprarrenales; cerebro con circunvoluciones y cerebelo; intestinos; esqueleto; arterias y venas con flujo.
+- **Microscópico**: glóbulos rojos bicóncavos, glucosa, ácidos grasos, cuerpos cetónicos, aminoácidos,
+  agua, iones de sodio y potasio, glucógeno, células del hígado, adipocitos, mitocondrias, neuronas, fibras
+  musculares y una membrana con bicapa lipídica y canales.
+- **Acabado**: cada órgano con su propia iluminación, profundidad de campo, resplandor, aberración
+  cromática, viñeta, grano, partículas flotando y haces de luz; transiciones de zoom y desenfoque entre tomas.
+- La narración se puede sustituir por una locución profesional: conserva las frases y ajusta los tiempos
+  en `tiempos.json`.

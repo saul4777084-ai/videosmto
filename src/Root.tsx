@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Composition, Folder, Still} from 'remotion';
+import {AbsoluteFill, Composition, Folder, Still, useCurrentFrame} from 'remotion';
 import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/800.css';
@@ -19,6 +19,8 @@ import {LAMINAS} from './catalogo/Catalogo';
 import {CAMARA_25D, Demo25D, DURACION_DEMO_25D, REPARTO_25D} from './mundo25d/Demo25D';
 import {Demo3D, DURACION_DEMO_3D} from './mundo3d/Demo3D';
 import {Catalogo3DEscenarios, Catalogo3DPersonajes} from './mundo3d/Catalogo3D';
+import {DURACION_AYUNO, FPS_AYUNO, TOMAS_AYUNO, VideoAyuno} from './videos/ayuno/VideoAyuno';
+import {TOMAS as TOMAS_AYUNO_C} from './videos/ayuno/tomas';
 
 const esquema25D = crearEsquemaCamara(REPARTO_25D.map((r) => r.e));
 
@@ -50,6 +52,19 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      {/* ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer? (3D médico) */}
+      <Composition id="SieteDiasSinComer" component={VideoAyuno} durationInFrames={Math.round(DURACION_AYUNO * FPS_AYUNO)} fps={FPS_AYUNO} width={1080} height={1920} />
+      <Folder name="Ayuno-Tomas">
+        {TOMAS_AYUNO.map((tm) => {
+          const C = TOMAS_AYUNO_C[tm.toma];
+          const d = tm.fin - tm.inicio;
+          const Toma: React.FC = () => {
+            const f = useCurrentFrame();
+            return <C t={f / FPS_AYUNO} d={d} />;
+          };
+          return <Composition key={tm.toma} id={`Ayuno-${tm.toma}`} component={Toma} durationInFrames={Math.max(1, Math.round(d * FPS_AYUNO))} fps={FPS_AYUNO} width={1080} height={1920} />;
+        })}
+      </Folder>
       {/* Mundo 3D (three.js): vídeo de muestra y láminas */}
       <Composition id="Mundo3D" component={Demo3D} durationInFrames={Math.round(DURACION_DEMO_3D * 30)} fps={30} width={1080} height={1920} />
       <Folder name="Catalogo3D">

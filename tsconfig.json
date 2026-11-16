@@ -5,10 +5,18 @@
     "jsx": "react-jsx",
     "strict": false,
     "noEmit": true,
-    "lib": ["es2015", "dom", "dom.iterable"],
+    "lib": [
+      "es2015",
+      "dom",
+      "dom.iterable"
+    ],
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   },
-  "include": ["src", "remotion.config.ts"]
+  "include": [
+    "src",
+    "remotion.config.ts"
+  ]
 }

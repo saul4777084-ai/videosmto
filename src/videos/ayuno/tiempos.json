@@ -1,0 +1,284 @@
+{
+ "duracion": 94.325,
+ "escenas": [
+  {
+   "id": "intro",
+   "inicio": 0.0,
+   "fin": 11.601
+  },
+  {
+   "id": "dia1",
+   "inicio": 11.601,
+   "fin": 24.472
+  },
+  {
+   "id": "dia2",
+   "inicio": 24.472,
+   "fin": 36.0
+  },
+  {
+   "id": "dia3",
+   "inicio": 36.0,
+   "fin": 50.0
+  },
+  {
+   "id": "dia45",
+   "inicio": 50.0,
+   "fin": 66.0
+  },
+  {
+   "id": "dia67",
+   "inicio": 66.0,
+   "fin": 81.0
+  },
+  {
+   "id": "cierre",
+   "inicio": 81.0,
+   "fin": 94.325
+  }
+ ],
+ "frases": [
+  {
+   "escena": "intro",
+   "texto": "¿Alguna vez te has preguntado qué pasaría dentro de tu cuerpo si dejaras de comer durante siete días?",
+   "inicio": 0.6,
+   "fin": 6.452
+  },
+  {
+   "escena": "intro",
+   "texto": "Tu organismo comenzaría a cambiar desde las primeras horas.",
+   "inicio": 6.902,
+   "fin": 10.701
+  },
+  {
+   "escena": "dia1",
+   "texto": "Durante las primeras horas, tu cuerpo sigue utilizando la energía de los alimentos anteriores.",
+   "inicio": 12.201,
+   "fin": 17.037
+  },
+  {
+   "escena": "dia1",
+   "texto": "Después comienza a recurrir a sus reservas de glucógeno, especialmente las almacenadas en el hígado.",
+   "inicio": 17.487,
+   "fin": 23.572
+  },
+  {
+   "escena": "dia2",
+   "texto": "Alrededor del segundo día, las reservas de glucógeno disminuyen considerablemente.",
+   "inicio": 25.072,
+   "fin": 29.84
+  },
+  {
+   "escena": "dia2",
+   "texto": "Tu organismo comienza a depender más de la grasa almacenada para obtener energía.",
+   "inicio": 30.29,
+   "fin": 34.902
+  },
+  {
+   "escena": "dia3",
+   "texto": "El hígado aumenta la producción de cuerpos cetónicos.",
+   "inicio": 36.6,
+   "fin": 40.804
+  },
+  {
+   "escena": "dia3",
+   "texto": "Tu cerebro comienza a utilizarlos como una fuente alternativa de energía, mientras el organismo intenta conservar sus recursos.",
+   "inicio": 41.204,
+   "fin": 48.036
+  },
+  {
+   "escena": "dia45",
+   "texto": "Con el paso de los días, el cuerpo sigue movilizando grasa, pero también utiliza proteínas.",
+   "inicio": 50.6,
+   "fin": 56.072
+  },
+  {
+   "escena": "dia45",
+   "texto": "Pueden aparecer debilidad, mareos, deshidratación y alteraciones de electrolitos.",
+   "inicio": 56.522,
+   "fin": 60.727
+  },
+  {
+   "escena": "dia67",
+   "texto": "Al séptimo día, el organismo se encuentra bajo un estrés importante.",
+   "inicio": 66.6,
+   "fin": 70.808
+  },
+  {
+   "escena": "dia67",
+   "texto": "La falta de nutrientes y los desequilibrios pueden comprometer órganos vitales.",
+   "inicio": 71.208,
+   "fin": 75.507
+  },
+  {
+   "escena": "dia67",
+   "texto": "No existe una respuesta igual para todas las personas.",
+   "inicio": 75.907,
+   "fin": 79.16
+  },
+  {
+   "escena": "cierre",
+   "texto": "El cuerpo humano puede adaptarse a la falta de alimentos, pero eso no significa que sea seguro.",
+   "inicio": 81.6,
+   "fin": 86.21
+  },
+  {
+   "escena": "cierre",
+   "texto": "Siete días sin comer pueden representar un riesgo grave para tu salud.",
+   "inicio": 86.66,
+   "fin": 91.125
+  }
+ ],
+ "subtitulos": [
+  {
+   "texto": "¿Alguna vez te has preguntado qué pasaría",
+   "inicio": 0.6,
+   "fin": 3.024
+  },
+  {
+   "texto": "dentro de tu cuerpo si dejaras de comer",
+   "inicio": 3.024,
+   "fin": 5.329
+  },
+  {
+   "texto": "durante siete días?",
+   "inicio": 5.329,
+   "fin": 6.452
+  },
+  {
+   "texto": "Tu organismo comenzaría a cambiar desde las primeras horas.",
+   "inicio": 6.902,
+   "fin": 10.701
+  },
+  {
+   "texto": "Durante las primeras horas,",
+   "inicio": 12.201,
+   "fin": 13.605
+  },
+  {
+   "texto": "tu cuerpo sigue utilizando la energía de los alimentos anteriores.",
+   "inicio": 13.605,
+   "fin": 17.037
+  },
+  {
+   "texto": "Después comienza a recurrir a sus reservas",
+   "inicio": 17.487,
+   "fin": 20.069
+  },
+  {
+   "texto": "de glucógeno, especialmente las almacenadas en el hígado.",
+   "inicio": 20.069,
+   "fin": 23.572
+  },
+  {
+   "texto": "Alrededor del segundo día,",
+   "inicio": 25.072,
+   "fin": 26.602
+  },
+  {
+   "texto": "las reservas de glucógeno disminuyen considerablemente.",
+   "inicio": 26.602,
+   "fin": 29.84
+  },
+  {
+   "texto": "Tu organismo comienza a depender más de la grasa",
+   "inicio": 30.29,
+   "fin": 33.058
+  },
+  {
+   "texto": "almacenada para obtener energía.",
+   "inicio": 33.058,
+   "fin": 34.902
+  },
+  {
+   "texto": "El hígado aumenta la producción de cuerpos cetónicos.",
+   "inicio": 36.6,
+   "fin": 40.804
+  },
+  {
+   "texto": "Tu cerebro comienza a utilizarlos como una fuente",
+   "inicio": 41.204,
+   "fin": 43.882
+  },
+  {
+   "texto": "alternativa de energía,",
+   "inicio": 43.882,
+   "fin": 45.139
+  },
+  {
+   "texto": "mientras el organismo intenta conservar sus recursos.",
+   "inicio": 45.139,
+   "fin": 48.036
+  },
+  {
+   "texto": "Con el paso de los días,",
+   "inicio": 50.6,
+   "fin": 52.076
+  },
+  {
+   "texto": "el cuerpo sigue movilizando grasa,",
+   "inicio": 52.076,
+   "fin": 54.166
+  },
+  {
+   "texto": "pero también utiliza proteínas.",
+   "inicio": 54.166,
+   "fin": 56.072
+  },
+  {
+   "texto": "Pueden aparecer debilidad,",
+   "inicio": 56.522,
+   "fin": 57.888
+  },
+  {
+   "texto": "mareos, deshidratación y alteraciones de electrolitos.",
+   "inicio": 57.888,
+   "fin": 60.727
+  },
+  {
+   "texto": "Al séptimo día,",
+   "inicio": 66.6,
+   "fin": 67.542
+  },
+  {
+   "texto": "el organismo se encuentra bajo un estrés importante.",
+   "inicio": 67.542,
+   "fin": 70.808
+  },
+  {
+   "texto": "La falta de nutrientes y los desequilibrios",
+   "inicio": 71.208,
+   "fin": 73.578
+  },
+  {
+   "texto": "pueden comprometer órganos vitales.",
+   "inicio": 73.578,
+   "fin": 75.507
+  },
+  {
+   "texto": "No existe una respuesta igual para todas las personas.",
+   "inicio": 75.907,
+   "fin": 79.16
+  },
+  {
+   "texto": "El cuerpo humano puede adaptarse a la falta",
+   "inicio": 81.6,
+   "fin": 83.709
+  },
+  {
+   "texto": "de alimentos, pero eso no significa que sea seguro.",
+   "inicio": 83.709,
+   "fin": 86.21
+  },
+  {
+   "texto": "Siete días sin comer pueden representar un riesgo",
+   "inicio": 86.66,
+   "fin": 89.831
+  },
+  {
+   "texto": "grave para tu salud.",
+   "inicio": 89.831,
+   "fin": 91.125
+  }
+ ]
+}
