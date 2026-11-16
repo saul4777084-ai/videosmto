@@ -19,7 +19,7 @@ import {LAMINAS} from './catalogo/Catalogo';
 import {CAMARA_25D, Demo25D, DURACION_DEMO_25D, REPARTO_25D} from './mundo25d/Demo25D';
 import {Demo3D, DURACION_DEMO_3D} from './mundo3d/Demo3D';
 import {Catalogo3DEscenarios, Catalogo3DPersonajes} from './mundo3d/Catalogo3D';
-import {DURACION_AYUNO, FPS_AYUNO, TOMAS_AYUNO, VideoAyuno} from './videos/ayuno/VideoAyuno';
+import {AvatarAyuno, DURACION_AYUNO, FPS_AYUNO, TOMAS_AYUNO, VideoAyuno} from './videos/ayuno/VideoAyuno';
 import {TOMAS as TOMAS_AYUNO_C} from './videos/ayuno/tomas';
 
 const esquema25D = crearEsquemaCamara(REPARTO_25D.map((r) => r.e));
@@ -54,6 +54,8 @@ export const RemotionRoot: React.FC = () => {
       />
       {/* ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer? (3D médico) */}
       <Composition id="SieteDiasSinComer" component={VideoAyuno} durationInFrames={Math.round(DURACION_AYUNO * FPS_AYUNO)} fps={FPS_AYUNO} width={1080} height={1920} />
+      {/* Solo el avatar, con fondo transparente, para componerlo sobre un vídeo ya renderizado */}
+      <Composition id="SieteDiasSinComer-Avatar" component={AvatarAyuno} durationInFrames={Math.round(DURACION_AYUNO * FPS_AYUNO)} fps={FPS_AYUNO} width={1080} height={1920} />
       <Folder name="Ayuno-Tomas">
         {TOMAS_AYUNO.map((tm) => {
           const C = TOMAS_AYUNO_C[tm.toma];

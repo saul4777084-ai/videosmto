@@ -133,7 +133,7 @@ export const Sintomas: React.FC<{tAbs: number}> = ({tAbs}) => {
   ];
   const fin = (fraseDe('Pueden aparecer')?.fin ?? 0) + 2.2;
   return (
-    <div style={{position: 'absolute', left: 40, right: 40, top: 560, display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', fontFamily: F}}>
+    <div style={{position: 'absolute', left: 40, right: 40, top: 760, display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', fontFamily: F}}>
       {items.map((it) => {
         const a = momento('Pueden aparecer', it.p) - 0.1;
         const o = aparece(tAbs, a, fin, 0.3);
@@ -173,7 +173,7 @@ export const Cierre: React.FC<{t: number; dur: number}> = ({t, dur}) => {
           TU CUERPO NECESITA ENERGÍA PARA SOBREVIVIR
         </div>
       </div>
-      <div style={{position: 'absolute', left: 80, right: 80, bottom: 220, textAlign: 'center', opacity: o2, fontFamily: F, fontWeight: 500, fontSize: 25, color: 'rgba(255,255,255,0.78)', lineHeight: 1.35}}>
+      <div style={{position: 'absolute', left: 80, right: 80, top: 610, textAlign: 'center', opacity: o2, fontFamily: F, fontWeight: 500, fontSize: 26, color: 'rgba(255,255,255,0.82)', lineHeight: 1.35, textShadow: '0 2px 10px rgba(0,0,0,0.9)'}}>
         Contenido educativo. No es un reto ni una recomendación.
         <br />
         Ante cualquier duda sobre el ayuno, consulta a un profesional sanitario.
@@ -184,7 +184,7 @@ export const Cierre: React.FC<{t: number; dur: number}> = ({t, dur}) => {
 
 /* ------------------------------------------------------------------ aviso inicial y subtítulos */
 export const AvisoInicial: React.FC<{t: number}> = ({t}) => (
-  <div style={{position: 'absolute', left: 0, right: 0, bottom: 200, textAlign: 'center', opacity: aparece(t, 5.6, 10.6, 0.5), fontFamily: F, fontWeight: 500, fontSize: 24, color: 'rgba(255,255,255,0.7)'}}>
+  <div style={{position: 'absolute', left: 0, right: 0, top: 240, textAlign: 'center', opacity: aparece(t, 5.6, 10.6, 0.5), fontFamily: F, fontWeight: 500, fontSize: 26, color: 'rgba(255,255,255,0.78)', textShadow: '0 2px 10px rgba(0,0,0,0.9)'}}>
     Contenido educativo · cada organismo responde de forma distinta
   </div>
 );

@@ -289,6 +289,10 @@ npm run render:ayuno   # exporta out/7-dias-sin-comer.mp4 (H.264)
 > tiempo por proceso se puede renderizar por tramos sin audio (`--muted --frames=0-949`, `950-1899`,
 > `1900-2829`), unirlos con `ffmpeg -f concat` y añadir la mezcla de `narracion.wav` + `banda.wav`.
 > Con GPU, `--gl=angle` es mucho más rápido.
+>
+> El avatar presentador también existe como pista aparte con fondo transparente (`SieteDiasSinComer-Avatar`,
+> ProRes 4444): así se puede componer encima de un vídeo ya renderizado con `ffmpeg … overlay` sin volver a
+> renderizar las escenas 3D. `VideoAyuno` acepta `--props='{"avatar":false}'` para renderizar sin él.
 
 | Quieres cambiar… | Archivo |
 |---|---|
@@ -299,6 +303,7 @@ npm run render:ayuno   # exporta out/7-dias-sin-comer.mp4 (H.264)
 | Órganos, cuerpo y cuerpo anatómico completo | `src/videos/ayuno/escena.tsx` · geometría en `anatomia.ts` |
 | Materiales (tejido húmedo, vasos con sangre que circula, holograma) | `src/videos/ayuno/shaders.ts` |
 | Indicadores de día, panel de energía, etiquetas, subtítulos | `src/videos/ayuno/hud.tsx` |
+| Gestos del avatar presentador (sincronizados con cada frase) | `src/videos/ayuno/avatar.ts` |
 
 - **Cuerpo humano**: superficie lisa obtenida con marching cubes sobre una función de distancia con signo
   (cabeza, torso, brazos y piernas fundidos suavemente); piel que se desvanece hacia un holograma de rayos X.

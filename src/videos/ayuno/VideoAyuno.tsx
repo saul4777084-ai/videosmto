@@ -6,6 +6,8 @@ import plan from './plan.json';
 import tiempos from './tiempos.json';
 import {Alerta, AvisoInicial, Cierre, Dia, Etiqueta, Etiquetas, PanelEnergia, Sintomas, Subtitulos, Titulo} from './hud';
 import {TOMAS} from './tomas';
+import {Avatar} from '../../components/Avatar';
+import {GESTOS_AYUNO} from './avatar';
 
 /**
  * "¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer?" — vídeo vertical 1080×1920, 30 fps.
@@ -115,7 +117,7 @@ const Global: React.FC = () => {
   );
 };
 
-export const VideoAyuno: React.FC = () => {
+export const VideoAyuno: React.FC<{avatar?: boolean}> = ({avatar = true}) => {
   const [h] = useState(() => delayRender('fuentes'));
   useEffect(() => {
     Promise.all(['500', '700', '800'].map((w) => document.fonts.load(`${w} 60px Poppins`))).then(() => continueRender(h));
@@ -142,6 +144,7 @@ export const VideoAyuno: React.FC = () => {
           <CapaEscena id={e.id} dur={e.fin - e.inicio} />
         </Sequence>
       ))}
+      {avatar && <AvatarAyuno />}
       <Global />
       <Audio src={staticFile('ayuno/narracion.wav')} volume={1} />
       <Audio src={staticFile('ayuno/banda.wav')} volume={0.85} />
@@ -156,3 +159,10 @@ const TomaViva: React.FC<{C: React.FC<{t: number; d: number}>; d: number}> = ({C
   const f = useCurrentFrame();
   return <C t={f / FPS_AYUNO} d={d} />;
 };
+
+/** Avatar presentador (abajo a la derecha) con gestos sincronizados con la narración. */
+export const AvatarAyuno: React.FC = () => (
+  <AbsoluteFill style={{pointerEvents: 'none'}}>
+    <Avatar gestos={GESTOS_AYUNO} />
+  </AbsoluteFill>
+);
