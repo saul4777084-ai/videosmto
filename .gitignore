@@ -8,3 +8,4 @@ out
 
 # Caché local de SkillDB
 .skilldb/
+graphify-out/cache/hook_sessions/
