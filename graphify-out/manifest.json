@@ -798,21 +798,21 @@
     "semantic_hash": ""
   },
   "src/BanoRoto/Reel.tsx": {
-    "mtime": 1794646313.2500336,
-    "seen": 1794849127.526162,
-    "ast_hash": "09dd061b416f0b29eae811f6e2540933",
+    "mtime": 1794849818.2351723,
+    "seen": 1794850042.7965443,
+    "ast_hash": "37de49c8cf782ddb9632a0b904e5d216",
     "semantic_hash": ""
   },
   "src/BanoRoto/efectos.ts": {
-    "mtime": 1794646259.1954544,
-    "seen": 1794849127.5261629,
-    "ast_hash": "b4039504b665415fa8ad326a14447cde",
+    "mtime": 1794849955.652922,
+    "seen": 1794850042.7965455,
+    "ast_hash": "dd6cfa6c015f25602d7892dfbf039915",
     "semantic_hash": ""
   },
   "src/BanoRoto/escenas.ts": {
-    "mtime": 1794646255.5015829,
-    "seen": 1794849127.5261638,
-    "ast_hash": "b3a81f407c5aca8b4228923ef4eed1af",
+    "mtime": 1794849818.2284064,
+    "seen": 1794850042.7965465,
+    "ast_hash": "e424e7381926b9481a449d90955db0bc",
     "semantic_hash": ""
   },
   "src/Colon/Barco.tsx": {
@@ -3018,9 +3018,9 @@
     "semantic_hash": ""
   },
   "videos/reel-bano-roto.mp4": {
-    "mtime": 1794680742.1790855,
-    "seen": 1794849127.5265145,
-    "ast_hash": "e7a64c4b1de1f7aec1052c5bc98bf291",
+    "mtime": 1794850027.964419,
+    "seen": 1794850042.7970288,
+    "ast_hash": "6926924daa745fe623c7999ee705d496",
     "semantic_hash": ""
   },
   "videos/reel-colon.mp4": {
@@ -3045,6 +3045,30 @@
     "mtime": 1794680742.2004387,
     "seen": 1794849127.5265183,
     "ast_hash": "6bc0e6e462b965b493b7a5f25669913a",
+    "semantic_hash": ""
+  },
+  "scripts/voz_local.py": {
+    "mtime": 1794849707.9404,
+    "seen": 1794850042.7965395,
+    "ast_hash": "cc6f5feff02112ff6ab16416a36b6b78",
+    "semantic_hash": ""
+  },
+  "src/BanoRoto/guion.json": {
+    "mtime": 1794849789.33178,
+    "seen": 1794850042.796548,
+    "ast_hash": "e3753a137021447ecfc18fa7b7cf67d3",
+    "semantic_hash": ""
+  },
+  "src/BanoRoto/tiempos.json": {
+    "mtime": 1794849795.3902042,
+    "seen": 1794850042.796549,
+    "ast_hash": "95eebc19bbf73ce42e8f7f8c3785ea47",
+    "semantic_hash": ""
+  },
+  "public/voz/bano-roto.mp3": {
+    "mtime": 1794849791.2404048,
+    "seen": 1794850042.7970262,
+    "ast_hash": "e469022699447382264f9fbb6d83a6a2",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

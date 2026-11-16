@@ -1,0 +1,133 @@
+{
+ "duracion": 19.553,
+ "frases": [
+  {
+   "texto": "¿Tu baño está roto?",
+   "palabras": [
+    0.08,
+    0.16,
+    0.48,
+    0.8
+   ],
+   "inicio": 0.0,
+   "segundos": 1.43,
+   "tiempos": [
+    0.08,
+    0.16,
+    0.48,
+    0.8
+   ]
+  },
+  {
+   "texto": "Una fuga desperdicia hasta 750 litros al día.",
+   "palabras": [
+    1.68,
+    2.0,
+    2.48,
+    3.36,
+    3.76,
+    5.04,
+    5.6,
+    5.84
+   ],
+   "inicio": 1.43,
+   "segundos": 4.8,
+   "tiempos": [
+    0.25,
+    0.57,
+    1.05,
+    1.93,
+    2.33,
+    3.61,
+    4.17,
+    4.41
+   ]
+  },
+  {
+   "texto": "Y tu factura de agua se dispara.",
+   "palabras": [
+    6.48,
+    6.88,
+    7.12,
+    7.76,
+    7.92,
+    8.4,
+    8.56
+   ],
+   "inicio": 6.23,
+   "segundos": 3.36,
+   "tiempos": [
+    0.25,
+    0.65,
+    0.89,
+    1.53,
+    1.69,
+    2.17,
+    2.33
+   ]
+  },
+  {
+   "texto": "La humedad provoca hongos y malos olores.",
+   "palabras": [
+    9.84,
+    10.16,
+    10.8,
+    11.44,
+    12.08,
+    12.24,
+    12.64
+   ],
+   "inicio": 9.59,
+   "segundos": 4.0,
+   "tiempos": [
+    0.25,
+    0.57,
+    1.21,
+    1.85,
+    2.49,
+    2.65,
+    3.05
+   ]
+  },
+  {
+   "texto": "Daña pisos, paredes y al vecino de abajo.",
+   "palabras": [
+    13.84,
+    14.48,
+    15.12,
+    15.76,
+    16.0,
+    16.16,
+    16.72,
+    16.88
+   ],
+   "inicio": 13.59,
+   "segundos": 4.08,
+   "tiempos": [
+    0.25,
+    0.89,
+    1.53,
+    2.17,
+    2.41,
+    2.57,
+    3.13,
+    3.29
+   ]
+  },
+  {
+   "texto": "¡Arréglalo a tiempo!",
+   "palabras": [
+    17.92,
+    18.88,
+    19.04
+   ],
+   "inicio": 17.67,
+   "segundos": 1.883,
+   "tiempos": [
+    0.25,
+    1.21,
+    1.37
+   ]
+  }
+ ]
+}
