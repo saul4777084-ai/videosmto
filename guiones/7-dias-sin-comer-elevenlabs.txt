@@ -1,0 +1,13 @@
+¿Alguna vez te has preguntado qué pasaría dentro de tu cuerpo si dejaras de comer durante siete días? <break time="0.4s" /> Tu organismo comenzaría a cambiar desde las primeras horas.
+<break time="1.5s" />
+Durante las primeras horas, tu cuerpo sigue utilizando la energía de los alimentos anteriores. <break time="0.4s" /> Después comienza a recurrir a sus reservas de glucógeno, especialmente las almacenadas en el hígado.
+<break time="1.5s" />
+Alrededor del segundo día, las reservas de glucógeno disminuyen considerablemente. <break time="0.4s" /> Tu organismo comienza a depender más de la grasa almacenada para obtener energía.
+<break time="1.5s" />
+El hígado aumenta la producción de cuerpos cetónicos. <break time="0.4s" /> Tu cerebro comienza a utilizarlos como una fuente alternativa de energía, mientras el organismo intenta conservar sus recursos.
+<break time="1.5s" />
+Con el paso de los días, el cuerpo sigue movilizando grasa, pero también utiliza proteínas. <break time="0.4s" /> Pueden aparecer debilidad, mareos, deshidratación y alteraciones de electrolitos.
+<break time="1.5s" />
+Al séptimo día, el organismo se encuentra bajo un estrés importante. <break time="0.4s" /> La falta de nutrientes y los desequilibrios pueden comprometer órganos vitales. <break time="0.4s" /> No existe una respuesta igual para todas las personas.
+<break time="1.5s" />
+El cuerpo humano puede adaptarse a la falta de alimentos, pero eso no significa que sea seguro. <break time="0.4s" /> Siete días sin comer pueden representar un riesgo grave para tu salud.

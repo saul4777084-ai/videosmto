@@ -117,7 +117,8 @@ const Global: React.FC = () => {
   );
 };
 
-export const VideoAyuno: React.FC<{avatar?: boolean}> = ({avatar = true}) => {
+/** Por defecto sin avatar ni audio (la voz se genera aparte en ElevenLabs). */
+export const VideoAyuno: React.FC<{avatar?: boolean; audio?: boolean}> = ({avatar = false, audio = false}) => {
   const [h] = useState(() => delayRender('fuentes'));
   useEffect(() => {
     Promise.all(['500', '700', '800'].map((w) => document.fonts.load(`${w} 60px Poppins`))).then(() => continueRender(h));
@@ -146,8 +147,8 @@ export const VideoAyuno: React.FC<{avatar?: boolean}> = ({avatar = true}) => {
       ))}
       {avatar && <AvatarAyuno />}
       <Global />
-      <Audio src={staticFile('ayuno/narracion.wav')} volume={1} />
-      <Audio src={staticFile('ayuno/banda.wav')} volume={0.85} />
+      {audio && <Audio src={staticFile('ayuno/narracion.wav')} volume={1} />}
+      {audio && <Audio src={staticFile('ayuno/banda.wav')} volume={0.85} />}
       <Sequence from={total - 1} durationInFrames={1} layout="none">
         <AbsoluteFill style={{background: '#000'}} />
       </Sequence>

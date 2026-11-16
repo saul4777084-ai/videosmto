@@ -276,7 +276,8 @@ con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
 
 # Vídeo 3 · ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer?
 
-Composición `SieteDiasSinComer` (1080×1920, 30 fps, ~94 s) · vídeo renderizado: `out/7-dias-sin-comer.mp4` ·
+Composición `SieteDiasSinComer` (1080×1920, 30 fps, ~94 s) · vídeo renderizado **sin avatar ni audio**: `out/7-dias-sin-comer.mp4` ·
+texto para generar la voz en ElevenLabs: `guiones/7-dias-sin-comer-elevenlabs.txt` ·
 guion: `guiones/7-dias-sin-comer.md`. Animación médica 3D hecha con three.js (React Three Fiber) dentro de
 Remotion: todos los modelos anatómicos, células y moléculas se generan por código.
 
@@ -292,7 +293,7 @@ npm run render:ayuno   # exporta out/7-dias-sin-comer.mp4 (H.264)
 >
 > El avatar presentador también existe como pista aparte con fondo transparente (`SieteDiasSinComer-Avatar`,
 > ProRes 4444): así se puede componer encima de un vídeo ya renderizado con `ffmpeg … overlay` sin volver a
-> renderizar las escenas 3D. `VideoAyuno` acepta `--props='{"avatar":false}'` para renderizar sin él.
+> renderizar las escenas 3D. Por defecto `VideoAyuno` se renderiza sin avatar ni audio; `--props='{"avatar":true,"audio":true}'` los vuelve a activar.
 
 | Quieres cambiar… | Archivo |
 |---|---|
