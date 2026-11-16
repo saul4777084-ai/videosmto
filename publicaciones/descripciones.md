@@ -124,6 +124,28 @@ Archivo: `videos/reel-napoleon.mp4` · 71 s · Sin narración (texto palabra a p
 >
 > #Historia #Napoleón #Europa
 
+## ¿Qué pasaría si recibieras un millón de dólares hoy? (reel 3D)
+Archivo: `videos/reel-millon.mp4`
+
+### Instagram / TikTok
+> **¿Qué harías con un millón de dólares?** 💰
+>
+> Casa, auto, viajes… y en pocos años, sin nada. Esto es lo que haría alguien inteligente:
+> pagar deudas, guardar un fondo de emergencia e invertir el resto.
+> Al 7 % anual, el dinero se duplica en unos 10 años 📈
+>
+> ¿Y tú qué harías primero? Escríbelo en los comentarios 👇
+>
+> #dinero #finanzaspersonales #millonario #inversion #educacionfinanciera #ahorro #queharias
+
+### Facebook
+> **¿Qué pasaría si hoy recibieras un millón de dólares?** 💰
+>
+> Los impuestos se llevan una buena parte, y gastar es mucho más fácil que conservar. La clave: deudas a cero,
+> fondo de emergencia e inversión a largo plazo. *Contenido educativo, no es asesoría financiera.*
+>
+> #FinanzasPersonales #Dinero #Inversión
+
 ---
 
 ## Consejos para publicar
