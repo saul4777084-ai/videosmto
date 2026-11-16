@@ -146,6 +146,27 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #FinanzasPersonales #Dinero #Inversión
 
+## ¿Qué pasaría si hoy ganaras un millón de dólares? (3D, 52 s) — `videos/reel-millon-hoy.mp4`
+
+### TikTok / Reels
+> **¿Y si HOY ganaras un millón de dólares?** 💰😱
+>
+> Minuto 1: gritas. Hora 1: todos son tus amigos. Y luego… los impuestos y los gastos.
+> El plan inteligente: deudas a cero, 6 meses de emergencia e invertir con calma 📈
+>
+> ¿Y tú qué harías primero? Escríbelo en los comentarios 👇
+>
+> #dinero #millonario #finanzaspersonales #queharias #loteria #inversion #educacionfinanciera #3d
+
+### Facebook / YouTube Shorts
+> **¿Qué pasaría si hoy ganaras un millón de dólares?** 💰
+>
+> En Estados Unidos los impuestos se pueden llevar más de un tercio, y gastarlo es muy fácil.
+> Con lo que queda, al 5 % anual, podrías ganar más de 30 000 dólares al año sin tocarlo.
+> *Contenido educativo, no es asesoría financiera.*
+>
+> #FinanzasPersonales #Dinero #Millonario
+
 ---
 
 ## Consejos para publicar

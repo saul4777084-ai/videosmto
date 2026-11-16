@@ -17,11 +17,12 @@ type Props<I extends string> = {
   voz?: string; // archivo de voz en public/ que suena de principio a fin
   avatar?: "poses" | "marioneta"; // poses: dorso hacia arriba con poses dibujadas
   zoomSuave?: boolean; // acercamiento leve en todas las escenas (false = solo en las que tienen "enfasis")
+  ladoAvatar?: "izquierda" | "derecha"; // esquina inferior del avatar (izquierda por defecto)
 };
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda" }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -65,7 +66,13 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
       )}
 
       {mostrarAvatar && avatar === "poses" && (
-        <div style={{ position: "absolute", left: -150 + entradaAvatar, bottom: -110 }}>
+        <div
+          style={{
+            position: "absolute",
+            bottom: -110,
+            ...(ladoAvatar === "derecha" ? { right: -150 + entradaAvatar, transform: "scaleX(-1)" } : { left: -150 + entradaAvatar }),
+          }}
+        >
           {/* halo suave detrás para que se separe del fondo */}
           <div
             style={{
