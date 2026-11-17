@@ -15,8 +15,7 @@ export const ReelMillonHoyV2: React.FC = () => (
     voz={VOZ}
     volumenMusica={VOZ ? 0.06 : 0.14}
     ladoAvatar="derecha"
-    estiloSubtitulos="fino"
-    oscurecerArriba={false}
+    estiloSubtitulos="clasico"
     zoomSuave={false}
   />
 );
