@@ -19,6 +19,7 @@ export const ReelNapoleon: React.FC = () => (
     mostrarAvatar={false}
     zoomSuave={false}
     tamSubtitulos={60}
+    volumenEfectos={conVoz ? 0.5 : 1}
     volumenMusica={conVoz ? 0.06 : 0.2}
     voz={conVoz ? "voz/napoleon.mp3" : undefined}
   />
