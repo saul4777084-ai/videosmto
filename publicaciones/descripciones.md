@@ -188,6 +188,29 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Supervivencia #Hipotermia #Ciencia
 
+
+## ¿Por qué el desierto del Sahara es tan enorme? (77 s) — `videos/reel-sahara.mp4`
+
+### TikTok / Reels
+> **¿Por qué el Sahara es TAN enorme?** 🏜️🌍
+>
+> Mide más de 9 millones de km², casi como Estados Unidos entero. La culpa la tienen el aire seco que baja
+> del cielo, un continente anchísimo, las montañas del Atlas y una corriente de agua fría 🌊
+> Y lo más loco: hace 10.000 años estaba VERDE, con lagos, jirafas e hipopótamos 🦒🦛
+>
+> ¿Qué otro desierto quieres que te explique? Escríbelo en los comentarios 👇
+>
+> #sahara #desierto #geografia #mapas #africa #curiosidades #ciencia #sabiasque
+
+### Facebook / YouTube Shorts
+> **¿Por qué el desierto del Sahara es tan enorme?** 🏜️
+>
+> El aire que sube en el ecuador suelta su lluvia y baja seco justo sobre el norte de África. A eso se suman la
+> anchura del continente, la barrera del Atlas y la corriente fría de Canarias. Solo una cuarta parte es arena,
+> y desde 1920 ha crecido alrededor de un 10 %.
+>
+> #Sahara #Geografía #Mapas #Curiosidades
+
 ---
 
 ## Consejos para publicar
