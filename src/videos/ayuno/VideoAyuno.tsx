@@ -147,7 +147,7 @@ export const VideoAyuno: React.FC<{avatar?: boolean; audio?: boolean}> = ({avata
       ))}
       {avatar && <AvatarAyuno />}
       <Global />
-      {audio && <Audio src={staticFile('ayuno/narracion.wav')} volume={1} />}
+      {audio && <Audio src={staticFile('ayuno/voz_elevenlabs.wav')} volume={1} />}
       {audio && <Audio src={staticFile('ayuno/banda.wav')} volume={0.85} />}
       <Sequence from={total - 1} durationInFrames={1} layout="none">
         <AbsoluteFill style={{background: '#000'}} />

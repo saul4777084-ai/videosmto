@@ -276,7 +276,7 @@ con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
 
 # Vídeo 3 · ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer?
 
-Composición `SieteDiasSinComer` (1080×1920, 30 fps, ~94 s) · vídeo renderizado **sin avatar ni audio**: `out/7-dias-sin-comer.mp4` ·
+Composición `SieteDiasSinComer` (1080×1920, 30 fps, ~94 s) · vídeo final con la voz de ElevenLabs + música y efectos: `out/7-dias-sin-comer.mp4` (solo voz: `out/7-dias-sin-comer-solo-voz.mp4`) ·
 texto para generar la voz en ElevenLabs: `guiones/7-dias-sin-comer-elevenlabs.txt` ·
 guion: `guiones/7-dias-sin-comer.md`. Animación médica 3D hecha con three.js (React Three Fiber) dentro de
 Remotion: todos los modelos anatómicos, células y moléculas se generan por código.
@@ -305,6 +305,7 @@ npm run render:ayuno   # exporta out/7-dias-sin-comer.mp4 (H.264)
 | Materiales (tejido húmedo, vasos con sangre que circula, holograma) | `src/videos/ayuno/shaders.ts` |
 | Indicadores de día, panel de energía, etiquetas, subtítulos | `src/videos/ayuno/hud.tsx` |
 | Gestos del avatar presentador (sincronizados con cada frase) | `src/videos/ayuno/avatar.ts` |
+| Encajar una locución nueva (ElevenLabs u otra) con el vídeo | `python3 tools/alinear_voz.py voz.mp3 public/ayuno/voz_elevenlabs.wav` (localiza cada frase por DTW y la coloca en su segundo del vídeo) |
 
 - **Cuerpo humano**: superficie lisa obtenida con marching cubes sobre una función de distancia con signo
   (cabeza, torso, brazos y piernas fundidos suavemente); piel que se desvanece hacia un holograma de rayos X.
