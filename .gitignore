@@ -3,3 +3,4 @@ out/*.png
 .remotion/
 tools/voces/*.onnx
 out/tramos/
+__pycache__/
