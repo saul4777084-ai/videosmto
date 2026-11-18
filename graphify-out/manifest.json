@@ -756,9 +756,9 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1794647978.1342177,
-    "seen": 1794849127.5261555,
-    "ast_hash": "c182b7a8ac9e96b19e6be6d6587d4d0d",
+    "mtime": 1794859442.2122526,
+    "seen": 1795041785.3599288,
+    "ast_hash": "6818a35276e5a692951b999f93606f96",
     "semantic_hash": ""
   },
   "public/marioneta/articulaciones.json": {
@@ -798,20 +798,20 @@
     "semantic_hash": ""
   },
   "src/BanoRoto/Reel.tsx": {
-    "mtime": 1794849818.2351723,
-    "seen": 1794850042.7965443,
+    "mtime": 1794850075.4175174,
+    "seen": 1795041785.3599494,
     "ast_hash": "37de49c8cf782ddb9632a0b904e5d216",
     "semantic_hash": ""
   },
   "src/BanoRoto/efectos.ts": {
-    "mtime": 1794849955.652922,
-    "seen": 1794850042.7965455,
+    "mtime": 1794850075.4175174,
+    "seen": 1795041785.359951,
     "ast_hash": "dd6cfa6c015f25602d7892dfbf039915",
     "semantic_hash": ""
   },
   "src/BanoRoto/escenas.ts": {
-    "mtime": 1794849818.2284064,
-    "seen": 1794850042.7965465,
+    "mtime": 1794850075.4175174,
+    "seen": 1795041785.3599532,
     "ast_hash": "e424e7381926b9481a449d90955db0bc",
     "semantic_hash": ""
   },
@@ -954,9 +954,9 @@
     "semantic_hash": ""
   },
   "src/Napoleon/Reel.tsx": {
-    "mtime": 1794848505.5595787,
-    "seen": 1794849127.5261858,
-    "ast_hash": "8619bb4c5ad89802fbb5989db6757784",
+    "mtime": 1795039216.0543203,
+    "seen": 1795041785.3600693,
+    "ast_hash": "8f083effb96462bd9c19a46cca8ce78a",
     "semantic_hash": ""
   },
   "src/Napoleon/efectos.ts": {
@@ -966,9 +966,9 @@
     "semantic_hash": ""
   },
   "src/Napoleon/escenas.ts": {
-    "mtime": 1794848196.7903104,
-    "seen": 1794849127.5261872,
-    "ast_hash": "22882fba03794249ab8f84b5aa4fe4bb",
+    "mtime": 1794850799.6278293,
+    "seen": 1795041785.360074,
+    "ast_hash": "842ea9758452a3f46c49e1ff7675c6f5",
     "semantic_hash": ""
   },
   "src/Napoleon/guion.json": {
@@ -978,15 +978,15 @@
     "semantic_hash": ""
   },
   "src/Napoleon/tiempos.json": {
-    "mtime": 1794848516.866682,
-    "seen": 1794849127.526189,
-    "ast_hash": "420a9e7cdf66e94e1052cad7f355e6ff",
+    "mtime": 1795039571.0087795,
+    "seen": 1795041785.3600783,
+    "ast_hash": "af3e076a2cca0797730a136481d67545",
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1794848457.434327,
-    "seen": 1794849127.5261898,
-    "ast_hash": "3414787847d07165859949142b582dc2",
+    "mtime": 1795041394.0224533,
+    "seen": 1795041785.3600805,
+    "ast_hash": "eb7be1788ba45dfbb71527b5a849fe50",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -1026,21 +1026,21 @@
     "semantic_hash": ""
   },
   "src/comun/ReelBase.tsx": {
-    "mtime": 1794848184.8504322,
-    "seen": 1794849127.5261972,
-    "ast_hash": "d9ec140b739596a7388bf26d0bbb801d",
+    "mtime": 1795039216.054028,
+    "seen": 1795041785.3601034,
+    "ast_hash": "8b62bef2901f9c80a5f9ace8566a7b08",
     "semantic_hash": ""
   },
   "src/comun/Subtitulos.tsx": {
-    "mtime": 1794677202.618455,
-    "seen": 1794849127.5261984,
-    "ast_hash": "eb79b13030cecd10943469bf59169c5f",
+    "mtime": 1794859919.773191,
+    "seen": 1795041785.3601055,
+    "ast_hash": "c2559e5169b71e0380ef3a69729b80a7",
     "semantic_hash": ""
   },
   "src/comun/tipos.ts": {
-    "mtime": 1794848184.8500776,
-    "seen": 1794849127.5261993,
-    "ast_hash": "0a6eb5edaa8827f964d659e639e64364",
+    "mtime": 1794850687.3857102,
+    "seen": 1795041785.3601074,
+    "ast_hash": "4ad0a2e210b899e4ff2f2197677bddf3",
     "semantic_hash": ""
   },
   "src/index.ts": {
@@ -2256,9 +2256,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1794684559.179549,
-    "seen": 1794849127.5264027,
-    "ast_hash": "1bbf2ae40e42261d9d1931f14dddccb5",
+    "mtime": 1795038011.0427058,
+    "seen": 1795041785.3647246,
+    "ast_hash": "b39e32c537497288671f6e9fd3f8b404",
     "semantic_hash": ""
   },
   "README.md": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1794849118.6482477,
-    "seen": 1794849127.5264046,
-    "ast_hash": "2db0f0c07aceea794c5a6c36836bc69b",
+    "mtime": 1795041733.8684745,
+    "seen": 1795041785.3647308,
+    "ast_hash": "37aa534655a0cd1a92f880bbd5bd7851",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3018,8 +3018,8 @@
     "semantic_hash": ""
   },
   "videos/reel-bano-roto.mp4": {
-    "mtime": 1794850027.964419,
-    "seen": 1794850042.7970288,
+    "mtime": 1794850075.4444215,
+    "seen": 1795041785.3650713,
     "ast_hash": "6926924daa745fe623c7999ee705d496",
     "semantic_hash": ""
   },
@@ -3036,9 +3036,9 @@
     "semantic_hash": ""
   },
   "videos/reel-napoleon.mp4": {
-    "mtime": 1794849111.6287744,
-    "seen": 1794849127.5265167,
-    "ast_hash": "c71d17d3590b805de4c7f287798cb00b",
+    "mtime": 1795040043.7122114,
+    "seen": 1795041785.3650844,
+    "ast_hash": "48c1e0f9b726037f56f5f2ab4ac15b78",
     "semantic_hash": ""
   },
   "videos/reel-vaginosis.mp4": {
@@ -3048,27 +3048,255 @@
     "semantic_hash": ""
   },
   "scripts/voz_local.py": {
-    "mtime": 1794849707.9404,
-    "seen": 1794850042.7965395,
+    "mtime": 1794850075.4175174,
+    "seen": 1795041785.3599422,
     "ast_hash": "cc6f5feff02112ff6ab16416a36b6b78",
     "semantic_hash": ""
   },
   "src/BanoRoto/guion.json": {
-    "mtime": 1794849789.33178,
-    "seen": 1794850042.796548,
+    "mtime": 1794850075.4175174,
+    "seen": 1795041785.3599553,
     "ast_hash": "e3753a137021447ecfc18fa7b7cf67d3",
     "semantic_hash": ""
   },
   "src/BanoRoto/tiempos.json": {
-    "mtime": 1794849795.3902042,
-    "seen": 1794850042.796549,
+    "mtime": 1794850075.4175174,
+    "seen": 1795041785.3599575,
     "ast_hash": "95eebc19bbf73ce42e8f7f8c3785ea47",
     "semantic_hash": ""
   },
   "public/voz/bano-roto.mp3": {
-    "mtime": 1794849791.2404048,
-    "seen": 1794850042.7970262,
+    "mtime": 1794850075.4175174,
+    "seen": 1795041785.3650606,
     "ast_hash": "e469022699447382264f9fbb6d83a6a2",
+    "semantic_hash": ""
+  },
+  "src/Frio/Gancho3D.tsx": {
+    "mtime": 1795041704.6353617,
+    "seen": 1795041785.3599892,
+    "ast_hash": "8d96e2db60f6eadc5def27491054c227",
+    "semantic_hash": ""
+  },
+  "src/Frio/Ilustraciones.tsx": {
+    "mtime": 1795041532.2232332,
+    "seen": 1795041785.3599918,
+    "ast_hash": "bb9acfa8d23d6d09a8065885d1123beb",
+    "semantic_hash": ""
+  },
+  "src/Frio/Piezas.tsx": {
+    "mtime": 1795041160.6642778,
+    "seen": 1795041785.359994,
+    "ast_hash": "1ee9c9b6cbeeaa45c8931d1ec5cc227b",
+    "semantic_hash": ""
+  },
+  "src/Frio/Reel.tsx": {
+    "mtime": 1795041393.9922917,
+    "seen": 1795041785.359996,
+    "ast_hash": "cc5638c866a4a5838c9856c7fb247827",
+    "semantic_hash": ""
+  },
+  "src/Frio/efectos.ts": {
+    "mtime": 1795041393.991785,
+    "seen": 1795041785.3599985,
+    "ast_hash": "8da4120c6390b9f52a0e01d5620bbe33",
+    "semantic_hash": ""
+  },
+  "src/Frio/escenas.ts": {
+    "mtime": 1795041093.5722737,
+    "seen": 1795041785.3600004,
+    "ast_hash": "2d9809a16e6c18931ea129b26488ee50",
+    "semantic_hash": ""
+  },
+  "src/Frio/guion.json": {
+    "mtime": 1795040991.0232656,
+    "seen": 1795041785.360002,
+    "ast_hash": "2d8bea0c05d66369c1662917597531a4",
+    "semantic_hash": ""
+  },
+  "src/Frio/tiempos.json": {
+    "mtime": 1795041034.2273376,
+    "seen": 1795041785.3600047,
+    "ast_hash": "0aec3966c87281b0371dac4543f9da56",
+    "semantic_hash": ""
+  },
+  "src/Millon/Ilustraciones.tsx": {
+    "mtime": 1794859442.2322526,
+    "seen": 1795041785.3600214,
+    "ast_hash": "c8e8388f12076a36db62f0194e7d07da",
+    "semantic_hash": ""
+  },
+  "src/Millon/Reel.tsx": {
+    "mtime": 1794850075.3183792,
+    "seen": 1795041785.3600235,
+    "ast_hash": "7b2d67fb99a8c79bb95d3bb189aefb14",
+    "semantic_hash": ""
+  },
+  "src/Millon/efectos.ts": {
+    "mtime": 1794850075.3183792,
+    "seen": 1795041785.360026,
+    "ast_hash": "a524b95603c095cec5ddd1be41e6d3b5",
+    "semantic_hash": ""
+  },
+  "src/Millon/escenas.ts": {
+    "mtime": 1794850075.3183792,
+    "seen": 1795041785.3600283,
+    "ast_hash": "337152e235221ae796af8658afe74a72",
+    "semantic_hash": ""
+  },
+  "src/Millon/guion.json": {
+    "mtime": 1794850075.3183792,
+    "seen": 1795041785.3600304,
+    "ast_hash": "5b597a5a9f9b44b85f19e633ddff7db3",
+    "semantic_hash": ""
+  },
+  "src/Millon/tiempos.json": {
+    "mtime": 1794850075.3183792,
+    "seen": 1795041785.3600323,
+    "ast_hash": "a6796629598afd4a1407eb83ecee0c84",
+    "semantic_hash": ""
+  },
+  "src/MillonHoy/Escenas3D.tsx": {
+    "mtime": 1794859442.2322526,
+    "seen": 1795041785.3600342,
+    "ast_hash": "266f0b0f6899c814c3cbca1c49317c94",
+    "semantic_hash": ""
+  },
+  "src/MillonHoy/Ilustraciones.tsx": {
+    "mtime": 1794859442.236839,
+    "seen": 1795041785.3600361,
+    "ast_hash": "abb94d2a107260596fc37c3e99d4f0a9",
+    "semantic_hash": ""
+  },
+  "src/MillonHoy/Reel.tsx": {
+    "mtime": 1795039552.6681821,
+    "seen": 1795041785.360038,
+    "ast_hash": "15d9b9cd27150b375e2e8aa9892b0b22",
+    "semantic_hash": ""
+  },
+  "src/MillonHoy/efectos.ts": {
+    "mtime": 1794859442.236839,
+    "seen": 1795041785.3600402,
+    "ast_hash": "d9424e00a05585e1c7c9e4923f2854a9",
+    "semantic_hash": ""
+  },
+  "src/MillonHoy/escenas.ts": {
+    "mtime": 1794859442.236839,
+    "seen": 1795041785.3600426,
+    "ast_hash": "f622ab662418cf674df7c670cc9bf502",
+    "semantic_hash": ""
+  },
+  "src/MillonHoy/guion.json": {
+    "mtime": 1794859442.236839,
+    "seen": 1795041785.3600442,
+    "ast_hash": "6972b9cc581481bc2088980d7777b94a",
+    "semantic_hash": ""
+  },
+  "src/MillonHoy/tiempos.json": {
+    "mtime": 1795039552.6681821,
+    "seen": 1795041785.3600464,
+    "ast_hash": "05a7283eb4da2ee667249b299933ba29",
+    "semantic_hash": ""
+  },
+  "src/MillonHoyV2/Ilustraciones.tsx": {
+    "mtime": 1795038011.0427058,
+    "seen": 1795041785.3600485,
+    "ast_hash": "d053d4d9fe8623207cd59a4f375c8d64",
+    "semantic_hash": ""
+  },
+  "src/MillonHoyV2/Reel.tsx": {
+    "mtime": 1795039552.6681821,
+    "seen": 1795041785.3600507,
+    "ast_hash": "fa77813aa3a80091055cb405ff03468d",
+    "semantic_hash": ""
+  },
+  "src/MillonHoyV2/efectos.ts": {
+    "mtime": 1794859904.417454,
+    "seen": 1795041785.3600526,
+    "ast_hash": "d60d694cc26f5a3aa2ec912388bff409",
+    "semantic_hash": ""
+  },
+  "src/MillonHoyV2/escenas.ts": {
+    "mtime": 1794859904.417454,
+    "seen": 1795041785.3600543,
+    "ast_hash": "253d998240049ee7f9afe092c487977a",
+    "semantic_hash": ""
+  },
+  "src/Mundo3D/CatalogoEscenarios.tsx": {
+    "mtime": 1794859442.236839,
+    "seen": 1795041785.360061,
+    "ast_hash": "24b358cd9718ca088cf6eca934ce5ac2",
+    "semantic_hash": ""
+  },
+  "src/Mundo3D/CatalogoPersonajes.tsx": {
+    "mtime": 1794859442.2372892,
+    "seen": 1795041785.360063,
+    "ast_hash": "86112302e7651098abf59a8ac20ee763",
+    "semantic_hash": ""
+  },
+  "src/comun/Escenarios3D.tsx": {
+    "mtime": 1794859442.2372892,
+    "seen": 1795041785.3600929,
+    "ast_hash": "feb954a0134f5130fdf458f76a8b71c7",
+    "semantic_hash": ""
+  },
+  "src/comun/Mundo3D.tsx": {
+    "mtime": 1794859442.2372892,
+    "seen": 1795041785.3600976,
+    "ast_hash": "8efc3fb47a99c5d04c3482ca0897c779",
+    "semantic_hash": ""
+  },
+  "src/comun/Personaje2D.tsx": {
+    "mtime": 1795038011.0427058,
+    "seen": 1795041785.3600996,
+    "ast_hash": "d9c913af066acfedd8a6b902e0d8e639",
+    "semantic_hash": ""
+  },
+  "src/comun/Personajes3D.tsx": {
+    "mtime": 1794859442.2372892,
+    "seen": 1795041785.3601015,
+    "ast_hash": "9ec8cc8689bd016d9b6ed3768407a9ea",
+    "semantic_hash": ""
+  },
+  "src/Frio/voz_texto.txt": {
+    "mtime": 1795041744.8963125,
+    "seen": 1795041785.364734,
+    "ast_hash": "281107b240dfc5478c08a9e646b97dcb",
+    "semantic_hash": ""
+  },
+  "referencias/mundo3d/escenarios.png": {
+    "mtime": 1794859442.2242527,
+    "seen": 1795041785.3648646,
+    "ast_hash": "b7a9576310ff486c2668e1cbcc12db58",
+    "semantic_hash": ""
+  },
+  "referencias/mundo3d/personajes.png": {
+    "mtime": 1794859442.2322526,
+    "seen": 1795041785.3648667,
+    "ast_hash": "7fa0036eefc9af21e7c7996af4088a64",
+    "semantic_hash": ""
+  },
+  "public/voz/millon-hoy.mp3": {
+    "mtime": 1795039552.6681821,
+    "seen": 1795041785.365063,
+    "ast_hash": "b5957e8593edc7a8dfb9b95e0f99fc8e",
+    "semantic_hash": ""
+  },
+  "public/voz/napoleon.mp3": {
+    "mtime": 1795039571.0062914,
+    "seen": 1795041785.365065,
+    "ast_hash": "e141b1b8e8c292be221c7549f401e945",
+    "semantic_hash": ""
+  },
+  "videos/reel-millon-hoy-v2.mp4": {
+    "mtime": 1795039552.7201822,
+    "seen": 1795041785.3650799,
+    "ast_hash": "72d71e30e9523f861440666e82f5b041",
+    "semantic_hash": ""
+  },
+  "videos/reel-millon-hoy.mp4": {
+    "mtime": 1795039552.768182,
+    "seen": 1795041785.3650818,
+    "ast_hash": "a60974072c6d2aae92f26331e71063b5",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
@@ -3078,9 +3306,9 @@
     "semantic_hash": ""
   },
   "package-lock.json": {
-    "mtime": 1794647978.2262177,
-    "seen": 1794849127.5265198,
-    "ast_hash": "a4ae0212749fb4f2e6c5b00a789667c4",
+    "mtime": 1795038509.61612,
+    "seen": 1795041785.365092,
+    "ast_hash": "2c9071ba057cf1c8e387d7f252d2d662",
     "semantic_hash": ""
   }
 }

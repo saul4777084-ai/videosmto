@@ -167,6 +167,27 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #FinanzasPersonales #Dinero #Millonario
 
+## ¿Cuánto tiempo sobrevivirías atrapado en temperaturas bajo cero? — `videos/reel-frio.mp4`
+
+### TikTok / Reels
+> **¿Cuánto aguantarías atrapado en el hielo?** 🥶❄️
+>
+> A 35 °C empieza la hipotermia, a 32 dejas de temblar (y es mala señal) y en agua helada manda la regla 1-10-1.
+> Y una mujer sobrevivió con el cuerpo a 13,7 °C 🤯
+>
+> ¿Tú cuánto aguantarías? Escríbelo en los comentarios 👇
+>
+> #frio #hipotermia #supervivencia #sabiasque #curiosidades #ciencia #invierno #datoscuriosos
+
+### Facebook / YouTube Shorts
+> **¿Cuánto tiempo sobrevivirías a temperaturas bajo cero?** ❄️
+>
+> El agua roba el calor unas 25 veces más rápido que el aire, y a 40 bajo cero con viento la piel expuesta
+> se congela en menos de diez minutos. Refúgiate del viento, aíslate del suelo, mantente seco y nada de alcohol.
+> *Contenido divulgativo: ante una emergencia por frío, llama a los servicios de emergencia.*
+>
+> #Supervivencia #Hipotermia #Ciencia
+
 ---
 
 ## Consejos para publicar

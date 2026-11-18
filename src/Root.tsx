@@ -12,6 +12,8 @@ import { DURACION_TOTAL as DURACION_COLON } from "./Colon/escenas";
 import { ReelDescubrimiento } from "./Colon60/Reel";
 import { DURACION_TOTAL as DURACION_DESCUBRIMIENTO } from "./Colon60/escenas";
 import { ReelNapoleon } from "./Napoleon/Reel";
+import { ReelFrio, ReelFrio2D } from "./Frio/Reel";
+import { DURACION_TOTAL as DURACION_FRIO } from "./Frio/escenas";
 import { DURACION_TOTAL as DURACION_NAPOLEON } from "./Napoleon/escenas";
 import { ReelMillon } from "./Millon/Reel";
 import { DURACION_TOTAL as DURACION_MILLON } from "./Millon/escenas";
@@ -116,6 +118,8 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      <Composition id="ReelFrio" component={ReelFrio} durationInFrames={DURACION_FRIO} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelFrio2D" component={ReelFrio2D} durationInFrames={DURACION_FRIO} fps={FPS} width={1080} height={1920} />
       <Composition
         id="ReelNapoleon"
         component={ReelNapoleon}
