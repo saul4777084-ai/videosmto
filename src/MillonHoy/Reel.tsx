@@ -7,7 +7,7 @@ import { Ilustraciones } from "./Ilustraciones";
 
 // Sin voz por ahora: el usuario la genera con el texto de guion.json. Cuando llegue el audio,
 // alinear con scripts/alinear_voz.py → tiempos.json y pasar VOZ = "voz/millon-hoy.mp3".
-const VOZ: string | undefined = undefined;
+const VOZ: string | undefined = "voz/millon-hoy.mp3";
 
 // Avatar con poses en la esquina inferior DERECHA (lo pidió el usuario para este video)
 const comunes = {

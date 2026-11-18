@@ -5,7 +5,7 @@ import { ESCENAS } from "./escenas";
 import { Ilustraciones } from "./Ilustraciones";
 
 // Sin voz por ahora (el usuario la genera). Cuando llegue: alinear y poner VOZ = "voz/millon-hoy.mp3".
-const VOZ: string | undefined = undefined;
+const VOZ: string | undefined = "voz/millon-hoy.mp3";
 
 export const ReelMillonHoyV2: React.FC = () => (
   <ReelBase
