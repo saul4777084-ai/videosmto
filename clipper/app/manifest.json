@@ -1,12 +1,12 @@
 {
-  "name": "$SANTORYU$ CLIPS",
-  "short_name": "$SANTORYU$",
+  "name": "SANTORYU CLIPS",
+  "short_name": "SANTORYU CLIPS",
   "description": "Clipea directos de YouTube desde el móvil",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0f1115",
+  "background_color": "#5a17b8",
   "theme_color": "#0f1115",
   "lang": "es",
   "icons": [
