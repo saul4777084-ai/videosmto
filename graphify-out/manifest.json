@@ -984,8 +984,8 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795123881.1913557,
-    "seen": 1795123907.9810534,
+    "mtime": 1795123915.0213697,
+    "seen": 1795125489.8628535,
     "ast_hash": "bdd1f06cd1fcfed834711b999159feaa",
     "semantic_hash": ""
   },
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795123890.5201209,
-    "seen": 1795123907.9812932,
-    "ast_hash": "24676504dcc5db50aab168d9adcd0a49",
+    "mtime": 1795124416.4579272,
+    "seen": 1795125489.8630984,
+    "ast_hash": "cacdbea693c817b2ad9e4e0d74c4d5b4",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3786,69 +3786,69 @@
     "semantic_hash": ""
   },
   "src/Inmovil/Astronautas3D.tsx": {
-    "mtime": 1795123881.1909573,
-    "seen": 1795123907.9810014,
-    "ast_hash": "7c84188a4d981cd31ae118651e2d150b",
+    "mtime": 1795124279.6758394,
+    "seen": 1795125489.8627875,
+    "ast_hash": "39fe086a13fe7854d73917465463b277",
     "semantic_hash": ""
   },
   "src/Inmovil/Ilustraciones.tsx": {
-    "mtime": 1795123881.1911087,
-    "seen": 1795123907.9810038,
-    "ast_hash": "21f967f000d2c92bf7096f7ff0f7aacf",
+    "mtime": 1795124406.621514,
+    "seen": 1795125489.8627899,
+    "ast_hash": "c105c856510eee2dfe3743accac2e377",
     "semantic_hash": ""
   },
   "src/Inmovil/Reel.tsx": {
-    "mtime": 1795123881.1913557,
-    "seen": 1795123907.9810054,
+    "mtime": 1795123915.0213697,
+    "seen": 1795125489.862792,
     "ast_hash": "1010d50e370362e9a033fb1299bd2290",
     "semantic_hash": ""
   },
   "src/Inmovil/efectos.ts": {
-    "mtime": 1795123881.1913557,
-    "seen": 1795123907.9810064,
-    "ast_hash": "de6ab3d6f34677910319181ae18930ef",
+    "mtime": 1795124279.675106,
+    "seen": 1795125489.8627932,
+    "ast_hash": "79178c9b9badded33a754abc2062feb1",
     "semantic_hash": ""
   },
   "src/Inmovil/escenas.ts": {
-    "mtime": 1795123881.1913557,
-    "seen": 1795123907.9810076,
-    "ast_hash": "193437cb61e8dba527cd194f88517663",
+    "mtime": 1795124342.7892973,
+    "seen": 1795125489.862795,
+    "ast_hash": "efa3c04f729d226dbd1f4800a33c244a",
     "semantic_hash": ""
   },
   "src/Inmovil/guion.json": {
-    "mtime": 1795123881.1913557,
-    "seen": 1795123907.981009,
-    "ast_hash": "29dba0de07b9e83fa9e237c4f133528d",
+    "mtime": 1795124232.5644302,
+    "seen": 1795125489.8627968,
+    "ast_hash": "d1b1c7870429c018009b55c5344adf2b",
     "semantic_hash": ""
   },
   "src/Inmovil/tiempos.json": {
-    "mtime": 1795123881.1913557,
-    "seen": 1795123907.9810097,
-    "ast_hash": "9275172f1586a985a50e4bfcbb3f485f",
+    "mtime": 1795124279.658097,
+    "seen": 1795125489.862798,
+    "ast_hash": "022ca291150ba90d98ef8e1c2469731c",
     "semantic_hash": ""
   },
   "src/Inmovil/voz_texto.txt": {
-    "mtime": 1795123881.1913557,
-    "seen": 1795123907.981295,
-    "ast_hash": "0b22a9e82d8e2f507d4a1aa5af5880fd",
+    "mtime": 1795124416.4576154,
+    "seen": 1795125489.8631008,
+    "ast_hash": "7f18fb853ebe7f6d2cda531b0cfe8fc2",
     "semantic_hash": ""
   },
   "public/voz/inmovil.mp3": {
-    "mtime": 1795123881.1862645,
-    "seen": 1795123907.9814167,
-    "ast_hash": "ebc542c1e445e5ba8fc09f5eb280a406",
+    "mtime": 1795124279.6556423,
+    "seen": 1795125489.8632712,
+    "ast_hash": "a7749c7e0004ea879228c9bc83b29682",
     "semantic_hash": ""
   },
   "videos/reel-inmovil.mp4": {
-    "mtime": 1795123890.7142649,
-    "seen": 1795123907.9814262,
+    "mtime": 1795123915.1422658,
+    "seen": 1795125489.8632846,
     "ast_hash": "efac6fb062f351ceb720160eb7f6665d",
     "semantic_hash": ""
   },
   "src/Paises/Ilustraciones.tsx": {
-    "mtime": 1795123881.1744735,
-    "seen": 1795123907.9810452,
-    "ast_hash": "9ebd4898c88a1a81c123cc2491e2d436",
+    "mtime": 1795123915.0062659,
+    "seen": 1795125489.8628407,
+    "ast_hash": "9b2a9b659e51fd94ea686c49b7404d49",
     "semantic_hash": ""
   },
   "src/Paises/Reel.tsx": {
@@ -3888,9 +3888,9 @@
     "semantic_hash": ""
   },
   "src/Paises/tiempos.json": {
-    "mtime": 1795123881.1747437,
-    "seen": 1795123907.9810522,
-    "ast_hash": "ad69d969264a93c2d3fb7fbcacee2cd8",
+    "mtime": 1795123915.0062659,
+    "seen": 1795125489.862852,
+    "ast_hash": "bab122defa5065929ddd0dc440801975",
     "semantic_hash": ""
   },
   "src/VueltaMundo/Ilustraciones.tsx": {
@@ -3912,9 +3912,9 @@
     "semantic_hash": ""
   },
   "src/VueltaMundo/escenas.ts": {
-    "mtime": 1795123881.1756003,
-    "seen": 1795123907.9810727,
-    "ast_hash": "4c4a4c53c4ee787fd462268465734464",
+    "mtime": 1795123915.0062659,
+    "seen": 1795125489.8628755,
+    "ast_hash": "7f6ac45c5e164f679e79029265c827d9",
     "semantic_hash": ""
   },
   "src/VueltaMundo/guion.json": {
@@ -3930,9 +3930,9 @@
     "semantic_hash": ""
   },
   "src/VueltaMundo/tiempos.json": {
-    "mtime": 1795123881.1757333,
-    "seen": 1795123907.9810755,
-    "ast_hash": "f583f592632643be360827fd4e7d29ed",
+    "mtime": 1795123915.0062659,
+    "seen": 1795125489.8628786,
+    "ast_hash": "0756a375ea93b066672ed19657971a30",
     "semantic_hash": ""
   },
   "src/comun/Globo.tsx": {
@@ -3942,9 +3942,21 @@
     "semantic_hash": ""
   },
   "public/voz/vueltamundo.mp3": {
-    "mtime": 1795123881.1702645,
-    "seen": 1795123907.9814203,
-    "ast_hash": "4f62ee4a30ac4c925b9cd83107a09316",
+    "mtime": 1795123915.0062659,
+    "seen": 1795125489.863278,
+    "ast_hash": "ed024c76307ed0c9e9ed75ead238b0af",
+    "semantic_hash": ""
+  },
+  "public/voz/paises.mp3": {
+    "mtime": 1795123914.9982657,
+    "seen": 1795125489.8632748,
+    "ast_hash": "be4ad7f5f53cac3a087c86d6a9efb1f7",
+    "semantic_hash": ""
+  },
+  "videos/reel-inmovil-1min.mp4": {
+    "mtime": 1795125477.4823217,
+    "seen": 1795125489.8632834,
+    "ast_hash": "64ec786a70129e0803e59cf4b08b4f5b",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
