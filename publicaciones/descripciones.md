@@ -256,6 +256,26 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Salud #CuerpoHumano #Ejercicio #Curiosidades
 
+## Países que ya no existen (75 s) — `videos/reel-paises-desaparecidos.mp4`
+
+### TikTok / Reels
+> **Estos países ya NO aparecen en el mapa** 🗺️❌
+>
+> La URSS se rompió en 15 países, Yugoslavia en 7, Checoslovaquia se separó sin un disparo… y en América,
+> la Gran Colombia de Bolívar y las Provincias Unidas del Centro de América también desaparecieron 🌎
+>
+> ¿Qué país desaparecido quieres que te explique? Escríbelo en los comentarios 👇
+>
+> #historia #mapas #geografia #urss #yugoslavia #grancolombia #curiosidades #sabiasque
+
+### Facebook / YouTube Shorts
+> **Países que ya no existen** 🗺️
+>
+> La Unión Soviética, Yugoslavia, Checoslovaquia, la Alemania del Este, la Gran Colombia, las Provincias Unidas
+> del Centro de América y la República Árabe Unida: todos estuvieron en el mapa y hoy ya no están.
+>
+> #Historia #Mapas #Geografía #Curiosidades
+
 ---
 
 ## Consejos para publicar
