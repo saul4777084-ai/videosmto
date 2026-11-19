@@ -3366,9 +3366,9 @@
     "semantic_hash": ""
   },
   "clipper/servidor.py": {
-    "mtime": 1795101041.4796972,
-    "seen": 1795101124.8630872,
-    "ast_hash": "fb0f4912ee112e868d3549197464e0fb",
+    "mtime": 1795101723.9003277,
+    "seen": 1795101869.7187068,
+    "ast_hash": "41d69a2e39a76e0083ab9c6ea78eab7a",
     "semantic_hash": ""
   },
   "scripts/voz_clonada.py": {
@@ -3390,15 +3390,15 @@
     "semantic_hash": ""
   },
   "clipper/README.md": {
-    "mtime": 1795072499.4730847,
-    "seen": 1795072503.8964186,
-    "ast_hash": "b814e22bdbd177fcd686ea733c211361",
+    "mtime": 1795101865.7331402,
+    "seen": 1795101869.7190676,
+    "ast_hash": "058f26dbe7aad3298da09ed3fd3573da",
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795101041.4803336,
-    "seen": 1795101124.8635695,
-    "ast_hash": "abda7cc321a27678663417fb08953073",
+    "mtime": 1795101795.0345225,
+    "seen": 1795101869.7190688,
+    "ast_hash": "68bc8b0c020cdac059208665d8cc0071",
     "semantic_hash": ""
   },
   "voces/README.md": {
