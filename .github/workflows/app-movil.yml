@@ -1,0 +1,25 @@
+name: Subir la app del móvil a Hugging Face
+
+on:
+  push:
+    paths:
+      - 'app_movil/**'
+      - '.github/workflows/app-movil.yml'
+  workflow_dispatch:
+
+jobs:
+  subir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install huggingface_hub==2.4.0
+      - name: Crear o actualizar el Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          APP_CLAVE: ${{ secrets.APP_CLAVE }}
+          HF_SPACE: ${{ vars.HF_SPACE }}
+        run: python app_movil/subir_a_huggingface.py
