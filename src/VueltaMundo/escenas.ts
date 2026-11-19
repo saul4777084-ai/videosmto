@@ -22,7 +22,7 @@ const ESCENA: { ilustracion: Ilustracion; gesto: Gesto; clave: string[]; sinSubt
   { ilustracion: "molucas", gesto: "contar", clave: ["Molucas", "clavo,", "Trinidad"] },
   { ilustracion: "elcano", gesto: "presentar", clave: ["Elcano", "Victoria,", "última"] },
   { ilustracion: "regreso", gesto: "senalar", clave: ["Índico", "África", "portugueses."] },
-  { ilustracion: "llegada", gesto: "contar", clave: ["1522", "Sanlúcar.", "18."], enfasis: { palabra: "18.", x: 50, y: 50, zoom: 1.15 } },
+  { ilustracion: "llegada", gesto: "contar", clave: ["1522", "Sanlúcar.", "18."], enfasis: { palabra: "Solo", x: 50, y: 50, zoom: 1.15 } },
   { ilustracion: "calendario", gesto: "leer", clave: ["extraño:", "día"] },
   { ilustracion: "escudo", gesto: "presentar", clave: ["escudo:", "globo", "primero"] },
   { ilustracion: "final", gesto: "saludar", clave: [], sinSubtitulos: true },

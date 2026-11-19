@@ -314,8 +314,8 @@ const grancolRompe = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
 const centro = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
   const cam = camaraHacia(f, en("Guatemala") + 12, { lon: -80, lat: 8, zoom: 3.5, y: 1100 }, { lon: -86.2, lat: 13.2, zoom: 8, y: 1100 });
   const paises: [string, string, string, LonLat, number][] = [
-    ["Guatemala", "Guatemala,", "GUATEMALA", [-90.4, 15.5], -40],
-    ["Honduras", "Honduras,", "HONDURAS", [-86.6, 14.8], -110],
+    ["Guatemala", "Guatemala,", "GUATEMALA", [-91.6, 16.2], 0],
+    ["Honduras", "Honduras,", "HONDURAS", [-86.2, 15.2], -130],
     ["El Salvador", "Salvador,", "EL SALVADOR", [-88.9, 13.7], 70],
     ["Nicaragua", "Nicaragua", "NICARAGUA", [-85, 12.8], 20],
     ["Costa Rica", "Costa", "COSTA RICA", [-84.1, 9.9], 60],
