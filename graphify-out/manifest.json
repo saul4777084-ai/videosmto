@@ -3390,15 +3390,15 @@
     "semantic_hash": ""
   },
   "clipper/README.md": {
-    "mtime": 1795066005.9744325,
-    "seen": 1795066011.7615843,
-    "ast_hash": "4149020ed75799a2657ac623a115a7c0",
+    "mtime": 1795067637.7124004,
+    "seen": 1795067643.370314,
+    "ast_hash": "00fbe6763996c1bed43fbc4c265b486a",
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795065324.1679587,
-    "seen": 1795066011.761586,
-    "ast_hash": "cad88a1a6df6b2906d10cd92bcb6fc4c",
+    "mtime": 1795067627.9987261,
+    "seen": 1795067643.3703156,
+    "ast_hash": "477970dc37e893763069e734854d16ba",
     "semantic_hash": ""
   },
   "voces/README.md": {
@@ -3777,6 +3777,12 @@
     "mtime": 1795051792.1787863,
     "seen": 1795065318.708328,
     "ast_hash": "b41b9315579ec2d17d1594e0e5cac32d",
+    "semantic_hash": ""
+  },
+  "app/fabrica-reels.html": {
+    "mtime": 1795066809.3544803,
+    "seen": 1795067643.3703117,
+    "ast_hash": "f4d2f3235f7aeee1743efbc443c23212",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
