@@ -1,5 +1,5 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
-import base64, glob, hmac, json, math, os, re, shutil, subprocess, sys, time, urllib.request, webbrowser
+import base64, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -161,6 +161,12 @@ def segmentos_atras(lista, segundos):
 
 def generar_directo(d):
     """Clip de los últimos N segundos de un directo, como el botón «Clip» de Twitch."""
+    nombre, entrada, seg = capturar_directo(d)
+    return editar(d, nombre, entrada, seg, "")
+
+
+def capturar_directo(d):
+    """Copia (sin editar, tarda segundos) los últimos N segundos del directo a TRABAJO."""
     url, seg = d["url"], min(max(float(d.get("segundos", 60)), 5), 300)
     vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
     alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
@@ -183,7 +189,51 @@ def generar_directo(d):
     nombre = f"{vid}_directo_{int(time.time())}"
     run(["ffmpeg", "-y", *entradas, "-t", str(seg), "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
          "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
-    return editar(d, nombre, nombre + ".ts", seg, "")
+    return nombre, nombre + ".ts", seg
+
+
+# Modo automático: un hilo copia el directo cada X segundos (trozos seguidos) y otro los edita de uno en uno,
+# así copiar nunca espera a la edición, que en el móvil es lo lento. Sigue aunque se cierre la página.
+AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": ""}
+COLA, PARAR, HILO = queue.Queue(), threading.Event(), [None]
+
+
+def bucle_auto(d):
+    cada, fallos = AUTO["cada"], 0
+    siguiente = time.time() + cada
+    while not PARAR.wait(max(0.0, siguiente - time.time())):
+        siguiente += cada
+        try:
+            COLA.put((d, *capturar_directo(dict(d, segundos=cada))))
+            fallos, AUTO["error"] = 0, ""
+        except Exception as e:
+            fallos += 1
+            AUTO["error"] = str(e)
+            if fallos >= 3:
+                AUTO["error"] = "Parado: el directo ha terminado o no responde (" + str(e) + ")"
+                break
+    AUTO["activo"] = False
+
+
+def editor():
+    while True:
+        d, nombre, entrada, seg = COLA.get()
+        try:
+            editar(d, nombre, entrada, seg, "")
+            AUTO["hechos"] += 1
+        except Exception as e:
+            AUTO["error"] = "No se pudo editar un clip: " + str(e)
+
+
+def estado_auto():
+    return dict(AUTO, en_cola=COLA.qsize())
+
+
+def lista_clips():
+    clips = [p for p in glob.glob(os.path.join(CLIPS, "*.mp4"))]
+    clips.sort(key=os.path.getmtime, reverse=True)
+    return [{"archivo": "/clips/" + os.path.basename(p), "hora": os.path.getmtime(p),
+             "mb": round(os.path.getsize(p) / 1e6, 1)} for p in clips[:200]]
 
 
 def editar(d, nombre, entrada, dur, srt):
@@ -196,11 +246,12 @@ def editar(d, nombre, entrada, dur, srt):
             with open(os.path.join(TRABAJO, nombre + ext), "w", encoding="utf-8") as f:
                 f.write(texto)
     cadena = filtro(d, nombre, dur, bool(srt)) + f",setpts=PTS/{vel}[v]"
-    salida = os.path.join(CLIPS, nombre + ".mp4")
+    salida = os.path.join(TRABAJO, nombre + ".listo.mp4")  # a CLIPS solo cuando está terminado
     # cwd=TRABAJO para pasar nombres relativos a los filtros (evita escapar rutas con ':' en Windows)
     run(["ffmpeg", "-y", "-i", entrada, "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
          "-af", f"atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
          "-movflags", "+faststart", salida], cwd=TRABAJO)
+    os.replace(salida, os.path.join(CLIPS, nombre + ".mp4"))
     for p in glob.glob(os.path.join(TRABAJO, nombre + ".*")):
         os.remove(p)
     return {"archivo": "/clips/" + nombre + ".mp4"}
@@ -245,6 +296,10 @@ class App(BaseHTTPRequestHandler):
             if os.path.isfile(p):
                 with open(p, "rb") as f:
                     return self.responder(200, f.read(), "video/mp4")
+        if self.path == "/api/clips":
+            return self.responder(200, json.dumps(lista_clips()).encode())
+        if self.path == "/api/auto":
+            return self.responder(200, json.dumps(estado_auto()).encode())
         self.responder(404, b"{}")
 
     def do_POST(self):
@@ -252,9 +307,28 @@ class App(BaseHTTPRequestHandler):
             return
         try:
             d = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))) or b"{}")
+            if self.path == "/api/borrar":
+                p = os.path.join(CLIPS, os.path.basename(str(d.get("archivo", ""))))  # basename: sin salir de clips/
+                if p.endswith(".mp4") and os.path.isfile(p):
+                    os.remove(p)
+                return self.responder(200, json.dumps(lista_clips()).encode())
+            if self.path == "/api/auto" and d.get("accion") == "parar":
+                PARAR.set()
+                if HILO[0]:
+                    HILO[0].join(timeout=90)  # deja acabar el trozo que se está copiando
+                return self.responder(200, json.dumps(estado_auto()).encode())
             if not re.match(r"^https?://", str(d.get("url", ""))):
                 raise ValueError("Pega un link http(s) válido")
-            if self.path == "/api/analizar":
+            if self.path == "/api/auto":
+                if AUTO["activo"] or (HILO[0] and HILO[0].is_alive()):
+                    raise ValueError("El modo automático ya está en marcha.")
+                PARAR.clear()
+                AUTO.update(activo=True, cada=min(max(float(d.get("cada", 60)), 15), 300), hechos=0, error="",
+                            url=d["url"], titulo=str(d.get("titulo_directo", ""))[:200])
+                HILO[0] = threading.Thread(target=bucle_auto, args=(d,), daemon=True)
+                HILO[0].start()
+                res = estado_auto()
+            elif self.path == "/api/analizar":
                 info = analizar(d["url"])
                 dur = float(info.get("duration") or 0)
                 if info.get("is_live") or info.get("live_status") in ("is_live", "is_upcoming", "post_live"):
@@ -321,5 +395,6 @@ if __name__ == "__main__":
     puerto = 8765
     print(f"Clipper en http://127.0.0.1:{puerto}  (Ctrl+C para salir)")
     print("Contraseña activada (usuario: clipper)" if CLAVE else "Sin contraseña: no lo publiques con Tailscale")
+    threading.Thread(target=editor, daemon=True).start()
     webbrowser.open(f"http://127.0.0.1:{puerto}")
     ThreadingHTTPServer(("127.0.0.1", puerto), App).serve_forever()

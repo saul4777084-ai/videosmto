@@ -56,6 +56,18 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
   <p class="estado" style="margin-top:8px">Pulsa justo después de que pase algo bueno. Puedes pulsar las veces que quieras.</p>
 </div>
 
+<div class="card">
+  <label style="margin-bottom:8px">Modo automático: cortar el directo entero en trozos de…</label>
+  <div class="chips">
+    <input type="radio" name="cada" id="c30" value="30"><label for="c30">30 s</label>
+    <input type="radio" name="cada" id="c60" value="60" checked><label for="c60">1 min</label>
+    <input type="radio" name="cada" id="c120" value="120"><label for="c120">2 min</label>
+    <input type="radio" name="cada" id="c300" value="300"><label for="c300">5 min</label>
+  </div>
+  <button id="auto" type="button" disabled style="width:100%;margin-top:14px;padding:16px">▶ Empezar automático</button>
+  <p id="estadoAuto" class="estado" style="margin-top:8px">Sigue cortando aunque cierres la página o bloquees el teléfono (deja Termux abierto con termux-wake-lock). Gasta datos y espacio: cada clip ocupa unos MB.</p>
+</div>
+
 <details class="card">
   <summary>Ajustes del clip</summary>
   <h3>Video</h3>
@@ -83,6 +95,8 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
   <p class="estado" style="margin-top:10px">Los directos no tienen subtítulos en YouTube, así que estos clips salen sin ellos.</p>
 </details>
 
+<div id="trabajando"></div>
+<p id="resumen" class="estado" style="margin:0 0 10px"></p>
 <div id="lista"></div>
 </main>
 <script>
@@ -111,6 +125,72 @@ const despierto = async (on) => {
   } catch { candado = null; }
 };
 
+let firma = "";
+function tarjetaClip({archivo, hora, mb}) {
+  const el = document.createElement("div"); el.className = "card clip";
+  const h = new Date(hora * 1000).toLocaleTimeString("es", {hour: "2-digit", minute: "2-digit", second: "2-digit"});
+  el.innerHTML = `<b></b><video controls playsinline preload="none" src="${archivo}"></video>
+    <p class="acciones"><a href="${archivo}" download>⬇ Descargar</a>
+    <button class="sec compartir" type="button" hidden>Compartir…</button><button class="sec borrar" type="button">Borrar</button></p>
+    <p class="estado"></p>`;
+  el.querySelector("b").textContent = `Clip de las ${h} · ${mb} MB`;
+  const est = el.querySelector("p.estado"), comp = el.querySelector(".compartir"), borrar = el.querySelector(".borrar");
+  if (navigator.canShare?.({files: [new File([""], "x.mp4", {type: "video/mp4"})]})) {
+    comp.hidden = false;  // abre el menú del móvil para mandarlo a TikTok, Instagram, WhatsApp…
+    comp.onclick = async () => {
+      try {
+        const blob = await (await fetch(archivo)).blob();
+        await navigator.share({files: [new File([blob], archivo.split("/").pop(), {type: "video/mp4"})]});
+      } catch (e) { if (e.name !== "AbortError") error(est, "No se pudo compartir; usa Descargar."); }
+    };
+  }
+  borrar.onclick = async () => {  // confirmación en el propio botón: el navegador de Termux no siempre muestra confirm()
+    if (borrar.dataset.seguro !== "1") { borrar.dataset.seguro = "1"; borrar.textContent = "¿Borrar? Toca otra vez"; return; }
+    pintar(await api("/api/borrar", {archivo}));
+  };
+  return el;
+}
+function pintar(clips) {
+  const nueva = clips.map(c => c.archivo).join();
+  $("resumen").textContent = clips.length ? `${clips.length} ${clips.length === 1 ? "clip" : "clips"} · ${clips.reduce((a, c) => a + c.mb, 0).toFixed(0)} MB en el teléfono` : "";
+  if (nueva === firma) return;  // no repintar si nada cambió (no corta un vídeo que se esté viendo)
+  firma = nueva;
+  $("lista").replaceChildren(...clips.map(tarjetaClip));
+}
+const refrescar = async () => { try { pintar(await (await fetch("/api/clips")).json()); } catch {} };
+
+let autoActivo = false;
+function pintarAuto(e) {
+  autoActivo = e.activo;
+  $("auto").textContent = e.activo ? "■ Parar automático" : "▶ Empezar automático";
+  $("auto").disabled = !e.activo && !directo;
+  const partes = [];
+  if (e.activo) partes.push(`Cortando cada ${e.cada >= 60 ? e.cada / 60 + " min" : e.cada + " s"}${e.titulo ? " · " + e.titulo : ""}`);
+  if (e.activo || e.hechos) partes.push(e.hechos === 1 ? "1 clip hecho" : `${e.hechos} clips hechos`);
+  if (e.en_cola) partes.push(`${e.en_cola} editándose`);
+  if (partes.length) $("estadoAuto").textContent = partes.join(" · ");
+  if (e.error) error($("estadoAuto"), (partes.length ? partes.join(" · ") + " — " : "") + e.error);
+  if (e.activo && !$("url").value) $("url").value = e.url;
+}
+const estadoAuto = async () => { try { pintarAuto(await (await fetch("/api/auto")).json()); } catch {} };
+
+$("auto").onclick = async () => {
+  $("auto").disabled = true;
+  try {
+    pintarAuto(autoActivo ? await api("/api/auto", {accion: "parar"}) : await api("/api/auto", {
+      ...directo, ...ajustes(), cada: +document.querySelector('input[name="cada"]:checked').value,
+      titulo_directo: $("info").textContent.replace("EN DIRECTO · ", "")}));
+  } catch (e) { error($("estadoAuto"), e.message); $("auto").disabled = false; }
+};
+
+// cada 5 s: clips nuevos y estado del automático (también al volver a abrir la página)
+refrescar(); estadoAuto();
+setInterval(() => { if (!document.hidden) { refrescar(); estadoAuto(); } }, 5000);
+
+const ajustes = () => ({formato: $("formato").value, encuadre: +$("encuadre").value, calidad: $("calidad").value,
+  velocidad: +$("velocidad").value, titulo: $("titulo").value, marca: $("marca").value,
+  zoom: $("zoom").checked, barra: $("barra").checked});
+
 $("conectar").onclick = async () => {
   const url = $("url").value.trim();
   $("conectar").disabled = true; $("clipear").disabled = true; directo = null;
@@ -120,6 +200,7 @@ $("conectar").onclick = async () => {
     directo = {url, id: r.id};
     $("info").className = "vivo"; $("info").textContent = "EN DIRECTO · " + r.titulo;
     $("clipear").disabled = false;
+    if (!autoActivo) $("auto").disabled = false;
   } catch (e) { $("info").className = "estado"; error($("info"), e.message); }
   $("conectar").disabled = false;
 };
@@ -132,29 +213,13 @@ $("clipear").onclick = async () => {
   const cab = Object.assign(document.createElement("b"), {textContent: `Clip de las ${hora} · últimos ${segundos} s`});
   const est = Object.assign(document.createElement("p"), {className: "estado", textContent: "Cortando… (deja la pantalla encendida)"});
   el.append(cab, est);
-  $("lista").prepend(el);
+  $("trabajando").prepend(el);
   despierto(true);
   try {
-    const {archivo} = await api("/api/clip_directo", {
-      ...directo, segundos, formato: $("formato").value, encuadre: +$("encuadre").value, calidad: $("calidad").value,
-      velocidad: +$("velocidad").value, titulo: $("titulo").value, marca: $("marca").value,
-      zoom: $("zoom").checked, barra: $("barra").checked});
-    est.textContent = "Listo";
-    const res = document.createElement("div");
-    res.innerHTML = `<video controls playsinline src="${archivo}"></video>
-      <p class="acciones"><a href="${archivo}" download>⬇ Descargar</a><button class="sec compartir" type="button" hidden>Compartir…</button></p>`;
-    el.append(res);
-    const comp = res.querySelector(".compartir");
-    if (navigator.canShare?.({files: [new File([""], "x.mp4", {type: "video/mp4"})]})) {
-      comp.hidden = false;  // abre el menú del móvil para mandarlo a TikTok, Instagram, WhatsApp…
-      comp.onclick = async () => {
-        try {
-          const blob = await (await fetch(archivo)).blob();
-          await navigator.share({files: [new File([blob], archivo.split("/").pop(), {type: "video/mp4"})]});
-        } catch (e) { if (e.name !== "AbortError") error(est, "No se pudo compartir; usa Descargar."); }
-      };
-    }
-  } catch (e) { error(est, e.message); }
+    await api("/api/clip_directo", {...directo, segundos, ...ajustes()});
+    el.remove();
+    await refrescar();
+  } catch (e) { error(est, e.message); setTimeout(() => el.remove(), 15000); }
   despierto(false);
 };
 </script></body></html>

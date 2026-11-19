@@ -2,6 +2,8 @@
 
 Clipper **en directo**: pega el link de un directo de YouTube, pulsa **Conectar** y luego **Clipear ahora** cada vez que pase algo bueno → corta los últimos 15 s – 2 min y lo edita (vertical, encuadre, título, marca de agua, zoom, barra).
 
+**Modo automático:** elige trozos de 30 s, 1, 2 o 5 min y pulsa *Empezar automático*: corta el directo entero en clips seguidos aunque cierres la página o bloquees el móvil (con `termux-wake-lock`). Para cuando lo pares o tras 3 fallos seguidos (el directo terminó). Los clips se ven, descargan, comparten y borran desde la página.
+
 (El servidor conserva también el modo de vídeos normales, `/api/analizar` y `/api/clip`, aunque la página ya no lo muestra.)
 
 ## 1. Instalar (una vez, en tu ordenador)
