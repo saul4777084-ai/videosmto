@@ -46,3 +46,13 @@ El ordenador tiene que estar encendido y con `servidor.py` en marcha. Los clips 
 - **Pegar:** copia el link en YouTube y pulsa *Pegar* al lado del campo.
 - **Compartir…:** cuando un clip está listo, este botón abre el menú del móvil para mandarlo directo a TikTok, Instagram o WhatsApp.
 - Mientras genera, la pantalla se mantiene encendida para que no se corte la espera.
+
+## 5. Sin ordenador (Android con Termux)
+
+Instalar (una vez): Termux desde F-Droid y luego
+`pkg update -y && pkg install -y python ffmpeg git nodejs`, `pip install -U yt-dlp`,
+`mkdir -p ~/.config/yt-dlp && echo "--js-runtimes node" > ~/.config/yt-dlp/config` y
+`git clone --depth 1 --filter=blob:none --sparse https://github.com/saul4777084-ai/videosmto && cd videosmto && git sparse-checkout set clipper`.
+
+Usar: `termux-wake-lock`, `cd ~/videosmto/clipper && python servidor.py` y abrir http://127.0.0.1:8765 en Chrome.
+Actualizar a la última versión: `cd ~/videosmto && git pull`.

@@ -37,30 +37,96 @@ def leer_srt(texto):
     return cues
 
 
-def recortar_srt(cues, ini, fin):
-    """Cues dentro de [ini, fin] desplazados a tiempo del clip. Quita repetidos de los subtítulos automáticos."""
+def ajustar(cues, ini, fin, margen=3.0):
+    """Lleva inicio y fin al cambio de frase más cercano (hasta 'margen' s) para no cortar a media frase."""
+    bordes = sorted({a for a, _, _ in cues})
+    cerca = lambda x: min((b for b in bordes if abs(b - x) <= margen), key=lambda b: abs(b - x), default=x)
+    a, z = cerca(ini), cerca(fin)
+    return (round(a, 2), round(z, 2)) if z - a >= 1 else (ini, fin)
+
+
+def recortar_srt(cues, ini, fin, palabras=0, mayus=False):
+    """Cues dentro de [ini, fin] desplazados a tiempo del clip. Quita repetidos de los subtítulos automáticos.
+    palabras>0 parte cada frase en trozos de ese tamaño (estilo TikTok), repartiendo el tiempo por letras."""
     t = lambda s: "%02d:%02d:%02d,%03d" % (s // 3600, s % 3600 // 60, s % 60, round(s % 1 * 1000) % 1000)
-    out, previo = [], None
+    frases, previo = [], None
     for a, z, txt in cues:
         txt = txt.splitlines()[-1] if txt else ""  # shortcut: los auto-subs repiten la línea anterior; nos quedamos con la última
         if z <= ini or a >= fin or z - a < 0.05 or not txt or txt == previo:
             continue
         previo = txt
-        out.append(f"{len(out) + 1}\n{t(max(a, ini) - ini)} --> {t(min(z, fin) - ini)}\n{txt}\n")
-    return "\n".join(out)
+        frases.append([max(a, ini) - ini, min(z, fin) - ini, txt])
+    for i in range(len(frases) - 1):  # los auto-subs se solapan: así nunca salen dos frases a la vez
+        frases[i][1] = min(frases[i][1], frases[i + 1][0])
+    trozos = []
+    for a, z, txt in frases:
+        if mayus:
+            txt = txt.upper()
+        ws = txt.split()
+        grupos = [" ".join(ws[i:i + palabras]) for i in range(0, len(ws), palabras)] if palabras else [txt]
+        total, dur = sum(len(g) for g in grupos), z - a
+        for g in grupos:
+            d = dur * len(g) / total
+            trozos.append([a, a + d, g])
+            a += d
+    return "\n".join(f"{i}\n{t(a)} --> {t(z)}\n{x}\n" for i, (a, z, x) in enumerate(trozos, 1))
 
 
 FORMATOS = {
-    "vertical": "[0:v]crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',scale=1080:1920",
+    "vertical": "[0:v]crop='min(iw,ih*9/16)':'min(ih,iw*16/9)':'(iw-ow)*{k}':'(ih-oh)/2',scale=1080:1920:flags=lanczos",
     "desenfocado": "[0:v]split[a][b];[a]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,"
-                   "boxblur=20[f];[b]scale=1080:-2[p];[f][p]overlay=(W-w)/2:(H-h)/2",
+                   "boxblur=20[f];[b]scale=1080:-2:flags=lanczos[p];[f][p]overlay=(W-w)/2:(H-h)/2",
     "original": "[0:v]null",
 }
+# altura máxima que se descarga, crf, preset. En vertical se recorta ~1/3 del ancho: hace falta fuente alta para que no salga borroso
+CALIDADES = {"rapida": (720, 26, "veryfast"), "buena": (1080, 20, "veryfast"), "maxima": (2160, 18, "medium")}
+TAMANOS = {"pequeno": 12, "mediano": 16, "grande": 22}
+COLORES = {"blanco": "&H00FFFFFF", "amarillo": "&H0000E5FF", "verde": "&H0066FF33"}  # ASS: &HAABBGGRR
+POSICIONES = {"abajo": 2, "centro": 5, "arriba": 8}
+
+
+def filtro(d, nombre, dur, srt):
+    """Cadena de filtros de ffmpeg de un clip. No descarga nada, así que test() la prueba sola."""
+    formato = d.get("formato") if d.get("formato") in FORMATOS else "vertical"
+    k = min(max(float(d.get("encuadre", 0.5)), 0.0), 1.0)
+    f = FORMATOS[formato].replace("{k}", str(k))
+    if formato != "original" and d.get("zoom"):  # zoom suave hasta +8 % al final del clip
+        f += f",scale=w='trunc(540*(1+0.08*t/{dur:.2f}))*2':h=-2:eval=frame:flags=lanczos,crop=1080:1920"
+    if srt:
+        pos = d.get("sub_posicion") if d.get("sub_posicion") in POSICIONES else "abajo"
+        margen = {"abajo": 70 if formato != "original" else 20, "centro": 0, "arriba": 40}[pos]
+        tam = TAMANOS.get(d.get("sub_tamano"), 16) + (4 if d.get("sub_estilo") == "tiktok" else 0)
+        f += (f",subtitles={nombre}.srt:force_style='FontName=Arial,FontSize={tam},Bold=1,Outline=3,"
+              f"PrimaryColour={COLORES.get(d.get('sub_color'), COLORES['blanco'])},"
+              f"Alignment={POSICIONES[pos]},MarginV={margen}'")
+    # shortcut: drawtext usa la fuente por defecto de fontconfig; en Windows sin fontconfig añade fontfile=
+    if str(d.get("titulo", "")).strip():
+        f += f",drawtext=textfile={nombre}.titulo.txt:expansion=none:fontsize=h/24:fontcolor=white:borderw=5:x=(w-tw)/2:y=h*0.08"
+    if str(d.get("marca", "")).strip():
+        f += f",drawtext=textfile={nombre}.marca.txt:expansion=none:fontsize=h/40:fontcolor=white@0.6:borderw=2:x=(w-tw)/2:y=h*0.93"
+    if d.get("barra"):
+        f += f",drawbox=x=0:y=ih-ih/120:w='iw*t/{dur:.2f}':h=ih/120:color=white@0.85:t=fill"
+    return f
 
 
 def analizar(url):
     info = json.loads(run(YTDLP + ["-J", "--", url]).stdout)
     return info
+
+
+def subtitulos(url, vid):
+    """Subtítulos del vídeo (se descargan una vez y se reutilizan). Lista de cues o []."""
+    srts = glob.glob(os.path.join(TRABAJO, vid + ".*.srt"))
+    if not srts:
+        run(YTDLP + ["--skip-download", "--write-subs", "--write-auto-subs", "--sub-langs", "es.*,en.*,.*-orig",
+                     "--convert-subs", "srt", "-o", os.path.join(TRABAJO, vid), "--", url], check=False)
+        srts = glob.glob(os.path.join(TRABAJO, vid + ".*.srt"))
+    if not srts:
+        return []
+    # español reconocido del audio > español > otro idioma reconocido del audio > el resto
+    srts.sort(key=lambda p: (0 if ".es-orig." in p else 1 if ".es." in p else 2 if "-orig." in p else 3, len(p)))
+    with open(srts[0], encoding="utf-8") as f:
+        return leer_srt(f.read())
 
 
 def generar(d):
@@ -69,40 +135,33 @@ def generar(d):
     if not 0 <= ini < fin or fin - ini > 600:
         raise ValueError("Tramo inválido (máx. 10 min)")
     vid = re.sub(r"\W", "", d.get("id", "video"))[:20] or "video"
+    alto, crf, preset = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
+    cues = subtitulos(url, vid) if d.get("subtitulos") or d.get("ajustar", True) else []
+    if d.get("ajustar", True) and cues:
+        ini, fin = ajustar(cues, ini, fin)
     nombre = f"{vid}_{int(ini)}_{int(time.time())}"
     tramo = os.path.join(TRABAJO, nombre + ".mp4")
-    run(YTDLP + ["-f", "bv*[height<=1080]+ba/b", "--merge-output-format", "mp4", "--force-keyframes-at-cuts",
-                 "--download-sections", f"*{ini}-{fin}", "-o", tramo, "--", url])
-    filtro = FORMATOS.get(d.get("formato"), FORMATOS["vertical"])
-    if d.get("subtitulos"):
-        srts = glob.glob(os.path.join(TRABAJO, vid + ".*.srt"))
-        if not srts:
-            run(YTDLP + ["--skip-download", "--write-subs", "--write-auto-subs", "--sub-langs", "es.*,es,en.*,en",
-                         "--convert-subs", "srt", "-o", os.path.join(TRABAJO, vid), "--", url], check=False)
-            srts = glob.glob(os.path.join(TRABAJO, vid + ".*.srt"))
-        if srts:
-            srts.sort(key=lambda p: (".es" not in p, len(p)))  # español primero, el original antes que traducciones
-            with open(srts[0], encoding="utf-8") as f:
-                cues = leer_srt(f.read())
-            with open(os.path.join(TRABAJO, nombre + ".srt"), "w", encoding="utf-8") as f:
-                f.write(recortar_srt(cues, ini, fin))
-            filtro += (f",subtitles={nombre}.srt:force_style='FontName=Arial,FontSize=16,Bold=1,Outline=2,"
-                       f"Alignment=2,MarginV={70 if d.get('formato') != 'original' else 20}'")
-    if d.get("titulo", "").strip():
-        with open(os.path.join(TRABAJO, nombre + ".txt"), "w", encoding="utf-8") as f:
-            f.write(d["titulo"].strip())
-        # shortcut: drawtext usa la fuente por defecto de fontconfig; en Windows sin fontconfig añade fontfile=
-        filtro += f",drawtext=textfile={nombre}.txt:expansion=none:fontsize=h/24:fontcolor=white:borderw=5:x=(w-tw)/2:y=h*0.08"
-    filtro += f",setpts=PTS/{vel}[v]"
+    run(YTDLP + ["-f", f"bv*[height<={alto}]+ba/b[height<={alto}]/b", "--merge-output-format", "mp4",
+                 "--force-keyframes-at-cuts", "--download-sections", f"*{ini}-{fin}", "-o", tramo, "--", url])
+    srt = ""
+    if d.get("subtitulos") and cues:
+        tiktok = d.get("sub_estilo") == "tiktok"
+        srt = recortar_srt(cues, ini, fin, palabras=3 if tiktok else 0, mayus=tiktok)
+    for ext, texto in ((".srt", srt), (".titulo.txt", str(d.get("titulo", "")).strip()[:80]),
+                       (".marca.txt", str(d.get("marca", "")).strip()[:40])):
+        if texto:
+            with open(os.path.join(TRABAJO, nombre + ext), "w", encoding="utf-8") as f:
+                f.write(texto)
+    cadena = filtro(d, nombre, fin - ini, bool(srt)) + f",setpts=PTS/{vel}[v]"
     salida = os.path.join(CLIPS, nombre + ".mp4")
     # cwd=TRABAJO para pasar nombres relativos a los filtros (evita escapar rutas con ':' en Windows)
-    run(["ffmpeg", "-y", "-i", nombre + ".mp4", "-filter_complex", filtro, "-map", "[v]", "-map", "0:a?",
-         "-af", f"atempo={vel}", "-c:v", "libx264", "-crf", "23", "-preset", "veryfast", "-c:a", "aac",
+    run(["ffmpeg", "-y", "-i", nombre + ".mp4", "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
+         "-af", f"atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
          "-movflags", "+faststart", salida], cwd=TRABAJO)
     for p in glob.glob(os.path.join(TRABAJO, nombre + ".*")):
         os.remove(p)
-    return "/clips/" + nombre + ".mp4"
+    return {"archivo": "/clips/" + nombre + ".mp4", "inicio": ini, "fin": fin}
 
 
 def run(cmd, check=True, cwd=None):
@@ -159,7 +218,7 @@ class App(BaseHTTPRequestHandler):
                        "picos": bool(info.get("heatmap")),
                        "clips": momentos(info.get("heatmap"), dur, int(d.get("n", 5)), float(d.get("largo", 45)))}
             elif self.path == "/api/clip":
-                res = {"archivo": generar(d)}
+                res = generar(d)
             else:
                 return self.responder(404, b"{}")
             self.responder(200, json.dumps(res).encode())
@@ -176,6 +235,25 @@ def test():
           "3\n00:00:11,510 --> 00:00:14,000\nhola\nmundo\n\n4\n00:00:30,000 --> 00:00:31,000\nfuera\n"
     assert recortar_srt(leer_srt(srt), 10, 20) == \
         "1\n00:00:00,000 --> 00:00:01,500\nhola\n\n2\n00:00:01,510 --> 00:00:04,000\nmundo\n"
+    assert ajustar(leer_srt(srt), 10, 29) == (9.0, 30.0)   # a los cambios de frase cercanos
+    assert ajustar(leer_srt(srt), 100, 120) == (100, 120)   # sin frases cerca: no toca nada
+    tik = recortar_srt(leer_srt("1\n00:00:00,000 --> 00:00:03,000\nuno dos tres cuatro\n\n"
+                                "2\n00:00:02,000 --> 00:00:04,000\nfin\n"), 0, 10, palabras=3, mayus=True)
+    assert tik == ("1\n00:00:00,000 --> 00:00:01,333\nUNO DOS TRES\n\n2\n00:00:01,333 --> 00:00:02,000\nCUATRO\n\n"
+                   "3\n00:00:02,000 --> 00:00:04,000\nFIN\n"), tik
+    # la cadena de filtros completa funciona en ffmpeg con un vídeo de prueba
+    import shutil, tempfile
+    if shutil.which("ffmpeg"):
+        tmp = tempfile.mkdtemp()
+        for ext, x in ((".srt", "1\n00:00:00,000 --> 00:00:01,000\nHOLA\n"), (".titulo.txt", "Título"), (".marca.txt", "@yo")):
+            open(os.path.join(tmp, "t" + ext), "w", encoding="utf-8").write(x)
+        d = {"formato": "vertical", "encuadre": 0.25, "zoom": True, "barra": True, "titulo": "x", "marca": "y",
+             "sub_estilo": "tiktok", "sub_color": "amarillo", "sub_posicion": "centro"}
+        r = subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "testsrc2=s=1920x1080:d=2", "-filter_complex",
+                            filtro(d, "t", 2, True) + ",setpts=PTS/1.25[v]", "-map", "[v]", "-f", "null", "-"],
+                           cwd=tmp, capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr
+        shutil.rmtree(tmp)
     print("ok")
 
 
