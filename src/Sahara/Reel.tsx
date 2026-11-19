@@ -6,12 +6,13 @@ import { crearIlustraciones } from "./Ilustraciones";
 
 const DIBUJOS = crearIlustraciones(ESCENARIOS);
 
-// Voz de Gerardo (ElevenLabs) y avatar con poses abajo a la izquierda (por defecto de ReelBase)
+// Voz de Gerardo (ElevenLabs). Sin avatar (lo pidió el usuario).
 export const ReelSahara: React.FC = () => (
   <ReelBase
     escenas={ESCENAS}
     dibujos={DIBUJOS}
     efectos={EFECTOS}
+    mostrarAvatar={false}
     zoomSuave={false}
     tamSubtitulos={60}
     volumenEfectos={0.5}
