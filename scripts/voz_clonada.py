@@ -2,8 +2,13 @@
 """Voz en off con TU voz clonada (Chatterbox Multilingual de Resemble AI, licencia MIT, gratis y en local).
 
 Uso (con el Python del entorno aparte, que tiene torch y chatterbox):
-  ~/.venvs/clonar/bin/python scripts/voz_clonada.py GUION.json SALIDA.mp3 --referencia voces/mi_voz.wav
-      [--expresividad 0.5] [--cfg 0.5] [--pausa 0.35]
+  ~/.venvs/clonar/bin/python scripts/voz_clonada.py GUION.json SALIDA.mp3          # TU voz, versión expresiva
+  ~/.venvs/clonar/bin/python scripts/voz_clonada.py GUION.json SALIDA.mp3 --referencia otra.wav
+      [--expresividad 0.8] [--cfg 0.3] [--pausa 0.35]
+
+Por defecto usa la voz del usuario (voces/mi_voz/referencia.mp3) con los ajustes que eligió: la versión
+"expresiva" (expresividad 0.8, cfg 0.3). Esa carpeta está en .gitignore: el repositorio es público y una
+grabación de la voz permitiría a cualquiera clonarla.
 
 --referencia: 10–30 s de tu voz hablando normal, sin música ni eco (sirve un audio del móvil).
 GUION.json es una lista de frases (la misma que usa alinear_voz.py).
@@ -28,16 +33,21 @@ os.environ.setdefault("HF_HUB_DISABLE_XET", "1")
 import torch
 import torchaudio
 
+RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MI_VOZ = os.path.join(RAIZ, "voces", "mi_voz", "referencia.mp3")
+
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("guion")
     ap.add_argument("salida")
-    ap.add_argument("--referencia", required=True, help="audio con la voz a clonar (wav/mp3/m4a)")
-    ap.add_argument("--expresividad", type=float, default=0.5, help="0.25 plana … 1.0 muy expresiva")
-    ap.add_argument("--cfg", type=float, default=0.5, help="más bajo = más pausado")
+    ap.add_argument("--referencia", default=MI_VOZ, help="audio con la voz a clonar (por defecto, la del usuario)")
+    ap.add_argument("--expresividad", type=float, default=0.8, help="0.25 plana … 1.0 muy expresiva")
+    ap.add_argument("--cfg", type=float, default=0.3, help="más bajo = más pausado")
     ap.add_argument("--pausa", type=float, default=0.35, help="silencio entre frases (s)")
     a = ap.parse_args()
+    if not os.path.exists(a.referencia):
+        ap.error(f"no encuentro la voz de referencia: {a.referencia} (pásala con --referencia)")
 
     from chatterbox.mtl_tts import ChatterboxMultilingualTTS
 

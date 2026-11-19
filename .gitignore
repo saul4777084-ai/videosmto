@@ -9,3 +9,6 @@ out
 # Caché local de SkillDB
 .skilldb/
 graphify-out/cache/hook_sessions/
+
+# voz del usuario (repositorio público: no subir)
+voces/mi_voz/
