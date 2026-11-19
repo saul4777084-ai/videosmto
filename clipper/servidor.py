@@ -1,5 +1,5 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
-import base64, glob, hmac, json, os, re, subprocess, sys, time, webbrowser
+import base64, glob, hmac, json, math, os, re, subprocess, sys, time, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -148,20 +148,49 @@ def generar(d):
     if d.get("subtitulos") and cues:
         tiktok = d.get("sub_estilo") == "tiktok"
         srt = recortar_srt(cues, ini, fin, palabras=3 if tiktok else 0, mayus=tiktok)
+    return dict(editar(d, nombre, nombre + ".mp4", fin - ini, srt), inicio=ini, fin=fin)
+
+
+def segmentos_atras(lista, segundos):
+    """Cuántos segmentos de una lista HLS en directo hay que retroceder para tener los últimos 'segundos'."""
+    m = re.search(r"#EXT-X-TARGETDURATION:(\d+(?:\.\d+)?)", lista)
+    return math.ceil(segundos / float(m.group(1) if m else 5)) + 1
+
+
+def generar_directo(d):
+    """Clip de los últimos N segundos de un directo, como el botón «Clip» de Twitch."""
+    url, seg = d["url"], min(max(float(d.get("segundos", 60)), 5), 300)
+    vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
+    alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
+    os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
+    m3u8 = run(YTDLP + ["-g", "-f", f"b[height<={alto}][protocol^=m3u8]/b[protocol^=m3u8]", "--", url]).stdout.split()[0]
+    with urllib.request.urlopen(m3u8, timeout=20) as r:
+        lista = r.read().decode("utf-8", "replace")
+    nombre = f"{vid}_directo_{int(time.time())}"
+    # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar los segundos
+    run(["ffmpeg", "-y", "-live_start_index", str(-segmentos_atras(lista, seg)), "-i", m3u8, "-t", str(seg),
+         "-map", "0:v:0", "-map", "0:a:0?", "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
+    return editar(d, nombre, nombre + ".ts", seg, "")
+
+
+def editar(d, nombre, entrada, dur, srt):
+    """Pasa el tramo descargado (en TRABAJO) por formato, subtítulos y efectos, y lo deja en CLIPS."""
+    vel = min(max(float(d.get("velocidad", 1)), 0.5), 2.0)
+    crf, preset = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[1:]
     for ext, texto in ((".srt", srt), (".titulo.txt", str(d.get("titulo", "")).strip()[:80]),
                        (".marca.txt", str(d.get("marca", "")).strip()[:40])):
         if texto:
             with open(os.path.join(TRABAJO, nombre + ext), "w", encoding="utf-8") as f:
                 f.write(texto)
-    cadena = filtro(d, nombre, fin - ini, bool(srt)) + f",setpts=PTS/{vel}[v]"
+    cadena = filtro(d, nombre, dur, bool(srt)) + f",setpts=PTS/{vel}[v]"
     salida = os.path.join(CLIPS, nombre + ".mp4")
     # cwd=TRABAJO para pasar nombres relativos a los filtros (evita escapar rutas con ':' en Windows)
-    run(["ffmpeg", "-y", "-i", nombre + ".mp4", "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
+    run(["ffmpeg", "-y", "-i", entrada, "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
          "-af", f"atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
          "-movflags", "+faststart", salida], cwd=TRABAJO)
     for p in glob.glob(os.path.join(TRABAJO, nombre + ".*")):
         os.remove(p)
-    return {"archivo": "/clips/" + nombre + ".mp4", "inicio": ini, "fin": fin}
+    return {"archivo": "/clips/" + nombre + ".mp4"}
 
 
 def run(cmd, check=True, cwd=None):
@@ -223,6 +252,13 @@ class App(BaseHTTPRequestHandler):
                 res = {"id": info["id"], "titulo": info.get("title"), "duracion": dur,
                        "picos": bool(info.get("heatmap")),
                        "clips": momentos(info.get("heatmap"), dur, int(d.get("n", 5)), float(d.get("largo", 45)))}
+            elif self.path == "/api/directo":
+                info = analizar(d["url"])
+                if not info.get("is_live"):
+                    raise ValueError("Este video no está en directo ahora mismo. Pega el enlace de un directo que se esté emitiendo.")
+                res = {"id": info["id"], "titulo": info.get("title")}
+            elif self.path == "/api/clip_directo":
+                res = generar_directo(d)
             elif self.path == "/api/clip":
                 res = generar(d)
             else:
@@ -247,6 +283,9 @@ def test():
                                 "2\n00:00:02,000 --> 00:00:04,000\nfin\n"), 0, 10, palabras=3, mayus=True)
     assert tik == ("1\n00:00:00,000 --> 00:00:01,333\nUNO DOS TRES\n\n2\n00:00:01,333 --> 00:00:02,000\nCUATRO\n\n"
                    "3\n00:00:02,000 --> 00:00:04,000\nFIN\n"), tik
+    assert segmentos_atras("#EXTM3U\n#EXT-X-TARGETDURATION:5\n", 60) == 13
+    assert segmentos_atras("#EXTM3U\n#EXT-X-TARGETDURATION:2\n", 30) == 16
+    assert segmentos_atras("sin cabecera", 10) == 3
     # la cadena de filtros completa funciona en ffmpeg con un vídeo de prueba
     import shutil, tempfile
     if shutil.which("ffmpeg"):

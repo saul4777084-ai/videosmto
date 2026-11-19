@@ -1,59 +1,77 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Clipper</title>
-<meta name="theme-color" content="#0f1115"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Clipper">
+<title>Clipper en directo</title>
+<meta name="theme-color" content="#0f1115"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Clipper">
 <style>
-:root{--bg:#0f1115;--card:#1a1d24;--txt:#e8e8ea;--sub:#9aa0aa;--acc:#ff3d5a;--borde:#2a2e38}
+:root{--bg:#0f1115;--card:#1a1d24;--txt:#e8e8ea;--sub:#9aa0aa;--acc:#ff3d5a;--borde:#2a2e38;--ok:#4cc483}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.4 system-ui,sans-serif}
-main{max-width:980px;margin:auto;padding:24px 16px}h1{margin:0 0 16px}
-.card{background:var(--card);border:1px solid var(--borde);border-radius:12px;padding:16px;margin-bottom:16px}
-.fila{display:flex;gap:10px;flex-wrap:wrap;align-items:end}label{display:flex;flex-direction:column;gap:4px;color:var(--sub);font-size:13px}
-input,select,button{font:inherit;font-size:16px;padding:9px 11px;border-radius:8px;border:1px solid var(--borde);background:#11141a;color:var(--txt)}
-input[type=checkbox]{width:18px;height:18px}.check{flex-direction:row;align-items:center}
-button{background:var(--acc);border:0;font-weight:600;cursor:pointer}button:disabled{opacity:.5;cursor:wait}
-#url{flex:1;min-width:240px}.clip{display:grid;grid-template-columns:320px 1fr;gap:14px}
-.clip iframe,.clip video{width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
-.clip video{aspect-ratio:auto;max-height:420px}.estado{color:var(--sub);font-size:13px}.error{color:var(--acc)}
-#lurl{flex:1}
-@media(max-width:700px){.clip{grid-template-columns:1fr}button{padding:12px 16px}#url{min-width:0;width:100%}#lurl{flex-basis:100%}}
-.acciones{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.acciones a{color:var(--acc)}
-h3{margin:14px 0 8px;font-size:14px;color:var(--sub);text-transform:uppercase;letter-spacing:.06em}h3:first-child{margin-top:0}
+main{max-width:640px;margin:auto;padding:20px 16px 40px}h1{margin:0 0 16px;font-size:26px}
+.card{background:var(--card);border:1px solid var(--borde);border-radius:14px;padding:16px;margin-bottom:16px}
+.fila{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+label{display:flex;flex-direction:column;gap:4px;color:var(--sub);font-size:13px}
+/* 16px en campos: por debajo, el iPhone hace zoom al tocar un campo */
+input,select,button{font:inherit;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--borde);background:#11141a;color:var(--txt)}
+input[type=checkbox]{width:20px;height:20px}.check{flex-direction:row;align-items:center;font-size:15px;color:var(--txt)}
+button{background:var(--acc);border:0;font-weight:600;cursor:pointer}button:disabled{opacity:.45;cursor:default}
 button.sec{background:#11141a;border:1px solid var(--borde)}
+#lurl{flex:1 1 100%}#url{width:100%}
+.vivo{display:flex;gap:8px;align-items:center;margin:12px 0 0;font-weight:600}
+.vivo::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--acc);animation:latir 1.4s infinite;flex:none}
+@keyframes latir{50%{opacity:.3}}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{flex-direction:row;font-size:15px;color:var(--txt);border:1px solid var(--borde);border-radius:999px;padding:9px 16px;cursor:pointer;background:#11141a}
+.chips input:checked+label{background:var(--txt);color:var(--bg);border-color:var(--txt)}
+.chips input:focus-visible+label{outline:2px solid var(--acc);outline-offset:2px}
+#clipear{width:100%;margin-top:14px;padding:20px;font-size:20px;border-radius:14px}
+details summary{cursor:pointer;font-weight:600}details[open] summary{margin-bottom:12px}
+h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;letter-spacing:.06em}
+.estado{color:var(--sub);font-size:13px;margin:0}.error{color:var(--acc)}
+.clip video{width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:10px}
+.acciones{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.acciones a{color:var(--acc)}
+@media (prefers-reduced-motion:reduce){.vivo::before{animation:none}}
 </style></head><body><main>
-<h1>✂️ Clipper</h1>
-<div class="card fila">
-  <label id="lurl">Link de YouTube<input id="url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.youtube.com/watch?v=…"></label>
-  <button id="pegar" class="sec" type="button" hidden>Pegar</button>
-  <label>Clips<input id="n" type="number" value="5" min="1" max="20" style="width:70px"></label>
-  <label>Segundos<input id="largo" type="number" value="45" min="5" max="600" style="width:80px"></label>
-  <button id="analizar">Buscar momentos</button>
-</div>
+<h1>✂️ Clipper en directo</h1>
+
 <div class="card">
+  <div class="fila">
+    <label id="lurl">Link del directo de YouTube<input id="url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.youtube.com/watch?v=…"></label>
+    <button id="pegar" class="sec" type="button" hidden>Pegar</button>
+    <button id="conectar" type="button">Conectar</button>
+  </div>
+  <p id="info" class="estado" style="margin-top:10px">Pega el enlace de un directo que se esté emitiendo y pulsa Conectar.</p>
+</div>
+
+<div class="card">
+  <label style="margin-bottom:8px">Cortar los últimos…</label>
+  <div class="chips">
+    <input type="radio" name="seg" id="s15" value="15"><label for="s15">15 s</label>
+    <input type="radio" name="seg" id="s30" value="30" checked><label for="s30">30 s</label>
+    <input type="radio" name="seg" id="s60" value="60"><label for="s60">1 min</label>
+    <input type="radio" name="seg" id="s90" value="90"><label for="s90">1:30</label>
+    <input type="radio" name="seg" id="s120" value="120"><label for="s120">2 min</label>
+  </div>
+  <button id="clipear" type="button" disabled>✂️ Clipear ahora</button>
+  <p class="estado" style="margin-top:8px">Pulsa justo después de que pase algo bueno. Puedes pulsar las veces que quieras.</p>
+</div>
+
+<details class="card">
+  <summary>Ajustes del clip</summary>
   <h3>Video</h3>
   <div class="fila">
     <label>Formato<select id="formato">
       <option value="vertical">Vertical 9:16 (recorte)</option>
       <option value="desenfocado">Vertical con fondo desenfocado</option>
       <option value="original">Original</option></select></label>
+    <label>Encuadre<select id="encuadre">
+      <option value="0">Izquierda</option><option value="0.25">Centro-izq.</option><option value="0.5" selected>Centro</option>
+      <option value="0.75">Centro-der.</option><option value="1">Derecha</option></select></label>
     <label>Calidad<select id="calidad">
       <option value="rapida">Rápida (720p)</option>
       <option value="buena" selected>Buena (1080p)</option>
-      <option value="maxima">Máxima (4K, tarda más)</option></select></label>
+      <option value="maxima">Máxima (tarda más)</option></select></label>
     <label>Velocidad<select id="velocidad"><option>1</option><option>1.1</option><option>1.25</option><option>1.5</option></select></label>
-    <label class="check"><input id="ajustar" type="checkbox" checked> No cortar a media frase</label>
-  </div>
-  <h3>Subtítulos</h3>
-  <div class="fila">
-    <label class="check"><input id="subtitulos" type="checkbox" checked> Poner subtítulos</label>
-    <label>Estilo<select id="sub_estilo">
-      <option value="tiktok">TikTok (3 palabras, MAYÚSCULAS)</option>
-      <option value="frases">Frases normales</option></select></label>
-    <label>Tamaño<select id="sub_tamano">
-      <option value="pequeno">Pequeño</option><option value="mediano" selected>Mediano</option><option value="grande">Grande</option></select></label>
-    <label>Color<select id="sub_color">
-      <option value="blanco">Blanco</option><option value="amarillo">Amarillo</option><option value="verde">Verde</option></select></label>
-    <label>Posición<select id="sub_posicion">
-      <option value="abajo">Abajo</option><option value="centro">Centro</option><option value="arriba">Arriba</option></select></label>
   </div>
   <h3>Efectos</h3>
   <div class="fila">
@@ -62,33 +80,28 @@ button.sec{background:#11141a;border:1px solid var(--borde)}
     <label class="check"><input id="zoom" type="checkbox"> Zoom suave</label>
     <label class="check"><input id="barra" type="checkbox"> Barra de progreso</label>
   </div>
-  <div class="fila" style="margin-top:14px"><button id="todos" disabled>Generar todos</button></div>
-</div>
-<p id="info" class="estado"></p>
+  <p class="estado" style="margin-top:10px">Los directos no tienen subtítulos en YouTube, así que estos clips salen sin ellos.</p>
+</details>
+
 <div id="lista"></div>
 </main>
 <script>
 const $ = id => document.getElementById(id);
-let video = null;
+let directo = null;
 const api = async (ruta, datos) => {
   const r = await fetch(ruta, {method: "POST", body: JSON.stringify(datos)});
   const j = await r.json();
   if (!r.ok) throw new Error(j.error);
   return j;
 };
-const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
-// Tiempos como en YouTube: "1:30" (o "1:02:05", o solo segundos "90"). Admite décimas: "1:30.5"
-const seg = v => { const p = String(v).trim().replace(",", ".").split(":").map(Number);
-  return !String(v).trim() || p.some(isNaN) ? NaN : p.reduce((a, b) => a * 60 + b, 0); };
-const tiempo = s => { const d = Math.round(s * 10), m = Math.floor(d / 600), r = (d % 600) / 10;
-  return `${m}:${r < 10 ? "0" : ""}${r}`; };
+const error = (el, msg) => { el.replaceChildren(Object.assign(document.createElement("span"), {className: "error", textContent: msg})); };
 
-// Pegar: solo existe con HTTPS (tailscale serve) o en el propio PC
+// Pegar: solo existe con HTTPS o en el propio aparato (127.0.0.1)
 if (navigator.clipboard?.readText) {
   $("pegar").hidden = false;
   $("pegar").onclick = async () => { try { $("url").value = (await navigator.clipboard.readText()).trim(); } catch {} };
 }
-// Mantiene la pantalla encendida mientras genera: si el móvil se bloquea, se corta la espera
+// Mantiene la pantalla encendida mientras corta: si el móvil se bloquea, se corta la espera
 let candado = null, trabajos = 0;
 const despierto = async (on) => {
   trabajos += on ? 1 : -1;
@@ -97,59 +110,41 @@ const despierto = async (on) => {
     if (trabajos === 0 && candado) { await candado.release(); candado = null; }
   } catch { candado = null; }
 };
-const error = (el, msg) => { el.replaceChildren(Object.assign(document.createElement("span"), {className: "error", textContent: msg})); };
 
-$("analizar").onclick = async () => {
-  $("analizar").disabled = true; $("info").textContent = "Analizando…"; $("lista").innerHTML = "";
+$("conectar").onclick = async () => {
+  const url = $("url").value.trim();
+  $("conectar").disabled = true; $("clipear").disabled = true; directo = null;
+  $("info").className = "estado"; $("info").textContent = "Conectando con el directo…";
   try {
-    video = await api("/api/analizar", {url: $("url").value.trim(), n: +$("n").value, largo: +$("largo").value});
-    video.url = $("url").value.trim();
-    $("info").textContent = `${video.titulo} · ${mmss(video.duracion)} · ` +
-      (video.picos ? "momentos según lo más repetido en YouTube" : "sin datos de lo más repetido: tramos repartidos");
-    video.clips.forEach(([a, b], i) => $("lista").append(tarjeta(a, b, i)));
-    $("todos").disabled = false;
-  } catch (e) { error($("info"), e.message); }
-  $("analizar").disabled = false;
+    const r = await api("/api/directo", {url});
+    directo = {url, id: r.id};
+    $("info").className = "vivo"; $("info").textContent = "EN DIRECTO · " + r.titulo;
+    $("clipear").disabled = false;
+  } catch (e) { $("info").className = "estado"; error($("info"), e.message); }
+  $("conectar").disabled = false;
 };
 
-function tarjeta(a, b, i) {
+$("clipear").onclick = async () => {
+  if (!directo) return;
+  const segundos = +document.querySelector('input[name="seg"]:checked').value;
+  const hora = new Date().toLocaleTimeString("es", {hour: "2-digit", minute: "2-digit", second: "2-digit"});
   const el = document.createElement("div"); el.className = "card clip";
-  el.innerHTML = `<div><iframe allowfullscreen></iframe></div>
-    <div><b>Clip ${i + 1}</b> <span class="estado">· en qué minuto del video empieza y acaba (ej. 1:30)</span>
-      <div class="fila" style="margin:8px 0">
-      <label>Empieza en<input class="ini" inputmode="decimal" value="${tiempo(a)}" style="width:100px"></label>
-      <label>Acaba en<input class="fin" inputmode="decimal" value="${tiempo(b)}" style="width:100px"></label>
-      <label>Encuadre<select class="encuadre">
-        <option value="0">Izquierda</option><option value="0.25">Centro-izq.</option><option value="0.5" selected>Centro</option>
-        <option value="0.75">Centro-der.</option><option value="1">Derecha</option></select></label>
-      <button class="gen">Generar</button></div><p class="estado"></p><div class="res"></div></div>`;
-  const prev = () => el.querySelector("iframe").src =
-    `https://www.youtube.com/embed/${video.id}?start=${Math.floor(seg(el.querySelector(".ini").value) || 0)}&end=${Math.ceil(seg(el.querySelector(".fin").value) || 0)}`;
-  el.querySelector(".ini").onchange = el.querySelector(".fin").onchange = prev; prev();
-  el.querySelector(".gen").onclick = () => generar(el);
-  return el;
-}
-
-async function generar(el) {
-  const btn = el.querySelector(".gen"), est = el.querySelector(".estado");
-  const a = seg(el.querySelector(".ini").value), b = seg(el.querySelector(".fin").value);
-  if (isNaN(a) || isNaN(b) || b <= a) return error(est, "Escribe los tiempos como 1:30, y que «Acaba en» sea después de «Empieza en».");
-  btn.disabled = true; est.textContent = "Descargando tramo y editando… (deja la pantalla encendida)";
+  const cab = Object.assign(document.createElement("b"), {textContent: `Clip de las ${hora} · últimos ${segundos} s`});
+  const est = Object.assign(document.createElement("p"), {className: "estado", textContent: "Cortando… (deja la pantalla encendida)"});
+  el.append(cab, est);
+  $("lista").prepend(el);
   despierto(true);
   try {
-    const {archivo, inicio, fin} = await api("/api/clip", {
-      url: video.url, id: video.id, inicio: a, fin: b,
-      encuadre: +el.querySelector(".encuadre").value, formato: $("formato").value, calidad: $("calidad").value,
-      velocidad: +$("velocidad").value, ajustar: $("ajustar").checked, subtitulos: $("subtitulos").checked,
-      sub_estilo: $("sub_estilo").value, sub_tamano: $("sub_tamano").value, sub_color: $("sub_color").value,
-      sub_posicion: $("sub_posicion").value, titulo: $("titulo").value, marca: $("marca").value,
+    const {archivo} = await api("/api/clip_directo", {
+      ...directo, segundos, formato: $("formato").value, encuadre: +$("encuadre").value, calidad: $("calidad").value,
+      velocidad: +$("velocidad").value, titulo: $("titulo").value, marca: $("marca").value,
       zoom: $("zoom").checked, barra: $("barra").checked});
-    const ini = el.querySelector(".ini"), fi = el.querySelector(".fin");
-    if (a !== inicio || b !== fin) { ini.value = tiempo(inicio); fi.value = tiempo(fin); ini.onchange(); }  // ajustado a frases
     est.textContent = "Listo";
-    el.querySelector(".res").innerHTML = `<video controls playsinline src="${archivo}"></video>
+    const res = document.createElement("div");
+    res.innerHTML = `<video controls playsinline src="${archivo}"></video>
       <p class="acciones"><a href="${archivo}" download>⬇ Descargar</a><button class="sec compartir" type="button" hidden>Compartir…</button></p>`;
-    const comp = el.querySelector(".compartir");
+    el.append(res);
+    const comp = res.querySelector(".compartir");
     if (navigator.canShare?.({files: [new File([""], "x.mp4", {type: "video/mp4"})]})) {
       comp.hidden = false;  // abre el menú del móvil para mandarlo a TikTok, Instagram, WhatsApp…
       comp.onclick = async () => {
@@ -161,12 +156,5 @@ async function generar(el) {
     }
   } catch (e) { error(est, e.message); }
   despierto(false);
-  btn.disabled = false;
-}
-
-$("todos").onclick = async () => {
-  $("todos").disabled = true;
-  for (const el of document.querySelectorAll(".clip")) await generar(el);  // de uno en uno para no saturar
-  $("todos").disabled = false;
 };
 </script></body></html>

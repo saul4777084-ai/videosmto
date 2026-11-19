@@ -1,6 +1,8 @@
 # Clipper (privado)
 
-Pega un link de YouTube → propone los momentos más repetidos → genera clips editados (vertical, subtítulos, título, velocidad).
+Clipper **en directo**: pega el link de un directo de YouTube, pulsa **Conectar** y luego **Clipear ahora** cada vez que pase algo bueno → corta los últimos 15 s – 2 min y lo edita (vertical, encuadre, título, marca de agua, zoom, barra).
+
+(El servidor conserva también el modo de vídeos normales, `/api/analizar` y `/api/clip`, aunque la página ya no lo muestra.)
 
 ## 1. Instalar (una vez, en tu ordenador)
 
