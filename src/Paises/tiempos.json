@@ -1,0 +1,266 @@
+{
+ "provisional": true,
+ "duracion": 62.27,
+ "frases": [
+  {
+   "texto": "Estos países existían hace nada… y hoy ya no aparecen en ningún mapa.",
+   "inicio": 0,
+   "segundos": 4.79,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96
+   ]
+  },
+  {
+   "texto": "La Unión Soviética era el país más grande del mundo: unía a quince repúblicas.",
+   "inicio": 4.79,
+   "segundos": 5.12,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96,
+    4.29
+   ]
+  },
+  {
+   "texto": "En 1991 se rompió en quince países distintos, de Rusia a Estonia.",
+   "inicio": 9.91,
+   "segundos": 4.46,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63
+   ]
+  },
+  {
+   "texto": "Yugoslavia juntaba a serbios, croatas, bosnios y eslovenos bajo una sola bandera.",
+   "inicio": 14.37,
+   "segundos": 4.46,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63
+   ]
+  },
+  {
+   "texto": "En los años noventa estalló en guerras y acabó partida en siete países.",
+   "inicio": 18.83,
+   "segundos": 4.79,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96
+   ]
+  },
+  {
+   "texto": "Checoslovaquia se separó sin un solo disparo: en 1993 nacieron Chequia y Eslovaquia.",
+   "inicio": 23.62,
+   "segundos": 4.79,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96
+   ]
+  },
+  {
+   "texto": "Alemania del Este desapareció al revés: en 1990 se unió a la del Oeste.",
+   "inicio": 28.41,
+   "segundos": 5.12,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96,
+    4.29
+   ]
+  },
+  {
+   "texto": "En América, la Gran Colombia de Simón Bolívar juntaba Colombia, Venezuela, Ecuador y Panamá.",
+   "inicio": 33.53,
+   "segundos": 5.12,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96,
+    4.29
+   ]
+  },
+  {
+   "texto": "Duró apenas doce años y se deshizo en 1831.",
+   "inicio": 38.65,
+   "segundos": 3.47,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64
+   ]
+  },
+  {
+   "texto": "Guatemala, Honduras, El Salvador, Nicaragua y Costa Rica también fueron un solo país.",
+   "inicio": 42.12,
+   "segundos": 4.79,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96
+   ]
+  },
+  {
+   "texto": "Se llamaba Provincias Unidas del Centro de América, y se separó hacia 1840.",
+   "inicio": 46.91,
+   "segundos": 4.79,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96
+   ]
+  },
+  {
+   "texto": "Y en 1958, Egipto y Siria se unieron en la República Árabe Unida… que solo duró tres años.",
+   "inicio": 51.7,
+   "segundos": 6.44,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3,
+    3.63,
+    3.96,
+    4.29,
+    4.62,
+    4.95,
+    5.28,
+    5.61
+   ]
+  },
+  {
+   "texto": "¿Qué país desaparecido quieres que te explique? Escríbelo en los comentarios.",
+   "inicio": 58.14,
+   "segundos": 4.13,
+   "tiempos": [
+    0.0,
+    0.33,
+    0.66,
+    0.99,
+    1.32,
+    1.65,
+    1.98,
+    2.31,
+    2.64,
+    2.97,
+    3.3
+   ]
+  }
+ ]
+}

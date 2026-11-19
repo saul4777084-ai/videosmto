@@ -5,7 +5,7 @@ import { Barco } from "../Colon/Barco";
 import { Calendario, Corona, Etiqueta } from "../Colon/Ilustraciones";
 import { Chip, Espadas, Fondo, Rotulo, Sello, useAparicion, Viñeta } from "../Napoleon/Ilustraciones";
 import type { Escenario } from "./escenas";
-import { aPantalla, CamaraGlobo, Globo, haciaDerecha, LonLat, mezclar, puntoEnRuta, Ruta } from "./Globo";
+import { aPantalla, CamaraGlobo, Globo, haciaDerecha, LonLat, mezclar, puntoEnRuta, Ruta } from "../comun/Globo";
 
 const W = 1080;
 const H = 1920;
@@ -361,7 +361,7 @@ const zarpan = ({ dur, en }: Escenario): Dibujo => ({ f }) => {
               if (ap <= 0) return null;
               return <Barco key={i} x={600 + (i % 3) * 170 - salir * 140 + (i > 2 ? 85 : 0)} y={1330 + Math.floor(i / 3) * 150 + salir * 40} escala={0.55 * ap} f={f} fase={i * 9} />;
             })}
-            {f >= en("Magallanes") && <Retrato x={540} y={760} s={0.95 * s} quien="magallanes" nombre="MAGALLANES" />}
+            {f >= en("Magallanes") && <Retrato x={250} y={1290} s={0.8 * s} quien="magallanes" nombre="MAGALLANES" />}
           </>
         )}
       </Globo>

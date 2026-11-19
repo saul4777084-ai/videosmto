@@ -13,6 +13,8 @@ import { ReelDescubrimiento } from "./Colon60/Reel";
 import { DURACION_TOTAL as DURACION_DESCUBRIMIENTO } from "./Colon60/escenas";
 import { ReelNapoleon } from "./Napoleon/Reel";
 import { ReelVueltaMundo } from "./VueltaMundo/Reel";
+import { ReelPaises } from "./Paises/Reel";
+import { DURACION_TOTAL as DURACION_PAISES } from "./Paises/escenas";
 import { DURACION_TOTAL as DURACION_VUELTA_MUNDO } from "./VueltaMundo/escenas";
 import { ReelFrio, ReelFrio2D } from "./Frio/Reel";
 import { DURACION_TOTAL as DURACION_FRIO } from "./Frio/escenas";
@@ -144,6 +146,14 @@ export const RemotionRoot: React.FC = () => {
         id="ReelVueltaMundo"
         component={ReelVueltaMundo}
         durationInFrames={DURACION_VUELTA_MUNDO}
+        fps={FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="ReelPaises"
+        component={ReelPaises}
+        durationInFrames={DURACION_PAISES}
         fps={FPS}
         width={1080}
         height={1920}

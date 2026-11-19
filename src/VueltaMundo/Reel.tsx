@@ -7,7 +7,7 @@ import alineado from "./tiempos.json";
 
 const DIBUJOS = crearIlustraciones(ESCENARIOS);
 
-// Avatar con poses abajo a la izquierda (opción por defecto del proyecto).
+// Sin avatar: los videos de mapas van sin avatar (lo pidió el usuario).
 // Voz: guion_voz.json (números escritos en letra) → scripts/voz_clonada.py → scripts/alinear_voz.py;
 // tiempos.json lleva los tiempos con las palabras de guion.json (cifras) para los subtítulos.
 const conVoz = !("provisional" in alineado);
@@ -17,6 +17,7 @@ export const ReelVueltaMundo: React.FC = () => (
     escenas={ESCENAS}
     dibujos={DIBUJOS}
     efectos={EFECTOS}
+    mostrarAvatar={false}
     zoomSuave={false}
     tamSubtitulos={60}
     volumenEfectos={conVoz ? 0.5 : 1}

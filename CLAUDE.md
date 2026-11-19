@@ -4,6 +4,8 @@
 - **Avatar:** todos los videos con avatar lo muestran **en la esquina inferior izquierda, pequeño y de la
   cintura hacia arriba**, usando las poses de `public/poses/` (componente `src/comun/AvatarPoses.tsx`).
   Es la opción por defecto de `ReelBase` (`avatar="poses"`); no la cambies salvo que el usuario lo pida.
+  **Excepción: los videos de mapas (estilo Napoleón, Colón, vuelta al mundo…) van siempre SIN avatar**
+  (`mostrarAvatar={false}`), lo pidió el usuario.
   Gestos disponibles: reposo, senalar, explicar, presentar, alarma, cruzar, negar, contar, saludar, leer.
 - **Plantilla:** cada video nuevo se hace con `src/comun/ReelBase.tsx` (escenas + subtítulos + avatar + sonidos)
   en su propia carpeta `src/<Video>/` (escenas.ts, Ilustraciones.tsx, efectos.ts, Reel.tsx) y se registra en `src/Root.tsx`.
@@ -24,6 +26,8 @@
   telefono, triste, pensar, silencio, saludar, hablar, pulsar, andar, contento. Se usa con una línea de tiempo:
   `acciones={[[0, "telefono"], [40, "celebrar"]]}`. Ejemplo: `src/MillonHoyV2`.
 - **Mapas:** `src/Colon/Mapa.tsx` (fronteras reales con world-atlas + d3-geo, cámara, niebla, rutas).
+  Para el mundo entero: `src/comun/Globo.tsx` (globo terráqueo que gira, países pintados, rutas que se recortan
+  en la cara oculta; ejemplo: `src/VueltaMundo`).
 - **Entrega:** copia cada video terminado a `videos/`, envíaselo al usuario y haz commit y push a `main`.
 - **Publicar:** descripciones y hashtags en `publicaciones/descripciones.md`. Nunca publiques en redes sin el OK del usuario.
 

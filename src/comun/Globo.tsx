@@ -82,6 +82,8 @@ type Props = {
   camara: CamaraGlobo;
   colores?: Record<string, { color: string; opacidad: number }>; // países pintados (color "r,g,b")
   estrellas?: boolean;
+  // países que se separan como piezas de un puzle (k de 0 a 1: cuánto se alejan del centro del grupo)
+  separar?: { nombres: string[]; k: number; px?: number };
   children?: (proy: ReturnType<typeof proyeccionDe>, trazo: ReturnType<typeof geoPath>) => React.ReactNode;
 };
 
@@ -93,12 +95,32 @@ const ESTRELLAS = Array.from({ length: 140 }, (_, i) => ({
   fase: random(`ef${i}`) * 6,
 }));
 
-export const Globo: React.FC<Props & { f: number }> = ({ camara, colores, estrellas = true, children, f }) => {
+export const Globo: React.FC<Props & { f: number }> = ({ camara, colores, estrellas = true, separar, children, f }) => {
   const proy = proyeccionDe(camara);
   const trazo = geoPath(proy);
   const [cx, cy] = [W / 2, camara.y ?? 1000];
   const r = RADIO * camara.zoom;
   const esfera = trazo(ESFERA) ?? "";
+  const sep = separar && separar.k > 0 ? new Set(separar.nombres) : null;
+  const fijos = sep ? PAISES.filter((p) => !sep.has(p.properties.name)) : PAISES;
+  // desplazamiento de cada pieza: hacia fuera desde el centro del grupo
+  const piezas = sep
+    ? (() => {
+        const ps = PAISES.filter((p) => sep.has(p.properties.name));
+        const cs = ps.map((p) => trazo.centroid(p));
+        const ok = cs.filter((c) => Number.isFinite(c[0]));
+        const g = ok.reduce((a, c) => [a[0] + c[0] / ok.length, a[1] + c[1] / ok.length], [0, 0]);
+        return ps.map((p, i) => {
+          const c = cs[i];
+          if (!Number.isFinite(c[0])) return { p, dx: 0, dy: 0 };
+          const vx = c[0] - g[0];
+          const vy = c[1] - g[1];
+          const n = Math.hypot(vx, vy) || 1;
+          const d = separar!.k * (separar!.px ?? 60);
+          return { p, dx: (vx / n) * d + vx * separar!.k * 0.25, dy: (vy / n) * d + vy * separar!.k * 0.25 };
+        });
+      })()
+    : [];
   return (
     <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
       <defs>
@@ -139,17 +161,29 @@ export const Globo: React.FC<Props & { f: number }> = ({ camara, colores, estrel
       <path d={esfera} fill="url(#g-mar)" />
       <path d={trazo(RETICULA) ?? ""} fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth={1.5} />
       <g filter="url(#g-relieve)">
-        {PAISES.map((p) => (
+        {fijos.map((p) => (
           <path key={p.properties.name + p.id} d={trazo(p) ?? ""} fill="#6f9a45" />
         ))}
       </g>
       {colores &&
-        PAISES.filter((p) => colores[p.properties.name]?.opacidad > 0).map((p) => (
+        fijos.filter((p) => colores[p.properties.name]?.opacidad > 0).map((p) => (
           <path key={`k-${p.id}`} d={trazo(p) ?? ""} fill={`rgba(${colores[p.properties.name].color},${0.85 * colores[p.properties.name].opacidad})`} />
         ))}
-      {PAISES.map((p) => (
+      {fijos.map((p) => (
         <path key={`b-${p.properties.name}${p.id}`} d={trazo(p) ?? ""} fill="none" stroke="rgba(25,35,20,0.5)" strokeWidth={1.2} />
       ))}
+      {piezas.map(({ p, dx, dy }) => {
+        const c = colores?.[p.properties.name];
+        const d = trazo(p) ?? "";
+        return (
+          <g key={`s-${p.id}`} transform={`translate(${dx} ${dy})`}>
+            <path d={d} fill="rgba(0,0,0,0.35)" transform="translate(6 10)" />
+            <path d={d} fill="#6f9a45" />
+            {c && <path d={d} fill={`rgba(${c.color},${0.9 * c.opacidad})`} />}
+            <path d={d} fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth={2.5} />
+          </g>
+        );
+      })}
       <path d={esfera} fill="url(#g-sombra)" />
       {children?.(proy, trazo)}
     </svg>
