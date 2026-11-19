@@ -21,6 +21,9 @@ import {Demo3D, DURACION_DEMO_3D} from './mundo3d/Demo3D';
 import {Catalogo3DEscenarios, Catalogo3DPersonajes} from './mundo3d/Catalogo3D';
 import {AvatarAyuno, DURACION_AYUNO, FPS_AYUNO, TOMAS_AYUNO, VideoAyuno} from './videos/ayuno/VideoAyuno';
 import {TOMAS as TOMAS_AYUNO_C} from './videos/ayuno/tomas';
+import {calcularMetadatosResumen, FPS_RESUMEN, ResumenPelicula} from './videos/resumen/ResumenPelicula';
+import type {PropsResumen} from './videos/resumen/tipos';
+import EJEMPLO_RESUMEN from '../resumenes/nosferatu/props.json';
 
 const esquema25D = crearEsquemaCamara(REPARTO_25D.map((r) => r.e));
 
@@ -30,6 +33,17 @@ const metadatosSueno = crearCalcularMetadatos(SUBTITULOS_SUENO, VIDEO_SUENO.dura
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Resumen de película: plantilla genérica (props = resumenes/<slug>/props.json, ver tools/resumen.py) */}
+      <Composition
+        id="ResumenPelicula"
+        component={ResumenPelicula}
+        defaultProps={EJEMPLO_RESUMEN as unknown as PropsResumen}
+        calculateMetadata={calcularMetadatosResumen}
+        durationInFrames={FPS_RESUMEN * 60}
+        fps={FPS_RESUMEN}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id="CaloriasCama"
         component={Video}

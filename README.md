@@ -1,4 +1,53 @@
-# videosmto — Animación "¿Quema calorías la cama?"
+# videosmto
+
+## Fábrica de resúmenes de películas (vídeos verticales para Shorts, TikTok y Reels)
+
+Escribes (o le pides a Claude) un guion en JSON y un solo comando produce el vídeo terminado (1080×1920,
+voz, música, subtítulos palabra a palabra) y el texto para publicarlo.
+
+```bash
+python3 tools/resumen.py nuevo "Metrópolis" --anio 1927   # 1 · guion con Claude (necesita ANTHROPIC_API_KEY)
+python3 tools/resumen.py todo metropolis                  # 2 · voz + música + vídeo + texto para publicar
+python3 tools/resumen.py lote resumenes/peliculas.txt     # o todo de una vez: un vídeo por línea
+```
+
+Ejemplo terminado: `out/resumenes/nosferatu.mp4` (guion: `resumenes/nosferatu/guion.json`).
+
+| Paso | Comando | Resultado |
+|------|---------|-----------|
+| Guion con IA | `nuevo "Título" [--anio] [--notas "..."]` | `resumenes/<slug>/guion.json` (Claude Opus 5.5 con salida JSON estructurada) |
+| Guion a mano | `plantilla <slug>` · `catalogo` · `validar <slug>` | plantilla vacía, opciones disponibles, comprobación |
+| Voz y música | `narrar <slug>` | `public/resumenes/<slug>/narracion.mp3` (Piper, sin conexión), `musica.mp3` sintetizada, `props.json` con el segundo de cada palabra |
+| Vídeo | `render <slug> [--concurrencia N]` | `out/resumenes/<slug>.mp4` |
+| Publicación | `publicar <slug>` | `out/resumenes/<slug>.txt`: título, descripción, aviso de spoilers y hashtags |
+
+**El guion** (`guion.json`): ficha de la película, `tema` de color, `reparto` (personajes 2.5D descritos con colores,
+peinado y ropa) y `escenas` (escenario, hasta 2 personajes, emoción, rótulo opcional y las frases de la narración).
+La plantilla visual (`src/videos/resumen/ResumenPelicula.tsx`, composición `ResumenPelicula` en el Studio) monta
+cartel de título, cámara lenta con zoom y desplazamiento por escena, golpe de cámara en escenas de miedo, fundidos,
+grano de película, subtítulos grandes con la palabra que suena resaltada, barra de progreso y llamada final a seguir
+el canal. Para ver un guion en el Studio: `npm run studio` → `ResumenPelicula` → panel Props → pega su `props.json`.
+
+**Sustituir la voz por una mejor** (ElevenLabs u otra): genera un MP3 con las frases del guion, cópialo sobre
+`public/resumenes/<slug>/narracion.mp3` y ajusta los tiempos con `python3 tools/alinear_voz.py`.
+
+### Para que el canal pueda monetizar
+
+- **No uses fragmentos, pósters, tráileres ni música de la película.** Content ID los detecta y la reclamación se
+  lleva los ingresos del vídeo. Por eso aquí todo (ilustraciones, voz, música) es propio.
+- **Narración y comentario con tus palabras.** YouTube rechaza en el Programa de Partners los canales de
+  "contenido reutilizado" o repetitivo; un guion original con opinión y ritmo propio es lo que marca la diferencia.
+  Revisa cada guion generado: un modelo puede equivocarse en datos de la película.
+- **Empieza por películas de dominio público** (lista en `resumenes/peliculas.txt`); con películas recientes el
+  resumen sigue siendo tuyo, pero no añadas nada del material original.
+- Requisitos habituales de YouTube para monetizar: 1000 suscriptores y 4000 horas de visualización en 12 meses,
+  o 10 millones de visualizaciones de Shorts en 90 días. Compruébalos en la web de YouTube, porque cambian.
+- Constancia: con `lote` puedes preparar una semana de vídeos de una vez. Los títulos con gancho (sin destripar el
+  final) y la primera frase en forma de pregunta son lo que más retiene en Shorts.
+
+---
+
+# Animación "¿Quema calorías la cama?"
 
 Vídeo explicativo animado en 2D, vertical 9:16 (1080×1920, 30 fps), hecho con **React + Remotion + SVG**.
 Todos los personajes, fondos e iconos están dibujados con código (SVG): no hay ninguna imagen fija.

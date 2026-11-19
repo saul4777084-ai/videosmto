@@ -1,0 +1,12 @@
+# Una película por línea: "Título | año". Uso: python3 tools/resumen.py lote resumenes/peliculas.txt
+# Esta lista son clásicos de dominio público en EE. UU. (la opción más segura para empezar).
+# El estado de dominio público cambia según el país: compruébalo antes de publicar.
+Nosferatu | 1922
+El gabinete del doctor Caligari | 1920
+Metrópolis | 1927
+El chico | 1921
+El maquinista de La General | 1926
+Sherlock Jr. | 1924
+El fantasma de la ópera | 1925
+La noche de los muertos vivientes | 1968
+Viaje a la Luna | 1902

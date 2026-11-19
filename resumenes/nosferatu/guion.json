@@ -1,0 +1,37 @@
+{
+  "pelicula": {"titulo": "Nosferatu", "anio": 1922, "director": "F. W. Murnau", "genero": "terror"},
+  "tema": "sepia",
+  "reparto": [
+    {"id": "hutter", "nombre": "Hutter", "piel": "#f0c8a8", "pelo": "#3a2416", "peinado": "corto", "ropa": "chaleco", "colorRopa": "#4a3a2a", "colorRopa2": "#e8e0d0",
+     "gafas": false, "bigote": false, "pajarita": true, "mochila": false, "pecas": false, "estetoscopio": false},
+    {"id": "ellen", "nombre": "Ellen", "piel": "#f6d6c0", "pelo": "#6a4428", "peinado": "coleta", "ropa": "camiseta", "colorRopa": "#6a5a8a", "colorRopa2": "#f0e8e0",
+     "gafas": false, "bigote": false, "pajarita": false, "mochila": false, "pecas": false, "estetoscopio": false},
+    {"id": "orlok", "nombre": "Conde Orlok", "piel": "#d6dccb", "pelo": "#8a8a80", "peinado": "calvo", "ropa": "chaleco", "colorRopa": "#1a1a20", "colorRopa2": "#3a3a44", "iris": "#aa2020",
+     "gafas": false, "bigote": false, "pajarita": false, "mochila": false, "pecas": false, "estetoscopio": false}
+  ],
+  "escenas": [
+    {"escenario": "castillo", "personajes": ["orlok"], "emocion": "miedo", "rotulo": "",
+     "frases": ["¿Le venderías una casa a un desconocido que nunca sale de día?", "Hutter lo hizo, y casi le cuesta la vida a toda su ciudad."]},
+    {"escenario": "granja", "personajes": ["hutter", "ellen"], "emocion": "alegria", "rotulo": "Wisborg, 1838",
+     "frases": ["En mil ochocientos treinta y ocho, el joven Hutter vive feliz con su esposa Ellen.", "Su jefe le encarga un viaje: vender una casa a un conde de Transilvania."]},
+    {"escenario": "montana", "personajes": ["hutter"], "emocion": "tension", "rotulo": "Rumbo a Transilvania",
+     "frases": ["En la última posada, los aldeanos se aterran al oír el nombre del conde Orlok.", "Hutter se ríe de ellos y cruza las montañas."]},
+    {"escenario": "castillo", "personajes": ["hutter", "orlok"], "emocion": "tension", "rotulo": "El castillo",
+     "frases": ["El conde lo recibe a medianoche: pálido, calvo y con dedos como garras.", "Cuando Hutter se corta en la cena, Orlok mira su sangre con hambre."]},
+    {"escenario": "castillo", "personajes": ["orlok"], "emocion": "sorpresa", "rotulo": "",
+     "frases": ["Al ver el retrato de Ellen, el conde firma enseguida: comprará la casa de enfrente.", "Esa noche, Hutter descubre la verdad. Orlok duerme en un ataúd. Es un vampiro."]},
+    {"escenario": "playa", "personajes": ["orlok"], "emocion": "miedo", "rotulo": "La travesía",
+     "frases": ["Orlok viaja por mar, escondido en ataúdes llenos de tierra y de ratas.", "Uno a uno, los marineros mueren, y el barco llega solo a puerto."]},
+    {"escenario": "bosque", "personajes": ["ellen"], "emocion": "tristeza", "rotulo": "La peste",
+     "frases": ["Con el conde llega la peste, y la ciudad se llena de ataúdes.", "Ellen lee un viejo libro y encuentra la única forma de vencerlo."]},
+    {"escenario": "castillo", "personajes": ["ellen", "orlok"], "emocion": "tension", "rotulo": "La última noche",
+     "frases": ["Una mujer de corazón puro debe retener al vampiro hasta que cante el gallo.", "Ellen lo deja entrar en su cuarto y lo distrae toda la noche."]},
+    {"escenario": "granja", "personajes": ["hutter"], "emocion": "tristeza", "rotulo": "El amanecer",
+     "frases": ["Al salir el sol, la luz atraviesa a Orlok y lo convierte en humo.", "Ellen muere en brazos de Hutter, pero la peste termina con ella.", "¿Te atreverías a verla? Dime en comentarios qué película resumo ahora."]}
+  ],
+  "publicacion": {
+    "titulo": "Le vendió una casa a un vampiro y condenó a su ciudad",
+    "descripcion": "Resumen con spoilers de Nosferatu, el clásico del cine mudo que inventó al vampiro moderno. Una historia de miedo, peste y sacrificio contada en un minuto y medio.",
+    "hashtags": ["nosferatu", "resumen", "resumendepeliculas", "peliculas", "cine", "terror", "cineclasico", "vampiros", "shorts", "peliculasrecomendadas"]
+  }
+}

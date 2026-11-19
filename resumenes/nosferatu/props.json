@@ -1,0 +1,1629 @@
+{
+ "guion": {
+  "pelicula": {
+   "titulo": "Nosferatu",
+   "anio": 1922,
+   "director": "F. W. Murnau",
+   "genero": "terror"
+  },
+  "tema": "sepia",
+  "reparto": [
+   {
+    "id": "hutter",
+    "nombre": "Hutter",
+    "piel": "#f0c8a8",
+    "pelo": "#3a2416",
+    "peinado": "corto",
+    "ropa": "chaleco",
+    "colorRopa": "#4a3a2a",
+    "colorRopa2": "#e8e0d0",
+    "gafas": false,
+    "bigote": false,
+    "pajarita": true,
+    "mochila": false,
+    "pecas": false,
+    "estetoscopio": false
+   },
+   {
+    "id": "ellen",
+    "nombre": "Ellen",
+    "piel": "#f6d6c0",
+    "pelo": "#6a4428",
+    "peinado": "coleta",
+    "ropa": "camiseta",
+    "colorRopa": "#6a5a8a",
+    "colorRopa2": "#f0e8e0",
+    "gafas": false,
+    "bigote": false,
+    "pajarita": false,
+    "mochila": false,
+    "pecas": false,
+    "estetoscopio": false
+   },
+   {
+    "id": "orlok",
+    "nombre": "Conde Orlok",
+    "piel": "#d6dccb",
+    "pelo": "#8a8a80",
+    "peinado": "calvo",
+    "ropa": "chaleco",
+    "colorRopa": "#1a1a20",
+    "colorRopa2": "#3a3a44",
+    "iris": "#aa2020",
+    "gafas": false,
+    "bigote": false,
+    "pajarita": false,
+    "mochila": false,
+    "pecas": false,
+    "estetoscopio": false
+   }
+  ],
+  "escenas": [
+   {
+    "escenario": "castillo",
+    "personajes": [
+     "orlok"
+    ],
+    "emocion": "miedo",
+    "rotulo": "",
+    "frases": [
+     "¿Le venderías una casa a un desconocido que nunca sale de día?",
+     "Hutter lo hizo, y casi le cuesta la vida a toda su ciudad."
+    ]
+   },
+   {
+    "escenario": "granja",
+    "personajes": [
+     "hutter",
+     "ellen"
+    ],
+    "emocion": "alegria",
+    "rotulo": "Wisborg, 1838",
+    "frases": [
+     "En mil ochocientos treinta y ocho, el joven Hutter vive feliz con su esposa Ellen.",
+     "Su jefe le encarga un viaje: vender una casa a un conde de Transilvania."
+    ]
+   },
+   {
+    "escenario": "montana",
+    "personajes": [
+     "hutter"
+    ],
+    "emocion": "tension",
+    "rotulo": "Rumbo a Transilvania",
+    "frases": [
+     "En la última posada, los aldeanos se aterran al oír el nombre del conde Orlok.",
+     "Hutter se ríe de ellos y cruza las montañas."
+    ]
+   },
+   {
+    "escenario": "castillo",
+    "personajes": [
+     "hutter",
+     "orlok"
+    ],
+    "emocion": "tension",
+    "rotulo": "El castillo",
+    "frases": [
+     "El conde lo recibe a medianoche: pálido, calvo y con dedos como garras.",
+     "Cuando Hutter se corta en la cena, Orlok mira su sangre con hambre."
+    ]
+   },
+   {
+    "escenario": "castillo",
+    "personajes": [
+     "orlok"
+    ],
+    "emocion": "sorpresa",
+    "rotulo": "",
+    "frases": [
+     "Al ver el retrato de Ellen, el conde firma enseguida: comprará la casa de enfrente.",
+     "Esa noche, Hutter descubre la verdad. Orlok duerme en un ataúd. Es un vampiro."
+    ]
+   },
+   {
+    "escenario": "playa",
+    "personajes": [
+     "orlok"
+    ],
+    "emocion": "miedo",
+    "rotulo": "La travesía",
+    "frases": [
+     "Orlok viaja por mar, escondido en ataúdes llenos de tierra y de ratas.",
+     "Uno a uno, los marineros mueren, y el barco llega solo a puerto."
+    ]
+   },
+   {
+    "escenario": "bosque",
+    "personajes": [
+     "ellen"
+    ],
+    "emocion": "tristeza",
+    "rotulo": "La peste",
+    "frases": [
+     "Con el conde llega la peste, y la ciudad se llena de ataúdes.",
+     "Ellen lee un viejo libro y encuentra la única forma de vencerlo."
+    ]
+   },
+   {
+    "escenario": "castillo",
+    "personajes": [
+     "ellen",
+     "orlok"
+    ],
+    "emocion": "tension",
+    "rotulo": "La última noche",
+    "frases": [
+     "Una mujer de corazón puro debe retener al vampiro hasta que cante el gallo.",
+     "Ellen lo deja entrar en su cuarto y lo distrae toda la noche."
+    ]
+   },
+   {
+    "escenario": "granja",
+    "personajes": [
+     "hutter"
+    ],
+    "emocion": "tristeza",
+    "rotulo": "El amanecer",
+    "frases": [
+     "Al salir el sol, la luz atraviesa a Orlok y lo convierte en humo.",
+     "Ellen muere en brazos de Hutter, pero la peste termina con ella.",
+     "¿Te atreverías a verla? Dime en comentarios qué película resumo ahora."
+    ]
+   }
+  ],
+  "publicacion": {
+   "titulo": "Le vendió una casa a un vampiro y condenó a su ciudad",
+   "descripcion": "Resumen con spoilers de Nosferatu, el clásico del cine mudo que inventó al vampiro moderno. Una historia de miedo, peste y sacrificio contada en un minuto y medio.",
+   "hashtags": [
+    "nosferatu",
+    "resumen",
+    "resumendepeliculas",
+    "peliculas",
+    "cine",
+    "terror",
+    "cineclasico",
+    "vampiros",
+    "shorts",
+    "peliculasrecomendadas"
+   ]
+  }
+ },
+ "tiempos": {
+  "duracion": 92.41,
+  "escenas": [
+   {
+    "inicio": 0,
+    "fin": 8.785
+   },
+   {
+    "inicio": 8.785,
+    "fin": 17.551
+   },
+   {
+    "inicio": 17.551,
+    "fin": 28.41
+   },
+   {
+    "inicio": 28.41,
+    "fin": 37.072
+   },
+   {
+    "inicio": 37.072,
+    "fin": 49.814
+   },
+   {
+    "inicio": 49.814,
+    "fin": 58.942
+   },
+   {
+    "inicio": 58.942,
+    "fin": 66.825
+   },
+   {
+    "inicio": 66.825,
+    "fin": 74.516
+   },
+   {
+    "inicio": 74.516,
+    "fin": 92.41
+   }
+  ],
+  "frases": [
+   {
+    "escena": 0,
+    "texto": "¿Le venderías una casa a un desconocido que nunca sale de día?",
+    "inicio": 0.5,
+    "fin": 4.382,
+    "palabras": [
+     {
+      "w": "¿Le",
+      "inicio": 0.5,
+      "fin": 0.716
+     },
+     {
+      "w": "venderías",
+      "inicio": 0.716,
+      "fin": 1.267
+     },
+     {
+      "w": "una",
+      "inicio": 1.267,
+      "fin": 1.53
+     },
+     {
+      "w": "casa",
+      "inicio": 1.53,
+      "fin": 1.842
+     },
+     {
+      "w": "a",
+      "inicio": 1.842,
+      "fin": 2.01
+     },
+     {
+      "w": "un",
+      "inicio": 2.01,
+      "fin": 2.225
+     },
+     {
+      "w": "desconocido",
+      "inicio": 2.225,
+      "fin": 2.872
+     },
+     {
+      "w": "que",
+      "inicio": 2.872,
+      "fin": 3.136
+     },
+     {
+      "w": "nunca",
+      "inicio": 3.136,
+      "fin": 3.495
+     },
+     {
+      "w": "sale",
+      "inicio": 3.495,
+      "fin": 3.807
+     },
+     {
+      "w": "de",
+      "inicio": 3.807,
+      "fin": 4.023
+     },
+     {
+      "w": "día?",
+      "inicio": 4.023,
+      "fin": 4.382
+     }
+    ]
+   },
+   {
+    "escena": 0,
+    "texto": "Hutter lo hizo, y casi le cuesta la vida a toda su ciudad.",
+    "inicio": 4.602,
+    "fin": 8.56,
+    "palabras": [
+     {
+      "w": "Hutter",
+      "inicio": 4.602,
+      "fin": 5.02
+     },
+     {
+      "w": "lo",
+      "inicio": 5.02,
+      "fin": 5.241
+     },
+     {
+      "w": "hizo,",
+      "inicio": 5.241,
+      "fin": 5.659
+     },
+     {
+      "w": "y",
+      "inicio": 5.659,
+      "fin": 5.831
+     },
+     {
+      "w": "casi",
+      "inicio": 5.831,
+      "fin": 6.151
+     },
+     {
+      "w": "le",
+      "inicio": 6.151,
+      "fin": 6.372
+     },
+     {
+      "w": "cuesta",
+      "inicio": 6.372,
+      "fin": 6.79
+     },
+     {
+      "w": "la",
+      "inicio": 6.79,
+      "fin": 7.011
+     },
+     {
+      "w": "vida",
+      "inicio": 7.011,
+      "fin": 7.331
+     },
+     {
+      "w": "a",
+      "inicio": 7.331,
+      "fin": 7.503
+     },
+     {
+      "w": "toda",
+      "inicio": 7.503,
+      "fin": 7.822
+     },
+     {
+      "w": "su",
+      "inicio": 7.822,
+      "fin": 8.043
+     },
+     {
+      "w": "ciudad.",
+      "inicio": 8.043,
+      "fin": 8.56
+     }
+    ]
+   },
+   {
+    "escena": 1,
+    "texto": "En mil ochocientos treinta y ocho, el joven Hutter vive feliz con su esposa Ellen.",
+    "inicio": 9.01,
+    "fin": 13.466,
+    "palabras": [
+     {
+      "w": "En",
+      "inicio": 9.01,
+      "fin": 9.196
+     },
+     {
+      "w": "mil",
+      "inicio": 9.196,
+      "fin": 9.424
+     },
+     {
+      "w": "ochocientos",
+      "inicio": 9.424,
+      "fin": 9.984
+     },
+     {
+      "w": "treinta",
+      "inicio": 9.984,
+      "fin": 10.378
+     },
+     {
+      "w": "y",
+      "inicio": 10.378,
+      "fin": 10.523
+     },
+     {
+      "w": "ocho,",
+      "inicio": 10.523,
+      "fin": 10.875
+     },
+     {
+      "w": "el",
+      "inicio": 10.875,
+      "fin": 11.062
+     },
+     {
+      "w": "joven",
+      "inicio": 11.062,
+      "fin": 11.373
+     },
+     {
+      "w": "Hutter",
+      "inicio": 11.373,
+      "fin": 11.725
+     },
+     {
+      "w": "vive",
+      "inicio": 11.725,
+      "fin": 11.994
+     },
+     {
+      "w": "feliz",
+      "inicio": 11.994,
+      "fin": 12.305
+     },
+     {
+      "w": "con",
+      "inicio": 12.305,
+      "fin": 12.533
+     },
+     {
+      "w": "su",
+      "inicio": 12.533,
+      "fin": 12.72
+     },
+     {
+      "w": "esposa",
+      "inicio": 12.72,
+      "fin": 13.072
+     },
+     {
+      "w": "Ellen.",
+      "inicio": 13.072,
+      "fin": 13.466
+     }
+    ]
+   },
+   {
+    "escena": 1,
+    "texto": "Su jefe le encarga un viaje: vender una casa a un conde de Transilvania.",
+    "inicio": 13.686,
+    "fin": 17.326,
+    "palabras": [
+     {
+      "w": "Su",
+      "inicio": 13.686,
+      "fin": 13.857
+     },
+     {
+      "w": "jefe",
+      "inicio": 13.857,
+      "fin": 14.103
+     },
+     {
+      "w": "le",
+      "inicio": 14.103,
+      "fin": 14.274
+     },
+     {
+      "w": "encarga",
+      "inicio": 14.274,
+      "fin": 14.634
+     },
+     {
+      "w": "un",
+      "inicio": 14.634,
+      "fin": 14.805
+     },
+     {
+      "w": "viaje:",
+      "inicio": 14.805,
+      "fin": 15.165
+     },
+     {
+      "w": "vender",
+      "inicio": 15.165,
+      "fin": 15.487
+     },
+     {
+      "w": "una",
+      "inicio": 15.487,
+      "fin": 15.696
+     },
+     {
+      "w": "casa",
+      "inicio": 15.696,
+      "fin": 15.942
+     },
+     {
+      "w": "a",
+      "inicio": 15.942,
+      "fin": 16.075
+     },
+     {
+      "w": "un",
+      "inicio": 16.075,
+      "fin": 16.245
+     },
+     {
+      "w": "conde",
+      "inicio": 16.245,
+      "fin": 16.53
+     },
+     {
+      "w": "de",
+      "inicio": 16.53,
+      "fin": 16.7
+     },
+     {
+      "w": "Transilvania.",
+      "inicio": 16.7,
+      "fin": 17.326
+     }
+    ]
+   },
+   {
+    "escena": 2,
+    "texto": "En la última posada, los aldeanos se aterran al oír el nombre del conde Orlok.",
+    "inicio": 17.776,
+    "fin": 23.694,
+    "palabras": [
+     {
+      "w": "En",
+      "inicio": 17.776,
+      "fin": 18.033
+     },
+     {
+      "w": "la",
+      "inicio": 18.033,
+      "fin": 18.291
+     },
+     {
+      "w": "última",
+      "inicio": 18.291,
+      "fin": 18.777
+     },
+     {
+      "w": "posada,",
+      "inicio": 18.777,
+      "fin": 19.377
+     },
+     {
+      "w": "los",
+      "inicio": 19.377,
+      "fin": 19.691
+     },
+     {
+      "w": "aldeanos",
+      "inicio": 19.691,
+      "fin": 20.292
+     },
+     {
+      "w": "se",
+      "inicio": 20.292,
+      "fin": 20.549
+     },
+     {
+      "w": "aterran",
+      "inicio": 20.549,
+      "fin": 21.092
+     },
+     {
+      "w": "al",
+      "inicio": 21.092,
+      "fin": 21.35
+     },
+     {
+      "w": "oír",
+      "inicio": 21.35,
+      "fin": 21.664
+     },
+     {
+      "w": "el",
+      "inicio": 21.664,
+      "fin": 21.921
+     },
+     {
+      "w": "nombre",
+      "inicio": 21.921,
+      "fin": 22.407
+     },
+     {
+      "w": "del",
+      "inicio": 22.407,
+      "fin": 22.722
+     },
+     {
+      "w": "conde",
+      "inicio": 22.722,
+      "fin": 23.151
+     },
+     {
+      "w": "Orlok.",
+      "inicio": 23.151,
+      "fin": 23.694
+     }
+    ]
+   },
+   {
+    "escena": 2,
+    "texto": "Hutter se ríe de ellos y cruza las montañas.",
+    "inicio": 23.914,
+    "fin": 28.185,
+    "palabras": [
+     {
+      "w": "Hutter",
+      "inicio": 23.914,
+      "fin": 24.524
+     },
+     {
+      "w": "se",
+      "inicio": 24.524,
+      "fin": 24.847
+     },
+     {
+      "w": "ríe",
+      "inicio": 24.847,
+      "fin": 25.242
+     },
+     {
+      "w": "de",
+      "inicio": 25.242,
+      "fin": 25.565
+     },
+     {
+      "w": "ellos",
+      "inicio": 25.565,
+      "fin": 26.103
+     },
+     {
+      "w": "y",
+      "inicio": 26.103,
+      "fin": 26.355
+     },
+     {
+      "w": "cruza",
+      "inicio": 26.355,
+      "fin": 26.893
+     },
+     {
+      "w": "las",
+      "inicio": 26.893,
+      "fin": 27.288
+     },
+     {
+      "w": "montañas.",
+      "inicio": 27.288,
+      "fin": 28.185
+     }
+    ]
+   },
+   {
+    "escena": 3,
+    "texto": "El conde lo recibe a medianoche: pálido, calvo y con dedos como garras.",
+    "inicio": 28.635,
+    "fin": 33.457,
+    "palabras": [
+     {
+      "w": "El",
+      "inicio": 28.635,
+      "fin": 28.865
+     },
+     {
+      "w": "conde",
+      "inicio": 28.865,
+      "fin": 29.247
+     },
+     {
+      "w": "lo",
+      "inicio": 29.247,
+      "fin": 29.477
+     },
+     {
+      "w": "recibe",
+      "inicio": 29.477,
+      "fin": 29.911
+     },
+     {
+      "w": "a",
+      "inicio": 29.911,
+      "fin": 30.089
+     },
+     {
+      "w": "medianoche:",
+      "inicio": 30.089,
+      "fin": 30.829
+     },
+     {
+      "w": "pálido,",
+      "inicio": 30.829,
+      "fin": 31.365
+     },
+     {
+      "w": "calvo",
+      "inicio": 31.365,
+      "fin": 31.747
+     },
+     {
+      "w": "y",
+      "inicio": 31.747,
+      "fin": 31.926
+     },
+     {
+      "w": "con",
+      "inicio": 31.926,
+      "fin": 32.207
+     },
+     {
+      "w": "dedos",
+      "inicio": 32.207,
+      "fin": 32.589
+     },
+     {
+      "w": "como",
+      "inicio": 32.589,
+      "fin": 32.921
+     },
+     {
+      "w": "garras.",
+      "inicio": 32.921,
+      "fin": 33.457
+     }
+    ]
+   },
+   {
+    "escena": 3,
+    "texto": "Cuando Hutter se corta en la cena, Orlok mira su sangre con hambre.",
+    "inicio": 33.677,
+    "fin": 36.847,
+    "palabras": [
+     {
+      "w": "Cuando",
+      "inicio": 33.677,
+      "fin": 33.978
+     },
+     {
+      "w": "Hutter",
+      "inicio": 33.978,
+      "fin": 34.279
+     },
+     {
+      "w": "se",
+      "inicio": 34.279,
+      "fin": 34.438
+     },
+     {
+      "w": "corta",
+      "inicio": 34.438,
+      "fin": 34.704
+     },
+     {
+      "w": "en",
+      "inicio": 34.704,
+      "fin": 34.863
+     },
+     {
+      "w": "la",
+      "inicio": 34.863,
+      "fin": 35.023
+     },
+     {
+      "w": "cena,",
+      "inicio": 35.023,
+      "fin": 35.324
+     },
+     {
+      "w": "Orlok",
+      "inicio": 35.324,
+      "fin": 35.59
+     },
+     {
+      "w": "mira",
+      "inicio": 35.59,
+      "fin": 35.82
+     },
+     {
+      "w": "su",
+      "inicio": 35.82,
+      "fin": 35.979
+     },
+     {
+      "w": "sangre",
+      "inicio": 35.979,
+      "fin": 36.28
+     },
+     {
+      "w": "con",
+      "inicio": 36.28,
+      "fin": 36.475
+     },
+     {
+      "w": "hambre.",
+      "inicio": 36.475,
+      "fin": 36.847
+     }
+    ]
+   },
+   {
+    "escena": 4,
+    "texto": "Al ver el retrato de Ellen, el conde firma enseguida: comprará la casa de enfrente.",
+    "inicio": 37.297,
+    "fin": 41.318,
+    "palabras": [
+     {
+      "w": "Al",
+      "inicio": 37.297,
+      "fin": 37.463
+     },
+     {
+      "w": "ver",
+      "inicio": 37.463,
+      "fin": 37.664
+     },
+     {
+      "w": "el",
+      "inicio": 37.664,
+      "fin": 37.83
+     },
+     {
+      "w": "retrato",
+      "inicio": 37.83,
+      "fin": 38.178
+     },
+     {
+      "w": "de",
+      "inicio": 38.178,
+      "fin": 38.344
+     },
+     {
+      "w": "Ellen,",
+      "inicio": 38.344,
+      "fin": 38.692
+     },
+     {
+      "w": "el",
+      "inicio": 38.692,
+      "fin": 38.858
+     },
+     {
+      "w": "conde",
+      "inicio": 38.858,
+      "fin": 39.133
+     },
+     {
+      "w": "firma",
+      "inicio": 39.133,
+      "fin": 39.408
+     },
+     {
+      "w": "enseguida:",
+      "inicio": 39.408,
+      "fin": 39.904
+     },
+     {
+      "w": "comprará",
+      "inicio": 39.904,
+      "fin": 40.29
+     },
+     {
+      "w": "la",
+      "inicio": 40.29,
+      "fin": 40.455
+     },
+     {
+      "w": "casa",
+      "inicio": 40.455,
+      "fin": 40.693
+     },
+     {
+      "w": "de",
+      "inicio": 40.693,
+      "fin": 40.859
+     },
+     {
+      "w": "enfrente.",
+      "inicio": 40.859,
+      "fin": 41.318
+     }
+    ]
+   },
+   {
+    "escena": 4,
+    "texto": "Esa noche, Hutter descubre la verdad. Orlok duerme en un ataúd. Es un vampiro.",
+    "inicio": 41.538,
+    "fin": 49.589,
+    "palabras": [
+     {
+      "w": "Esa",
+      "inicio": 41.538,
+      "fin": 41.963
+     },
+     {
+      "w": "noche,",
+      "inicio": 41.963,
+      "fin": 42.699
+     },
+     {
+      "w": "Hutter",
+      "inicio": 42.699,
+      "fin": 43.357
+     },
+     {
+      "w": "descubre",
+      "inicio": 43.357,
+      "fin": 44.17
+     },
+     {
+      "w": "la",
+      "inicio": 44.17,
+      "fin": 44.518
+     },
+     {
+      "w": "verdad.",
+      "inicio": 44.518,
+      "fin": 45.331
+     },
+     {
+      "w": "Orlok",
+      "inicio": 45.331,
+      "fin": 45.912
+     },
+     {
+      "w": "duerme",
+      "inicio": 45.912,
+      "fin": 46.57
+     },
+     {
+      "w": "en",
+      "inicio": 46.57,
+      "fin": 46.918
+     },
+     {
+      "w": "un",
+      "inicio": 46.918,
+      "fin": 47.267
+     },
+     {
+      "w": "ataúd.",
+      "inicio": 47.267,
+      "fin": 48.002
+     },
+     {
+      "w": "Es",
+      "inicio": 48.002,
+      "fin": 48.351
+     },
+     {
+      "w": "un",
+      "inicio": 48.351,
+      "fin": 48.699
+     },
+     {
+      "w": "vampiro.",
+      "inicio": 48.699,
+      "fin": 49.589
+     }
+    ]
+   },
+   {
+    "escena": 5,
+    "texto": "Orlok viaja por mar, escondido en ataúdes llenos de tierra y de ratas.",
+    "inicio": 50.039,
+    "fin": 53.722,
+    "palabras": [
+     {
+      "w": "Orlok",
+      "inicio": 50.039,
+      "fin": 50.338
+     },
+     {
+      "w": "viaja",
+      "inicio": 50.338,
+      "fin": 50.637
+     },
+     {
+      "w": "por",
+      "inicio": 50.637,
+      "fin": 50.855
+     },
+     {
+      "w": "mar,",
+      "inicio": 50.855,
+      "fin": 51.154
+     },
+     {
+      "w": "escondido",
+      "inicio": 51.154,
+      "fin": 51.612
+     },
+     {
+      "w": "en",
+      "inicio": 51.612,
+      "fin": 51.791
+     },
+     {
+      "w": "ataúdes",
+      "inicio": 51.791,
+      "fin": 52.169
+     },
+     {
+      "w": "llenos",
+      "inicio": 52.169,
+      "fin": 52.507
+     },
+     {
+      "w": "de",
+      "inicio": 52.507,
+      "fin": 52.687
+     },
+     {
+      "w": "tierra",
+      "inicio": 52.687,
+      "fin": 53.025
+     },
+     {
+      "w": "y",
+      "inicio": 53.025,
+      "fin": 53.164
+     },
+     {
+      "w": "de",
+      "inicio": 53.164,
+      "fin": 53.343
+     },
+     {
+      "w": "ratas.",
+      "inicio": 53.343,
+      "fin": 53.722
+     }
+    ]
+   },
+   {
+    "escena": 5,
+    "texto": "Uno a uno, los marineros mueren, y el barco llega solo a puerto.",
+    "inicio": 53.942,
+    "fin": 58.717,
+    "palabras": [
+     {
+      "w": "Uno",
+      "inicio": 53.942,
+      "fin": 54.242
+     },
+     {
+      "w": "a",
+      "inicio": 54.242,
+      "fin": 54.433
+     },
+     {
+      "w": "uno,",
+      "inicio": 54.433,
+      "fin": 54.842
+     },
+     {
+      "w": "los",
+      "inicio": 54.842,
+      "fin": 55.142
+     },
+     {
+      "w": "marineros",
+      "inicio": 55.142,
+      "fin": 55.77
+     },
+     {
+      "w": "mueren,",
+      "inicio": 55.77,
+      "fin": 56.343
+     },
+     {
+      "w": "y",
+      "inicio": 56.343,
+      "fin": 56.534
+     },
+     {
+      "w": "el",
+      "inicio": 56.534,
+      "fin": 56.779
+     },
+     {
+      "w": "barco",
+      "inicio": 56.779,
+      "fin": 57.189
+     },
+     {
+      "w": "llega",
+      "inicio": 57.189,
+      "fin": 57.598
+     },
+     {
+      "w": "solo",
+      "inicio": 57.598,
+      "fin": 57.953
+     },
+     {
+      "w": "a",
+      "inicio": 57.953,
+      "fin": 58.144
+     },
+     {
+      "w": "puerto.",
+      "inicio": 58.144,
+      "fin": 58.717
+     }
+    ]
+   },
+   {
+    "escena": 6,
+    "texto": "Con el conde llega la peste, y la ciudad se llena de ataúdes.",
+    "inicio": 59.167,
+    "fin": 62.589,
+    "palabras": [
+     {
+      "w": "Con",
+      "inicio": 59.167,
+      "fin": 59.392
+     },
+     {
+      "w": "el",
+      "inicio": 59.392,
+      "fin": 59.577
+     },
+     {
+      "w": "conde",
+      "inicio": 59.577,
+      "fin": 59.884
+     },
+     {
+      "w": "llega",
+      "inicio": 59.884,
+      "fin": 60.191
+     },
+     {
+      "w": "la",
+      "inicio": 60.191,
+      "fin": 60.376
+     },
+     {
+      "w": "peste,",
+      "inicio": 60.376,
+      "fin": 60.765
+     },
+     {
+      "w": "y",
+      "inicio": 60.765,
+      "fin": 60.909
+     },
+     {
+      "w": "la",
+      "inicio": 60.909,
+      "fin": 61.093
+     },
+     {
+      "w": "ciudad",
+      "inicio": 61.093,
+      "fin": 61.441
+     },
+     {
+      "w": "se",
+      "inicio": 61.441,
+      "fin": 61.626
+     },
+     {
+      "w": "llena",
+      "inicio": 61.626,
+      "fin": 61.933
+     },
+     {
+      "w": "de",
+      "inicio": 61.933,
+      "fin": 62.117
+     },
+     {
+      "w": "ataúdes.",
+      "inicio": 62.117,
+      "fin": 62.589
+     }
+    ]
+   },
+   {
+    "escena": 6,
+    "texto": "Ellen lee un viejo libro y encuentra la única forma de vencerlo.",
+    "inicio": 62.809,
+    "fin": 66.6,
+    "palabras": [
+     {
+      "w": "Ellen",
+      "inicio": 62.809,
+      "fin": 63.147
+     },
+     {
+      "w": "lee",
+      "inicio": 63.147,
+      "fin": 63.395
+     },
+     {
+      "w": "un",
+      "inicio": 63.395,
+      "fin": 63.599
+     },
+     {
+      "w": "viejo",
+      "inicio": 63.599,
+      "fin": 63.937
+     },
+     {
+      "w": "libro",
+      "inicio": 63.937,
+      "fin": 64.276
+     },
+     {
+      "w": "y",
+      "inicio": 64.276,
+      "fin": 64.433
+     },
+     {
+      "w": "encuentra",
+      "inicio": 64.433,
+      "fin": 64.953
+     },
+     {
+      "w": "la",
+      "inicio": 64.953,
+      "fin": 65.156
+     },
+     {
+      "w": "única",
+      "inicio": 65.156,
+      "fin": 65.494
+     },
+     {
+      "w": "forma",
+      "inicio": 65.494,
+      "fin": 65.833
+     },
+     {
+      "w": "de",
+      "inicio": 65.833,
+      "fin": 66.036
+     },
+     {
+      "w": "vencerlo.",
+      "inicio": 66.036,
+      "fin": 66.6
+     }
+    ]
+   },
+   {
+    "escena": 7,
+    "texto": "Una mujer de corazón puro debe retener al vampiro hasta que cante el gallo.",
+    "inicio": 67.05,
+    "fin": 70.75,
+    "palabras": [
+     {
+      "w": "Una",
+      "inicio": 67.05,
+      "fin": 67.257
+     },
+     {
+      "w": "mujer",
+      "inicio": 67.257,
+      "fin": 67.541
+     },
+     {
+      "w": "de",
+      "inicio": 67.541,
+      "fin": 67.711
+     },
+     {
+      "w": "corazón",
+      "inicio": 67.711,
+      "fin": 68.069
+     },
+     {
+      "w": "puro",
+      "inicio": 68.069,
+      "fin": 68.315
+     },
+     {
+      "w": "debe",
+      "inicio": 68.315,
+      "fin": 68.56
+     },
+     {
+      "w": "retener",
+      "inicio": 68.56,
+      "fin": 68.919
+     },
+     {
+      "w": "al",
+      "inicio": 68.919,
+      "fin": 69.089
+     },
+     {
+      "w": "vampiro",
+      "inicio": 69.089,
+      "fin": 69.447
+     },
+     {
+      "w": "hasta",
+      "inicio": 69.447,
+      "fin": 69.73
+     },
+     {
+      "w": "que",
+      "inicio": 69.73,
+      "fin": 69.938
+     },
+     {
+      "w": "cante",
+      "inicio": 69.938,
+      "fin": 70.221
+     },
+     {
+      "w": "el",
+      "inicio": 70.221,
+      "fin": 70.391
+     },
+     {
+      "w": "gallo.",
+      "inicio": 70.391,
+      "fin": 70.75
+     }
+    ]
+   },
+   {
+    "escena": 7,
+    "texto": "Ellen lo deja entrar en su cuarto y lo distrae toda la noche.",
+    "inicio": 70.97,
+    "fin": 74.291,
+    "palabras": [
+     {
+      "w": "Ellen",
+      "inicio": 70.97,
+      "fin": 71.272
+     },
+     {
+      "w": "lo",
+      "inicio": 71.272,
+      "fin": 71.453
+     },
+     {
+      "w": "deja",
+      "inicio": 71.453,
+      "fin": 71.714
+     },
+     {
+      "w": "entrar",
+      "inicio": 71.714,
+      "fin": 72.057
+     },
+     {
+      "w": "en",
+      "inicio": 72.057,
+      "fin": 72.238
+     },
+     {
+      "w": "su",
+      "inicio": 72.238,
+      "fin": 72.419
+     },
+     {
+      "w": "cuarto",
+      "inicio": 72.419,
+      "fin": 72.761
+     },
+     {
+      "w": "y",
+      "inicio": 72.761,
+      "fin": 72.902
+     },
+     {
+      "w": "lo",
+      "inicio": 72.902,
+      "fin": 73.083
+     },
+     {
+      "w": "distrae",
+      "inicio": 73.083,
+      "fin": 73.465
+     },
+     {
+      "w": "toda",
+      "inicio": 73.465,
+      "fin": 73.727
+     },
+     {
+      "w": "la",
+      "inicio": 73.727,
+      "fin": 73.908
+     },
+     {
+      "w": "noche.",
+      "inicio": 73.908,
+      "fin": 74.291
+     }
+    ]
+   },
+   {
+    "escena": 8,
+    "texto": "Al salir el sol, la luz atraviesa a Orlok y lo convierte en humo.",
+    "inicio": 74.741,
+    "fin": 78.362,
+    "palabras": [
+     {
+      "w": "Al",
+      "inicio": 74.741,
+      "fin": 74.924
+     },
+     {
+      "w": "salir",
+      "inicio": 74.924,
+      "fin": 75.229
+     },
+     {
+      "w": "el",
+      "inicio": 75.229,
+      "fin": 75.412
+     },
+     {
+      "w": "sol,",
+      "inicio": 75.412,
+      "fin": 75.717
+     },
+     {
+      "w": "la",
+      "inicio": 75.717,
+      "fin": 75.9
+     },
+     {
+      "w": "luz",
+      "inicio": 75.9,
+      "fin": 76.124
+     },
+     {
+      "w": "atraviesa",
+      "inicio": 76.124,
+      "fin": 76.592
+     },
+     {
+      "w": "a",
+      "inicio": 76.592,
+      "fin": 76.735
+     },
+     {
+      "w": "Orlok",
+      "inicio": 76.735,
+      "fin": 77.04
+     },
+     {
+      "w": "y",
+      "inicio": 77.04,
+      "fin": 77.182
+     },
+     {
+      "w": "lo",
+      "inicio": 77.182,
+      "fin": 77.365
+     },
+     {
+      "w": "convierte",
+      "inicio": 77.365,
+      "fin": 77.833
+     },
+     {
+      "w": "en",
+      "inicio": 77.833,
+      "fin": 78.016
+     },
+     {
+      "w": "humo.",
+      "inicio": 78.016,
+      "fin": 78.362
+     }
+    ]
+   },
+   {
+    "escena": 8,
+    "texto": "Ellen muere en brazos de Hutter, pero la peste termina con ella.",
+    "inicio": 78.582,
+    "fin": 81.634,
+    "palabras": [
+     {
+      "w": "Ellen",
+      "inicio": 78.582,
+      "fin": 78.852
+     },
+     {
+      "w": "muere",
+      "inicio": 78.852,
+      "fin": 79.121
+     },
+     {
+      "w": "en",
+      "inicio": 79.121,
+      "fin": 79.282
+     },
+     {
+      "w": "brazos",
+      "inicio": 79.282,
+      "fin": 79.587
+     },
+     {
+      "w": "de",
+      "inicio": 79.587,
+      "fin": 79.749
+     },
+     {
+      "w": "Hutter,",
+      "inicio": 79.749,
+      "fin": 80.126
+     },
+     {
+      "w": "pero",
+      "inicio": 80.126,
+      "fin": 80.359
+     },
+     {
+      "w": "la",
+      "inicio": 80.359,
+      "fin": 80.521
+     },
+     {
+      "w": "peste",
+      "inicio": 80.521,
+      "fin": 80.79
+     },
+     {
+      "w": "termina",
+      "inicio": 80.79,
+      "fin": 81.131
+     },
+     {
+      "w": "con",
+      "inicio": 81.131,
+      "fin": 81.328
+     },
+     {
+      "w": "ella.",
+      "inicio": 81.328,
+      "fin": 81.634
+     }
+    ]
+   },
+   {
+    "escena": 8,
+    "texto": "¿Te atreverías a verla? Dime en comentarios qué película resumo ahora.",
+    "inicio": 81.854,
+    "fin": 87.46,
+    "palabras": [
+     {
+      "w": "¿Te",
+      "inicio": 81.854,
+      "fin": 82.139
+     },
+     {
+      "w": "atreverías",
+      "inicio": 82.139,
+      "fin": 82.93
+     },
+     {
+      "w": "a",
+      "inicio": 82.93,
+      "fin": 83.152
+     },
+     {
+      "w": "verla?",
+      "inicio": 83.152,
+      "fin": 83.754
+     },
+     {
+      "w": "Dime",
+      "inicio": 83.754,
+      "fin": 84.166
+     },
+     {
+      "w": "en",
+      "inicio": 84.166,
+      "fin": 84.451
+     },
+     {
+      "w": "comentarios",
+      "inicio": 84.451,
+      "fin": 85.306
+     },
+     {
+      "w": "qué",
+      "inicio": 85.306,
+      "fin": 85.654
+     },
+     {
+      "w": "película",
+      "inicio": 85.654,
+      "fin": 86.319
+     },
+     {
+      "w": "resumo",
+      "inicio": 86.319,
+      "fin": 86.858
+     },
+     {
+      "w": "ahora.",
+      "inicio": 86.858,
+      "fin": 87.46
+     }
+    ]
+   }
+  ]
+ },
+ "narracion": "resumenes/nosferatu/narracion.mp3",
+ "musica": "resumenes/nosferatu/musica.mp3"
+}
