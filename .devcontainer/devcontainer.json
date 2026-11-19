@@ -2,12 +2,21 @@
   "name": "App de resúmenes de películas",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "postCreateCommand": "sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core && pip install --no-cache-dir -r app_movil/requirements.txt gradio==6.32.0",
-  "postStartCommand": "bash app_movil/arrancar.sh",
-  "forwardPorts": [7860],
+  "forwardPorts": [
+    7860
+  ],
   "portsAttributes": {
-    "7860": { "label": "App de resúmenes", "onAutoForward": "openBrowser" }
+    "7860": {
+      "label": "App de resúmenes",
+      "onAutoForward": "openBrowser"
+    }
   },
   "customizations": {
-    "codespaces": { "openFiles": ["app_movil/COMO_USAR.md"] }
-  }
+    "codespaces": {
+      "openFiles": [
+        "app_movil/COMO_USAR.md"
+      ]
+    }
+  },
+  "postAttachCommand": "cd app_movil && python3 app.py"
 }

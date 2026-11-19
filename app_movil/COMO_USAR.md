@@ -7,9 +7,10 @@ En 1 o 2 minutos se abre sola en otra pestaña. Si no se abre:
 
 Guarda esa dirección en favoritos: mientras este Codespace esté encendido, la app funciona ahí.
 
-Si la app no responde, abre el menú ☰ → **Terminal → New Terminal** y escribe:
+La app funciona en la **Terminal** de abajo: no la cierres mientras la uses. Si la app no responde, toca la
+Terminal, pulsa Ctrl+C si hace falta y escribe:
 
-    bash app_movil/arrancar.sh
+    cd /workspaces/videosmto/app_movil && python3 app.py
 
 **Para no gastar tus horas gratis:** cuando acabes, ve a <https://github.com/codespaces>, toca los tres puntos
 de tu Codespace y elige **Stop codespace**. Al volver, toca su nombre para encenderlo otra vez.
