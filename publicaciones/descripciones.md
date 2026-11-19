@@ -167,7 +167,7 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #FinanzasPersonales #Dinero #Millonario
 
-## ¿Cuánto tiempo sobrevivirías atrapado en temperaturas bajo cero? — `videos/reel-frio.mp4`
+## ¿Cuánto tiempo sobrevivirías atrapado en temperaturas bajo cero? (1:41) — `videos/reel-frio.mp4`
 
 ### TikTok / Reels
 > **¿Cuánto aguantarías atrapado en el hielo?** 🥶❄️

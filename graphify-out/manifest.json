@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795041394.0224533,
-    "seen": 1795041785.3600805,
-    "ast_hash": "eb7be1788ba45dfbb71527b5a849fe50",
+    "mtime": 1795047666.6086645,
+    "seen": 1795049120.470107,
+    "ast_hash": "8db9a5bb031bc6b19039fb528938e8b8",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795041733.8684745,
-    "seen": 1795041785.3647308,
-    "ast_hash": "37aa534655a0cd1a92f880bbd5bd7851",
+    "mtime": 1795049114.4551854,
+    "seen": 1795049120.4703686,
+    "ast_hash": "f7aa2098a3fbd47a16be06291a514139",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3108,15 +3108,15 @@
     "semantic_hash": ""
   },
   "src/Frio/guion.json": {
-    "mtime": 1795040991.0232656,
-    "seen": 1795041785.360002,
-    "ast_hash": "2d8bea0c05d66369c1662917597531a4",
+    "mtime": 1795048184.1450903,
+    "seen": 1795049120.4700658,
+    "ast_hash": "6b0747de853575eac4e194bcf5e007f8",
     "semantic_hash": ""
   },
   "src/Frio/tiempos.json": {
-    "mtime": 1795041034.2273376,
-    "seen": 1795041785.3600047,
-    "ast_hash": "0aec3966c87281b0371dac4543f9da56",
+    "mtime": 1795048194.5471935,
+    "seen": 1795049120.4700677,
+    "ast_hash": "128ebaeaa4d97f716d50d62adb4e8af5",
     "semantic_hash": ""
   },
   "src/Millon/Ilustraciones.tsx": {
@@ -3297,6 +3297,72 @@
     "mtime": 1795039552.768182,
     "seen": 1795041785.3650818,
     "ast_hash": "a60974072c6d2aae92f26331e71063b5",
+    "semantic_hash": ""
+  },
+  "src/Sahara/Ilustraciones.tsx": {
+    "mtime": 1795047666.6086645,
+    "seen": 1795049120.470109,
+    "ast_hash": "db99a52634537b0a94d07b5d9f860246",
+    "semantic_hash": ""
+  },
+  "src/Sahara/MapaSahara.tsx": {
+    "mtime": 1795047666.6129823,
+    "seen": 1795049120.4701102,
+    "ast_hash": "3c32c5bad2a12b8192d8c6c36b0b272c",
+    "semantic_hash": ""
+  },
+  "src/Sahara/Reel.tsx": {
+    "mtime": 1795047666.6129823,
+    "seen": 1795049120.4701114,
+    "ast_hash": "2af274ecc56d9ce40f259fd79feec9de",
+    "semantic_hash": ""
+  },
+  "src/Sahara/efectos.ts": {
+    "mtime": 1795047666.6129823,
+    "seen": 1795049120.4701128,
+    "ast_hash": "dc2fb23adf62bc247445036638c22a8f",
+    "semantic_hash": ""
+  },
+  "src/Sahara/escenas.ts": {
+    "mtime": 1795047666.6129823,
+    "seen": 1795049120.470114,
+    "ast_hash": "400d96bbf75952d6b245e84786f1b894",
+    "semantic_hash": ""
+  },
+  "src/Sahara/guion.json": {
+    "mtime": 1795047666.6129823,
+    "seen": 1795049120.4701154,
+    "ast_hash": "c958a33c00ddcc748070b924a305483d",
+    "semantic_hash": ""
+  },
+  "src/Sahara/tiempos.json": {
+    "mtime": 1795047666.6129823,
+    "seen": 1795049120.4701164,
+    "ast_hash": "7ef01b6bed0961b6318c67020eded12d",
+    "semantic_hash": ""
+  },
+  "public/voz/frio.mp3": {
+    "mtime": 1795048152.4736924,
+    "seen": 1795049120.4705086,
+    "ast_hash": "982e8bf1ca5da2ab73aea81981b24e5f",
+    "semantic_hash": ""
+  },
+  "public/voz/sahara.mp3": {
+    "mtime": 1795047666.6046646,
+    "seen": 1795049120.470512,
+    "ast_hash": "abc616a2d6ea81b6ec6ee7e823d4cfb7",
+    "semantic_hash": ""
+  },
+  "videos/reel-frio.mp4": {
+    "mtime": 1795049114.443095,
+    "seen": 1795049120.470517,
+    "ast_hash": "2272199a1b1dc0d5f5665ade53498266",
+    "semantic_hash": ""
+  },
+  "videos/reel-sahara.mp4": {
+    "mtime": 1795047666.6806645,
+    "seen": 1795049120.4705215,
+    "ast_hash": "3d6004278bf5917ff069ab9199951507",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
