@@ -28,3 +28,21 @@ python3 scripts/alinear_voz.py public/voz/mivideo.mp3 src/MiVideo/guion.json src
 ```
 
 Los modelos se descargan solos a `~/.cache/voces/` la primera vez (`--descargar` los baja todos, ~1,5 GB).
+
+# Voces de Microsoft Edge (edge-tts, gratis, con internet)
+
+`scripts/voz_edge.py` usa las **45 voces neuronales en español** de Microsoft Edge (22 países, hombre y mujer
+en casi todos). Suenan mucho más naturales que las locales y pronuncian bien nombres como «Sahara».
+Muestras en `voces/muestras/edge/` (`todas-edge.mp3` las junta: cada una dice su nombre y su país).
+
+```bash
+python3 scripts/voz_edge.py --listar
+python3 scripts/voz_edge.py src/MiVideo/guion.json public/voz/mivideo.mp3 --voz es-MX-JorgeNeural
+python3 scripts/voz_edge.py guion.json voz.mp3 --voz es-ES-AlvaroNeural --velocidad 1.1 --tono -4Hz
+```
+
+Avisos:
+- Necesita internet (`speech.platform.bing.com`, ya permitido en el entorno «videosmto»).
+- No es una API oficial: es gratis, pero Microsoft puede cambiarla o cortarla sin avisar.
+- Microsoft no da una licencia explícita para uso comercial de estas voces por esta vía. Para monetizar sin
+  dudas, mejor las locales con licencia libre o ElevenLabs.
