@@ -77,6 +77,11 @@ const api = async (ruta, datos) => {
   return j;
 };
 const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+// Tiempos como en YouTube: "1:30" (o "1:02:05", o solo segundos "90"). Admite décimas: "1:30.5"
+const seg = v => { const p = String(v).trim().replace(",", ".").split(":").map(Number);
+  return !String(v).trim() || p.some(isNaN) ? NaN : p.reduce((a, b) => a * 60 + b, 0); };
+const tiempo = s => { const d = Math.round(s * 10), m = Math.floor(d / 600), r = (d % 600) / 10;
+  return `${m}:${r < 10 ? "0" : ""}${r}`; };
 
 // Pegar: solo existe con HTTPS (tailscale serve) o en el propio PC
 if (navigator.clipboard?.readText) {
@@ -110,15 +115,16 @@ $("analizar").onclick = async () => {
 function tarjeta(a, b, i) {
   const el = document.createElement("div"); el.className = "card clip";
   el.innerHTML = `<div><iframe allowfullscreen></iframe></div>
-    <div><b>Clip ${i + 1}</b><div class="fila" style="margin:8px 0">
-      <label>Inicio (s)<input class="ini" type="number" step="0.5" value="${a}" style="width:100px"></label>
-      <label>Fin (s)<input class="fin" type="number" step="0.5" value="${b}" style="width:100px"></label>
+    <div><b>Clip ${i + 1}</b> <span class="estado">· en qué minuto del video empieza y acaba (ej. 1:30)</span>
+      <div class="fila" style="margin:8px 0">
+      <label>Empieza en<input class="ini" inputmode="decimal" value="${tiempo(a)}" style="width:100px"></label>
+      <label>Acaba en<input class="fin" inputmode="decimal" value="${tiempo(b)}" style="width:100px"></label>
       <label>Encuadre<select class="encuadre">
         <option value="0">Izquierda</option><option value="0.25">Centro-izq.</option><option value="0.5" selected>Centro</option>
         <option value="0.75">Centro-der.</option><option value="1">Derecha</option></select></label>
       <button class="gen">Generar</button></div><p class="estado"></p><div class="res"></div></div>`;
   const prev = () => el.querySelector("iframe").src =
-    `https://www.youtube.com/embed/${video.id}?start=${Math.floor(el.querySelector(".ini").value)}&end=${Math.ceil(el.querySelector(".fin").value)}`;
+    `https://www.youtube.com/embed/${video.id}?start=${Math.floor(seg(el.querySelector(".ini").value) || 0)}&end=${Math.ceil(seg(el.querySelector(".fin").value) || 0)}`;
   el.querySelector(".ini").onchange = el.querySelector(".fin").onchange = prev; prev();
   el.querySelector(".gen").onclick = () => generar(el);
   return el;
@@ -126,18 +132,20 @@ function tarjeta(a, b, i) {
 
 async function generar(el) {
   const btn = el.querySelector(".gen"), est = el.querySelector(".estado");
+  const a = seg(el.querySelector(".ini").value), b = seg(el.querySelector(".fin").value);
+  if (isNaN(a) || isNaN(b) || b <= a) return error(est, "Escribe los tiempos como 1:30, y que «Acaba en» sea después de «Empieza en».");
   btn.disabled = true; est.textContent = "Descargando tramo y editando… (deja la pantalla encendida)";
   despierto(true);
   try {
     const {archivo, inicio, fin} = await api("/api/clip", {
-      url: video.url, id: video.id, inicio: +el.querySelector(".ini").value, fin: +el.querySelector(".fin").value,
+      url: video.url, id: video.id, inicio: a, fin: b,
       encuadre: +el.querySelector(".encuadre").value, formato: $("formato").value, calidad: $("calidad").value,
       velocidad: +$("velocidad").value, ajustar: $("ajustar").checked, subtitulos: $("subtitulos").checked,
       sub_estilo: $("sub_estilo").value, sub_tamano: $("sub_tamano").value, sub_color: $("sub_color").value,
       sub_posicion: $("sub_posicion").value, titulo: $("titulo").value, marca: $("marca").value,
       zoom: $("zoom").checked, barra: $("barra").checked});
     const ini = el.querySelector(".ini"), fi = el.querySelector(".fin");
-    if (+ini.value !== inicio || +fi.value !== fin) { ini.value = inicio; fi.value = fin; ini.onchange(); }  // ajustado a frases
+    if (a !== inicio || b !== fin) { ini.value = tiempo(inicio); fi.value = tiempo(fin); ini.onchange(); }  // ajustado a frases
     est.textContent = "Listo";
     el.querySelector(".res").innerHTML = `<video controls playsinline src="${archivo}"></video>
       <p class="acciones"><a href="${archivo}" download>⬇ Descargar</a><button class="sec compartir" type="button" hidden>Compartir…</button></p>`;

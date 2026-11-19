@@ -215,6 +215,11 @@ class App(BaseHTTPRequestHandler):
             if self.path == "/api/analizar":
                 info = analizar(d["url"])
                 dur = float(info.get("duration") or 0)
+                if info.get("is_live") or info.get("live_status") in ("is_live", "is_upcoming", "post_live"):
+                    raise ValueError("Este video es un directo que aún no ha terminado (o YouTube lo está procesando). "
+                                     "Cuando acabe el directo, espera un rato y vuelve a probar.")
+                if not dur:
+                    raise ValueError("YouTube no dice cuánto dura este video. Prueba con otro enlace.")
                 res = {"id": info["id"], "titulo": info.get("title"), "duracion": dur,
                        "picos": bool(info.get("heatmap")),
                        "clips": momentos(info.get("heatmap"), dur, int(d.get("n", 5)), float(d.get("largo", 45)))}
