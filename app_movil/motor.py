@@ -147,7 +147,7 @@ ESQUEMA = {
 }
 
 INSTRUCCIONES = """Eres guionista de vídeos verticales (Shorts, TikTok, Reels) que resumen películas en español.
-Recibes lo que se dice en una película o en un fragmento (con el segundo en que se dice, puede estar en cualquier idioma) y capturas de imagen con su segundo. Escribes la narración del resumen y eliges qué trozo de la película se ve mientras suena cada frase.
+Recibes lo que se dice en una película o en un fragmento (con el segundo en que se dice, puede estar en cualquier idioma) y, a veces, capturas de imagen con su segundo. Escribes la narración del resumen y eliges qué trozo de la película se ve mientras suena cada frase.
 
 Reglas:
 - Narración en español neutro, con tus propias palabras, en presente, frases cortas y con ritmo. Nunca copies diálogos.
@@ -161,7 +161,7 @@ Reglas:
 
 def texto_transcripcion(segs, max_lineas=4000):
     if not segs:
-        return '(No se ha detectado diálogo; guíate por las capturas.)'
+        return '(No se ha detectado diálogo.)'
     if len(segs) > max_lineas:  # películas muy largas: junta frases cercanas para no pasarse
         paso = math.ceil(len(segs) / max_lineas)
         segs = [(segs[i][0], segs[min(i + paso, len(segs)) - 1][1], ' '.join(s[2] for s in segs[i:i + paso]))
@@ -169,18 +169,21 @@ def texto_transcripcion(segs, max_lineas=4000):
     return '\n'.join(f'[{a:.0f}s] {t}' for a, _, t in segs)
 
 
+def texto_pedido(segs, duracion, objetivo, titulo='', notas=''):
+    palabras = int(objetivo * PALABRAS_POR_SEG)
+    escenas = max(4, round(objetivo / 6))
+    return (f'Duración del archivo: {duracion:.0f} segundos ({hms(duracion)}).\n'
+            + (f'Película: {titulo}\n' if titulo else '')
+            + f'Duración del resumen: unos {objetivo} segundos, es decir, unas {palabras} palabras de narración '
+              f'repartidas en unas {escenas} escenas.\n'
+            + (f'Indicaciones extra: {notas}\n' if notas else '')
+            + f'\nDIÁLOGOS (segundo y texto):\n{texto_transcripcion(segs)}\n\nCAPTURAS:')
+
+
 def generar_guion(segs, fotos, duracion, objetivo, titulo='', notas=''):
     import anthropic
     client = anthropic.Anthropic()  # usa ANTHROPIC_API_KEY
-    palabras = int(objetivo * PALABRAS_POR_SEG)
-    escenas = max(4, round(objetivo / 6))
-    pedido = (f'Duración del archivo: {duracion:.0f} segundos ({hms(duracion)}).\n'
-              + (f'Película: {titulo}\n' if titulo else '')
-              + f'Duración del resumen: unos {objetivo} segundos, es decir, unas {palabras} palabras de narración '
-                f'repartidas en unas {escenas} escenas.\n'
-              + (f'Indicaciones extra: {notas}\n' if notas else '')
-              + f'\nDIÁLOGOS (segundo y texto):\n{texto_transcripcion(segs)}\n\nCAPTURAS:')
-    contenido = [{'type': 'text', 'text': pedido}]
+    contenido = [{'type': 'text', 'text': texto_pedido(segs, duracion, objetivo, titulo, notas)}]
     for t, ruta in fotos:
         with open(ruta, 'rb') as f:
             datos = base64.standard_b64encode(f.read()).decode('utf-8')
@@ -322,37 +325,83 @@ def cortar(video, tiene_audio, ini, dur, volumen, salida):
               '-t', f'{dur:.3f}', salida])
 
 
-def procesar(video, carpeta, srt=None, titulo='', objetivo=90, volumen=0.15, calidad='precisa', notas='',
-             avisar=lambda msg, frac=None: print(msg)):
-    """Hace todo el trabajo. Deja en `carpeta` resumen.mp4, publicar.txt y guion.json."""
-    os.makedirs(carpeta, exist_ok=True)
-    tmp = os.path.join(carpeta, 'tmp')
-    os.makedirs(tmp, exist_ok=True)
-    duracion, tiene_audio = info_video(video)
+# ----------------------------------------------------------------------------- 6 · el proceso completo
+FORMATO = """Responde SOLO con un bloque de código JSON (sin texto antes ni después) con esta forma exacta:
+```json
+{
+  "titulo": "RESUMEN: ...",
+  "escenas": [
+    {"inicio": 12, "narracion": "Primera frase de la narración..."},
+    {"inicio": 95, "narracion": "Siguiente frase..."}
+  ],
+  "publicacion": {"titulo": "...", "descripcion": "...", "hashtags": ["cine", "resumen"]}
+}
+```"""
 
-    # 1 · qué se dice
+
+def preparar(video, carpeta, srt=None, titulo='', objetivo=90, volumen=0.15, calidad='precisa', notas='',
+             avisar=lambda msg, frac=None: print(msg)):
+    """Paso 1: escucha la película y deja en `carpeta` el pedido para Claude (pedido.txt)."""
+    os.makedirs(os.path.join(carpeta, 'tmp'), exist_ok=True)
+    duracion, tiene_audio = info_video(video)
     if srt:
-        avisar('Leyendo los subtítulos…', 0.02)
+        avisar('Leyendo los subtítulos…', 0.05)
         segs = leer_srt(srt)
     elif tiene_audio:
         avisar('Escuchando la película (en una película entera tarda un buen rato)…', 0.02)
-        segs = transcribir(video, calidad, lambda m, f=None: avisar(m, 0.02 + 0.38 * (f or 0)))
+        segs = transcribir(video, calidad, lambda m, f=None: avisar(m, 0.02 + 0.96 * (f or 0)))
     else:
         segs = []
-    avisar('Sacando capturas de la película…', 0.42)
-    fotos = fotogramas(video, duracion, os.path.join(tmp, 'capturas'))
+    datos = dict(video=video, duracion=duracion, tiene_audio=tiene_audio, titulo=titulo, objetivo=objetivo,
+                 volumen=volumen, notas=notas, segs=segs)
+    with open(os.path.join(carpeta, 'datos.json'), 'w', encoding='utf-8') as f:
+        json.dump(datos, f, ensure_ascii=False)
+    pedido = (INSTRUCCIONES + '\n\n' + FORMATO + '\n\n' + texto_pedido(segs, duracion, objetivo, titulo, notas)
+              .replace('\n\nCAPTURAS:', ''))
+    with open(os.path.join(carpeta, 'pedido.txt'), 'w', encoding='utf-8') as f:
+        f.write(pedido)
+    return pedido
 
-    # 2 · guion
-    avisar('Claude está escribiendo el resumen…', 0.45)
-    g = generar_guion(segs, fotos, duracion, objetivo, titulo, notas)
+
+def leer_respuesta(texto):
+    """Saca el guion de lo que has copiado de Claude (aunque venga con ```json o con texto alrededor)."""
+    m = re.search(r'```(?:json)?\s*(\{.*\})\s*```', texto, re.S)
+    bruto = m.group(1) if m else texto[texto.find('{'):texto.rfind('}') + 1]
+    try:
+        g = json.loads(bruto)
+    except ValueError:
+        raise ValueError('No encuentro el guion en lo que has pegado. Copia la respuesta completa de Claude '
+                         '(el bloque que empieza por { y termina por }).')
+    escenas = []
+    for e in g.get('escenas') or []:
+        try:
+            if str(e.get('narracion', '')).strip():
+                escenas.append({'inicio': float(e['inicio']), 'narracion': str(e['narracion']).strip()})
+        except (KeyError, TypeError, ValueError):
+            continue
+    if not escenas:
+        raise ValueError('La respuesta no trae escenas. Pídele a Claude que repita la respuesta en el formato JSON.')
+    p = g.get('publicacion') or {}
+    return {'titulo': str(g.get('titulo') or 'RESUMEN'), 'escenas': escenas,
+            'publicacion': {'titulo': str(p.get('titulo') or g.get('titulo') or ''), 'descripcion': str(p.get('descripcion') or ''),
+                            'hashtags': [str(h) for h in (p.get('hashtags') or [])]}}
+
+
+def montar(carpeta, g, avisar=lambda msg, frac=None: print(msg)):
+    """Paso 2: con el guion, graba la voz, corta las escenas y monta el vídeo. Devuelve (vídeo, texto para publicar)."""
+    with open(os.path.join(carpeta, 'datos.json'), encoding='utf-8') as f:
+        d = json.load(f)
+    video, duracion, tiene_audio, volumen = d['video'], d['duracion'], d['tiene_audio'], d['volumen']
+    tmp = os.path.join(carpeta, 'tmp')
+    os.makedirs(tmp, exist_ok=True)
     with open(os.path.join(carpeta, 'guion.json'), 'w', encoding='utf-8') as f:
         json.dump(g, f, ensure_ascii=False, indent=2)
 
-    # 3 · voz de cada escena y línea de tiempo
+    # voz de cada escena y línea de tiempo
     voz, palabras, tramos, t = [], [], [], 0.0
     n = len(g['escenas'])
     for i, e in enumerate(g['escenas']):
-        avisar(f'Grabando la voz ({i + 1}/{n})…', 0.55 + 0.1 * i / n)
+        avisar(f'Grabando la voz ({i + 1}/{n})…', 0.02 + 0.2 * i / n)
         x = sintetizar(e['narracion'], os.path.join(tmp, f'voz{i}'))
         habla = len(x) / SR
         dur = math.ceil((habla + PAUSA + (1.2 if i == n - 1 else 0)) * FPS) / FPS
@@ -367,17 +416,17 @@ def procesar(video, carpeta, srt=None, titulo='', objetivo=90, volumen=0.15, cal
     escribir_wav(np.concatenate(voz), os.path.join(tmp, 'voz.wav'))
     subtitulos(palabras, g['titulo'], t, os.path.join(tmp, 'subs.ass'))
 
-    # 4 · trozos de la película
+    # trozos de la película
     lista = os.path.join(tmp, 'lista.txt')
     with open(lista, 'w') as f:
         for i, (ini, dur) in enumerate(tramos):
-            avisar(f'Cortando escenas ({i + 1}/{n})…', 0.65 + 0.2 * i / n)
+            avisar(f'Cortando escenas ({i + 1}/{n})…', 0.25 + 0.5 * i / n)
             trozo = os.path.join(tmp, f'trozo{i:02d}.mkv')
             cortar(video, tiene_audio, ini, dur, volumen, trozo)
             f.write(f"file '{trozo}'\n")
 
-    # 5 · unir, mezclar la voz y quemar los subtítulos
-    avisar('Montando el vídeo final…', 0.87)
+    # unir, mezclar la voz y quemar los subtítulos
+    avisar('Montando el vídeo final…', 0.8)
     salida = os.path.join(carpeta, 'resumen.mp4')
     subs = os.path.join(tmp, 'subs.ass').replace('\\', '/').replace(':', r'\:').replace("'", r"\'")
     ejecutar(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lista, '-i', os.path.join(tmp, 'voz.wav'),
@@ -393,11 +442,23 @@ def procesar(video, carpeta, srt=None, titulo='', objetivo=90, volumen=0.15, cal
     with open(os.path.join(carpeta, 'publicar.txt'), 'w', encoding='utf-8') as f:
         f.write(texto)
     for nombre in os.listdir(tmp):
-        ruta = os.path.join(tmp, nombre)
-        if os.path.isfile(ruta) and nombre.endswith('.mkv'):
-            os.remove(ruta)
+        if nombre.endswith('.mkv'):
+            os.remove(os.path.join(tmp, nombre))
     avisar('¡Listo!', 1.0)
     return salida, texto
+
+
+def procesar(video, carpeta, srt=None, titulo='', objetivo=90, volumen=0.15, calidad='precisa', notas='',
+             avisar=lambda msg, frac=None: print(msg)):
+    """Todo seguido, con la API de Claude (necesita ANTHROPIC_API_KEY, de pago)."""
+    preparar(video, carpeta, srt, titulo, objetivo, volumen, calidad, notas, lambda m, f=None: avisar(m, 0.4 * (f or 0)))
+    with open(os.path.join(carpeta, 'datos.json'), encoding='utf-8') as f:
+        d = json.load(f)
+    avisar('Sacando capturas de la película…', 0.42)
+    fotos = fotogramas(video, d['duracion'], os.path.join(carpeta, 'tmp', 'capturas'))
+    avisar('Claude está escribiendo el resumen…', 0.45)
+    g = generar_guion(d['segs'], fotos, d['duracion'], objetivo, titulo, notas)
+    return montar(carpeta, g, lambda m, f=None: avisar(m, 0.55 + 0.45 * (f or 0)))
 
 
 if __name__ == '__main__':
@@ -408,8 +469,17 @@ if __name__ == '__main__':
     ap.add_argument('--duracion', type=int, default=90)
     ap.add_argument('--volumen', type=float, default=0.15)
     ap.add_argument('--rapida', action='store_true')
+    ap.add_argument('--respuesta', help='archivo con la respuesta de Claude copiada (modo gratis)')
     ap.add_argument('--salida', default='trabajos/prueba')
     a = ap.parse_args()
-    v, txt = procesar(a.video, a.salida, a.srt, a.titulo, a.duracion, a.volumen, 'rapida' if a.rapida else 'precisa')
+    calidad = 'rapida' if a.rapida else 'precisa'
+    if os.environ.get('ANTHROPIC_API_KEY'):
+        v, txt = procesar(a.video, a.salida, a.srt, a.titulo, a.duracion, a.volumen, calidad)
+    elif not a.respuesta:
+        print(preparar(a.video, a.salida, a.srt, a.titulo, a.duracion, a.volumen, calidad))
+        sys.exit(f'\nPega lo de arriba en Claude, guarda su respuesta en un archivo y repite con --respuesta archivo')
+    else:
+        g = leer_respuesta(open(a.respuesta, encoding='utf-8').read())
+        v, txt = montar(a.salida, g)
     print(v)
     print(txt)
