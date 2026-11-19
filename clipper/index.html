@@ -31,8 +31,45 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
 .clip video{width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:10px}
 .acciones{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.acciones a{color:var(--acc)}
 @media (prefers-reduced-motion:reduce){.vivo::before{animation:none}}
+/* Cabecera $SANTORYU$: signos de dólar dorados y fajos de billetes a los lados */
+.marca{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0 20px}
+.marca h1{margin:0;font:800 clamp(26px,8vw,40px)/1 Georgia,"Times New Roman",serif;letter-spacing:.02em;white-space:nowrap;
+  text-shadow:0 2px 0 #000,0 0 18px rgba(80,200,120,.25)}
+.dolar{display:inline-block;font-size:1.25em;vertical-align:-.08em;color:#f5c542;
+  background:linear-gradient(115deg,#7a5a12 0%,#f9e08b 22%,#c9962b 40%,#fff6c8 50%,#b8861f 62%,#f5d36e 80%,#6e4f0e 100%) 0 0/250% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;
+  filter:drop-shadow(0 2px 1px rgba(0,0,0,.8)) drop-shadow(0 0 6px rgba(245,197,66,.45));animation:brillo 3.5s ease-in-out infinite}
+@keyframes brillo{0%,100%{background-position:0 0}50%{background-position:100% 0}}
+.fajo{width:clamp(54px,17vw,86px);height:auto;flex:none;filter:drop-shadow(0 4px 6px rgba(0,0,0,.6))}
+.fajo .b1{animation:flotar 3s ease-in-out infinite;transform-origin:50% 90%}
+@keyframes flotar{50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.dolar,.fajo .b1{animation:none}}
 </style></head><body><main>
-<h1>✂️ $SANTORYU$</h1>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="papel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fd8a8"/><stop offset=".5" stop-color="#6fb57f"/><stop offset="1" stop-color="#3f8a55"/></linearGradient>
+<radialGradient id="sello" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#e6f5e0"/><stop offset="1" stop-color="#8cc79a"/></radialGradient>
+<symbol id="billete" viewBox="0 0 120 56">
+  <rect x="1" y="1" width="118" height="54" rx="4" fill="url(#papel)" stroke="#1f5a33" stroke-width="2"/>
+  <rect x="6" y="6" width="108" height="44" rx="2" fill="none" stroke="#1f5a33" stroke-width="1.2" stroke-dasharray="3 1.5" opacity=".7"/>
+  <path d="M10 28h22M88 28h22" stroke="#1f5a33" stroke-width=".8" opacity=".5"/>
+  <ellipse cx="60" cy="28" rx="19" ry="17" fill="url(#sello)" stroke="#1f5a33" stroke-width="1.5"/>
+  <text x="60" y="37" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="26" fill="#1f5a33">$</text>
+  <text x="14" y="18" font-family="Georgia,serif" font-weight="700" font-size="10" fill="#1f5a33">100</text>
+  <text x="106" y="48" text-anchor="end" font-family="Georgia,serif" font-weight="700" font-size="10" fill="#1f5a33">100</text>
+</symbol></defs></svg>
+<header class="marca">
+  <svg class="fajo izq" viewBox="0 0 130 110" aria-hidden="true">
+    <use href="#billete" x="8" y="48" width="120" height="56" transform="rotate(14 68 76)"/>
+    <use href="#billete" x="4" y="34" width="120" height="56" transform="rotate(-4 64 62)"/>
+    <g class="b1"><use href="#billete" x="2" y="22" width="120" height="56" transform="rotate(-20 62 50)"/></g>
+  </svg>
+  <h1 aria-label="SANTORYU"><span class="dolar">$</span>SANTORYU<span class="dolar">$</span></h1>
+  <svg class="fajo der" viewBox="0 0 130 110" aria-hidden="true">
+    <use href="#billete" x="2" y="48" width="120" height="56" transform="rotate(-14 62 76)"/>
+    <use href="#billete" x="6" y="34" width="120" height="56" transform="rotate(4 66 62)"/>
+    <g class="b1"><use href="#billete" x="8" y="22" width="120" height="56" transform="rotate(20 68 50)"/></g>
+  </svg>
+</header>
 
 <div class="card">
   <div class="fila">
