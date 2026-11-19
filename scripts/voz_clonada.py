@@ -22,6 +22,9 @@ import subprocess
 import tempfile
 import time
 
+# descarga clásica por HTTPS (el protocolo Xet de Hugging Face usa otro servidor que puede estar bloqueado)
+os.environ.setdefault("HF_HUB_DISABLE_XET", "1")
+
 import torch
 import torchaudio
 
