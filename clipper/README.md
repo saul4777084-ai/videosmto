@@ -39,3 +39,10 @@ Solo tus dispositivos de Tailscale pueden abrirla, y además pide la contraseña
 Para dejar de publicarlo: `tailscale serve reset`.
 
 El ordenador tiene que estar encendido y con `servidor.py` en marcha. Los clips se guardan en `clipper/clips/`.
+
+## 4. En el móvil
+
+- **Como una app:** abre tu dirección de Tailscale y en el menú del navegador pulsa *Añadir a pantalla de inicio*.
+- **Pegar:** copia el link en YouTube y pulsa *Pegar* al lado del campo.
+- **Compartir…:** cuando un clip está listo, este botón abre el menú del móvil para mandarlo directo a TikTok, Instagram o WhatsApp.
+- Mientras genera, la pantalla se mantiene encendida para que no se corte la espera.

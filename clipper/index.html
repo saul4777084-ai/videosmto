@@ -1,23 +1,28 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Clipper</title>
+<meta name="theme-color" content="#0f1115"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Clipper">
 <style>
 :root{--bg:#0f1115;--card:#1a1d24;--txt:#e8e8ea;--sub:#9aa0aa;--acc:#ff3d5a;--borde:#2a2e38}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.4 system-ui,sans-serif}
 main{max-width:980px;margin:auto;padding:24px 16px}h1{margin:0 0 16px}
 .card{background:var(--card);border:1px solid var(--borde);border-radius:12px;padding:16px;margin-bottom:16px}
 .fila{display:flex;gap:10px;flex-wrap:wrap;align-items:end}label{display:flex;flex-direction:column;gap:4px;color:var(--sub);font-size:13px}
-input,select,button{font:inherit;padding:9px 11px;border-radius:8px;border:1px solid var(--borde);background:#11141a;color:var(--txt)}
+input,select,button{font:inherit;font-size:16px;padding:9px 11px;border-radius:8px;border:1px solid var(--borde);background:#11141a;color:var(--txt)}
 input[type=checkbox]{width:18px;height:18px}.check{flex-direction:row;align-items:center}
 button{background:var(--acc);border:0;font-weight:600;cursor:pointer}button:disabled{opacity:.5;cursor:wait}
 #url{flex:1;min-width:240px}.clip{display:grid;grid-template-columns:320px 1fr;gap:14px}
 .clip iframe,.clip video{width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
 .clip video{aspect-ratio:auto;max-height:420px}.estado{color:var(--sub);font-size:13px}.error{color:var(--acc)}
-@media(max-width:700px){.clip{grid-template-columns:1fr}}
+#lurl{flex:1}
+@media(max-width:700px){.clip{grid-template-columns:1fr}button{padding:12px 16px}#url{min-width:0;width:100%}#lurl{flex-basis:100%}}
+.acciones{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.acciones a{color:var(--acc)}
+button.sec{background:#11141a;border:1px solid var(--borde)}
 </style></head><body><main>
 <h1>✂️ Clipper</h1>
 <div class="card fila">
-  <label id="lurl" style="flex:1">Link de YouTube<input id="url" placeholder="https://www.youtube.com/watch?v=…"></label>
+  <label id="lurl">Link de YouTube<input id="url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.youtube.com/watch?v=…"></label>
+  <button id="pegar" class="sec" type="button" hidden>Pegar</button>
   <label>Clips<input id="n" type="number" value="5" min="1" max="20" style="width:70px"></label>
   <label>Segundos<input id="largo" type="number" value="45" min="5" max="600" style="width:80px"></label>
   <button id="analizar">Buscar momentos</button>
@@ -46,6 +51,22 @@ const api = async (ruta, datos) => {
 };
 const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
+// Pegar: solo existe con HTTPS (tailscale serve) o en el propio PC
+if (navigator.clipboard?.readText) {
+  $("pegar").hidden = false;
+  $("pegar").onclick = async () => { try { $("url").value = (await navigator.clipboard.readText()).trim(); } catch {} };
+}
+// Mantiene la pantalla encendida mientras genera: si el móvil se bloquea, se corta la espera
+let candado = null, trabajos = 0;
+const despierto = async (on) => {
+  trabajos += on ? 1 : -1;
+  try {
+    if (trabajos > 0 && !candado && navigator.wakeLock) candado = await navigator.wakeLock.request("screen");
+    if (trabajos === 0 && candado) { await candado.release(); candado = null; }
+  } catch { candado = null; }
+};
+const error = (el, msg) => { el.replaceChildren(Object.assign(document.createElement("span"), {className: "error", textContent: msg})); };
+
 $("analizar").onclick = async () => {
   $("analizar").disabled = true; $("info").textContent = "Analizando…"; $("lista").innerHTML = "";
   try {
@@ -55,7 +76,7 @@ $("analizar").onclick = async () => {
       (video.picos ? "momentos según lo más repetido en YouTube" : "sin datos de lo más repetido: tramos repartidos");
     video.clips.forEach(([a, b], i) => $("lista").append(tarjeta(a, b, i)));
     $("todos").disabled = false;
-  } catch (e) { $("info").innerHTML = `<span class="error">${e.message}</span>`; }
+  } catch (e) { error($("info"), e.message); }
   $("analizar").disabled = false;
 };
 
@@ -75,14 +96,27 @@ function tarjeta(a, b, i) {
 
 async function generar(el) {
   const btn = el.querySelector(".gen"), est = el.querySelector(".estado");
-  btn.disabled = true; est.textContent = "Descargando tramo y editando…";
+  btn.disabled = true; est.textContent = "Descargando tramo y editando… (deja la pantalla encendida)";
+  despierto(true);
   try {
     const {archivo} = await api("/api/clip", {
       url: video.url, id: video.id, inicio: +el.querySelector(".ini").value, fin: +el.querySelector(".fin").value,
       formato: $("formato").value, velocidad: +$("velocidad").value, subtitulos: $("subtitulos").checked, titulo: $("titulo").value});
     est.textContent = "Listo";
-    el.querySelector(".res").innerHTML = `<video controls src="${archivo}"></video><p><a href="${archivo}" download style="color:var(--acc)">⬇ Descargar</a></p>`;
-  } catch (e) { est.innerHTML = `<span class="error">${e.message}</span>`; }
+    el.querySelector(".res").innerHTML = `<video controls playsinline src="${archivo}"></video>
+      <p class="acciones"><a href="${archivo}" download>⬇ Descargar</a><button class="sec compartir" type="button" hidden>Compartir…</button></p>`;
+    const comp = el.querySelector(".compartir");
+    if (navigator.canShare?.({files: [new File([""], "x.mp4", {type: "video/mp4"})]})) {
+      comp.hidden = false;  // abre el menú del móvil para mandarlo a TikTok, Instagram, WhatsApp…
+      comp.onclick = async () => {
+        try {
+          const blob = await (await fetch(archivo)).blob();
+          await navigator.share({files: [new File([blob], archivo.split("/").pop(), {type: "video/mp4"})]});
+        } catch (e) { if (e.name !== "AbortError") error(est, "No se pudo compartir; usa Descargar."); }
+      };
+    }
+  } catch (e) { error(est, e.message); }
+  despierto(false);
   btn.disabled = false;
 }
 
