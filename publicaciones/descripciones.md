@@ -233,7 +233,7 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Historia #Magallanes #Elcano #Mapas
 
-## ¿Qué le pasa a tu cuerpo si no te mueves en todo un mes? (88 s) — `videos/reel-inmovil.mp4`
+## ¿Qué le pasa a tu cuerpo si no te mueves en todo un mes? — `videos/reel-inmovil-1min.mp4` (1:02, tu voz; la versión larga de 88 s con la voz de Gerardo es `videos/reel-inmovil.mp4`)
 
 ### TikTok / Reels
 > **¿Qué le pasa a tu cuerpo si no te mueves en un MES?** 🛏️😳
