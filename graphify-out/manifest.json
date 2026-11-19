@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795047666.6086645,
-    "seen": 1795049120.470107,
-    "ast_hash": "8db9a5bb031bc6b19039fb528938e8b8",
+    "mtime": 1795122049.0019858,
+    "seen": 1795123868.251295,
+    "ast_hash": "3931782e7e475dab4a154bc716731c80",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795049125.5990956,
-    "seen": 1795065318.7078896,
-    "ast_hash": "f7aa2098a3fbd47a16be06291a514139",
+    "mtime": 1795122367.2222333,
+    "seen": 1795123868.2518218,
+    "ast_hash": "5ada646576867c9e71447eaaf5741b5f",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3783,6 +3783,66 @@
     "mtime": 1795066809.3544803,
     "seen": 1795067643.3703117,
     "ast_hash": "f4d2f3235f7aeee1743efbc443c23212",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/Astronautas3D.tsx": {
+    "mtime": 1795122347.8042564,
+    "seen": 1795123868.2511394,
+    "ast_hash": "7c84188a4d981cd31ae118651e2d150b",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/Ilustraciones.tsx": {
+    "mtime": 1795122347.8048146,
+    "seen": 1795123868.251143,
+    "ast_hash": "21f967f000d2c92bf7096f7ff0f7aacf",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/Reel.tsx": {
+    "mtime": 1795122048.9772909,
+    "seen": 1795123868.251145,
+    "ast_hash": "1010d50e370362e9a033fb1299bd2290",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/efectos.ts": {
+    "mtime": 1795121798.9421902,
+    "seen": 1795123868.2511468,
+    "ast_hash": "de6ab3d6f34677910319181ae18930ef",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/escenas.ts": {
+    "mtime": 1795122219.300331,
+    "seen": 1795123868.2512035,
+    "ast_hash": "193437cb61e8dba527cd194f88517663",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/guion.json": {
+    "mtime": 1795121588.343701,
+    "seen": 1795123868.2512069,
+    "ast_hash": "29dba0de07b9e83fa9e237c4f133528d",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/tiempos.json": {
+    "mtime": 1795121782.9972486,
+    "seen": 1795123868.2512095,
+    "ast_hash": "9275172f1586a985a50e4bfcbb3f485f",
+    "semantic_hash": ""
+  },
+  "src/Inmovil/voz_texto.txt": {
+    "mtime": 1795121588.345803,
+    "seen": 1795123868.2518263,
+    "ast_hash": "0b22a9e82d8e2f507d4a1aa5af5880fd",
+    "semantic_hash": ""
+  },
+  "public/voz/inmovil.mp3": {
+    "mtime": 1795121782.9956055,
+    "seen": 1795123868.252134,
+    "ast_hash": "ebc542c1e445e5ba8fc09f5eb280a406",
+    "semantic_hash": ""
+  },
+  "videos/reel-inmovil.mp4": {
+    "mtime": 1795123822.0742624,
+    "seen": 1795123868.2521539,
+    "ast_hash": "efac6fb062f351ceb720160eb7f6665d",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
