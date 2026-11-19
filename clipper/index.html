@@ -196,7 +196,7 @@ $("conectar").onclick = async () => {
   $("conectar").disabled = true; $("clipear").disabled = true; directo = null;
   $("info").className = "estado"; $("info").textContent = "Conectando con el directo…";
   try {
-    const r = await api("/api/directo", {url});
+    const r = await api("/api/directo", {url, calidad: $("calidad").value});
     directo = {url, id: r.id};
     $("info").className = "vivo"; $("info").textContent = "EN DIRECTO · " + r.titulo;
     $("clipear").disabled = false;

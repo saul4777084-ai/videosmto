@@ -76,8 +76,9 @@ def recortar_srt(cues, ini, fin, palabras=0, mayus=False):
 
 FORMATOS = {
     "vertical": "[0:v]crop='min(iw,ih*9/16)':'min(ih,iw*16/9)':'(iw-ow)*{k}':'(ih-oh)/2',scale=1080:1920:flags=lanczos",
-    "desenfocado": "[0:v]split[a][b];[a]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,"
-                   "boxblur=20[f];[b]scale=1080:-2:flags=lanczos[p];[f][p]overlay=(W-w)/2:(H-h)/2",
+    # fondo: se desenfoca a 270x480 y se amplía (3 veces más rápido que desenfocar a 1080x1920 y se ve igual)
+    "desenfocado": "[0:v]split[a][b];[a]scale=270:480:force_original_aspect_ratio=increase,crop=270:480,"
+                   "boxblur=6,scale=1080:1920[f];[b]scale=1080:-2:flags=lanczos[p];[f][p]overlay=(W-w)/2:(H-h)/2",
     "original": "[0:v]null",
 }
 # altura máxima que se descarga, crf, preset. En vertical se recorta ~1/3 del ancho: hace falta fuente alta para que no salga borroso
@@ -91,9 +92,10 @@ def filtro(d, nombre, dur, srt):
     """Cadena de filtros de ffmpeg de un clip. No descarga nada, así que test() la prueba sola."""
     formato = d.get("formato") if d.get("formato") in FORMATOS else "vertical"
     k = min(max(float(d.get("encuadre", 0.5)), 0.0), 1.0)
-    f = FORMATOS[formato].replace("{k}", str(k))
+    # fps=30 lo primero: los directos de juegos van a 60 fps y así cada filtro trabaja la mitad
+    f = FORMATOS[formato].replace("{k}", str(k)).replace("[0:v]", "[0:v]fps=30,", 1)
     if formato != "original" and d.get("zoom"):  # zoom suave hasta +8 % al final del clip
-        f += f",scale=w='trunc(540*(1+0.08*t/{dur:.2f}))*2':h=-2:eval=frame:flags=lanczos,crop=1080:1920"
+        f += f",scale=w='trunc(540*(1+0.08*t/{dur:.2f}))*2':h=-2:eval=frame:flags=bicubic,crop=1080:1920"
     if srt:
         pos = d.get("sub_posicion") if d.get("sub_posicion") in POSICIONES else "abajo"
         margen = {"abajo": 70 if formato != "original" else 20, "centro": 0, "arriba": 40}[pos]
@@ -165,31 +167,55 @@ def generar_directo(d):
     return editar(d, nombre, entrada, seg, "")
 
 
+URLS = {}  # (url, altura) -> (hora, [URL HLS]): extraer en el móvil tarda mucho y las URL valen horas
+
+
+def info_directo(url, alto):
+    """Datos del vídeo; si está en directo, guarda sus URL HLS para los clips."""
+    hls = "[protocol^=m3u8]"
+    # vídeo y audio juntos o, si YouTube los da por separado, uno de cada (dos URL)
+    info = json.loads(run(YTDLP + ["-J", "--ignore-no-formats-error", "-f",
+                                   f"b{hls}[height<={alto}]/b{hls}/bv*{hls}[height<={alto}]+ba{hls}/bv*{hls}+ba{hls}",
+                                   "--", url]).stdout)
+    urls = [f["url"] for f in info.get("requested_formats") or [info] if f.get("url")]
+    if info.get("is_live"):
+        if not urls:
+            raise ValueError("YouTube no ha dado el vídeo de este directo. En Termux comprueba que «node --version» "
+                             "funciona y actualiza con «pip install -U yt-dlp»; luego vuelve a arrancar el Clipper.")
+        URLS[(url, alto)] = (time.time(), urls)
+    return info
+
+
+def urls_directo(url, alto, nuevas=False):
+    guardadas = URLS.get((url, alto))
+    if nuevas or not guardadas or time.time() - guardadas[0] > 3600:
+        if not info_directo(url, alto).get("is_live"):
+            raise ValueError("El directo ha terminado.")
+        guardadas = URLS[(url, alto)]
+    return guardadas[1]
+
+
 def capturar_directo(d):
     """Copia (sin editar, tarda segundos) los últimos N segundos del directo a TRABAJO."""
     url, seg = d["url"], min(max(float(d.get("segundos", 60)), 5), 300)
     vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
     alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
-    hls = "[protocol^=m3u8]"
-    try:  # vídeo y audio juntos o, si YouTube los da por separado, uno de cada (salen dos URL)
-        urls = run(YTDLP + ["-g", "-f", f"b{hls}[height<={alto}]/b{hls}/bv*{hls}[height<={alto}]+ba{hls}/bv*{hls}+ba{hls}",
-                            "--", url]).stdout.split()
-    except RuntimeError as e:
-        if "format is not available" not in str(e):
-            raise
-        raise ValueError("YouTube no ha dado el vídeo de este directo. En Termux comprueba que «node --version» "
-                         "funciona y actualiza con «pip install -U yt-dlp»; luego vuelve a arrancar el Clipper.")
-    entradas = []
-    for u in urls:
-        with urllib.request.urlopen(u, timeout=20) as r:
-            lista = r.read().decode("utf-8", "replace")
-        # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar los segundos
-        entradas += ["-live_start_index", str(-segmentos_atras(lista, seg)), "-i", u]
-    nombre = f"{vid}_directo_{int(time.time())}"
-    run(["ffmpeg", "-y", *entradas, "-t", str(seg), "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
-         "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
-    return nombre, nombre + ".ts", seg
+    for intento in (0, 1):
+        try:
+            urls, entradas = urls_directo(url, alto, nuevas=intento == 1), []
+            for u in urls:
+                with urllib.request.urlopen(u, timeout=20) as r:
+                    lista = r.read().decode("utf-8", "replace")
+                # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar
+                entradas += ["-live_start_index", str(-segmentos_atras(lista, seg)), "-i", u]
+            nombre = f"{vid}_directo_{int(time.time())}"
+            run(["ffmpeg", "-y", *entradas, "-t", str(seg), "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
+                 "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
+            return nombre, nombre + ".ts", seg
+        except (RuntimeError, OSError):  # URL caducada (403, etc.): se piden otras a YouTube una vez
+            if intento:
+                raise
 
 
 # Modo automático: un hilo copia el directo cada X segundos (trozos seguidos) y otro los edita de uno en uno,
@@ -340,7 +366,7 @@ class App(BaseHTTPRequestHandler):
                        "picos": bool(info.get("heatmap")),
                        "clips": momentos(info.get("heatmap"), dur, int(d.get("n", 5)), float(d.get("largo", 45)))}
             elif self.path == "/api/directo":
-                info = analizar(d["url"])
+                info = info_directo(d["url"], CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0])
                 if not info.get("is_live"):
                     raise ValueError("Este video no está en directo ahora mismo. Pega el enlace de un directo que se esté emitiendo.")
                 res = {"id": info["id"], "titulo": info.get("title")}
