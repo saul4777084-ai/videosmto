@@ -1,7 +1,7 @@
 # Graph Report - videosmto  (2026-11-19)
 
 ## Corpus Check
-- 416 files · ~337,011 words
+- 416 files · ~337,197 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 22 file(s) not represented in the graph (top: .woff2 15, .geojson 4, (none) 3)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ec53f235`
+- Built from commit: `b0bda22b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
