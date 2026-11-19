@@ -37,7 +37,6 @@ export const Astronautas3D: React.FC<{ f: number; dur: number; en: (p: string, n
   const ta = en("astronautas");
   const t2 = en("dos");
   const te = en("ejercicio");
-  const ts = en("espacio.");
   return (
     <AbsoluteFill>
       {con3D ? (
@@ -84,7 +83,6 @@ export const Astronautas3D: React.FC<{ f: number; dur: number; en: (p: string, n
       <Rotulo f={f} inicio={ta - 4} texto="ASTRONAUTAS" x={540} y={460} tam={86} color="#fff" />
       <Rotulo f={f} inicio={t2} texto="2 HORAS AL DÍA" x={540} y={600} tam={84} fondo={AMARILLO} color="#2a1405" giro={-3} />
       <Rotulo f={f} inicio={te} texto="DE EJERCICIO" x={540} y={740} tam={60} color="#fff" />
-      <Rotulo f={f} inicio={ts} texto="EN EL ESPACIO" x={380} y={1460} tam={52} fondo="#fff" color="#7a2a10" giro={2} />
     </AbsoluteFill>
   );
 };

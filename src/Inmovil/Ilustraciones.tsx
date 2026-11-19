@@ -1,9 +1,9 @@
 // Una ilustración por frase. Cada elemento entra en la palabra que lo nombra (en("palabra")).
 // Zona libre: el avatar ocupa la esquina inferior derecha (x > 720, y > 1420) y los subtítulos la franja de arriba (y≈200–420).
 import React from "react";
-import { AbsoluteFill, interpolate, interpolateColors, random } from "remotion";
+import { AbsoluteFill, interpolate, random } from "remotion";
 import { Dibujo } from "../comun/tipos";
-import { AMARILLO, clamp, Cronometro, Cuenta, H, Marca, Monitor, muelle, ROJO, Rotulo, SANS, Sello, Tarjeta, tramo, Tu, VERDE, W } from "../Frio/Piezas";
+import { AMARILLO, clamp, Cronometro, Cuenta, H, Marca, muelle, ROJO, Rotulo, SANS, Sello, Tarjeta, tramo, Tu, VERDE, W } from "../Frio/Piezas";
 import { Astronautas3D } from "./Astronautas3D";
 import type { Escenario, Ilustracion } from "./escenas";
 
@@ -79,46 +79,6 @@ const Barra: React.FC<{ x: number; y: number; ancho: number; valor: number; colo
     </div>
   </div>
 );
-
-// corazón dibujado
-const Corazon: React.FC<{ x: number; y: number; tam: number; color?: string; latido?: number }> = ({ x, y, tam, color = ROJO, latido = 0 }) => (
-  <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-    <g transform={`translate(${x} ${y}) scale(${(tam / 200) * (1 + latido * 0.08)})`} style={{ filter: `drop-shadow(0 0 30px ${color})` }}>
-      <path d="M 0 70 C -140 -10 -120 -150 -40 -140 C -10 -136 0 -110 0 -90 C 0 -110 10 -136 40 -140 C 120 -150 140 -10 0 70 Z" transform="scale(1.4)" fill={color} />
-      <path d="M -90 -120 Q -120 -80 -100 -40" stroke="rgba(255,255,255,0.45)" strokeWidth={16} fill="none" strokeLinecap="round" />
-    </g>
-  </svg>
-);
-
-// ---------- 2 · un mes tumbado ----------
-const mes: Fabrica = ({ en }) => ({ f }) => {
-  const tm = en("mes");
-  const tl = en("levantarte.");
-  const tc = en("cambia");
-  const td = en("día.");
-  const llenos = Math.floor(interpolate(f, [tm, td], [0, 30], clamp));
-  return (
-    <AbsoluteFill>
-      <Fondo f={f} />
-      <Tarjeta f={f} inicio={tm - 4} x={540} y={720} ancho={860} alto={520} fondo="#ffffff" borde="#ffd0c8">
-        <div style={{ background: CORAL, color: "#fff", fontFamily: SANS, fontWeight: 900, fontSize: 52, textAlign: "center", padding: "10px 0" }}>30 DÍAS EN LA CAMA</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(10, 1fr)", gap: 10, padding: 22 }}>
-          {Array.from({ length: 30 }, (_, i) => (
-            <div key={i} style={{ height: 112, borderRadius: 14, background: i < llenos ? "#ffe3de" : "#eef3f8", position: "relative", fontFamily: SANS, fontWeight: 900, fontSize: 30, color: "#5b6b7c", textAlign: "center", lineHeight: "112px" }}>
-              {i + 1}
-              {i < llenos && <div style={{ position: "absolute", inset: 0, color: ROJO, fontSize: 84, lineHeight: "104px" }}>×</div>}
-            </div>
-          ))}
-        </div>
-      </Tarjeta>
-      <Cama x={170} y={1250} ancho={720}>
-        <Tumbado f={f} x={820} y={1185} escala={0.78} cara={f > tc ? "preocupado" : "serio"} />
-      </Cama>
-      <Rotulo f={f} inicio={tl} texto="SIN LEVANTARTE" x={430} y={1460} tam={70} fondo="#fff" color="#10283a" giro={-3} />
-      <Rotulo f={f} inicio={tc} texto={"CAMBIA DESDE\nEL DÍA 1"} x={380} y={1590} tam={60} color={AMARILLO} />
-    </AbsoluteFill>
-  );
-};
 
 // ---------- 3 · dos horas: la presión daña la piel ----------
 const piel: Fabrica = ({ en }) => ({ f }) => {
@@ -211,72 +171,25 @@ const sangre: Fabrica = ({ en }) => ({ f }) => {
   );
 };
 
-// ---------- 5 · al levantarte, mareo ----------
+// ---------- 4 · al levantarte, mareo ----------
 const mareo: Fabrica = ({ en }) => ({ f }) => {
   const tl = en("levantarte,");
-  const tm = en("mareas:");
-  const tc = en("corazón");
-  const ts = en("subir");
-  const tca = en("cabeza.");
-  const giro = f > tm ? Math.sin(f / 5) * 4 * tramo(f, tm, tm + 10) : 0;
-  const flecha = tramo(f, ts - 4, ts + 14);
-  const falla = f > tca ? Math.sin(f / 3) * 12 : 0;
+  const tm = en("mareas.");
+  const giro = f > tm ? Math.sin(f / 5) * 5 * tramo(f, tm, tm + 8) : 0;
   return (
     <AbsoluteFill>
       <Fondo f={f} />
-      <div style={{ position: "absolute", inset: 0, transform: `rotate(${giro}deg)`, transformOrigin: "420px 1300px" }}>
-        <Tu f={f} x={420} y={1700} escala={1.05} acciones={[[0, "reposo"], [tl, "andar"], [tm, "sorpresa"]]} cara={f > tm ? "preocupado" : "serio"} />
+      <Cama x={170} y={1500} ancho={600} manta={0.4} />
+      <div style={{ position: "absolute", inset: 0, transform: `rotate(${giro}deg)`, transformOrigin: "460px 1300px" }}>
+        <Tu f={f} x={460} y={1720} escala={1.0} acciones={[[0, "reposo"], [tl, "andar"], [tm, "sorpresa"]]} cara={f > tm ? "preocupado" : "serio"} />
       </div>
       {f > tm &&
         [0, 1, 2, 3, 4].map((k) => {
-          const a = f / 8 + (k * Math.PI * 2) / 5;
-          return <Texto key={k} x={420 + Math.cos(a) * 190} y={1000 + Math.sin(a) * 50} tam={64} color={AMARILLO}>★</Texto>;
+          const a = f / 7 + (k * Math.PI * 2) / 5;
+          return <Texto key={k} x={460 + Math.cos(a) * 190} y={1040 + Math.sin(a) * 50} tam={64} color={AMARILLO}>★</Texto>;
         })}
-      <Rotulo f={f} inicio={tm} texto="¡MAREO!" x={420} y={560} tam={120} color={AMARILLO} giro={-5} />
-      {f > tc && <Corazon x={820} y={1250} tam={150} latido={(Math.sin(f / 3) + 1) / 2} />}
-      {f > ts - 4 && (
-        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-          <path d={`M 820 1150 Q ${860 + falla} 950 ${640 + falla} ${1150 - 260 * flecha}`} stroke="#ff4b6e" strokeWidth={22} fill="none" strokeLinecap="round" strokeDasharray="34 26" strokeDashoffset={-f * 3} opacity={0.95} />
-        </svg>
-      )}
-      <Rotulo f={f} inicio={ts} texto={"LA SANGRE\nNO SUBE"} x={800} y={760} tam={58} fondo="#fff" color="#c0123a" giro={4} />
-    </AbsoluteFill>
-  );
-};
-
-// ---------- 6 · los músculos gastan peor el azúcar ----------
-const azucar: Fabrica = ({ en }) => ({ f }) => {
-  const t5 = en("cinco");
-  const tm = en("músculos");
-  const tp = en("peor");
-  const ta = en("azúcar.");
-  return (
-    <AbsoluteFill>
-      <Fondo f={f} de="#4a2a6a" a="#0d0618" />
-      <Calendario f={f} inicio={t5 - 6} x={250} y={470} dia={interpolate(f, [t5 - 6, t5 + 8], [1, 5], clamp)} tam={0.8} />
-      {f > tm - 4 && (
-        <svg width={W} height={H} style={{ position: "absolute", inset: 0, transform: `scale(${muelle(f, tm - 4, 10)})`, transformOrigin: "560px 1080px" }}>
-          <ellipse cx={560} cy={1080} rx={300} ry={190} fill="#e8586a" />
-          {[-120, -40, 40, 120].map((d) => (
-            <path key={d} d={`M ${300} ${1080 + d} Q 560 ${1080 + d * 1.25} 820 ${1080 + d}`} stroke="#ff8f9c" strokeWidth={12} fill="none" />
-          ))}
-          <rect x={500} y={990} width={120} height={180} rx={20} fill="#2a1235" stroke="#fff" strokeWidth={8} />
-          <circle cx={595} cy={1080} r={10} fill={AMARILLO} />
-        </svg>
-      )}
-      <Texto x={560} y={1320} tam={52} color="#ffd1d8">{f > tm ? "MÚSCULO" : ""}</Texto>
-      {f > ta - 10 &&
-        [0, 1, 2, 3].map((k) => {
-          const t = f - (ta - 10) - k * 5;
-          if (t < 0) return null;
-          const xx = 170 + Math.min(t, 18) * 18;
-          const rebote = t > 18 ? (t - 18) * 7 : 0;
-          return (
-            <div key={k} style={{ position: "absolute", left: xx - rebote, top: 820 + k * 110 - (t > 18 ? Math.sin((t - 18) / 4) * 60 : 0), width: 90, height: 90, borderRadius: 16, background: "#fff", boxShadow: "inset -10px -10px 0 #dfe6ee, 0 10px 20px rgba(0,0,0,0.4)", transform: `rotate(${t * 6}deg)` }} />
-          );
-        })}
-      <Rotulo f={f} inicio={ta} texto="AZÚCAR" x={240} y={1350} tam={64} color="#fff" />
-      <Sello f={f} inicio={tp} x={700} y={640} texto="GASTA PEOR" tam={72} giro={6} />
+      <Rotulo f={f} inicio={tl} texto="AL LEVANTARTE…" x={540} y={520} tam={78} color="#dff6ff" />
+      <Rotulo f={f} inicio={tm} texto="¡MAREO!" x={540} y={660} tam={130} color={AMARILLO} giro={-5} />
     </AbsoluteFill>
   );
 };
@@ -315,75 +228,18 @@ const piernas: Fabrica = ({ en }) => ({ f }) => {
           <rect x={650} y={1160} width={220} height={90} rx={16} fill="#10283a" />
         </svg>
       )}
-      {f > tk - 4 && <Cuenta f={f} a={tk - 4} b={tk + 10} desde={0} hasta={-1} decimales={1} sufijo=" kg" x={760} y={1162} tam={58} color={MENTA} />}
+      {f > tk - 4 && <Cuenta f={f} a={tk - 4} b={tk + 10} desde={0} hasta={-1} decimales={1} sufijo=" kg" x={760} y={1168} tam={48} color={MENTA} />}
       <Rotulo f={f} inicio={tk} texto="−1 KILO" x={760} y={1380} tam={84} color={ROJO} fondo="#fff" giro={4} />
     </AbsoluteFill>
   );
 };
 
-// ---------- 8 · la fuerza cae: hasta un 1 % al día ----------
-const fuerza: Fabrica = ({ en, dur }) => ({ f }) => {
-  const tf = en("fuerza");
-  const tc = en("cae");
-  const tr = en("rápido:");
-  const t1 = en("uno");
-  const caida = tramo(f, tc, tc + 12);
-  const valor = interpolate(f, [tr, dur], [1, 0.74], clamp);
-  return (
-    <AbsoluteFill>
-      <Fondo f={f} de="#3a3f12" a="#0b0c03" />
-      {f > tf - 4 && (
-        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-          <g transform={`translate(540 ${760 + caida * 330}) rotate(${caida * 14})`} opacity={Math.min(1, muelle(f, tf - 4))}>
-            <rect x={-300} y={-14} width={600} height={28} rx={14} fill="#c9d3dd" />
-            {[-1, 1].map((s) => (
-              <g key={s}>
-                <rect x={s * 210 - 30} y={-110} width={60} height={220} rx={16} fill="#2a2f38" />
-                <rect x={s * 270 - 26} y={-80} width={52} height={160} rx={14} fill="#3c4350" />
-              </g>
-            ))}
-          </g>
-        </svg>
-      )}
-      <Rotulo f={f} inicio={tf} texto="FUERZA" x={540} y={470} tam={110} color={AMARILLO} />
-      <Barra x={150} y={1260} ancho={600} valor={valor} color={interpolateColors(valor, [0.74, 1], [ROJO, VERDE])} etiqueta="TU FUERZA" />
-      <Rotulo f={f} inicio={t1} texto="−1% CADA DÍA" x={430} y={1450} tam={76} fondo={ROJO} color="#fff" giro={-3} />
-    </AbsoluteFill>
-  );
-};
-
-// ---------- 9 · el corazón se encoge ----------
-const corazon: Fabrica = ({ en }) => ({ f }) => {
-  const tc = en("corazón");
-  const te = en("encoge,");
-  const tb = en("bombea");
-  const tm = en("menos");
-  const tam = interpolate(f, [te, te + 18], [260, 200], clamp);
-  return (
-    <AbsoluteFill>
-      <Fondo f={f} de="#4d1424" a="#10030a" />
-      {f > tc - 4 && <Corazon x={540} y={820} tam={tam * muelle(f, tc - 4, 10)} latido={(Math.sin(f / 3.2) + 1) / 2} />}
-      {f > te && (
-        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-          {[-1, 1].map((s) => (
-            <path key={s} d={`M ${540 + s * 380} 820 l ${-s * 70} 0 m ${s * 30} -30 l ${-s * 30} 30 l ${s * 30} 30`} stroke="#fff" strokeWidth={14} fill="none" strokeLinecap="round" opacity={0.6 + Math.sin(f / 4) * 0.3} />
-          ))}
-        </svg>
-      )}
-      <Rotulo f={f} inicio={te} texto="SE ENCOGE" x={540} y={1080} tam={84} fondo="#fff" color="#c0123a" giro={-3} />
-      {f > tb - 4 && <Monitor f={f} x={110} y={1230} ancho={620} alto={220} caos={0} plano={interpolate(f, [tm, tm + 15], [0, 0.55], clamp)} texto="♥" />}
-      <Rotulo f={f} inicio={tm} texto={"MENOS SANGRE\nPOR LATIDO"} x={420} y={1500} tam={56} color={AMARILLO} />
-    </AbsoluteFill>
-  );
-};
-
 // ---------- 10 · los huesos pierden calcio como un astronauta ----------
-const huesos: Fabrica = ({ en }) => ({ f }) => {
+const huesos: Fabrica = ({ en, dur }) => ({ f }) => {
   const th = en("huesos");
   const tc = en("calcio,");
-  const ta = en("astronauta:");
-  const t1 = en("uno");
-  const agujeros = interpolate(f, [tc, t1 + 20], [0, 26], clamp);
+  const ta = en("astronauta.");
+  const agujeros = interpolate(f, [tc, dur], [0, 26], clamp);
   return (
     <AbsoluteFill>
       <Fondo f={f} de="#24344f" a="#060a14" />
@@ -405,7 +261,6 @@ const huesos: Fabrica = ({ en }) => ({ f }) => {
         </svg>
       )}
       <Rotulo f={f} inicio={ta + 4} texto={"COMO UN\nASTRONAUTA"} x={840} y={1040} tam={44} color="#dff6ff" />
-      <Rotulo f={f} inicio={t1} texto="−1% AL MES" x={430} y={1420} tam={84} fondo={ROJO} color="#fff" giro={3} />
     </AbsoluteFill>
   );
 };
@@ -525,80 +380,11 @@ const edad: Fabrica = ({ en }) => ({ f }) => {
   );
 };
 
-// ---------- 14 · mito: guardar cama si te duele la espalda ----------
-const mito: Fabrica = ({ en }) => ({ f }) => {
-  const tc = en("cama");
-  const te = en("espalda?");
-  const tm = en("mito:");
-  const tmo = en("moverte");
-  const ta = en("antes.");
-  const ver = f > tmo ? tramo(f, tmo, tmo + 10) : 0;
-  return (
-    <AbsoluteFill>
-      <Fondo f={f} />
-      <div style={{ position: "absolute", inset: 0, opacity: 1 - ver * 0.55 }}>
-        <Cama x={140} y={840} ancho={640} manta={0.5}>
-          <Tumbado f={f} x={710} y={775} escala={0.7} cara={f > te ? "preocupado" : "serio"} />
-        </Cama>
-      </div>
-      <Rotulo f={f} inicio={tc} texto="«GUARDA CAMA»" x={460} y={470} tam={74} fondo="#fff" color="#10283a" giro={-3} />
-      {f > te && (
-        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-          {[0, 1, 2].map((k) => (
-            <path key={k} d={`M ${430 + k * 40} ${700 - (f - te) % 20} l 20 -30 l 20 30`} stroke={ROJO} strokeWidth={10} fill="none" strokeLinecap="round" opacity={0.8} />
-          ))}
-        </svg>
-      )}
-      <Sello f={f} inicio={tm} x={760} y={700} texto="MITO" tam={110} giro={-10} />
-      {f > tmo && <Tu f={f} x={330} y={1720} escala={0.75} acciones={[[0, "andar"]]} cara="feliz" />}
-      {f > tmo && <Marca f={f} inicio={tmo + 4} x={640} y={1300} tam={130} tipo="ok" />}
-      <Rotulo f={f} inicio={tmo} texto="MOVERTE" x={640} y={1420} tam={64} color={VERDE} />
-      <Rotulo f={f} inicio={ta} texto="TE RECUPERA ANTES" x={420} y={1000} tam={56} fondo={VERDE} color="#05301b" giro={2} />
-    </AbsoluteFill>
-  );
-};
-
-// pie que sube y baja desde el tobillo
-const Pie: React.FC<{ x: number; y: number; ang: number }> = ({ x, y, ang }) => (
-  <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-    <rect x={x - 40} y={y - 260} width={80} height={270} rx={36} fill="#f0bf98" />
-    <g transform={`rotate(${ang} ${x} ${y})`}>
-      <path d={`M ${x - 40} ${y - 30} L ${x + 150} ${y - 20} Q ${x + 200} ${y} ${x + 160} ${y + 40} L ${x - 50} ${y + 40} Z`} fill="#f0bf98" />
-      <circle cx={x + 170} cy={y + 8} r={16} fill="#e9a982" />
-    </g>
-    <circle cx={x} cy={y} r={20} fill="none" stroke={AMARILLO} strokeWidth={6} />
-  </svg>
-);
-
-// ---------- 15 · consejos: tobillos y caminar ----------
-const consejos: Fabrica = ({ en }) => ({ f }) => {
-  const tc = en("cama,");
-  const tt = en("tobillos");
-  const tl = en("levántate");
-  const tca = en("caminar");
-  const ang = f > tt ? Math.sin((f - tt) / 4) * 28 : 0;
-  return (
-    <AbsoluteFill>
-      <Fondo f={f} de="#0f5a4a" a="#03130f" />
-      <Rotulo f={f} inicio={tc - 6} texto="SI ESTÁS EN CAMA" x={540} y={460} tam={66} color={MENTA} />
-      <Tarjeta f={f} inicio={tt - 6} x={300} y={900} ancho={480} alto={560} fondo="rgba(4,30,24,0.85)" borde={MENTA}>
-        <div style={{ position: "absolute", left: 0, right: 0, top: 20, textAlign: "center", fontFamily: SANS, fontWeight: 900, fontSize: 46, color: AMARILLO }}>1 · TOBILLOS</div>
-      </Tarjeta>
-      {f > tt - 2 && <Pie x={250} y={1020} ang={ang} />}
-      <Tarjeta f={f} inicio={tl - 4} x={790} y={900} ancho={440} alto={560} fondo="rgba(4,30,24,0.85)" borde={MENTA}>
-        <div style={{ position: "absolute", left: 0, right: 0, top: 20, textAlign: "center", fontFamily: SANS, fontWeight: 900, fontSize: 46, color: AMARILLO }}>2 · CAMINA</div>
-      </Tarjeta>
-      {f > tl && <Tu f={f} x={790} y={1160} escala={0.55} acciones={[[0, "reposo"], [tca, "andar"]]} cara="feliz" />}
-      <Rotulo f={f} inicio={tca} texto="SIEMPRE QUE PUEDAS" x={430} y={1260} tam={56} fondo={MENTA} color="#03231c" giro={-2} />
-    </AbsoluteFill>
-  );
-};
-
 // ---------- 17 · la buena noticia: casi todo vuelve ----------
 const vuelve: Fabrica = ({ en, dur }) => ({ f }) => {
   const tb = en("buena");
   const tv = en("vuelve.");
-  const td = en("Dallas");
+  const td = en("ellos");
   const t8 = en("ocho");
   const te = en("entrenamiento.");
   const valor = interpolate(f, [tv, dur - 6], [0.3, 1], clamp);
@@ -684,21 +470,15 @@ const gancho: Fabrica = ({ en, dur }) => ({ f }) => {
 
 const FABRICAS: Record<Ilustracion, Fabrica | null> = {
   gancho,
-  mes,
   piel,
   sangre,
   mareo,
-  azucar,
   piernas,
-  fuerza,
-  corazon,
   huesos,
+  astronautas: null,
   coagulos,
   dallas,
   edad,
-  mito,
-  consejos,
-  astronautas: null,
   vuelve,
   final,
 };
