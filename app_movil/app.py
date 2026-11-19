@@ -15,9 +15,11 @@ from datetime import datetime
 import gradio as gr
 
 import motor
+import subida
 
 TRABAJOS = os.environ.get('DIR_TRABAJOS') or ('/data/trabajos' if os.path.isdir('/data') else os.path.join(motor.AQUI, 'trabajos'))
 os.makedirs(TRABAJOS, exist_ok=True)
+SUBIDAS = os.environ.get('DIR_SUBIDAS') or os.path.join(os.path.dirname(TRABAJOS.rstrip('/')), 'subidas')
 DURACIONES = {'1 minuto': 60, '1 minuto y medio': 90, '3 minutos': 180}
 CALIDADES = {'Normal (recomendada)': 'precisa', 'Rápida (entiende peor los diálogos)': 'rapida'}
 ICONOS = {'listo': '✅', 'error': '❌', 'esperando_guion': '📝'}
@@ -85,7 +87,10 @@ def hilo_preparar(carpeta, archivo, srt, opciones):
 
 def preparar(archivo, srt, titulo, duracion, volumen, calidad, notas, progress=gr.Progress()):
     if not archivo:
-        raise gr.Error('Primero elige la película o el trozo de vídeo.')
+        raise gr.Error('Primero sube la película con «📤 Subir película» y elígela en la lista.')
+    archivo = os.path.join(SUBIDAS, os.path.basename(archivo))
+    if not os.path.exists(archivo):
+        raise gr.Error('No encuentro esa película. Pulsa 🔄 y elígela otra vez.')
     try:
         motor.info_video(archivo)
     except Exception:
@@ -101,7 +106,7 @@ def preparar(archivo, srt, titulo, duracion, volumen, calidad, notas, progress=g
                    creado=datetime.now().strftime('%d/%m %H:%M'))
     threading.Thread(target=hilo_preparar, args=(carpeta, archivo, srt, opciones), daemon=True).start()
     esperar(carpeta, 'esperando_guion', progress)  # si cierras la página, sigue en segundo plano
-    return ('✅ Película preparada. Sigue con el paso 2 aquí abajo 👇', gr.update(visible=True),
+    return ('✅ Película preparada. Sigue con el paso 2 aquí abajo 👇', lista_subidas(), gr.update(visible=True),
             gr.update(choices=pendientes(), value=d), *mostrar_pedido(d))
 
 
@@ -122,12 +127,17 @@ def mostrar_pedido(d):
     return open(ruta, encoding='utf-8').read(), ruta, ''
 
 
+def lista_subidas():
+    opciones = subida.subidas(SUBIDAS)
+    return gr.update(choices=opciones, value=opciones[0] if opciones else None)
+
+
 def al_abrir():
     """Si dejaste una película a medias, la muestra para que puedas seguir."""
     p = pendientes()
     if not p:
-        return gr.update(visible=False), gr.update(choices=[], value=None), '', None, ''
-    return gr.update(visible=True), gr.update(choices=p, value=p[0][1]), *mostrar_pedido(p[0][1])
+        return lista_subidas(), gr.update(visible=False), gr.update(choices=[], value=None), '', None, ''
+    return lista_subidas(), gr.update(visible=True), gr.update(choices=p, value=p[0][1]), *mostrar_pedido(p[0][1])
 
 
 # ----------------------------------------------------------------------------- paso 3: montar el vídeo
@@ -219,7 +229,10 @@ with gr.Blocks(title='Resúmenes de películas', delete_cache=(3600, 3 * 86400))
                 'con el resumen narrado y subtítulos, listo para TikTok, Shorts o Reels.')
     with gr.Tab('Crear'):
         gr.Markdown('### Paso 1 · Sube la película')
-        archivo = gr.File(label='Película o trozo de vídeo', file_types=['video'], type='filepath')
+        gr.Button('📤 Subir película', link='/subir', elem_classes='grande')
+        with gr.Row(equal_height=True):
+            archivo = gr.Dropdown(label='Película subida', choices=[], scale=4)
+            recargar = gr.Button('🔄', scale=1, min_width=60)
         titulo = gr.Textbox(label='Título de la película (opcional)', placeholder='Ej.: El Gran Dictador')
         duracion = gr.Radio(list(DURACIONES), value='1 minuto y medio', label='Duración del resumen')
         with gr.Accordion('Más opciones', open=False):
@@ -251,7 +264,8 @@ with gr.Blocks(title='Resúmenes de películas', delete_cache=(3600, 3 * 86400))
         texto = gr.Textbox(label='Texto para publicar', lines=8, buttons=['copy'], interactive=False, visible=False)
 
         boton1.click(preparar, [archivo, srt, titulo, duracion, volumen, calidad, notas],
-                     [estado1, paso2, pendiente, pedido, pedido_txt, respuesta], concurrency_limit=1)
+                     [estado1, archivo, paso2, pendiente, pedido, pedido_txt, respuesta], concurrency_limit=1)
+        recargar.click(lista_subidas, None, archivo)
         pendiente.input(mostrar_pedido, pendiente, [pedido, pedido_txt, respuesta])
         boton2.click(lambda: ('', *OCULTOS), None, [estado2, video, descargas, texto]).then(
             crear_video, [pendiente, respuesta], [estado2, video, descargas, texto, pendiente, respuesta],
@@ -270,12 +284,14 @@ with gr.Blocks(title='Resúmenes de películas', delete_cache=(3600, 3 * 86400))
         actualizar.click(refrescar, None, elegido).then(ver, elegido, salidas)
         elegido.input(ver, elegido, salidas)
 
-    demo.load(al_abrir, None, [paso2, pendiente, pedido, pedido_txt, respuesta])
+    demo.load(al_abrir, None, [archivo, paso2, pendiente, pedido, pedido_txt, respuesta])
 
 if __name__ == '__main__':
-    clave = os.environ.get('APP_CLAVE')
-    demo.queue(default_concurrency_limit=1).launch(
-        server_name='0.0.0.0', max_file_size='6gb', css=CSS, allowed_paths=[TRABAJOS],
-        auth=(lambda usuario, contrasena: contrasena == clave) if clave else None,
-        auth_message='Escribe cualquier usuario y tu contraseña.',
-    )
+    import uvicorn
+    from fastapi import FastAPI
+
+    servidor = FastAPI()
+    subida.rutas(servidor, SUBIDAS)  # /subir: subida por trozos (antes que la app, que ocupa «/»)
+    demo.queue(default_concurrency_limit=1)
+    servidor = gr.mount_gradio_app(servidor, demo, path='/', css=CSS, allowed_paths=[TRABAJOS])
+    uvicorn.run(servidor, host='0.0.0.0', port=int(os.environ.get('PORT', 7860)))
