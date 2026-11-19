@@ -341,6 +341,14 @@ def run(cmd, check=True, cwd=None):
     return r
 
 
+APP_ARCHIVOS = {
+    "/manifest.json": ("manifest.json", "application/manifest+json"),
+    "/sw.js": ("sw.js", "text/javascript"),
+    "/app/icono-192.png": ("icono-192.png", "image/png"),
+    "/app/icono-512.png": ("icono-512.png", "image/png"),
+}
+
+
 class App(BaseHTTPRequestHandler):
     def responder(self, code, cuerpo, tipo="application/json"):
         self.send_response(code)
@@ -363,6 +371,13 @@ class App(BaseHTTPRequestHandler):
         return False
 
     def do_GET(self):
+        # Archivos de la app instalable (icono, manifest, service worker): sin contraseña,
+        # porque Chrome los pide sin credenciales. No contienen nada privado.
+        ruta = self.path.split("?")[0]
+        if ruta in APP_ARCHIVOS:
+            nombre, tipo = APP_ARCHIVOS[ruta]
+            with open(os.path.join(AQUI, "app", nombre), "rb") as f:
+                return self.responder(200, f.read(), tipo)
         if not self.autorizado():
             return
         if self.path.split("?")[0] == "/":
