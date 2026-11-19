@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clipper</title>
+<style>
+:root{--bg:#0f1115;--card:#1a1d24;--txt:#e8e8ea;--sub:#9aa0aa;--acc:#ff3d5a;--borde:#2a2e38}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.4 system-ui,sans-serif}
+main{max-width:980px;margin:auto;padding:24px 16px}h1{margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--borde);border-radius:12px;padding:16px;margin-bottom:16px}
+.fila{display:flex;gap:10px;flex-wrap:wrap;align-items:end}label{display:flex;flex-direction:column;gap:4px;color:var(--sub);font-size:13px}
+input,select,button{font:inherit;padding:9px 11px;border-radius:8px;border:1px solid var(--borde);background:#11141a;color:var(--txt)}
+input[type=checkbox]{width:18px;height:18px}.check{flex-direction:row;align-items:center}
+button{background:var(--acc);border:0;font-weight:600;cursor:pointer}button:disabled{opacity:.5;cursor:wait}
+#url{flex:1;min-width:240px}.clip{display:grid;grid-template-columns:320px 1fr;gap:14px}
+.clip iframe,.clip video{width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
+.clip video{aspect-ratio:auto;max-height:420px}.estado{color:var(--sub);font-size:13px}.error{color:var(--acc)}
+@media(max-width:700px){.clip{grid-template-columns:1fr}}
+</style></head><body><main>
+<h1>✂️ Clipper</h1>
+<div class="card fila">
+  <label id="lurl" style="flex:1">Link de YouTube<input id="url" placeholder="https://www.youtube.com/watch?v=…"></label>
+  <label>Clips<input id="n" type="number" value="5" min="1" max="20" style="width:70px"></label>
+  <label>Segundos<input id="largo" type="number" value="45" min="5" max="600" style="width:80px"></label>
+  <button id="analizar">Buscar momentos</button>
+</div>
+<div class="card fila">
+  <label>Formato<select id="formato">
+    <option value="vertical">Vertical 9:16 (recorte centro)</option>
+    <option value="desenfocado">Vertical con fondo desenfocado</option>
+    <option value="original">Original</option></select></label>
+  <label>Velocidad<select id="velocidad"><option>1</option><option>1.1</option><option>1.25</option><option>1.5</option></select></label>
+  <label class="check"><input id="subtitulos" type="checkbox" checked> Subtítulos</label>
+  <label style="flex:1">Título encima (opcional)<input id="titulo" placeholder="Texto gancho"></label>
+  <button id="todos" disabled>Generar todos</button>
+</div>
+<p id="info" class="estado"></p>
+<div id="lista"></div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let video = null;
+const api = async (ruta, datos) => {
+  const r = await fetch(ruta, {method: "POST", body: JSON.stringify(datos)});
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error);
+  return j;
+};
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+
+$("analizar").onclick = async () => {
+  $("analizar").disabled = true; $("info").textContent = "Analizando…"; $("lista").innerHTML = "";
+  try {
+    video = await api("/api/analizar", {url: $("url").value.trim(), n: +$("n").value, largo: +$("largo").value});
+    video.url = $("url").value.trim();
+    $("info").textContent = `${video.titulo} · ${mmss(video.duracion)} · ` +
+      (video.picos ? "momentos según lo más repetido en YouTube" : "sin datos de lo más repetido: tramos repartidos");
+    video.clips.forEach(([a, b], i) => $("lista").append(tarjeta(a, b, i)));
+    $("todos").disabled = false;
+  } catch (e) { $("info").innerHTML = `<span class="error">${e.message}</span>`; }
+  $("analizar").disabled = false;
+};
+
+function tarjeta(a, b, i) {
+  const el = document.createElement("div"); el.className = "card clip";
+  el.innerHTML = `<div><iframe allowfullscreen></iframe></div>
+    <div><b>Clip ${i + 1}</b><div class="fila" style="margin:8px 0">
+      <label>Inicio (s)<input class="ini" type="number" step="0.5" value="${a}" style="width:100px"></label>
+      <label>Fin (s)<input class="fin" type="number" step="0.5" value="${b}" style="width:100px"></label>
+      <button class="gen">Generar</button></div><p class="estado"></p><div class="res"></div></div>`;
+  const prev = () => el.querySelector("iframe").src =
+    `https://www.youtube.com/embed/${video.id}?start=${Math.floor(el.querySelector(".ini").value)}&end=${Math.ceil(el.querySelector(".fin").value)}`;
+  el.querySelector(".ini").onchange = el.querySelector(".fin").onchange = prev; prev();
+  el.querySelector(".gen").onclick = () => generar(el);
+  return el;
+}
+
+async function generar(el) {
+  const btn = el.querySelector(".gen"), est = el.querySelector(".estado");
+  btn.disabled = true; est.textContent = "Descargando tramo y editando…";
+  try {
+    const {archivo} = await api("/api/clip", {
+      url: video.url, id: video.id, inicio: +el.querySelector(".ini").value, fin: +el.querySelector(".fin").value,
+      formato: $("formato").value, velocidad: +$("velocidad").value, subtitulos: $("subtitulos").checked, titulo: $("titulo").value});
+    est.textContent = "Listo";
+    el.querySelector(".res").innerHTML = `<video controls src="${archivo}"></video><p><a href="${archivo}" download style="color:var(--acc)">⬇ Descargar</a></p>`;
+  } catch (e) { est.innerHTML = `<span class="error">${e.message}</span>`; }
+  btn.disabled = false;
+}
+
+$("todos").onclick = async () => {
+  $("todos").disabled = true;
+  for (const el of document.querySelectorAll(".clip")) await generar(el);  // de uno en uno para no saturar
+  $("todos").disabled = false;
+};
+</script></body></html>

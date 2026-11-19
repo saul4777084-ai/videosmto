@@ -744,9 +744,9 @@
     "semantic_hash": ""
   },
   ".claude/settings.json": {
-    "mtime": 1794643788.339933,
-    "seen": 1794849127.5261538,
-    "ast_hash": "0a0ef578e59e2bb38c69f1dcb49a0e1a",
+    "mtime": 1795051792.19236,
+    "seen": 1795065318.7072155,
+    "ast_hash": "4f214f30f0149db70b631a6221b80583",
     "semantic_hash": ""
   },
   "eslint.config.mjs": {
@@ -786,9 +786,9 @@
     "semantic_hash": ""
   },
   "skills-lock.json": {
-    "mtime": 1794637155.0,
-    "seen": 1794849127.5261602,
-    "ast_hash": "51dd25aaa4e2a5b8a563107d86d70ce6",
+    "mtime": 1795051920.5347939,
+    "seen": 1795065318.7072425,
+    "ast_hash": "39270e91205bc7740e04e9ab9999b0e4",
     "semantic_hash": ""
   },
   "src/BanoRoto/Ilustraciones.tsx": {
@@ -2268,8 +2268,8 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795049114.4551854,
-    "seen": 1795049120.4703686,
+    "mtime": 1795049125.5990956,
+    "seen": 1795065318.7078896,
     "ast_hash": "f7aa2098a3fbd47a16be06291a514139",
     "semantic_hash": ""
   },
@@ -3048,9 +3048,9 @@
     "semantic_hash": ""
   },
   "scripts/voz_local.py": {
-    "mtime": 1794850075.4175174,
-    "seen": 1795041785.3599422,
-    "ast_hash": "cc6f5feff02112ff6ab16416a36b6b78",
+    "mtime": 1795051792.0707862,
+    "seen": 1795065318.70724,
+    "ast_hash": "4681ea16b503a94a3102b277133501ea",
     "semantic_hash": ""
   },
   "src/BanoRoto/guion.json": {
@@ -3312,9 +3312,9 @@
     "semantic_hash": ""
   },
   "src/Sahara/Reel.tsx": {
-    "mtime": 1795047666.6129823,
-    "seen": 1795049120.4701114,
-    "ast_hash": "2af274ecc56d9ce40f259fd79feec9de",
+    "mtime": 1795049124.4390955,
+    "seen": 1795065318.7073967,
+    "ast_hash": "701e42b5b0c7b80188939d1744775fdb",
     "semantic_hash": ""
   },
   "src/Sahara/efectos.ts": {
@@ -3354,15 +3354,429 @@
     "semantic_hash": ""
   },
   "videos/reel-frio.mp4": {
-    "mtime": 1795049114.443095,
-    "seen": 1795049120.470517,
+    "mtime": 1795049125.6830957,
+    "seen": 1795065318.7082045,
     "ast_hash": "2272199a1b1dc0d5f5665ade53498266",
     "semantic_hash": ""
   },
   "videos/reel-sahara.mp4": {
-    "mtime": 1795047666.6806645,
-    "seen": 1795049120.4705215,
-    "ast_hash": "3d6004278bf5917ff069ab9199951507",
+    "mtime": 1795049125.5270956,
+    "seen": 1795065318.7082138,
+    "ast_hash": "469ef6ec90cc0a5eaa15584c649d11e1",
+    "semantic_hash": ""
+  },
+  "clipper/servidor.py": {
+    "mtime": 1795065273.0762305,
+    "seen": 1795065318.707219,
+    "ast_hash": "1ee27d562874f4f8fbb41fb7849b98e4",
+    "semantic_hash": ""
+  },
+  "scripts/voz_clonada.py": {
+    "mtime": 1795052075.5188031,
+    "seen": 1795065318.707235,
+    "ast_hash": "632f700320488839993c9b001c869156",
+    "semantic_hash": ""
+  },
+  "scripts/voz_edge.py": {
+    "mtime": 1795051792.0707862,
+    "seen": 1795065318.7072375,
+    "ast_hash": "b45cfed581bda3699ba1c917db4950f3",
+    "semantic_hash": ""
+  },
+  ".agents/skills/find-skills/SKILL.md": {
+    "mtime": 1795051920.433436,
+    "seen": 1795065318.7074828,
+    "ast_hash": "62b297abdee9aea84c577ab2e04e1974",
+    "semantic_hash": ""
+  },
+  "clipper/README.md": {
+    "mtime": 1795065224.3565326,
+    "seen": 1795065318.707885,
+    "ast_hash": "b0ff1794a8c1939271815c7571dfd497",
+    "semantic_hash": ""
+  },
+  "clipper/index.html": {
+    "mtime": 1795065224.354386,
+    "seen": 1795065318.7078876,
+    "ast_hash": "cad88a1a6df6b2906d10cd92bcb6fc4c",
+    "semantic_hash": ""
+  },
+  "voces/README.md": {
+    "mtime": 1795051792.0707862,
+    "seen": 1795065318.707894,
+    "ast_hash": "cd0cdb15207da44bb55aa58ee6fdff0a",
+    "semantic_hash": ""
+  },
+  "voces/muestras/01-ald.mp3": {
+    "mtime": 1795051792.077663,
+    "seen": 1795065318.708218,
+    "ast_hash": "c84079076ad21a8d2b33b0260ac9d6fc",
+    "semantic_hash": ""
+  },
+  "voces/muestras/02-claude.mp3": {
+    "mtime": 1795051792.079452,
+    "seen": 1795065318.7082202,
+    "ast_hash": "b7d0ee106c670c16f606709910891b04",
+    "semantic_hash": ""
+  },
+  "voces/muestras/03-daniela.mp3": {
+    "mtime": 1795051792.079452,
+    "seen": 1795065318.708222,
+    "ast_hash": "c9e7455ab7de3fc58431446573dd88f7",
+    "semantic_hash": ""
+  },
+  "voces/muestras/04-davefx.mp3": {
+    "mtime": 1795051792.079452,
+    "seen": 1795065318.7082243,
+    "ast_hash": "e197fef74d0d3cda2988747b35fe30b4",
+    "semantic_hash": ""
+  },
+  "voces/muestras/05-sharvard-h.mp3": {
+    "mtime": 1795051792.079452,
+    "seen": 1795065318.7082257,
+    "ast_hash": "b9db0bb0f66afeccd71c134bd8377b0e",
+    "semantic_hash": ""
+  },
+  "voces/muestras/06-sharvard-m.mp3": {
+    "mtime": 1795051792.0827863,
+    "seen": 1795065318.7082274,
+    "ast_hash": "d50aeca4872d4c9648b95c1ddde492f6",
+    "semantic_hash": ""
+  },
+  "voces/muestras/07-carlfm.mp3": {
+    "mtime": 1795051792.0827863,
+    "seen": 1795065318.7082288,
+    "ast_hash": "44e56adb35614dc1d6c94079e6a4be1a",
+    "semantic_hash": ""
+  },
+  "voces/muestras/08-miro.mp3": {
+    "mtime": 1795051792.0827863,
+    "seen": 1795065318.7082303,
+    "ast_hash": "6e22176feb44a96247c06a6e748de933",
+    "semantic_hash": ""
+  },
+  "voces/muestras/09-mailabs-h1.mp3": {
+    "mtime": 1795051792.0867863,
+    "seen": 1795065318.708232,
+    "ast_hash": "c80a85b3a24d9b6aa8c8ca980ab85f3d",
+    "semantic_hash": ""
+  },
+  "voces/muestras/10-mailabs-h2.mp3": {
+    "mtime": 1795051792.0867863,
+    "seen": 1795065318.7082338,
+    "ast_hash": "e59bbdf813b675512dda06e1be36aa5d",
+    "semantic_hash": ""
+  },
+  "voces/muestras/11-mailabs-m.mp3": {
+    "mtime": 1795051792.0867863,
+    "seen": 1795065318.7082353,
+    "ast_hash": "95cd59504099b0540473f6c002c2fee2",
+    "semantic_hash": ""
+  },
+  "voces/muestras/12-coqui.mp3": {
+    "mtime": 1795051792.0907862,
+    "seen": 1795065318.7082367,
+    "ast_hash": "294d38faa56a8d96859c0837b4a4208c",
+    "semantic_hash": ""
+  },
+  "voces/muestras/13-dora.mp3": {
+    "mtime": 1795051792.0907862,
+    "seen": 1795065318.7082384,
+    "ast_hash": "c5425c6d814be9ed77e6295543abec0b",
+    "semantic_hash": ""
+  },
+  "voces/muestras/14-alex.mp3": {
+    "mtime": 1795051792.0947862,
+    "seen": 1795065318.70824,
+    "ast_hash": "f2bb55d839108db3744e75c7974f6041",
+    "semantic_hash": ""
+  },
+  "voces/muestras/15-santa.mp3": {
+    "mtime": 1795051792.0947862,
+    "seen": 1795065318.7082417,
+    "ast_hash": "de4f17986073a3b9a435dd50590431aa",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-AR-ElenaNeural.mp3": {
+    "mtime": 1795051792.0947862,
+    "seen": 1795065318.7082431,
+    "ast_hash": "72d64e319b8937992f199d890fd3d28f",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-AR-TomasNeural.mp3": {
+    "mtime": 1795051792.1027863,
+    "seen": 1795065318.708245,
+    "ast_hash": "6bd10c20c214c09262ada6949dcf5587",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-BO-MarceloNeural.mp3": {
+    "mtime": 1795051792.1027863,
+    "seen": 1795065318.7082467,
+    "ast_hash": "fea063916fd5b7c06e2c61207f5a5515",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-BO-SofiaNeural.mp3": {
+    "mtime": 1795051792.1027863,
+    "seen": 1795065318.7082486,
+    "ast_hash": "d3d4ac28a2b743303c897d3fccdba526",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CL-CatalinaNeural.mp3": {
+    "mtime": 1795051792.1027863,
+    "seen": 1795065318.70825,
+    "ast_hash": "266a8705abfb752b673779f49e2e7044",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CL-LorenzoNeural.mp3": {
+    "mtime": 1795051792.1027863,
+    "seen": 1795065318.7082517,
+    "ast_hash": "6191d14953a1bad8492293dc37a28d8e",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CO-GonzaloNeural.mp3": {
+    "mtime": 1795051792.1067863,
+    "seen": 1795065318.7082534,
+    "ast_hash": "22e6b5c05ddc7e10c3f097b2e58a95fb",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CO-SalomeNeural.mp3": {
+    "mtime": 1795051792.1067863,
+    "seen": 1795065318.708255,
+    "ast_hash": "50cfb8e678c697a23b3be23fc123313a",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CR-JuanNeural.mp3": {
+    "mtime": 1795051792.1067863,
+    "seen": 1795065318.7082565,
+    "ast_hash": "80d8ae260cba9eacb362103427de1612",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CR-MariaNeural.mp3": {
+    "mtime": 1795051792.1067863,
+    "seen": 1795065318.7082582,
+    "ast_hash": "b0ae9ea110c2e3021e3be5f8b77f4240",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CU-BelkysNeural.mp3": {
+    "mtime": 1795051792.1067863,
+    "seen": 1795065318.7082596,
+    "ast_hash": "0f381b3a2c63051837055b14b2f43382",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-CU-ManuelNeural.mp3": {
+    "mtime": 1795051792.1107862,
+    "seen": 1795065318.7082615,
+    "ast_hash": "117697cfa48c15eef2186680fc6e7a5e",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-DO-EmilioNeural.mp3": {
+    "mtime": 1795051792.1107862,
+    "seen": 1795065318.708263,
+    "ast_hash": "fc05a207072884dd61e09cdc51bb4420",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-DO-RamonaNeural.mp3": {
+    "mtime": 1795051792.1107862,
+    "seen": 1795065318.7082644,
+    "ast_hash": "f8ab67cba236b35d88d64c1ddb8a40f6",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-EC-AndreaNeural.mp3": {
+    "mtime": 1795051792.1107862,
+    "seen": 1795065318.7082667,
+    "ast_hash": "658f2b40c2e4d283567523ba25636d26",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-EC-LuisNeural.mp3": {
+    "mtime": 1795051792.1147861,
+    "seen": 1795065318.708269,
+    "ast_hash": "01940cf0e461ed8378038a0f183d6428",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-ES-AlvaroNeural.mp3": {
+    "mtime": 1795051792.1147861,
+    "seen": 1795065318.7082705,
+    "ast_hash": "e58c16036af31e16694b2943f72c951d",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-ES-ElviraNeural.mp3": {
+    "mtime": 1795051792.1147861,
+    "seen": 1795065318.7082722,
+    "ast_hash": "e3c1f4f8bc0d1c010ddc807eb5b2b3b3",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-ES-XimenaNeural.mp3": {
+    "mtime": 1795051792.1147861,
+    "seen": 1795065318.7082736,
+    "ast_hash": "682a01f1c633cce246ac67fb130fac98",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-GQ-JavierNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.7082753,
+    "ast_hash": "9deb0be03a6465cd8eb59c6bb1662732",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-GQ-TeresaNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.7082767,
+    "ast_hash": "95c0ebb1e0937e50cc7c187530340ecf",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-GT-AndresNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.7082782,
+    "ast_hash": "85a1a836ea8e524e4cf9769329b84e26",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-GT-MartaNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.70828,
+    "ast_hash": "3a9b95a6d26afbdefed6efaa66ca3197",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-HN-CarlosNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.7082894,
+    "ast_hash": "68feee7be86ca08cdf63efa35121e642",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-HN-KarlaNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.708291,
+    "ast_hash": "72a88ee91e7dc0608c645bce26e8cf70",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-MX-DaliaNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.7082927,
+    "ast_hash": "06e7c1f762a0be8928816bd8a45a2458",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-MX-JorgeNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.7082942,
+    "ast_hash": "d11a108115230640be0e0c1d013dec81",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-NI-FedericoNeural.mp3": {
+    "mtime": 1795051792.1187863,
+    "seen": 1795065318.7082958,
+    "ast_hash": "ba841ec8f48879829ea79837677ec436",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-NI-YolandaNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.708298,
+    "ast_hash": "d1a287e30bfaa76d8a26a2d3c7848f87",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PA-MargaritaNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.7082999,
+    "ast_hash": "39f353c791a3913bf0b8f327ed91dc89",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PA-RobertoNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.7083013,
+    "ast_hash": "8c28c2047ce72fcea0d17a63b1f6f1c2",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PE-AlexNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.7083032,
+    "ast_hash": "f2f0ab5e38bbc9c709279216048ca75f",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PE-CamilaNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.708305,
+    "ast_hash": "8bb2bc8f5d10a59181d9b09c1c58e621",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PR-KarinaNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.7083068,
+    "ast_hash": "79d05e2ad987a3b7b7da5f313dc31dde",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PR-VictorNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.7083085,
+    "ast_hash": "d346a25ec3b61c3c4040af9f530479e7",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PY-MarioNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.7083101,
+    "ast_hash": "afb0c2db5d48eb3b8b8c47b70de02caa",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-PY-TaniaNeural.mp3": {
+    "mtime": 1795051792.1267862,
+    "seen": 1795065318.7083118,
+    "ast_hash": "8ec5d71fd921a4ce2ea56f2e37cb2e7a",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-SV-LorenaNeural.mp3": {
+    "mtime": 1795051792.1307862,
+    "seen": 1795065318.7083132,
+    "ast_hash": "56d0222221f9b21ba7bb76b4bea675bf",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-SV-RodrigoNeural.mp3": {
+    "mtime": 1795051792.1307862,
+    "seen": 1795065318.7083151,
+    "ast_hash": "07d1e3a49ec02cb25bc70dd9977d569b",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-US-AlonsoNeural.mp3": {
+    "mtime": 1795051792.1307862,
+    "seen": 1795065318.7083166,
+    "ast_hash": "f402183c8e542f59753c717829999312",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-US-PalomaNeural.mp3": {
+    "mtime": 1795051792.1307862,
+    "seen": 1795065318.7083182,
+    "ast_hash": "9f06b09e085bffa0fcf70a71da11a397",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-UY-MateoNeural.mp3": {
+    "mtime": 1795051792.1387863,
+    "seen": 1795065318.7083197,
+    "ast_hash": "db72f7c748e1362f73ad86bd679181e5",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-UY-ValentinaNeural.mp3": {
+    "mtime": 1795051792.1387863,
+    "seen": 1795065318.7083213,
+    "ast_hash": "541565e5b1726dd46ba07173915b1773",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-VE-PaolaNeural.mp3": {
+    "mtime": 1795051792.1387863,
+    "seen": 1795065318.7083228,
+    "ast_hash": "2dba84b1b2893825882210ad37b38016",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/es-VE-SebastianNeural.mp3": {
+    "mtime": 1795051792.1387863,
+    "seen": 1795065318.7083247,
+    "ast_hash": "463e1c00928f44ae7923499b18987ab0",
+    "semantic_hash": ""
+  },
+  "voces/muestras/edge/todas-edge.mp3": {
+    "mtime": 1795051792.1627862,
+    "seen": 1795065318.7083263,
+    "ast_hash": "4dc0bba51ebfef753a0dc5a8f87cad3d",
+    "semantic_hash": ""
+  },
+  "voces/muestras/todas-las-voces.mp3": {
+    "mtime": 1795051792.1787863,
+    "seen": 1795065318.708328,
+    "ast_hash": "b41b9315579ec2d17d1594e0e5cac32d",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
