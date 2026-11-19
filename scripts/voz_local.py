@@ -8,7 +8,7 @@ Uso:
 
 GUION.json es una lista de frases (la misma que usa alinear_voz.py).
 Los modelos se guardan en ~/.cache/voces/. Todas las voces del catálogo tienen licencia libre
-(dominio público, CC0, Unlicense, Apache 2.0 o CC-BY): se pueden usar en vídeos para redes.
+(dominio público, CC0, Unlicense, Apache 2.0, BSD o CC-BY) salvo "miro", que es solo para uso no comercial.
 """
 import argparse
 import json
@@ -21,20 +21,25 @@ import numpy as np
 
 CACHE = os.path.expanduser("~/.cache/voces")
 DESCARGAS = "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models"
-KOKORO = "kokoro-int8-multi-lang-v1_0"
+KOKORO = "kokoro-multi-lang-v1_0"  # versión completa (mejor calidad que la int8)
 
 # nombre corto -> (carpeta, id de hablante, descripción, licencia)
 VOCES = {
-    "ald": ("vits-piper-es_MX-ald-medium", 0, "Hombre, español de México, natural (la de Baño roto)", "Unlicense"),
-    "claude": ("vits-piper-es_MX-claude-high", 0, "Hombre, español de México, alta calidad", "Apache 2.0"),
+    "ald": ("vits-piper-es_MX-ald-medium", 0, "Masculina de tono medio (165 Hz), México (la de Baño roto)", "Unlicense"),
+    "claude": ("vits-piper-es_MX-claude-high", 0, "Tono agudo (193 Hz, rango femenino), México, alta calidad", "Apache 2.0"),
     "daniela": ("vits-piper-es_AR-daniela-high", 0, "Mujer, español de Argentina, alta calidad", "CC-BY-SA 4.0"),
     "davefx": ("vits-piper-es_ES-davefx-medium", 0, "Hombre, español de España, locutor claro", "CC0"),
     "sharvard-h": ("vits-piper-es_ES-sharvard-medium", 0, "Hombre, español de España", "CC-BY 3.0"),
     "sharvard-m": ("vits-piper-es_ES-sharvard-medium", 1, "Mujer, español de España", "CC-BY 3.0"),
     "carlfm": ("vits-piper-es_ES-carlfm-x_low", 0, "Hombre, español de España, ligera (calidad baja)", "Dominio público"),
+    "miro": ("vits-piper-es_ES-miro-high", 0, "Hombre, español de España, alta calidad", "CC-BY-NC-SA 4.0: SOLO uso no comercial"),
+    "mailabs-h1": ("vits-mimic3-es_ES-m-ailabs_low", 0, "Hombre, audiolibro (M-AILABS, calidad baja, pronuncia mal)", "BSD (M-AILABS)"),
+    "mailabs-h2": ("vits-mimic3-es_ES-m-ailabs_low", 1, "Hombre, audiolibro (M-AILABS, calidad baja)", "BSD (M-AILABS)"),
+    "mailabs-m": ("vits-mimic3-es_ES-m-ailabs_low", 2, "Mujer, audiolibro (M-AILABS, calidad baja, pronuncia mal)", "BSD (M-AILABS)"),
+    "coqui": ("vits-coqui-es-css10", 0, "Hombre, narrador de audiolibro, claro (Coqui CSS10)", "MPL 2.0 / CC0"),
     "dora": (KOKORO, 28, "Mujer, español neutro, muy natural (Kokoro)", "Apache 2.0"),
     "alex": (KOKORO, 29, "Hombre, español neutro, muy natural (Kokoro)", "Apache 2.0"),
-    "santa": (KOKORO, 53, "Hombre, voz grave y cálida (Kokoro)", "Apache 2.0"),
+    "santa": (KOKORO, 53, "Hombre, cálida y pausada (Kokoro)", "Apache 2.0"),
 }
 
 
@@ -57,7 +62,7 @@ def crear_tts(voz: str):
     if VOCES[voz][0] == KOKORO:
         modelo = sherpa_onnx.OfflineTtsModelConfig(
             kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
-                model=f"{carpeta}/model.int8.onnx",
+                model=f"{carpeta}/model.onnx",
                 voices=f"{carpeta}/voices.bin",
                 tokens=f"{carpeta}/tokens.txt",
                 data_dir=f"{carpeta}/espeak-ng-data",
@@ -69,7 +74,9 @@ def crear_tts(voz: str):
         onnx = next(f for f in os.listdir(carpeta) if f.endswith(".onnx"))
         modelo = sherpa_onnx.OfflineTtsModelConfig(
             vits=sherpa_onnx.OfflineTtsVitsModelConfig(
-                model=f"{carpeta}/{onnx}", tokens=f"{carpeta}/tokens.txt", data_dir=f"{carpeta}/espeak-ng-data"
+                model=f"{carpeta}/{onnx}",
+                tokens=f"{carpeta}/tokens.txt",
+                data_dir=f"{carpeta}/espeak-ng-data" if os.path.isdir(f"{carpeta}/espeak-ng-data") else "",
             ),
             num_threads=4,
         )

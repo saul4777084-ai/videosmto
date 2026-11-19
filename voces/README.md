@@ -5,16 +5,21 @@ licencia libre para usarlas en vídeos. Muestras en `voces/muestras/` (`todas-la
 
 | # | Voz (`--voz`) | Cómo suena | Licencia |
 |---|---|---|---|
-| 1 | `ald` | Hombre, México, natural (la de Baño roto) | Unlicense |
-| 2 | `claude` | Hombre, México, alta calidad | Apache 2.0 |
+| 1 | `ald` | Masculina de tono medio, México (la de Baño roto) | Unlicense |
+| 2 | `claude` | Tono agudo (rango femenino), México, alta calidad | Apache 2.0 |
 | 3 | `daniela` | Mujer, Argentina, alta calidad | CC-BY-SA 4.0 (citar autoría) |
 | 4 | `davefx` | Hombre, España, locutor claro | CC0 |
 | 5 | `sharvard-h` | Hombre, España | CC-BY 3.0 (citar autoría) |
 | 6 | `sharvard-m` | Mujer, España | CC-BY 3.0 (citar autoría) |
 | 7 | `carlfm` | Hombre, España, calidad baja | Dominio público |
-| 8 | `dora` | Mujer, español neutro, la más natural (Kokoro) | Apache 2.0 |
-| 9 | `alex` | Hombre, español neutro, la más natural (Kokoro) | Apache 2.0 |
-| 10 | `santa` | Hombre, grave y cálida (Kokoro) | Apache 2.0 |
+| 8 | `miro` | Hombre, España, alta calidad, muy clara | CC-BY-NC-SA 4.0: **solo uso no comercial** |
+| 9 | `mailabs-h1` | Hombre, audiolibro, calidad baja (pronuncia mal) | BSD (M-AILABS) |
+| 10 | `mailabs-h2` | Hombre, audiolibro, calidad baja | BSD (M-AILABS) |
+| 11 | `mailabs-m` | Mujer, audiolibro, calidad baja (pronuncia mal) | BSD (M-AILABS) |
+| 12 | `coqui` | Hombre, narrador de audiolibro, claro | MPL 2.0 / CC0 |
+| 13 | `dora` ⭐ | Mujer, español neutro, la más natural (Kokoro) | Apache 2.0 |
+| 14 | `alex` ⭐ | Hombre, español neutro, la más natural (Kokoro) | Apache 2.0 |
+| 15 | `santa` | Hombre, cálida y pausada (Kokoro) | Apache 2.0 |
 
 ```bash
 python3 scripts/voz_local.py --listar
@@ -22,4 +27,4 @@ python3 scripts/voz_local.py src/MiVideo/guion.json public/voz/mivideo.mp3 --voz
 python3 scripts/alinear_voz.py public/voz/mivideo.mp3 src/MiVideo/guion.json src/MiVideo/tiempos.json
 ```
 
-Los modelos se descargan solos a `~/.cache/voces/` la primera vez (`--descargar` los baja todos, ~900 MB).
+Los modelos se descargan solos a `~/.cache/voces/` la primera vez (`--descargar` los baja todos, ~1,5 GB).
