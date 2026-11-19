@@ -211,6 +211,28 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Sahara #Geografía #Mapas #Curiosidades
 
+## La primera vuelta al mundo: salieron 239 y volvieron 18 (Magallanes y Elcano) — `videos/reel-vuelta-al-mundo.mp4`
+
+### TikTok / Reels
+> **Salieron 239… y volvieron solo 18** ⛵🌍
+>
+> En 1519, cinco naves salieron de Sanlúcar para llegar a las islas de las especias navegando hacia el oeste.
+> Motines, naufragios, ratas para comer, la muerte de Magallanes en Filipinas… y Elcano volviendo con la última
+> nave casi 3 años después. ¡Y encima les faltaba un día en el calendario! 📅
+>
+> ¿Quién merece la gloria, Magallanes o Elcano? Escríbelo en los comentarios 👇
+>
+> #historia #magallanes #elcano #vueltaalmundo #mapas #historiadeespaña #curiosidades #sabiasque
+
+### Facebook / YouTube Shorts
+> **La primera vuelta al mundo de la historia** ⛵
+>
+> La expedición de Magallanes y Elcano (1519-1522) cruzó el Atlántico, descubrió el estrecho de Magallanes,
+> atravesó el Pacífico durante más de tres meses y volvió por el Índico rodeando África. De cinco naves y 239
+> hombres, solo la nao Victoria regresó, con 18 supervivientes.
+>
+> #Historia #Magallanes #Elcano #Mapas
+
 ---
 
 ## Consejos para publicar

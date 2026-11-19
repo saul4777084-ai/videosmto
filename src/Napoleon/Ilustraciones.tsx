@@ -61,13 +61,13 @@ const EUROPA: Camara = { lon: 12, lat: 49, zoom: 2.2 };
 
 // ---------- piezas comunes ----------
 
-const useAparicion = (f: number, inicio: number, damping = 11) => {
+export const useAparicion = (f: number, inicio: number, damping = 11) => {
   const { fps } = useVideoConfig();
   return spring({ frame: f - inicio, fps, config: { damping } });
 };
 
 // fondo con degradado, viñeta y polvo dorado flotando
-const Fondo: React.FC<{ f: number; de: string; a: string; polvo?: boolean }> = ({ f, de, a, polvo = true }) => (
+export const Fondo: React.FC<{ f: number; de: string; a: string; polvo?: boolean }> = ({ f, de, a, polvo = true }) => (
   <>
     <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 45%, ${de} 0%, ${a} 85%)` }} />
     {polvo && (
@@ -83,7 +83,7 @@ const Fondo: React.FC<{ f: number; de: string; a: string; polvo?: boolean }> = (
   </>
 );
 
-const Rotulo: React.FC<{ f: number; inicio: number; texto: string; y: number; tam: number; color?: string; fuente?: string }> = ({
+export const Rotulo: React.FC<{ f: number; inicio: number; texto: string; y: number; tam: number; color?: string; fuente?: string }> = ({
   f,
   inicio,
   texto,
@@ -118,7 +118,7 @@ const Rotulo: React.FC<{ f: number; inicio: number; texto: string; y: number; ta
   );
 };
 
-const Sello: React.FC<{ f: number; inicio: number; x: number; y: number; texto: string; color?: string; tam?: number; giro?: number }> = ({
+export const Sello: React.FC<{ f: number; inicio: number; x: number; y: number; texto: string; color?: string; tam?: number; giro?: number }> = ({
   f,
   inicio,
   x,
@@ -155,7 +155,7 @@ const Sello: React.FC<{ f: number; inicio: number; x: number; y: number; texto: 
   );
 };
 
-const Chip: React.FC<{ f: number; inicio: number; x: number; y: number; texto: string; fondo?: string; color?: string; tam?: number }> = ({
+export const Chip: React.FC<{ f: number; inicio: number; x: number; y: number; texto: string; fondo?: string; color?: string; tam?: number }> = ({
   f,
   inicio,
   x,
@@ -190,7 +190,7 @@ const Chip: React.FC<{ f: number; inicio: number; x: number; y: number; texto: s
 };
 
 // punto que late sobre el mapa
-const Marcador: React.FC<{ f: number; inicio: number; cam: Camara; ll: LonLat; color?: string }> = ({ f, inicio, cam, ll, color = ORO }) => {
+export const Marcador: React.FC<{ f: number; inicio: number; cam: Camara; ll: LonLat; color?: string }> = ({ f, inicio, cam, ll, color = ORO }) => {
   const [x, y] = aPantalla(cam, ll);
   const s = useAparicion(f, inicio, 9);
   const onda = ((f - inicio) % 30) / 30;
@@ -204,7 +204,7 @@ const Marcador: React.FC<{ f: number; inicio: number; cam: Camara; ll: LonLat; c
 };
 
 // espadas cruzadas (batalla)
-const Espadas: React.FC<{ x: number; y: number; s: number }> = ({ x, y, s }) => (
+export const Espadas: React.FC<{ x: number; y: number; s: number }> = ({ x, y, s }) => (
   <g transform={`translate(${x} ${y}) scale(${s})`}>
     {[-1, 1].map((d) => (
       <g key={d} transform={`rotate(${d * 40})`}>
@@ -217,7 +217,7 @@ const Espadas: React.FC<{ x: number; y: number; s: number }> = ({ x, y, s }) => 
 );
 
 // flecha gruesa que avanza por una ruta (lon/lat)
-const Flecha: React.FC<{ cam: Camara; ruta: LonLat[]; t: number; color?: string; grosor?: number }> = ({ cam, ruta, t, color = "#1e40af", grosor = 26 }) => {
+export const Flecha: React.FC<{ cam: Camara; ruta: LonLat[]; t: number; color?: string; grosor?: number }> = ({ cam, ruta, t, color = "#1e40af", grosor = 26 }) => {
   if (t <= 0) return null;
   const pts = ruta.map((ll) => aPantalla(cam, ll));
   const largos = pts.slice(1).map((p, i) => Math.hypot(p[0] - pts[i][0], p[1] - pts[i][1]));
@@ -250,7 +250,7 @@ const Flecha: React.FC<{ cam: Camara; ruta: LonLat[]; t: number; color?: string;
   );
 };
 
-const Contador: React.FC<{ f: number; inicio: number; fin: number; hasta: number; y: number; tam: number; color?: string; sufijo?: string }> = ({
+export const Contador: React.FC<{ f: number; inicio: number; fin: number; hasta: number; y: number; tam: number; color?: string; sufijo?: string }> = ({
   f,
   inicio,
   fin,
@@ -294,7 +294,7 @@ const coloresImperio = (k: number, extra: Record<string, { color: string; opacid
   return { ...c, ...extra };
 };
 
-const Viñeta = () => <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 100%)" }} />;
+export const Viñeta = () => <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 100%)" }} />;
 
 // ---------- escenas ----------
 
