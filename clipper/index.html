@@ -39,6 +39,10 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
   background:linear-gradient(115deg,#7a5a12 0%,#f9e08b 22%,#c9962b 40%,#fff6c8 50%,#b8861f 62%,#f5d36e 80%,#6e4f0e 100%) 0 0/250% 100%;
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;
   filter:drop-shadow(0 2px 1px rgba(0,0,0,.8)) drop-shadow(0 0 6px rgba(245,197,66,.45));animation:brillo 3.5s ease-in-out infinite}
+.titulo{display:flex;flex-direction:column;align-items:center;gap:6px}
+.sub{margin:0;display:flex;align-items:center;gap:10px;font:700 clamp(13px,3.8vw,18px)/1 system-ui,sans-serif;letter-spacing:.55em;color:#f5d36e;text-shadow:0 1px 0 #000,0 0 8px rgba(245,197,66,.4)}
+.sub::before,.sub::after{content:"";width:clamp(16px,5vw,30px);height:2px;background:linear-gradient(90deg,transparent,#c9962b)}
+.sub::after{background:linear-gradient(90deg,#c9962b,transparent)}
 @keyframes brillo{0%,100%{background-position:0 0}50%{background-position:100% 0}}
 .fajo{width:clamp(54px,17vw,86px);height:auto;flex:none;filter:drop-shadow(0 4px 6px rgba(0,0,0,.6))}
 .fajo .b1{animation:flotar 3s ease-in-out infinite;transform-origin:50% 90%}
@@ -63,7 +67,10 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
     <use href="#billete" x="4" y="34" width="120" height="56" transform="rotate(-4 64 62)"/>
     <g class="b1"><use href="#billete" x="2" y="22" width="120" height="56" transform="rotate(-20 62 50)"/></g>
   </svg>
-  <h1 aria-label="SANTORYU"><span class="dolar">$</span>SANTORYU<span class="dolar">$</span></h1>
+  <div class="titulo">
+    <h1 aria-label="SANTORYU"><span class="dolar">$</span>SANTORYU<span class="dolar">$</span></h1>
+    <p class="sub"><span style="margin-right:-.55em">CLIPS</span></p>
+  </div>
   <svg class="fajo der" viewBox="0 0 130 110" aria-hidden="true">
     <use href="#billete" x="2" y="48" width="120" height="56" transform="rotate(-14 62 76)"/>
     <use href="#billete" x="6" y="34" width="120" height="56" transform="rotate(4 66 62)"/>
