@@ -3,8 +3,9 @@
 ## 📱 App para el móvil: resúmenes con escenas de la película
 
 En `app_movil/` hay una web que abres desde el móvil: subes una película (o un trozo), y te devuelve el resumen en
-vídeo vertical con escenas de la película, voz narrada y subtítulos. Funciona gratis en un Space privado de
-Hugging Face; los pasos para ponerla en marcha están en [`app_movil/README.md`](app_movil/README.md).
+vídeo vertical con escenas de la película, voz narrada y subtítulos. Funciona gratis en GitHub Codespaces
+y el guion se lo pides a la app de Claude copiando y pegando; los pasos están en
+[`app_movil/README.md`](app_movil/README.md).
 
 ## Fábrica de resúmenes de películas (vídeos verticales para Shorts, TikTok y Reels)
 

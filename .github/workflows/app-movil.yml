@@ -1,10 +1,7 @@
-name: Subir la app del móvil a Hugging Face
+name: Subir la app del móvil a Hugging Face (necesita Hugging Face PRO)
 
+# Solo manual: Hugging Face ya no aloja apps Gradio gratis. La forma gratuita es GitHub Codespaces.
 on:
-  push:
-    paths:
-      - 'app_movil/**'
-      - '.github/workflows/app-movil.yml'
   workflow_dispatch:
 
 jobs:

@@ -32,34 +32,34 @@ terminados en la pestaña **Mis vídeos**.
 > ⚠️ **Copyright:** los vídeos usan escenas de la película. YouTube, TikTok e Instagram suelen poner
 > reclamaciones (Content ID): el vídeo puede quedarse sin monetizar, silenciado o bloqueado.
 
-## Ponerla en marcha (todo desde el navegador del móvil, una sola vez)
+## Ponerla en marcha (gratis, desde el navegador del móvil)
 
-La app vive gratis en un **Space privado de Hugging Face** (un servidor gratuito: 2 núcleos y 16 GB de memoria).
-Solo tú puedes abrirlo.
+La app funciona en **GitHub Codespaces**: un ordenador en la nube que GitHub te presta gratis
+(unas 60 horas al mes con 2 núcleos y 15 GB de espacio). Solo tú puedes abrirla.
 
-1. **Hugging Face**: crea una cuenta gratis en <https://huggingface.co/join>. Luego ve a *Settings → Access Tokens →
-   Create new token*, elige el tipo **Write** y cópialo.
-2. **GitHub**: en este repositorio ve a *Settings → Secrets and variables → Actions → New repository secret*
-   (si no ves *Settings*, activa «Versión para ordenador» en el navegador) y crea el secreto
-   `HF_TOKEN` con el token de Hugging Face.
-3. Ve a la pestaña **Actions** → *Subir la app del móvil a Hugging Face* → abre la última ejecución →
-   **Re-run all jobs**. Cuando termine (1 minuto), el registro te da el enlace:
-   `https://huggingface.co/spaces/TU_USUARIO/resumenes-peliculas`.
-4. Abre ese enlace con la sesión de Hugging Face iniciada. La primera vez tarda unos 5 minutos en prepararse.
-   Añádelo a la pantalla de inicio (menú del navegador → «Añadir a pantalla de inicio») y ya lo tienes como una app.
+1. Abre este enlace con tu sesión de GitHub iniciada:
+   <https://codespaces.new/saul4777084-ai/videosmto?ref=claude/repo-contents-j0woky>
+2. Pulsa **Create codespace**. La primera vez tarda unos 5 minutos en instalarlo todo.
+3. Cuando termine, la app se abre sola en otra pestaña (si no, mira `COMO_USAR.md`, que se abre en el editor).
+   Guarda esa pestaña en favoritos.
+4. **Cuando acabes**, apágalo para no gastar horas: <https://github.com/codespaces> → ⋯ → **Stop codespace**.
+   Para volver a usarla, entra en esa misma página y toca el nombre de tu Codespace.
 
-Cada vez que se cambie algo en `app_movil/` y se suba a GitHub, el Space se actualiza solo.
+Si vas a hacer películas enteras (tardan más), sube el tiempo de apagado automático a 4 horas en
+<https://github.com/settings/codespaces> → *Default idle timeout* → `240`.
+
+*(Si algún día pagas Hugging Face PRO, el workflow manual «Subir la app del móvil a Hugging Face» la publica
+allí con el secreto `HF_TOKEN`.)*
 
 ## Consejos
 
 - **Trozos mejor que películas enteras**: subir 2 GB con datos móviles tarda mucho. Con un trozo de 5 a 20
   minutos el resumen sale en pocos minutos. Una película entera puede tardar entre media hora y una hora en el
-  servidor gratuito.
+  ordenador gratuito de Codespaces.
 - **Si tienes los subtítulos `.srt`**, súbelos en *Más opciones*: se salta la parte de escuchar los diálogos.
 - *Más opciones* también te deja cambiar el volumen del sonido original y darle indicaciones al guion
   ("tono de misterio", "no cuentes el final"…).
-- El Space gratuito se duerme si no lo usas en 48 horas; al abrirlo tarda un minuto en despertar. Al reiniciarse
-  se borran los vídeos guardados en *Mis vídeos*, así que descarga los que quieras conservar.
+- Los vídeos de *Mis vídeos* se guardan en tu Codespace mientras no lo borres. Descarga los que quieras conservar.
 
 **Opcional, de pago:** si algún día añades el secreto `ANTHROPIC_API_KEY` (clave de <https://platform.claude.com>),
 `motor.py` puede escribir el guion solo, sin copiar y pegar (`python3 motor.py pelicula.mp4`).
