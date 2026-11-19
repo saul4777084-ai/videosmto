@@ -357,7 +357,7 @@ class App(BaseHTTPRequestHandler):
         if hmac.compare_digest(self.headers.get("Authorization", ""), esperado):
             return True
         self.send_response(401)
-        self.send_header("WWW-Authenticate", 'Basic realm="Clipper"')
+        self.send_header("WWW-Authenticate", 'Basic realm="$SANTORYU$"')
         self.send_header("Content-Length", "0")
         self.end_headers()
         return False
@@ -473,7 +473,7 @@ if __name__ == "__main__":
     if "--test" in sys.argv:
         test(); sys.exit()
     puerto = 8765
-    print(f"Clipper en http://127.0.0.1:{puerto}  (Ctrl+C para salir)")
+    print(f"$SANTORYU$ en http://127.0.0.1:{puerto}  (Ctrl+C para salir)")
     print("Contraseña activada (usuario: clipper)" if CLAVE else "Sin contraseña: no lo publiques con Tailscale")
     threading.Thread(target=editor, daemon=True).start()
     webbrowser.open(f"http://127.0.0.1:{puerto}")
