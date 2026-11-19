@@ -12,7 +12,7 @@ Solo para clonar voces propias o con permiso de su dueño. Chatterbox añade una
 Instalación (una vez):
   uv venv --python 3.11 ~/.venvs/clonar
   VIRTUAL_ENV=~/.venvs/clonar uv pip install --index-strategy unsafe-best-match \
-      --extra-index-url https://download.pytorch.org/whl/cpu "torch==2.6.0+cpu" "torchaudio==2.6.0+cpu" chatterbox-tts
+      --extra-index-url https://download.pytorch.org/whl/cpu "torch==2.6.0+cpu" "torchaudio==2.6.0+cpu" chatterbox-tts "setuptools<81"
 El modelo (~3 GB) se baja de Hugging Face la primera vez.
 """
 import argparse
