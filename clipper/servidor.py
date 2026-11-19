@@ -176,6 +176,7 @@ class App(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", tipo)
         self.send_header("Content-Length", str(len(cuerpo)))
+        self.send_header("Cache-Control", "no-store")  # que el navegador del móvil no enseñe una versión vieja
         self.end_headers()
         self.wfile.write(cuerpo)
 
@@ -194,7 +195,7 @@ class App(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self.autorizado():
             return
-        if self.path == "/":
+        if self.path.split("?")[0] == "/":
             with open(os.path.join(AQUI, "index.html"), "rb") as f:
                 return self.responder(200, f.read(), "text/html; charset=utf-8")
         if self.path.startswith("/clips/"):
