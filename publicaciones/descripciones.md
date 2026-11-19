@@ -233,6 +233,29 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Historia #Magallanes #Elcano #Mapas
 
+## ¿Qué le pasa a tu cuerpo si no te mueves en todo un mes? (88 s) — `videos/reel-inmovil.mp4`
+
+### TikTok / Reels
+> **¿Qué le pasa a tu cuerpo si no te mueves en un MES?** 🛏️😳
+>
+> A las 2 horas ya sufre tu piel, en pocos días tu sangre pierde líquido, tus piernas pierden músculo y tus
+> huesos se debilitan como los de un astronauta 🚀
+> Y lo más loco: 3 semanas en cama hicieron más daño que 30 años de edad 🤯
+>
+> ¿Cuántas horas pasas sentado al día? Escríbelo en los comentarios 👇
+>
+> #salud #cuerpohumano #sedentarismo #ejercicio #curiosidades #ciencia #sabiasque #datoscuriosos
+
+### Facebook / YouTube Shorts
+> **¿Qué le pasa a tu cuerpo si no te mueves en todo un mes?** 🛏️
+>
+> En el estudio de Dallas de 1966, cinco jóvenes sanos pasaron tres semanas en cama, y su forma física cayó más
+> que en los 30 años siguientes de vida. La buena noticia: con ocho semanas de entrenamiento se recuperaron.
+> Si tienes que guardar reposo, mueve los tobillos y camina siempre que puedas.
+> *Contenido divulgativo: si tienes que guardar reposo por una enfermedad, sigue las indicaciones de tu médico.*
+>
+> #Salud #CuerpoHumano #Ejercicio #Curiosidades
+
 ---
 
 ## Consejos para publicar

@@ -18,6 +18,8 @@ import { DURACION_TOTAL as DURACION_PAISES } from "./Paises/escenas";
 import { DURACION_TOTAL as DURACION_VUELTA_MUNDO } from "./VueltaMundo/escenas";
 import { ReelFrio, ReelFrio2D } from "./Frio/Reel";
 import { DURACION_TOTAL as DURACION_FRIO } from "./Frio/escenas";
+import { ReelInmovil, ReelInmovil2D } from "./Inmovil/Reel";
+import { DURACION_TOTAL as DURACION_INMOVIL } from "./Inmovil/escenas";
 import { ReelSahara } from "./Sahara/Reel";
 import { DURACION_TOTAL as DURACION_SAHARA } from "./Sahara/escenas";
 import { DURACION_TOTAL as DURACION_NAPOLEON } from "./Napoleon/escenas";
@@ -126,6 +128,8 @@ export const RemotionRoot: React.FC = () => {
       />
       <Composition id="ReelFrio" component={ReelFrio} durationInFrames={DURACION_FRIO} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelFrio2D" component={ReelFrio2D} durationInFrames={DURACION_FRIO} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelInmovil" component={ReelInmovil} durationInFrames={DURACION_INMOVIL} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelInmovil2D" component={ReelInmovil2D} durationInFrames={DURACION_INMOVIL} fps={FPS} width={1080} height={1920} />
       <Composition
         id="ReelSahara"
         component={ReelSahara}
