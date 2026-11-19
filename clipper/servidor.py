@@ -162,9 +162,15 @@ def segmentos_atras(lista, segundos):
 
 
 def generar_directo(d):
-    """Clip de los últimos N segundos de un directo, como el botón «Clip» de Twitch."""
+    """Clip de los últimos N segundos de un directo, como el botón «Clip» de Twitch.
+    Sin «editar» solo se copia (segundos); con «editar» se pasa a vertical con efectos (lento en el móvil)."""
     nombre, entrada, seg = capturar_directo(d)
-    return editar(d, nombre, entrada, seg, "")
+    if d.get("editar"):
+        return editar(d, nombre, entrada, seg, "")
+    run(["ffmpeg", "-y", "-v", "error", "-i", entrada, "-c", "copy", "-movflags", "+faststart",
+         os.path.join(CLIPS, nombre + ".mp4")], cwd=TRABAJO)
+    os.remove(os.path.join(TRABAJO, entrada))
+    return {"archivo": "/clips/" + nombre + ".mp4"}
 
 
 URLS = {}  # (url, altura) -> (hora, [URL HLS]): extraer en el móvil tarda mucho y las URL valen horas
@@ -218,26 +224,62 @@ def capturar_directo(d):
                 raise
 
 
-# Modo automático: un hilo copia el directo cada X segundos (trozos seguidos) y otro los edita de uno en uno,
-# así copiar nunca espera a la edición, que en el móvil es lo lento. Sigue aunque se cierre la página.
+# Modo automático: un solo ffmpeg graba el directo sin parar y lo parte en clips seguidos sin recomprimir
+# (casi sin gastar CPU); cada clip pasa a CLIPS en cuanto se cierra. Sigue aunque se cierre la página.
+# Editar (vertical, efectos) va aparte, solo en los clips que se pidan, con una cola de uno en uno.
 AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": ""}
 COLA, PARAR, HILO = queue.Queue(), threading.Event(), [None]
 
 
+def mover_terminados(lista):
+    """Pasa a CLIPS los trozos que ffmpeg ya cerró (los apunta en la lista al terminar cada uno)."""
+    if not os.path.exists(lista):
+        return
+    with open(lista, encoding="utf-8") as f:
+        for linea in f:
+            p = os.path.join(TRABAJO, os.path.basename(linea.split(",")[0].strip()))
+            if linea.strip() and os.path.isfile(p):
+                os.replace(p, os.path.join(CLIPS, os.path.basename(p)))
+                AUTO["hechos"] += 1
+
+
 def bucle_auto(d):
     cada, fallos = AUTO["cada"], 0
-    siguiente = time.time() + cada
-    while not PARAR.wait(max(0.0, siguiente - time.time())):
-        siguiente += cada
+    alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
+    vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
+    os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
+    while not PARAR.is_set():
         try:
-            COLA.put((d, *capturar_directo(dict(d, segundos=cada))))
-            fallos, AUTO["error"] = 0, ""
+            urls = urls_directo(d["url"], alto, nuevas=fallos > 0)
         except Exception as e:
-            fallos += 1
-            AUTO["error"] = str(e)
-            if fallos >= 3:
-                AUTO["error"] = "Parado: el directo ha terminado o no responde (" + str(e) + ")"
+            urls, error = None, str(e)
+        if urls:
+            lista = os.path.join(TRABAJO, f"{vid}_{int(time.time())}.csv")
+            proc = subprocess.Popen(
+                ["ffmpeg", "-y", "-v", "error", *[x for u in urls for x in ("-i", u)], "-map", "0:v:0",
+                 "-map", f"{len(urls) - 1}:a:0?", "-c", "copy", "-f", "segment", "-segment_time", str(cada),
+                 "-reset_timestamps", "1", "-segment_format_options", "movflags=+faststart",
+                 "-segment_list", lista, "-segment_list_type", "csv", "-strftime", "1",
+                 os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
+                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, errors="replace")
+            inicio = time.time()
+            while proc.poll() is None and not PARAR.wait(2):
+                mover_terminados(lista)
+            if PARAR.is_set():
+                proc.terminate()  # ffmpeg cierra bien el trozo que estaba grabando, que también se guarda
+            error = (proc.communicate()[1].strip().splitlines() or ["el directo dejó de llegar"])[-1]
+            mover_terminados(lista)
+            os.remove(lista) if os.path.exists(lista) else None
+            if PARAR.is_set():
                 break
+            if time.time() - inicio > 120:  # grabó un buen rato: es un corte puntual, no un fallo seguido
+                fallos = 0
+        fallos += 1
+        AUTO["error"] = error
+        if fallos >= 3:
+            AUTO["error"] = "Parado: el directo ha terminado o no responde (" + error + ")"
+            break
+        PARAR.wait(3)
     AUTO["activo"] = False
 
 
@@ -246,9 +288,18 @@ def editor():
         d, nombre, entrada, seg = COLA.get()
         try:
             editar(d, nombre, entrada, seg, "")
-            AUTO["hechos"] += 1
         except Exception as e:
-            AUTO["error"] = "No se pudo editar un clip: " + str(e)
+            AUTO["error"] = "No se pudo hacer vertical un clip: " + str(e)
+
+
+def pedir_vertical(d):
+    """Encola la edición (vertical, efectos) de un clip ya guardado; el resultado sale como clip nuevo."""
+    p = os.path.join(CLIPS, os.path.basename(str(d.get("archivo", ""))))  # basename: sin salir de clips/
+    if not (p.endswith(".mp4") and os.path.isfile(p)):
+        raise ValueError("Ese clip ya no existe.")
+    dur = float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).stdout.strip())
+    os.makedirs(TRABAJO, exist_ok=True)
+    COLA.put((d, os.path.basename(p)[:-4] + "_vertical_" + str(int(time.time())), p, dur))
 
 
 def estado_auto():
@@ -341,7 +392,10 @@ class App(BaseHTTPRequestHandler):
             if self.path == "/api/auto" and d.get("accion") == "parar":
                 PARAR.set()
                 if HILO[0]:
-                    HILO[0].join(timeout=90)  # deja acabar el trozo que se está copiando
+                    HILO[0].join(timeout=90)  # deja cerrar bien el trozo que se está grabando
+                return self.responder(200, json.dumps(estado_auto()).encode())
+            if self.path == "/api/vertical":  # no necesita link: trabaja sobre un clip ya guardado
+                pedir_vertical(d)
                 return self.responder(200, json.dumps(estado_auto()).encode())
             if not re.match(r"^https?://", str(d.get("url", ""))):
                 raise ValueError("Pega un link http(s) válido")

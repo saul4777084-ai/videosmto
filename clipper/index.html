@@ -57,7 +57,7 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
 </div>
 
 <div class="card">
-  <label style="margin-bottom:8px">Modo automático: cortar el directo entero en trozos de…</label>
+  <label style="margin-bottom:8px">Modo automático: grabar el directo y guardarlo en clips de…</label>
   <div class="chips">
     <input type="radio" name="cada" id="c30" value="30"><label for="c30">30 s</label>
     <input type="radio" name="cada" id="c60" value="60" checked><label for="c60">1 min</label>
@@ -65,7 +65,7 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
     <input type="radio" name="cada" id="c300" value="300"><label for="c300">5 min</label>
   </div>
   <button id="auto" type="button" disabled style="width:100%;margin-top:14px;padding:16px">▶ Empezar automático</button>
-  <p id="estadoAuto" class="estado" style="margin-top:8px">Sigue cortando aunque cierres la página o bloquees el teléfono (deja Termux abierto con termux-wake-lock). Gasta datos y espacio: cada clip ocupa unos MB.</p>
+  <p id="estadoAuto" class="estado" style="margin-top:8px">Graba sin parar y cada clip aparece en cuanto termina, sin editar (así va rápido y casi no gasta batería). Luego pulsa «Hacer vertical» en los que te gusten. Sigue aunque cierres la página o bloquees el teléfono (con termux-wake-lock). Gasta datos y espacio.</p>
 </div>
 
 <details class="card">
@@ -92,7 +92,9 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
     <label class="check"><input id="zoom" type="checkbox"> Zoom suave</label>
     <label class="check"><input id="barra" type="checkbox"> Barra de progreso</label>
   </div>
-  <p class="estado" style="margin-top:10px">Los directos no tienen subtítulos en YouTube, así que estos clips salen sin ellos.</p>
+  <h3>Clipear ahora</h3>
+  <label class="check"><input id="editar" type="checkbox"> Hacerlo vertical al cortar (tarda más; si no, lo haces luego con «Hacer vertical»)</label>
+  <p class="estado" style="margin-top:10px">Estos ajustes se usan al pulsar «Hacer vertical». Los directos no tienen subtítulos en YouTube, así que los clips salen sin ellos.</p>
 </details>
 
 <div id="trabajando"></div>
@@ -131,10 +133,18 @@ function tarjetaClip({archivo, hora, mb}) {
   const h = new Date(hora * 1000).toLocaleTimeString("es", {hour: "2-digit", minute: "2-digit", second: "2-digit"});
   el.innerHTML = `<b></b><video controls playsinline preload="none" src="${archivo}"></video>
     <p class="acciones"><a href="${archivo}" download>⬇ Descargar</a>
+    <button class="vertical" type="button">✨ Hacer vertical</button>
     <button class="sec compartir" type="button" hidden>Compartir…</button><button class="sec borrar" type="button">Borrar</button></p>
     <p class="estado"></p>`;
   el.querySelector("b").textContent = `Clip de las ${h} · ${mb} MB`;
   const est = el.querySelector("p.estado"), comp = el.querySelector(".compartir"), borrar = el.querySelector(".borrar");
+  const vert = el.querySelector(".vertical");
+  if (archivo.includes("_vertical_")) vert.remove();
+  else vert.onclick = async () => {
+    vert.disabled = true;
+    try { await api("/api/vertical", {archivo, ...ajustes()}); est.textContent = "Haciéndolo vertical… saldrá arriba como clip nuevo."; estadoAuto(); }
+    catch (e) { error(est, e.message); vert.disabled = false; }
+  };
   if (navigator.canShare?.({files: [new File([""], "x.mp4", {type: "video/mp4"})]})) {
     comp.hidden = false;  // abre el menú del móvil para mandarlo a TikTok, Instagram, WhatsApp…
     comp.onclick = async () => {
@@ -165,9 +175,9 @@ function pintarAuto(e) {
   $("auto").textContent = e.activo ? "■ Parar automático" : "▶ Empezar automático";
   $("auto").disabled = !e.activo && !directo;
   const partes = [];
-  if (e.activo) partes.push(`Cortando cada ${e.cada >= 60 ? e.cada / 60 + " min" : e.cada + " s"}${e.titulo ? " · " + e.titulo : ""}`);
+  if (e.activo) partes.push(`Grabando · un clip cada ${e.cada >= 60 ? e.cada / 60 + " min" : e.cada + " s"}${e.titulo ? " · " + e.titulo : ""}`);
   if (e.activo || e.hechos) partes.push(e.hechos === 1 ? "1 clip hecho" : `${e.hechos} clips hechos`);
-  if (e.en_cola) partes.push(`${e.en_cola} editándose`);
+  if (e.en_cola) partes.push(`${e.en_cola} haciéndose vertical`);
   if (partes.length) $("estadoAuto").textContent = partes.join(" · ");
   if (e.error) error($("estadoAuto"), (partes.length ? partes.join(" · ") + " — " : "") + e.error);
   if (e.activo && !$("url").value) $("url").value = e.url;
@@ -189,7 +199,7 @@ setInterval(() => { if (!document.hidden) { refrescar(); estadoAuto(); } }, 5000
 
 const ajustes = () => ({formato: $("formato").value, encuadre: +$("encuadre").value, calidad: $("calidad").value,
   velocidad: +$("velocidad").value, titulo: $("titulo").value, marca: $("marca").value,
-  zoom: $("zoom").checked, barra: $("barra").checked});
+  zoom: $("zoom").checked, barra: $("barra").checked, editar: $("editar").checked});
 
 $("conectar").onclick = async () => {
   const url = $("url").value.trim();
@@ -211,7 +221,7 @@ $("clipear").onclick = async () => {
   const hora = new Date().toLocaleTimeString("es", {hour: "2-digit", minute: "2-digit", second: "2-digit"});
   const el = document.createElement("div"); el.className = "card clip";
   const cab = Object.assign(document.createElement("b"), {textContent: `Clip de las ${hora} · últimos ${segundos} s`});
-  const est = Object.assign(document.createElement("p"), {className: "estado", textContent: "Cortando… (deja la pantalla encendida)"});
+  const est = Object.assign(document.createElement("p"), {className: "estado", textContent: $("editar").checked ? "Cortando y haciéndolo vertical… (deja la pantalla encendida)" : "Cortando…"});
   el.append(cab, est);
   $("trabajando").prepend(el);
   despierto(true);
