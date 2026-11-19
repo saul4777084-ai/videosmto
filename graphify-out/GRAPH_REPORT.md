@@ -1,17 +1,17 @@
 # Graph Report - videosmto  (2026-11-19)
 
 ## Corpus Check
-- 416 files · ~337,317 words
+- 416 files · ~337,417 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 22 file(s) not represented in the graph (top: .woff2 15, .geojson 4, (none) 3)
 
 ## Summary
-- 3429 nodes · 6596 edges · 237 communities (219 shown, 18 thin omitted)
+- 3429 nodes · 6597 edges · 237 communities (219 shown, 18 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 217 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7d890504`
+- Built from commit: `d273df3f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -273,10 +273,10 @@
   .agents/skills/becario-reels/assets/plantilla/src/piezas/basicas.tsx → .agents/skills/becario-reels/assets/plantilla/src/motor/estilos.ts
 - `LineaPuntos()` --calls--> `lerp()`  [EXTRACTED]
   .agents/skills/becario-reels/assets/plantilla/src/piezas/basicas.tsx → .agents/skills/becario-reels/assets/plantilla/src/motor/anim.ts
-- `ReelBase()` --calls--> `Marioneta()`  [EXTRACTED]
-  src/comun/ReelBase.tsx → src/comun/Marioneta.tsx
-- `ticsDe()` --calls--> `framesDe()`  [EXTRACTED]
-  src/comun/ReelBase.tsx → src/comun/tipos.ts
+- `ReelBanoRoto()` --calls--> `ReelBase()`  [EXTRACTED]
+  src/BanoRoto/Reel.tsx → src/comun/ReelBase.tsx
+- `ReelDescubrimiento()` --calls--> `ReelBase()`  [EXTRACTED]
+  src/Colon60/Reel.tsx → src/comun/ReelBase.tsx
 
 ## Import Cycles
 - None detected.
@@ -1169,11 +1169,11 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Should `Napoleon/Ilustraciones.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.059684684684684686 - nodes in this community are weakly interconnected._
-- **Why does `@remotion/bundler` connect `plantilla/package.json` to `render.mjs`?**
+- **Why does `@react-three/postprocessing` connect `@react-three/postprocessing` to `package.json`, `Mundo3D.tsx`?**
   _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **Should `numpy` be split into smaller, more focused modules?**
   _Cohesion score 0.09996754300551769 - nodes in this community are weakly interconnected._
-- **Why does `@remotion/renderer` connect `plantilla/package.json` to `render.mjs`?**
+- **Why does `@remotion/bundler` connect `plantilla/package.json` to `render.mjs`?**
   _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **Should `tarjetas.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.13800904977375567 - nodes in this community are weakly interconnected._
