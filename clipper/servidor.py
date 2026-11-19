@@ -1,5 +1,5 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
-import base64, glob, hmac, json, math, os, re, subprocess, sys, time, urllib.request, webbrowser
+import base64, glob, hmac, json, math, os, re, shutil, subprocess, sys, time, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -7,6 +7,8 @@ CLIPS = os.path.join(AQUI, "clips")
 TRABAJO = os.path.join(AQUI, "trabajo")
 CLAVE = os.environ.get("CLIPPER_CLAVE", "")  # vacía = sin contraseña (solo uso en el propio PC)
 YTDLP = [sys.executable, "-m", "yt_dlp", "--no-playlist"]
+if shutil.which("node"):  # sin un motor de JavaScript, YouTube esconde formatos (los de los directos, entre otros)
+    YTDLP += ["--js-runtimes", "node"]
 
 
 def momentos(heatmap, duracion, n, largo):
@@ -163,13 +165,24 @@ def generar_directo(d):
     vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
     alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
-    m3u8 = run(YTDLP + ["-g", "-f", f"b[height<={alto}][protocol^=m3u8]/b[protocol^=m3u8]", "--", url]).stdout.split()[0]
-    with urllib.request.urlopen(m3u8, timeout=20) as r:
-        lista = r.read().decode("utf-8", "replace")
+    hls = "[protocol^=m3u8]"
+    try:  # vídeo y audio juntos o, si YouTube los da por separado, uno de cada (salen dos URL)
+        urls = run(YTDLP + ["-g", "-f", f"b{hls}[height<={alto}]/b{hls}/bv*{hls}[height<={alto}]+ba{hls}/bv*{hls}+ba{hls}",
+                            "--", url]).stdout.split()
+    except RuntimeError as e:
+        if "format is not available" not in str(e):
+            raise
+        raise ValueError("YouTube no ha dado el vídeo de este directo. En Termux comprueba que «node --version» "
+                         "funciona y actualiza con «pip install -U yt-dlp»; luego vuelve a arrancar el Clipper.")
+    entradas = []
+    for u in urls:
+        with urllib.request.urlopen(u, timeout=20) as r:
+            lista = r.read().decode("utf-8", "replace")
+        # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar los segundos
+        entradas += ["-live_start_index", str(-segmentos_atras(lista, seg)), "-i", u]
     nombre = f"{vid}_directo_{int(time.time())}"
-    # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar los segundos
-    run(["ffmpeg", "-y", "-live_start_index", str(-segmentos_atras(lista, seg)), "-i", m3u8, "-t", str(seg),
-         "-map", "0:v:0", "-map", "0:a:0?", "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
+    run(["ffmpeg", "-y", *entradas, "-t", str(seg), "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
+         "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
     return editar(d, nombre, nombre + ".ts", seg, "")
 
 
