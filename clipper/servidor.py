@@ -1,10 +1,11 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
-import glob, json, os, re, subprocess, sys, time, webbrowser
+import base64, glob, hmac, json, os, re, subprocess, sys, time, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CLIPS = os.path.join(AQUI, "clips")
 TRABAJO = os.path.join(AQUI, "trabajo")
+CLAVE = os.environ.get("CLIPPER_CLAVE", "")  # vacía = sin contraseña (solo uso en el propio PC)
 YTDLP = [sys.executable, "-m", "yt_dlp", "--no-playlist"]
 
 
@@ -119,7 +120,21 @@ class App(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(cuerpo)
 
+    def autorizado(self):
+        if not CLAVE:
+            return True
+        esperado = "Basic " + base64.b64encode(b"clipper:" + CLAVE.encode()).decode()
+        if hmac.compare_digest(self.headers.get("Authorization", ""), esperado):
+            return True
+        self.send_response(401)
+        self.send_header("WWW-Authenticate", 'Basic realm="Clipper"')
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+        return False
+
     def do_GET(self):
+        if not self.autorizado():
+            return
         if self.path == "/":
             with open(os.path.join(AQUI, "index.html"), "rb") as f:
                 return self.responder(200, f.read(), "text/html; charset=utf-8")
@@ -131,6 +146,8 @@ class App(BaseHTTPRequestHandler):
         self.responder(404, b"{}")
 
     def do_POST(self):
+        if not self.autorizado():
+            return
         try:
             d = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))) or b"{}")
             if not re.match(r"^https?://", str(d.get("url", ""))):
@@ -167,5 +184,6 @@ if __name__ == "__main__":
         test(); sys.exit()
     puerto = 8765
     print(f"Clipper en http://127.0.0.1:{puerto}  (Ctrl+C para salir)")
+    print("Contraseña activada (usuario: clipper)" if CLAVE else "Sin contraseña: no lo publiques con Tailscale")
     webbrowser.open(f"http://127.0.0.1:{puerto}")
     ThreadingHTTPServer(("127.0.0.1", puerto), App).serve_forever()

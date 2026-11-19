@@ -3366,15 +3366,15 @@
     "semantic_hash": ""
   },
   "clipper/servidor.py": {
-    "mtime": 1795065273.0762305,
-    "seen": 1795065318.707219,
-    "ast_hash": "1ee27d562874f4f8fbb41fb7849b98e4",
+    "mtime": 1795065993.899481,
+    "seen": 1795066011.76118,
+    "ast_hash": "a67ac1130805f06588bad70dc5e10827",
     "semantic_hash": ""
   },
   "scripts/voz_clonada.py": {
-    "mtime": 1795052075.5188031,
-    "seen": 1795065318.707235,
-    "ast_hash": "632f700320488839993c9b001c869156",
+    "mtime": 1795065324.1438248,
+    "seen": 1795066011.761199,
+    "ast_hash": "aa00822f60c4c5fd87992e7b46996761",
     "semantic_hash": ""
   },
   "scripts/voz_edge.py": {
@@ -3390,14 +3390,14 @@
     "semantic_hash": ""
   },
   "clipper/README.md": {
-    "mtime": 1795065224.3565326,
-    "seen": 1795065318.707885,
-    "ast_hash": "b0ff1794a8c1939271815c7571dfd497",
+    "mtime": 1795066005.9744325,
+    "seen": 1795066011.7615843,
+    "ast_hash": "4149020ed75799a2657ac623a115a7c0",
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795065224.354386,
-    "seen": 1795065318.7078876,
+    "mtime": 1795065324.1679587,
+    "seen": 1795066011.761586,
     "ast_hash": "cad88a1a6df6b2906d10cd92bcb6fc4c",
     "semantic_hash": ""
   },
