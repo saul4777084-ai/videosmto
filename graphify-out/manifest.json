@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795141083.1156573,
-    "seen": 1795141331.1305213,
-    "ast_hash": "f617fbbd4d86ca607eb09a5cda654aa4",
+    "mtime": 1795141860.574259,
+    "seen": 1795148210.5424418,
+    "ast_hash": "fa6068a2946b9f9c45d1d6afb8272d44",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795141308.3702261,
-    "seen": 1795141331.1309128,
-    "ast_hash": "ca7b417c845d5838adeb2287899acd4a",
+    "mtime": 1795148193.6486096,
+    "seen": 1795148210.5427136,
+    "ast_hash": "2231f54fc3e86b64038d2b569aaef72a",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -4038,9 +4038,9 @@
     "semantic_hash": ""
   },
   "src/Desierto/Ilustraciones.tsx": {
-    "mtime": 1795141275.5769048,
-    "seen": 1795141331.130407,
-    "ast_hash": "835ee6cef67b0f383eba1c699e82dcdd",
+    "mtime": 1795148169.5373445,
+    "seen": 1795148210.5423431,
+    "ast_hash": "f188c2757ec1d7ff5c9cf2fb8a9b9176",
     "semantic_hash": ""
   },
   "src/Desierto/Reel.tsx": {
@@ -4050,39 +4050,129 @@
     "semantic_hash": ""
   },
   "src/Desierto/efectos.ts": {
-    "mtime": 1795141083.0982127,
-    "seen": 1795141331.1304111,
-    "ast_hash": "1917cb2caafc36a0b74b00c19740747c",
+    "mtime": 1795147998.7430353,
+    "seen": 1795148210.5423467,
+    "ast_hash": "e28716933cb5ffb32a8de82b7b431a1b",
     "semantic_hash": ""
   },
   "src/Desierto/escenas.ts": {
-    "mtime": 1795141154.3781857,
-    "seen": 1795141331.1304123,
-    "ast_hash": "3ccd5f34948b7918f1f7397f0b062fba",
+    "mtime": 1795147998.6778681,
+    "seen": 1795148210.5423486,
+    "ast_hash": "e8d62a03a522605f2f5e41268834f6e2",
     "semantic_hash": ""
   },
   "src/Desierto/guion.json": {
-    "mtime": 1795140701.6938117,
-    "seen": 1795141331.1304133,
-    "ast_hash": "d0064c1be927d1ad7f5943356b7b75e1",
+    "mtime": 1795147644.4204342,
+    "seen": 1795148210.5423498,
+    "ast_hash": "2474d3094d16ceba6faf0d19f859ac88",
     "semantic_hash": ""
   },
   "src/Desierto/tiempos.json": {
-    "mtime": 1795140737.3301063,
-    "seen": 1795141331.1304142,
-    "ast_hash": "f45b87cc32c325a377337a607b229ace",
+    "mtime": 1795147690.4844139,
+    "seen": 1795148210.5423517,
+    "ast_hash": "20063ab70177555d3d925d029bb95775",
     "semantic_hash": ""
   },
   "src/Desierto/voz_texto.txt": {
-    "mtime": 1795140701.712692,
-    "seen": 1795141331.1309144,
-    "ast_hash": "753d59297b4945f21b41a1d3cdab7106",
+    "mtime": 1795147644.4208658,
+    "seen": 1795148210.5427148,
+    "ast_hash": "dd30aa3fa7819113d34f4447e1ecfe93",
     "semantic_hash": ""
   },
   "videos/reel-movil-30-dias.mp4": {
     "mtime": 1795141060.2902114,
     "seen": 1795141331.1310968,
     "ast_hash": "8677de07501260f08e145a53e22e010c",
+    "semantic_hash": ""
+  },
+  "scripts/texturas_mapa.py": {
+    "mtime": 1795141860.574259,
+    "seen": 1795148210.5422926,
+    "ast_hash": "9275f8fddf195b6674c38462d6c9244e",
+    "semantic_hash": ""
+  },
+  "src/MuestrasMapas/Muestras.tsx": {
+    "mtime": 1795141860.574259,
+    "seen": 1795148210.5424132,
+    "ast_hash": "4e57c70da34ecb63add90569b28067c2",
+    "semantic_hash": ""
+  },
+  "src/comun/Tierra.tsx": {
+    "mtime": 1795141860.574259,
+    "seen": 1795148210.5424683,
+    "ast_hash": "5ceeeac8e484dcc74c4d20dc7eee547b",
+    "semantic_hash": ""
+  },
+  "src/comun/tierra_fuentes.json": {
+    "mtime": 1795141860.574259,
+    "seen": 1795148210.5424693,
+    "ast_hash": "45c9c642475161e62a5e10dbce3ee936",
+    "semantic_hash": ""
+  },
+  "public/mapas/asia_alt.png": {
+    "mtime": 1795141860.442259,
+    "seen": 1795148210.5427527,
+    "ast_hash": "ec983bcb24021ec0d1123f734d4841a1",
+    "semantic_hash": ""
+  },
+  "public/mapas/asia_relieve.jpg": {
+    "mtime": 1795141860.448401,
+    "seen": 1795148210.5427537,
+    "ast_hash": "274bf5bc5f598e7278aa5aff6640a62d",
+    "semantic_hash": ""
+  },
+  "public/mapas/asia_satelite.jpg": {
+    "mtime": 1795141860.450259,
+    "seen": 1795148210.5427547,
+    "ast_hash": "7501ffdfb111860edd716774aaed7628",
+    "semantic_hash": ""
+  },
+  "public/mapas/europa_alt.png": {
+    "mtime": 1795141860.462259,
+    "seen": 1795148210.5427554,
+    "ast_hash": "721329b220400e99d14c1612866e97bb",
+    "semantic_hash": ""
+  },
+  "public/mapas/europa_relieve.jpg": {
+    "mtime": 1795141860.466259,
+    "seen": 1795148210.542771,
+    "ast_hash": "f20c14fe510d4c8bb8b6c586571ef08d",
+    "semantic_hash": ""
+  },
+  "public/mapas/europa_satelite.jpg": {
+    "mtime": 1795141860.4676654,
+    "seen": 1795148210.5427742,
+    "ast_hash": "edaddb893feeaeb2c6a78eeeb16124d3",
+    "semantic_hash": ""
+  },
+  "public/mapas/mundo_alt.png": {
+    "mtime": 1795141860.5502589,
+    "seen": 1795148210.5427756,
+    "ast_hash": "9b42f38fdb52734dad6b9adcf443b77c",
+    "semantic_hash": ""
+  },
+  "public/mapas/mundo_relieve.jpg": {
+    "mtime": 1795141860.558259,
+    "seen": 1795148210.5427766,
+    "ast_hash": "7741518250579bf68f8e9f3d8be04fcb",
+    "semantic_hash": ""
+  },
+  "public/mapas/mundo_satelite.jpg": {
+    "mtime": 1795141860.566259,
+    "seen": 1795148210.5427775,
+    "ast_hash": "e047ac62dd71d5f71560cfa013c240c8",
+    "semantic_hash": ""
+  },
+  "public/mapas/nubes.jpg": {
+    "mtime": 1795141860.5702589,
+    "seen": 1795148210.5427783,
+    "ast_hash": "f3110323fb2ed9b067e2b59337c350bc",
+    "semantic_hash": ""
+  },
+  "videos/reel-desierto.mp4": {
+    "mtime": 1795141839.6422577,
+    "seen": 1795148210.5429244,
+    "ast_hash": "f5ff06d5ca02a8ed257556e47905767e",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

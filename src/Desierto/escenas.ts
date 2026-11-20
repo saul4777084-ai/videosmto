@@ -45,7 +45,7 @@ const ESCENA: { ilustracion: Ilustracion; gesto: Gesto; clave: string[]; sinSubt
   { ilustracion: "tunicas", gesto: "explicar", clave: ["negras", "blancas,"] },
   { ilustracion: "prosperi", gesto: "leer", clave: ["1994,", "nueve"] },
   { ilustracion: "argelia", gesto: "alarma", clave: ["orina,", "300"], enfasis: { palabra: "300", x: 50, y: 50, zoom: 1.12 } },
-  { ilustracion: "final", gesto: "saludar", clave: [], sinSubtitulos: true },
+  { ilustracion: "final", gesto: "presentar", clave: ["A:", "B:", "Comenta"] },
 ];
 function enfasisDe(texto: string, tiempos: number[], c?: Clave): Enfasis | undefined {
   if (!c) return undefined;

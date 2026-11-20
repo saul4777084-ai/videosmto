@@ -20,5 +20,5 @@ export const EFECTOS: Record<Ilustracion, Golpe[]> = {
   tunicas: [[e.tunicas.en("negras"), "pop", 0.35], [e.tunicas.en("blancas"), "pop", 0.35], [e.tunicas.en("aire"), "brisa", 0.4]],
   prosperi: [[e.prosperi.en("1994"), "notificacion", 0.4], [e.prosperi.en("perdio"), "tormenta", 0.35], [e.prosperi.en("nueve"), "reloj", 0.35]],
   argelia: [[0, "whoosh", 0.35], [e.argelia.en("orina"), "vertido", 0.3], [e.argelia.en("murcielagos"), "boing", 0.3], [e.argelia.en("argelia"), "campana", 0.35], [e.argelia.en("300"), "golpe", 0.5]],
-  final: [[e.final.en("horas"), "reloj", 0.35], [e.final.en("escribelo"), "tecla", 0.35], [e.final.en("escribelo") + 12, "tecla", 0.3], [e.final.en("sigueme"), "clic", 0.45], [e.final.en("sigueme") + 8, "notificacion", 0.4]],
+  final: [[e.final.en("agua"), "gota", 0.4], [e.final.en("haces"), "golpe", 0.4], [e.final.en("a"), "pop", 0.45], [e.final.en("b"), "pop", 0.45], [e.final.en("comenta"), "tecla", 0.35], [e.final.en("sigueme"), "clic", 0.45], [e.final.en("sigueme") + 8, "notificacion", 0.4]],
 };
