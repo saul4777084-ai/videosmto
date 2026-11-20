@@ -31,6 +31,8 @@ import { ReelMillonHoyV2 } from "./MillonHoyV2/Reel";
 import { CatalogoEscenarios, DURACION_ESCENARIOS } from "./Mundo3D/CatalogoEscenarios";
 import { CatalogoPersonajes, DURACION_PERSONAJES } from "./Mundo3D/CatalogoPersonajes";
 import { DURACION_MUESTRARIO, Muestrario } from "./Muestrario/Muestrario";
+import { ReelTurnoNoche } from "./TurnoNoche/Reel";
+import { DURACION_TOTAL as DURACION_TURNO_NOCHE } from "./TurnoNoche/escenas";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -198,6 +200,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="Mundo3DEscenarios" component={CatalogoEscenarios} durationInFrames={DURACION_ESCENARIOS} fps={FPS} width={1080} height={1920} />
         <Composition id="Mundo3DPersonajes" component={CatalogoPersonajes} durationInFrames={DURACION_PERSONAJES} fps={FPS} width={1080} height={1920} />
       </Folder>
+      <Composition id="ReelTurnoNoche" component={ReelTurnoNoche} durationInFrames={DURACION_TURNO_NOCHE} fps={FPS} width={1080} height={1920} />
       <Composition
         id="MuestrarioSonidos"
         component={Muestrario}

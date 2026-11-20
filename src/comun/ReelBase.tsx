@@ -20,13 +20,17 @@ type Props<I extends string> = {
   tamSubtitulos?: number; // tamaño de letra de los subtítulos (74 por defecto)
   zoomSuave?: boolean; // acercamiento leve en todas las escenas (false = solo en las que tienen "enfasis")
   ladoAvatar?: "izquierda" | "derecha"; // esquina inferior del avatar (izquierda por defecto)
-  estiloSubtitulos?: "clasico" | "fino";
+  estiloSubtitulos?: "clasico" | "fino" | "terror";
   oscurecerArriba?: boolean; // degradado oscuro arriba para leer los subtítulos
+  transicion?: "fundido" | "corte"; // corte: cambio seco de plano (historias de terror)
+  musica?: string; // archivo en public/ que suena en bucle de fondo (sfx/musica.wav por defecto)
+  ambientes?: { archivo: string; volumen: number }[]; // capas de ambiente en bucle (lluvia, zumbido…)
+  sonidoCambio?: boolean; // "whoosh" al cambiar de escena y "tic" en las palabras clave (true por defecto)
 };
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda", estiloSubtitulos = "clasico", oscurecerArriba = true , tamSubtitulos, volumenEfectos = 1 }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda", estiloSubtitulos = "clasico", oscurecerArriba = true , tamSubtitulos, volumenEfectos = 1, transicion = "fundido", musica = "sfx/musica.wav", ambientes = [], sonidoCambio = true }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -42,14 +46,14 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       {voz && <Audio src={staticFile(voz)} volume={1} />}
-      <Sonidos escenas={escenas} efectos={efectos} inicios={inicios} duracion={duracion} volumenMusica={volumenMusica} volumenEfectos={volumenEfectos} />
+      <Sonidos escenas={escenas} efectos={efectos} inicios={inicios} duracion={duracion} volumenMusica={volumenMusica} volumenEfectos={volumenEfectos} musica={musica} ambientes={ambientes} sonidoCambio={sonidoCambio} />
 
       {escenas.map((e, i) => {
         const D: Dibujo = dibujos[e.ilustracion];
         const dur = framesDe(e.segundos);
         return (
-          <Sequence key={i} from={inicios[i]} durationInFrames={dur + (i < escenas.length - 1 ? FUNDIDO : 0)}>
-            <Capa primera={i === 0} duracion={dur} enfasis={e.enfasis} zoomSuave={zoomSuave}>
+          <Sequence key={i} from={inicios[i]} durationInFrames={dur + (i < escenas.length - 1 && transicion === "fundido" ? FUNDIDO : 0)}>
+            <Capa primera={i === 0 || transicion === "corte"} duracion={dur} enfasis={e.enfasis} zoomSuave={zoomSuave}>
               {(f) => <D f={f} />}
             </Capa>
           </Sequence>
@@ -169,6 +173,9 @@ function Sonidos<I extends string>({
   duracion,
   volumenMusica,
   volumenEfectos,
+  musica,
+  ambientes,
+  sonidoCambio,
 }: {
   escenas: Escena<I>[];
   efectos: Record<I, Golpe[]>;
@@ -176,14 +183,22 @@ function Sonidos<I extends string>({
   duracion: number;
   volumenMusica: number;
   volumenEfectos: number;
+  musica: string;
+  ambientes: { archivo: string; volumen: number }[];
+  sonidoCambio: boolean;
 }) {
   return (
     <>
-      <Audio src={staticFile("sfx/musica.wav")} volume={volumenMusica} durationInFrames={duracion} />
+      <Audio src={staticFile(musica)} volume={volumenMusica} durationInFrames={duracion} loop={musica !== "sfx/musica.wav"} />
+      {ambientes.map((a) => (
+        <Audio key={a.archivo} src={staticFile(a.archivo)} volume={a.volumen} durationInFrames={duracion} loop />
+      ))}
       {escenas.map((e, i) => {
-        const golpes: Golpe[] = [...(i > 0 ? ([[0, "whoosh", 0.45]] as Golpe[]) : []), ...efectos[e.ilustracion], ...ticsDe(e)];
+        const golpes: Golpe[] = sonidoCambio
+          ? [...(i > 0 ? ([[0, "whoosh", 0.45]] as Golpe[]) : []), ...efectos[e.ilustracion], ...ticsDe(e)]
+          : efectos[e.ilustracion];
         return golpes.map(([f, efecto, vol = 0.6], k) => (
-          <Sequence key={`${i}-${k}`} from={inicios[i] + f} durationInFrames={60} layout="none">
+          <Sequence key={`${i}-${k}`} from={inicios[i] + f} durationInFrames={150} layout="none">
             <Audio src={staticFile(`sfx/${efecto}.wav`)} volume={vol * volumenEfectos} />
           </Sequence>
         ));

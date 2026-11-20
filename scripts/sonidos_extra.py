@@ -385,6 +385,98 @@ def caida():
     return seno(1500 * np.exp(-t / 0.5) + 180, t) * env(len(t), 0.01) * np.minimum(1, (1.2 - t) * 6)
 
 
+
+# ---------------------------------------------------------------- terror (cada uno con su propia semilla)
+
+def _r(semilla):
+    return np.random.default_rng(semilla)
+
+
+def drone(d=24.0):
+    """Ambiente grave y tenso para historias de terror (se puede repetir en bucle)."""
+    t = t_(d)
+    r = _r(101)
+    x = sum(a * seno(f * (1 + 0.004 * np.sin(2 * np.pi * t / p)), t) for f, a, p in [(41, 1, 7.1), (61.7, 0.6, 9.3), (82.3, 0.35, 5.7), (123.5, 0.15, 11.0)])
+    aire = pb(np.cumsum(r.standard_normal(len(t))), 300) 
+    aire = aire / (np.max(np.abs(aire)) + 1e-9) * 0.25
+    x = x * (0.75 + 0.25 * np.sin(2 * np.pi * t / d * 3)) + aire
+    # fundido cruzado para que el bucle no se note
+    k = int(1.5 * SR)
+    x[:k] = x[:k] * np.linspace(0, 1, k) + x[-k:] * np.linspace(1, 0, k)
+    return x[:-k]
+
+
+def zumbido(d=8.0):
+    """Fluorescentes: zumbido eléctrico de 100 Hz con armónicos."""
+    t = t_(d)
+    x = sum(a * np.sin(2 * np.pi * f * t) for f, a in [(100, 1), (200, 0.5), (300, 0.3), (500, 0.12), (1000, 0.05)])
+    r = _r(102)
+    x = x * (0.9 + 0.1 * np.sin(2 * np.pi * 0.3 * t)) + pa(r.standard_normal(len(t)), 4000) * 0.03
+    return fundido(x, 0.3, 0.3)
+
+
+def estatica():
+    """Salto de imagen de cámara de seguridad: ruido cortado."""
+    r = _r(103)
+    d = 0.35
+    x = banda(r.standard_normal(int(d * SR)), 300, 7000)
+    corte = (np.sin(2 * np.pi * 37 * t_(d)) > -0.2).astype(float)
+    return x * corte * env(len(x), 0.001, 0.15)
+
+
+def susto():
+    """Golpe de susto: impacto grave + chirrido disonante."""
+    r = _r(104)
+    d = 3.0
+    t = t_(d)
+    golpe = seno(110 * np.exp(-t / 0.08) + 38, t) * env(len(t), 0.001, 0.6)
+    chirrido = sum(seno(f * (1 + 0.02 * t), t) for f in [880, 932, 1245, 1319]) * env(len(t), 0.002, 0.9) * 0.18
+    ruido_ = banda(r.standard_normal(len(t)), 200, 5000) * env(len(t), 0.001, 0.25) * 0.5
+    return fundido(golpe * 1.6 + chirrido + ruido_, 0, 0.6)
+
+
+def campanita():
+    """Campanita de la puerta de una tienda."""
+    t = t_(2.2)
+    x = np.zeros(len(t))
+    for t0, a in [(0, 1), (0.11, 0.7), (0.26, 0.45)]:
+        tt = t_(2.2 - t0)
+        g = sum(b * np.sin(2 * np.pi * f * tt) * np.exp(-tt / c) for f, b, c in [(2093, 1, 0.7), (4186, 0.35, 0.35), (5274, 0.25, 0.25)])
+        colocar(x, g * a, t0)
+    return x
+
+
+def toc_cristal():
+    """Un nudillo contra un cristal."""
+    r = _r(105)
+    n = int(0.35 * SR)
+    impulso = r.standard_normal(n) * env(n, 0.0002, 0.002)
+    return resonador(impulso, [(1150, 10, 1), (2350, 14, 0.6), (3900, 18, 0.3), (420, 5, 0.5)]) * env(n, 0.0003, 0.07)
+
+
+def latido_rapido(d=4.0):
+    x = np.zeros(int(d * SR))
+    for t0 in np.arange(0.05, d - 0.3, 0.55):
+        for dt, a in [(0, 1), (0.16, 0.65)]:
+            t = t_(0.22)
+            colocar(x, seno(55 + 30 * np.exp(-t / 0.03), t) * env(len(t), 0.004, 0.05) * a, t0 + dt)
+    return x
+
+
+def rebobinar():
+    """Cinta rebobinando: chirrido que sube."""
+    r = _r(106)
+    d = 1.6
+    t = t_(d)
+    tono = seno(600 + 2400 * (t / d) ** 1.5, t) * 0.35
+    siseo = pa(r.standard_normal(len(t)), 2500) * 0.25
+    return fundido(tono + siseo, 0.05, 0.15)
+
+
+TERROR = {"drone": drone, "zumbido": zumbido, "estatica": estatica, "susto": susto, "campanita": campanita,
+          "toc_cristal": toc_cristal, "latido_rapido": latido_rapido, "rebobinar": rebobinar}
+
+
 SONIDOS = {
     # clima
     "trueno": trueno, "rayo": rayo, "lluvia": lluvia, "tormenta": tormenta, "viento": viento, "brisa": brisa, "nubes": nubes,
@@ -401,8 +493,11 @@ SONIDOS = {
 }
 
 if __name__ == "__main__":
-    carpeta = sys.argv[1] if len(sys.argv) > 1 else "public/sfx"
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    carpeta = args[0] if args else "public/sfx"
     os.makedirs(carpeta, exist_ok=True)
-    for nombre, fn in SONIDOS.items():
+    # los de terror tienen semilla propia: se pueden generar solos con "--terror"
+    lista = TERROR if "--terror" in sys.argv else {**SONIDOS, **TERROR}
+    for nombre, fn in lista.items():
         guardar(carpeta, nombre, fn())
         print("✓", nombre)

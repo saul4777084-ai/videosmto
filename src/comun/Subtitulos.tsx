@@ -8,7 +8,8 @@ type Props = {
   frameLocal: number;
   duracion: number;
   tiempos?: number[]; // frame (local) en que se dice cada palabra, si hay voz alineada
-  estilo?: "clasico" | "fino"; // fino: letra pequeña, aparecen al decirse, clave en recuadro azul
+  estilo?: "clasico" | "fino" | "terror"; // fino: letra pequeña, aparecen al decirse, clave en recuadro azul
+  // terror: frases cortas que se escriben palabra a palabra; la actual en negrita y la clave en recuadro negro
 };
 
 // Subtítulos palabra por palabra: la palabra actual brilla, las siguientes están apagadas.
@@ -25,7 +26,7 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
 
   // con voz, se enseñan bloques cortos (máx. 5 palabras) que avanzan con lo que se dice
   const bloques: number[][] = [];
-  if (tiempos) {
+  if (tiempos || estilo === "terror") {
     let b: number[] = [];
     palabras.forEach((p, i) => {
       b.push(i);
@@ -36,7 +37,63 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
     });
     if (b.length) bloques.push(b);
   }
-  const visibles = tiempos ? (bloques.find((bl) => bl.includes(Math.max(0, actual))) ?? bloques[0]) : palabras.map((_, i) => i);
+  const visibles = tiempos || estilo === "terror" ? (bloques.find((bl) => bl.includes(Math.max(0, actual))) ?? bloques[0]) : palabras.map((_, i) => i);
+
+  if (estilo === "terror") {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: 190,
+          left: 80,
+          right: 80,
+          textAlign: "center",
+          fontFamily: "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+          fontSize: tam === 74 ? 60 : tam,
+          lineHeight: 1.35,
+          color: "#fff",
+          textShadow: "0 3px 14px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.8)",
+        }}
+      >
+        {visibles
+          .filter((i) => i <= actual)
+          .map((i) => {
+            const p = palabras[i];
+            const entra = interpolate(frameLocal - inicioDe(i), [0, 4], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+            const esClave = clave.includes(p);
+            const esActual = i === actual;
+            return (
+              <span
+                key={i}
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  margin: "0 8px",
+                  fontWeight: esActual || esClave ? 800 : 400,
+                  color: esActual || esClave ? "#fff" : "rgba(255,255,255,0.62)",
+                  opacity: entra,
+                  padding: esClave ? "0 10px" : undefined,
+                  background: esClave ? "rgba(0,0,0,0.92)" : undefined,
+                  textShadow: esClave ? "none" : undefined,
+                }}
+              >
+                {p}
+                {esClave &&
+                  [
+                    { left: -5, top: -5 },
+                    { right: -5, bottom: -5 },
+                  ].map((pos, k) => (
+                    <span
+                      key={k}
+                      style={{ position: "absolute", width: 9, height: 9, borderRadius: 5, border: "2px solid #fff", background: "#000", ...pos }}
+                    />
+                  ))}
+              </span>
+            );
+          })}
+      </div>
+    );
+  }
 
   if (estilo === "fino") {
     return (

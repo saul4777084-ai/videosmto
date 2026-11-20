@@ -40,6 +40,7 @@ export const EFECTOS_DISPONIBLES = {
   hielo: ["cubitos", "hielo_crujido", "congelar", "cristal", "cristal_roto"],
   golpes: ["toc", "toc_toc", "madera", "metal", "golpe", "pasos", "latido", "reloj", "campana", "proyector"],
   fuego: ["fuego", "explosion"],
+  terror: ["drone", "zumbido", "estatica", "susto", "campanita", "toc_cristal", "latido_rapido", "rebobinar"],
 } as const;
 
 export type Efecto = (typeof EFECTOS_DISPONIBLES)[keyof typeof EFECTOS_DISPONIBLES][number];

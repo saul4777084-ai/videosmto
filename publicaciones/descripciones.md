@@ -276,6 +276,24 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Historia #Mapas #Geografía #Curiosidades
 
+## Turno de noche — Gasolinera, parte 1 (95 s) — `videos/TurnoNoche.mp4`
+
+### Instagram Reels / TikTok
+> **Si a las 3:33 llaman al cristal… no abras** 🚪🌧️
+>
+> Primera noche en una gasolinera en mitad de la nada. Solo una regla. Y alguien en las cámaras que no debería estar ahí 👁️
+>
+> ¿Tú habrías mirado? 👇 Parte 2 muy pronto.
+>
+> #terror #historiasdeterror #miedo #creepy #historiasanimadas #turnodenoche #camaradeseguridad #paranormal #parati
+
+### Facebook / YouTube Shorts
+> **Turno de noche (parte 1)** 🚪
+>
+> Una gasolinera a 80 km de todo, una regla que no puedes romper y una cámara de seguridad que lo ve todo.
+>
+> #Terror #HistoriasDeTerror #Miedo #Creepy
+
 ---
 
 ## Consejos para publicar
