@@ -3,7 +3,7 @@ import { AbsoluteFill, Easing, interpolate } from "remotion";
 import { Dibujo } from "../comun/tipos";
 import { LonLat } from "../comun/Globo";
 import { CamaraT, mezclarT, Tierra } from "../comun/Tierra";
-import { AZUL, Caja, Capa, Ciudad, Creditos, FlechaG, Linea, LineaG, NARANJA, Rotulo, Sello, Titular, Titulares, Zona } from "../comun/PiezasTierra";
+import { AZUL, Caja, Capa, Ciudad, Creditos, FlechaG, Linea, LineaG, NARANJA, Rotulo, Sello, Titular, Zona } from "../comun/PiezasTierra";
 import { MONTSERRAT } from "../comun/fuentes";
 import type { Escenario, Ilustracion } from "./escenas";
 
@@ -18,6 +18,9 @@ const camino = (f: number, desde: number, hasta: number, a: CamaraT, b: CamaraT)
 const k = (f: number, desde: number, dur = 30) => interpolate(f, [desde, desde + dur], [0, 1], { ...clamp, easing: Easing.out(Easing.cubic) });
 
 const Vineta = () => <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 52%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)" }} />;
+const Anio: React.FC<{ f: number; inicio: number; texto: string; y?: number }> = ({ f, inicio, texto, y = 1640 }) => (
+  <Caja f={f} inicio={inicio} texto={texto} y={y} tam={72} />
+);
 
 // ---------- el imperio por etapas (aproximado; anillos en sentido horario, se recortan con la costa) ----------
 
@@ -147,11 +150,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "En 1162", tipo: "caja", en: e.en("1162") },
-          { texto: "Nace Temuyín", tipo: "grande", en: e.en("Temuyin") },
-          { texto: "En las estepas de Mongolia", tipo: "blanco", en: e.en("estepas") },
-        ]} />
+        <Anio f={f} inicio={e.en("1162")} texto="1162" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -173,11 +172,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "Envenenan a su padre", tipo: "caja", en: e.en("Envenenaron") },
-          { texto: "Abandonados", tipo: "grande", en: ab },
-          { texto: "Él y su familia, solos", tipo: "rojo", en: e.en("familia") },
-        ]} />
+        <Caja f={f} inicio={e.en("Envenenaron")} texto="Padre envenenado" y={1500} fondo="rgba(14,16,22,0.92)" tam={50} />
+        <Sello f={f} inicio={ab + 6} texto="abandonados" x={540} y={1660} tam={74} giro={-8} />
         <Creditos />
       </AbsoluteFill>
     );
@@ -198,12 +194,9 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "En 1206", tipo: "caja", en: e.en("1206") },
-          { texto: "Gengis Kan", tipo: "grande", en: e.en("Gengis") },
-          { texto: "Une a todas las tribus", tipo: "naranja", en: un },
-        ]} />
-        <Linea f={f} inicio={e.en("Gengis") + 8} texto="«señor universal»" y={1560} tam={46} />
+        <Titular f={f} inicio={e.en("Gengis")} texto="GENGIS KAN" y={1330} tam={118} />
+        <Linea f={f} inicio={e.en("Gengis") + 8} texto="«señor universal»" y={1480} tam={46} />
+        <Anio f={f} inicio={e.en("1206")} texto="1206" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -228,11 +221,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "En 1215", tipo: "caja", en: e.en("1215") },
-          { texto: "Cae Pekín", tipo: "grande", en: pk },
-          { texto: "Cruza la Gran Muralla", tipo: "naranja", en: cr },
-        ]} />
+        <Sello f={f} inicio={e.en("tomo")} texto="conquistada" x={560} y={1420} tam={66} giro={-9} />
+        <Anio f={f} inicio={e.en("1215")} texto="1215" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -257,11 +247,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "En 1219", tipo: "caja", en: e.en("1219") },
-          { texto: "Arrasa Asia Central", tipo: "grande", en: ar },
-          { texto: "Samarcanda y Bujará", tipo: "blanco", en: sa },
-        ]} />
+        <Anio f={f} inicio={e.en("1219")} texto="1219" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -281,11 +267,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "En 1227", tipo: "caja", en: e.en("1227") },
-          { texto: "Muere Gengis Kan", tipo: "grande", en: e.en("Murio") },
-          { texto: "Su tumba, sin encontrar", tipo: "rojo", en: e.en("tumba") },
-        ]} />
+        <Sello f={f} inicio={e.en("encontrarse")} texto="sin encontrar" x={540} y={1420} tam={66} giro={-8} />
+        <Anio f={f} inicio={e.en("1227")} texto="1227" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -309,11 +292,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "Sus nietos", tipo: "caja", en: e.en("nietos") },
-          { texto: "Llegan a Europa", tipo: "grande", en: e.en("llegaron") },
-          { texto: "Kiev y Hungría · 1241", tipo: "blanco", en: ki },
-        ]} />
+        <Anio f={f} inicio={e.en("1241")} texto="1241" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -336,11 +315,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "En 1258", tipo: "caja", en: e.en("1258") },
-          { texto: "Cae Bagdad", tipo: "grande", en: ca },
-          { texto: "La joya del mundo islámico", tipo: "blanco", en: e.en("joya") },
-        ]} />
+        <Anio f={f} inicio={e.en("1258")} texto="1258" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -365,11 +340,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         )}
         <Linea f={f} inicio={mi + 6} texto="de km²" y={1440} tam={64} />
         <Caja f={f} inicio={mi + 24} texto="más que toda Sudamérica" y={1620} fondo={NARANJA_CAJA} tam={44} giro={-2} />
-        <Titulares f={f} partes={[
-          { texto: "En 1279", tipo: "caja", en: e.en("1279") },
-          { texto: "Toda China", tipo: "grande", en: e.en("China") },
-          { texto: "Kublai Kan", tipo: "naranja", en: e.en("Kublai") },
-        ]} />
+        <Anio f={f} inicio={e.en("1279")} texto="1279" y={620} />
         <Creditos />
       </AbsoluteFill>
     );
@@ -399,11 +370,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           }}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "Dos intentos", tipo: "caja", en: e.en("Dos") },
-          { texto: "Invadir Japón", tipo: "grande", en: e.en("invadir") },
-          { texto: "Las tormentas lo impiden", tipo: "rojo", en: tor },
-        ]} />
         <Caja f={f} inicio={8} texto="1274" y={1360} x={330} tam={60} />
         <Caja f={f} inicio={segunda} texto="1281" y={1360} x={750} tam={60} />
         <Sello f={f} inicio={tor + 4} texto="kamikaze" x={540} y={1560} tam={78} giro={-8} />

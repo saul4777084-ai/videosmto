@@ -3,7 +3,7 @@ import { AbsoluteFill, Easing, interpolate, spring } from "remotion";
 import { Dibujo } from "../comun/tipos";
 import { LonLat } from "../comun/Globo";
 import { CamaraT, mezclarT, Tierra } from "../comun/Tierra";
-import { AMARILLO, Caja, Ciudad, Creditos, Linea, Paises, ROJO, Rotulo, Titular, Titulares } from "../comun/PiezasTierra";
+import { AMARILLO, Caja, Ciudad, Creditos, Linea, Paises, ROJO, Rotulo, Sello, Titular } from "../comun/PiezasTierra";
 import { MONTSERRAT } from "../comun/fuentes";
 import type { Escenario, Ilustracion } from "./escenas";
 
@@ -223,11 +223,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "Casi todo el hielo", tipo: "caja", en: e.en("Casi") },
-          { texto: "Antártida", tipo: "grande", en: e.en("Antartida") },
-          { texto: "y Groenlandia", tipo: "blanco", en: g },
-        ]} />
         <Caja f={f} inicio={e.en("hielo")} texto="99 % del hielo de agua dulce" y={1640} fondo={NARANJA_CAJA} tam={46} />
         <Creditos />
       </AbsoluteFill>
@@ -250,11 +245,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           </div>
         )}
         <Linea f={f} inicio={e.en("metros")} texto="más alto que hoy" y={1660} tam={46} />
-        <Titulares f={f} partes={[
-          { texto: "Si se derritiera", tipo: "caja", en: e.en("derritiera") },
-          { texto: "El mar subiría", tipo: "grande", en: e.en("subiria") },
-          { texto: "Como un edificio de 23 plantas", tipo: "rojo", en: e.en("edificio") },
-        ]} />
         <Creditos />
       </AbsoluteFill>
     );
@@ -283,11 +273,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         </Mapa>
         <Vineta />
         <NivelMar f={f} nivel={nivel} />
-        <Titulares f={f} partes={[
-          { texto: "En Europa", tipo: "caja", en: e.en("Europa") },
-          { texto: "Desaparecerían", tipo: "grande", en: e.en("desaparecerian") },
-          { texto: "Ámsterdam · Copenhague · Venecia · Londres", tipo: "blanco", en: e.en("Amsterdam") },
-        ]} />
         <Creditos />
       </AbsoluteFill>
     );
@@ -313,11 +298,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         </Mapa>
         <Vineta />
         <NivelMar f={f} nivel={nivel} />
-        <Titulares f={f} partes={[
-          { texto: "En España", tipo: "caja", en: e.en("Espana") },
-          { texto: "Sevilla y Valencia", tipo: "grande", en: sev },
-          { texto: "Madrid se salva", tipo: "verde", en: e.en("salvaria") },
-        ]} />
+        <Sello f={f} inicio={e.en("salvaria") + 4} texto="se salva" x={640} y={760} tam={60} giro={-10} color="#22c55e" />
         <Creditos />
       </AbsoluteFill>
     );
@@ -342,11 +323,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         </Mapa>
         <Vineta />
         <NivelMar f={f} nivel={nivel} />
-        <Titulares f={f} partes={[
-          { texto: "Florida", tipo: "caja", en: e.en("Florida") },
-          { texto: "Bajo el agua", tipo: "grande", en: e.en("agua") },
-          { texto: "Con Miami y Cancún", tipo: "naranja", en: mia },
-        ]} />
         <Creditos />
       </AbsoluteFill>
     );
@@ -368,11 +344,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           )}
         </Mapa>
         <Vineta />
-        <Titulares f={f} partes={[
-          { texto: "Buenos Aires", tipo: "caja", en: ba },
-          { texto: "Se hundiría", tipo: "grande", en: e.en("hundiria") },
-          { texto: "El Amazonas, un mar interior", tipo: "naranja", en: e.en("Amazonas") },
-        ]} />
+        <Caja f={f} inicio={e.en("mar")} texto="mar interior" y={1300} fondo={NARANJA_CAJA} tam={50} giro={-3} />
         <NivelMar f={f} nivel={nivel} />
         <Creditos />
       </AbsoluteFill>
@@ -400,11 +372,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         </Mapa>
         <Vineta />
         <NivelMar f={f} nivel={nivel} />
-        <Titulares f={f} partes={[
-          { texto: "En Asia", tipo: "caja", en: e.en("Asia") },
-          { texto: "Bajo el mar", tipo: "grande", en: e.en("cubriria") },
-          { texto: "Bangladés · Shanghái · Bangkok", tipo: "blanco", en: bd },
-        ]} />
         <Creditos />
       </AbsoluteFill>
     );
@@ -427,10 +394,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           </div>
         )}
         <Linea f={f} inicio={t + 8} texto="años" y={1390} tam={80} />
-        <Titulares f={f} partes={[
-          { texto: "Por suerte", tipo: "caja", en: e.en("suerte") },
-          { texto: "Tardaría milenios", tipo: "grande", en: e.en("llevaria") },
-        ]} />
         <Creditos />
       </AbsoluteFill>
     );
@@ -444,11 +407,6 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         <Mapa camara={cam} f={f} />
         <AbsoluteFill style={{ background: "rgba(0,0,0,0.4)" }} />
         <Grafica f={f} inicio={e.en("subido")} fin={e.en("1900") + 20} etiqueta={e.en("centimetros")} rapido={e.en("rapido")} />
-        <Titulares f={f} partes={[
-          { texto: "Pero ojo", tipo: "caja", en: e.en("Pero") },
-          { texto: "Ya ha subido", tipo: "grande", en: e.en("subido") },
-          { texto: "Y cada vez más rápido", tipo: "rojo", en: e.en("rapido") },
-        ]} />
         <Creditos />
       </AbsoluteFill>
     );

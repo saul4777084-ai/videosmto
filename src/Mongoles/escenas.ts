@@ -54,7 +54,7 @@ export const ESCENAS: Escena<Ilustracion>[] = alineado.frases.map((fr, i) => ({
   ilustracion: ESCENA[i].ilustracion,
   gesto: ESCENA[i].gesto,
   clave: ESCENA[i].clave,
-  sinSubtitulos: true, // los textos van como titulares apilados en cada escena (estilo del usuario)
+  sinSubtitulos: ESCENA[i].sinSubtitulos,
   enfasis: enfasisDe(fr.texto, fr.tiempos, ESCENA[i].enfasis),
 }));
 
