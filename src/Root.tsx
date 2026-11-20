@@ -21,6 +21,7 @@ import {Demo3D, DURACION_DEMO_3D} from './mundo3d/Demo3D';
 import {Catalogo3DEscenarios, Catalogo3DPersonajes} from './mundo3d/Catalogo3D';
 import {AvatarAyuno, DURACION_AYUNO, FPS_AYUNO, TOMAS_AYUNO, VideoAyuno} from './videos/ayuno/VideoAyuno';
 import {TOMAS as TOMAS_AYUNO_C} from './videos/ayuno/tomas';
+import {DURACION_COLA, FPS_COLA, VideoCola} from './videos/cola/VideoCola';
 import {calcularMetadatosResumen, FPS_RESUMEN, ResumenPelicula} from './videos/resumen/ResumenPelicula';
 import type {PropsResumen} from './videos/resumen/tipos';
 import EJEMPLO_RESUMEN from '../resumenes/nosferatu/props.json';
@@ -66,6 +67,8 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      {/* ¿Qué le pasa a tu cuerpo si tomas Coca-Cola durante 30 días? (3D médico, sin audio) */}
+      <Composition id="CocaCola30Dias" component={VideoCola} durationInFrames={Math.round(DURACION_COLA * FPS_COLA)} fps={FPS_COLA} width={1080} height={1920} />
       {/* ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer? (3D médico) */}
       <Composition id="SieteDiasSinComer" component={VideoAyuno} durationInFrames={Math.round(DURACION_AYUNO * FPS_AYUNO)} fps={FPS_AYUNO} width={1080} height={1920} />
       {/* Solo el avatar, con fondo transparente, para componerlo sobre un vídeo ya renderizado */}

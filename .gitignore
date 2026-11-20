@@ -4,3 +4,4 @@ out/*.png
 tools/voces/*.onnx
 out/tramos/
 __pycache__/
+out/tramos-cola/

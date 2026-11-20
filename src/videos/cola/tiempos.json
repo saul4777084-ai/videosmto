@@ -1,0 +1,383 @@
+{
+ "duracion": 86.586,
+ "escenas": [
+  {
+   "id": "intro",
+   "titulo": "INTRODUCCIÓN",
+   "inicio": 0.0,
+   "fin": 9.0
+  },
+  {
+   "id": "dia1",
+   "titulo": "DÍA 1",
+   "inicio": 9.0,
+   "fin": 26.891
+  },
+  {
+   "id": "dia7",
+   "titulo": "DÍA 7",
+   "inicio": 26.891,
+   "fin": 41.016
+  },
+  {
+   "id": "dia15",
+   "titulo": "DÍA 15",
+   "inicio": 41.016,
+   "fin": 54.507
+  },
+  {
+   "id": "dia30",
+   "titulo": "DÍA 30",
+   "inicio": 54.507,
+   "fin": 70.346
+  },
+  {
+   "id": "final",
+   "titulo": "FINAL",
+   "inicio": 70.346,
+   "fin": 86.586
+  }
+ ],
+ "frases": [
+  {
+   "escena": "intro",
+   "texto": "¿Qué le pasa a tu cuerpo si tomas Coca-Cola todos los días durante 30 días?",
+   "voz": "¿Qué le pasa a tu cuerpo si tomas Coca-Cola todos los días durante treinta días?",
+   "inicio": 0.6,
+   "fin": 5.214,
+   "pausa": 0.5
+  },
+  {
+   "escena": "intro",
+   "texto": "Vamos a verlo por dentro.",
+   "voz": "Vamos a verlo por dentro.",
+   "inicio": 5.714,
+   "fin": 7.293,
+   "pausa": 0.0
+  },
+  {
+   "escena": "dia1",
+   "texto": "Día uno. El refresco baja por el esófago y llega al estómago.",
+   "voz": "Día uno. El refresco baja por el esófago y llega al estómago.",
+   "inicio": 9.6,
+   "fin": 13.857,
+   "pausa": 0.45
+  },
+  {
+   "escena": "dia1",
+   "texto": "Una lata clásica de 330 ml tiene unos 35 gramos de azúcar: casi siete cucharaditas.",
+   "voz": "Una lata clásica de trescientos treinta mililitros tiene unos treinta y cinco gramos de azúcar: casi siete cucharaditas.",
+   "inicio": 14.307,
+   "fin": 22.099,
+   "pausa": 0.35
+  },
+  {
+   "escena": "dia1",
+   "texto": "Ese azúcar se absorbe rápido y pasa a la sangre.",
+   "voz": "Ese azúcar se absorbe rápido y pasa a la sangre.",
+   "inicio": 22.449,
+   "fin": 25.991,
+   "pausa": 0.0
+  },
+  {
+   "escena": "dia7",
+   "texto": "Día siete. Después de cada bebida, la glucosa en sangre sube.",
+   "voz": "Día siete. Después de cada bebida, la glucosa en sangre sube.",
+   "inicio": 27.491,
+   "fin": 31.433,
+   "pausa": 0.4
+  },
+  {
+   "escena": "dia7",
+   "texto": "El páncreas responde con insulina, la hormona que ayuda a que la glucosa entre en las células.",
+   "voz": "El páncreas responde con insulina, la hormona que ayuda a que la glucosa entre en las células.",
+   "inicio": 31.833,
+   "fin": 37.917,
+   "pausa": 0.4
+  },
+  {
+   "escena": "dia7",
+   "texto": "Y así, un día tras otro.",
+   "voz": "Y así, un día tras otro.",
+   "inicio": 38.317,
+   "fin": 40.116,
+   "pausa": 0.0
+  },
+  {
+   "escena": "dia15",
+   "texto": "Día quince. El hígado procesa gran parte de la fructosa.",
+   "voz": "Día quince. El hígado procesa gran parte de la fructosa.",
+   "inicio": 41.616,
+   "fin": 44.98,
+   "pausa": 0.4
+  },
+  {
+   "escena": "dia15",
+   "texto": "Cuando el exceso de azúcar y calorías se mantiene en el tiempo, parte se convierte en grasa que puede acumularse en el hígado.",
+   "voz": "Cuando el exceso de azúcar y calorías se mantiene en el tiempo, parte se convierte en grasa que puede acumularse en el hígado.",
+   "inicio": 45.38,
+   "fin": 53.607,
+   "pausa": 0.0
+  },
+  {
+   "escena": "dia30",
+   "texto": "Día treinta. Mantenido durante meses o años, este hábito se asocia con aumento de peso,",
+   "voz": "Día treinta. Mantenido durante meses o años, este hábito se asocia con aumento de peso,",
+   "inicio": 55.107,
+   "fin": 61.233,
+   "pausa": 0.15
+  },
+  {
+   "escena": "dia30",
+   "texto": "mayor riesgo de diabetes tipo 2, hígado graso y problemas cardiovasculares.",
+   "voz": "mayor riesgo de diabetes tipo dos, hígado graso y problemas cardiovasculares.",
+   "inicio": 61.383,
+   "fin": 66.396,
+   "pausa": 0.4
+  },
+  {
+   "escena": "dia30",
+   "texto": "Y su cafeína puede afectar al sueño.",
+   "voz": "Y su cafeína puede afectar al sueño.",
+   "inicio": 66.796,
+   "fin": 69.446,
+   "pausa": 0.0
+  },
+  {
+   "escena": "final",
+   "texto": "Los días son solo una forma de contarlo: cada cuerpo es distinto.",
+   "voz": "Los días son solo una forma de contarlo: cada cuerpo es distinto.",
+   "inicio": 70.946,
+   "fin": 75.166,
+   "pausa": 0.4
+  },
+  {
+   "escena": "final",
+   "texto": "Un refresco ocasional no te daña de golpe, pero el hábito diario suma.",
+   "voz": "Un refresco ocasional no te daña de golpe, pero el hábito diario suma.",
+   "inicio": 75.566,
+   "fin": 80.4,
+   "pausa": 0.5
+  },
+  {
+   "escena": "final",
+   "texto": "Tu mejor bebida de cada día sigue siendo el agua.",
+   "voz": "Tu mejor bebida de cada día sigue siendo el agua.",
+   "inicio": 80.9,
+   "fin": 84.086,
+   "pausa": 0.0
+  }
+ ],
+ "subtitulos": [
+  {
+   "texto": "¿Qué le pasa a tu cuerpo",
+   "inicio": 0.6,
+   "fin": 2.117
+  },
+  {
+   "texto": "si tomas Coca-Cola todos",
+   "inicio": 2.117,
+   "fin": 3.634
+  },
+  {
+   "texto": "los días durante 30 días?",
+   "inicio": 3.634,
+   "fin": 5.214
+  },
+  {
+   "texto": "Vamos a verlo por dentro.",
+   "inicio": 5.714,
+   "fin": 7.293
+  },
+  {
+   "texto": "Día uno.",
+   "inicio": 9.6,
+   "fin": 10.177
+  },
+  {
+   "texto": "El refresco baja",
+   "inicio": 10.177,
+   "fin": 11.332
+  },
+  {
+   "texto": "por el esófago y llega al estómago.",
+   "inicio": 11.332,
+   "fin": 13.857
+  },
+  {
+   "texto": "Una lata clásica de 330 ml",
+   "inicio": 14.307,
+   "fin": 16.808
+  },
+  {
+   "texto": "tiene unos 35 gramos de azúcar:",
+   "inicio": 16.808,
+   "fin": 19.79
+  },
+  {
+   "texto": "casi siete cucharaditas.",
+   "inicio": 19.79,
+   "fin": 22.099
+  },
+  {
+   "texto": "Ese azúcar se absorbe rápido",
+   "inicio": 22.449,
+   "fin": 24.559
+  },
+  {
+   "texto": "y pasa a la sangre.",
+   "inicio": 24.559,
+   "fin": 25.991
+  },
+  {
+   "texto": "Día siete.",
+   "inicio": 27.491,
+   "fin": 28.159
+  },
+  {
+   "texto": "Después de cada bebida,",
+   "inicio": 28.159,
+   "fin": 29.696
+  },
+  {
+   "texto": "la glucosa en sangre sube.",
+   "inicio": 29.696,
+   "fin": 31.433
+  },
+  {
+   "texto": "El páncreas responde con insulina,",
+   "inicio": 31.833,
+   "fin": 34.106
+  },
+  {
+   "texto": "la hormona que ayuda",
+   "inicio": 34.106,
+   "fin": 35.443
+  },
+  {
+   "texto": "a que la glucosa",
+   "inicio": 35.443,
+   "fin": 36.513
+  },
+  {
+   "texto": "entre en las células.",
+   "inicio": 36.513,
+   "fin": 37.917
+  },
+  {
+   "texto": "Y así, un día tras otro.",
+   "inicio": 38.317,
+   "fin": 40.116
+  },
+  {
+   "texto": "Día quince.",
+   "inicio": 41.616,
+   "fin": 42.301
+  },
+  {
+   "texto": "El hígado procesa",
+   "inicio": 42.301,
+   "fin": 43.36
+  },
+  {
+   "texto": "gran parte de la fructosa.",
+   "inicio": 43.36,
+   "fin": 44.98
+  },
+  {
+   "texto": "Cuando el exceso de azúcar",
+   "inicio": 45.38,
+   "fin": 47.119
+  },
+  {
+   "texto": "y calorías se mantiene en el tiempo,",
+   "inicio": 47.119,
+   "fin": 49.527
+  },
+  {
+   "texto": "parte se convierte en grasa",
+   "inicio": 49.527,
+   "fin": 51.333
+  },
+  {
+   "texto": "que puede acumularse en el hígado.",
+   "inicio": 51.333,
+   "fin": 53.607
+  },
+  {
+   "texto": "Día treinta.",
+   "inicio": 55.107,
+   "fin": 55.982
+  },
+  {
+   "texto": "Mantenido durante meses o años,",
+   "inicio": 55.982,
+   "fin": 58.243
+  },
+  {
+   "texto": "este hábito se asocia",
+   "inicio": 58.243,
+   "fin": 59.774
+  },
+  {
+   "texto": "con aumento de peso,",
+   "inicio": 59.774,
+   "fin": 61.233
+  },
+  {
+   "texto": "mayor riesgo de diabetes tipo 2,",
+   "inicio": 61.383,
+   "fin": 63.551
+  },
+  {
+   "texto": "hígado graso y problemas cardiovasculares.",
+   "inicio": 63.551,
+   "fin": 66.396
+  },
+  {
+   "texto": "Y su cafeína puede afectar al sueño.",
+   "inicio": 66.796,
+   "fin": 69.446
+  },
+  {
+   "texto": "Los días son solo",
+   "inicio": 70.946,
+   "fin": 72.084
+  },
+  {
+   "texto": "una forma de contarlo:",
+   "inicio": 72.084,
+   "fin": 73.558
+  },
+  {
+   "texto": "cada cuerpo es distinto.",
+   "inicio": 73.558,
+   "fin": 75.166
+  },
+  {
+   "texto": "Un refresco ocasional",
+   "inicio": 75.566,
+   "fin": 77.059
+  },
+  {
+   "texto": "no te daña de golpe,",
+   "inicio": 77.059,
+   "fin": 78.481
+  },
+  {
+   "texto": "pero el hábito diario suma.",
+   "inicio": 78.481,
+   "fin": 80.4
+  },
+  {
+   "texto": "Tu mejor bebida",
+   "inicio": 80.9,
+   "fin": 81.896
+  },
+  {
+   "texto": "de cada día sigue siendo el agua.",
+   "inicio": 81.896,
+   "fin": 84.086
+  }
+ ]
+}

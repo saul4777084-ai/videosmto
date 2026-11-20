@@ -330,6 +330,43 @@ con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
 
 ---
 
+# Vídeo 4 · ¿Qué le pasa a tu cuerpo si tomas Coca-Cola durante 30 días?
+
+Composición `CocaCola30Dias` (1080×1920, 30 fps, 86,6 s, **sin audio**) · vídeo: `out/coca-cola-30-dias.mp4` ·
+subtítulos aparte: `out/coca-cola-30-dias.srt` (también van grabados en el vídeo) ·
+texto para grabar la voz: `guiones/coca-cola-30-dias.md` (con el segundo en que empieza cada frase) y
+`guiones/coca-cola-30-dias-elevenlabs.txt` (con pausas `<break>`).
+
+```bash
+python3 tools/tiempos_cola.py   # guion → tiempos de escenas, frases y subtítulos + textos y .srt
+tools/render_cola.sh            # render por tramos (WebGL por CPU, varias horas) → out/coca-cola-30-dias.mp4
+```
+
+Escenas: introducción (hombre con la botella, la piel se vuelve transparente) · día 1 (el refresco baja por el
+esófago, estómago con burbujas y azúcar, glucosa y fructosa en la sangre) · día 7 (glóbulos rojos y glucosa que
+sube, páncreas liberando insulina, insulina en sus receptores y glucosa entrando en la célula) · día 15
+(acercamiento al hígado, gotas de grasa, células hepáticas con grasa) · día 30 (cuerpo completo con indicadores en
+páncreas, hígado y corazón; cerebro y cafeína) · final (deja la botella en la mesa, coge un vaso de agua y la
+cámara se aleja).
+
+- La botella es **genérica** (etiqueta roja "COLA", sin logotipo ni forma registrada de ninguna marca).
+- Los días son una estructura narrativa: lo dice el rótulo de cada día, el guion y el cierre. Las cifras
+  (≈35 g de azúcar por lata clásica de 330 ml ≈ 7 cucharaditas) son aproximadas y varían según el país.
+- Para sincronizar tu locución: empieza cada frase en el segundo indicado en `guiones/coca-cola-30-dias.md`. Si
+  prefieres que el vídeo se adapte a tu voz, ajusta `SILABAS_SEG` o el texto en `tools/tiempos_cola.py`, vuelve a
+  ejecutarlo y renderiza de nuevo.
+
+| Quieres cambiar… | Archivo |
+|---|---|
+| Texto de la narración, pausas y ritmo | `tools/tiempos_cola.py` (regenera `src/videos/cola/tiempos.json`, guiones y .srt) |
+| Qué tomas tiene cada escena | `src/videos/cola/plan.json` |
+| Cámaras, luces y animación de cada toma | `src/videos/cola/tomas.tsx` |
+| Hombre anatómico, botella, vaso, mesa, esófago, páncreas | `src/videos/cola/objetos.tsx` · geometría en `hombre.ts` |
+| Título, día, panel de azúcar, gráfica de glucosa, indicadores, cierre, subtítulos | `src/videos/cola/hud.tsx` |
+| Sin subtítulos grabados | `--props='{"subtitulos":false}'` |
+
+---
+
 # Vídeo 3 · ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer?
 
 Composición `SieteDiasSinComer` (1080×1920, 30 fps, ~94 s) · vídeo final con la voz de ElevenLabs + música y efectos: `out/7-dias-sin-comer.mp4` (solo voz: `out/7-dias-sin-comer-solo-voz.mp4`) ·

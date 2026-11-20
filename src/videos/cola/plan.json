@@ -1,0 +1,11 @@
+{
+  "_nota": "Tomas de cada escena. t = segundo de inicio dentro de la escena (las escenas y sus tiempos salen de tiempos.json, generado por tools/tiempos_cola.py).",
+  "escenas": {
+    "intro": [{"t": 0, "toma": "intro"}],
+    "dia1": [{"t": 0, "toma": "trago"}, {"t": 6.0, "toma": "estomago"}, {"t": 12.8, "toma": "vasoAzucar"}],
+    "dia7": [{"t": 0, "toma": "globulos"}, {"t": 4.7, "toma": "pancreas"}, {"t": 8.6, "toma": "insulina"}],
+    "dia15": [{"t": 0, "toma": "higadoZoom"}, {"t": 4.8, "toma": "higadoGraso"}, {"t": 9.4, "toma": "hepatocitos"}],
+    "dia30": [{"t": 0, "toma": "cuerpo30"}, {"t": 12.0, "toma": "cerebro"}],
+    "final": [{"t": 0, "toma": "final"}]
+  }
+}

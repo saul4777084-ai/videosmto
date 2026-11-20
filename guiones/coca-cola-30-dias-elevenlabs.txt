@@ -1,0 +1,11 @@
+¿Qué le pasa a tu cuerpo si tomas Coca-Cola todos los días durante treinta días? <break time="0.5s" /> Vamos a verlo por dentro.
+<break time="1.5s" />
+Día uno. El refresco baja por el esófago y llega al estómago. <break time="0.5s" /> Una lata clásica de trescientos treinta mililitros tiene unos treinta y cinco gramos de azúcar: casi siete cucharaditas. <break time="0.3s" /> Ese azúcar se absorbe rápido y pasa a la sangre.
+<break time="1.5s" />
+Día siete. Después de cada bebida, la glucosa en sangre sube. <break time="0.4s" /> El páncreas responde con insulina, la hormona que ayuda a que la glucosa entre en las células. <break time="0.4s" /> Y así, un día tras otro.
+<break time="1.5s" />
+Día quince. El hígado procesa gran parte de la fructosa. <break time="0.4s" /> Cuando el exceso de azúcar y calorías se mantiene en el tiempo, parte se convierte en grasa que puede acumularse en el hígado.
+<break time="1.5s" />
+Día treinta. Mantenido durante meses o años, este hábito se asocia con aumento de peso, mayor riesgo de diabetes tipo dos, hígado graso y problemas cardiovasculares. <break time="0.4s" /> Y su cafeína puede afectar al sueño.
+<break time="1.5s" />
+Los días son solo una forma de contarlo: cada cuerpo es distinto. <break time="0.4s" /> Un refresco ocasional no te daña de golpe, pero el hábito diario suma. <break time="0.5s" /> Tu mejor bebida de cada día sigue siendo el agua.

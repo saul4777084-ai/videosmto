@@ -48,7 +48,7 @@ export const fbm3 = (x: number, y: number, z: number, oct = 4) => {
 const sstep = (a: number, b: number, x: number) => suav(Math.min(1, Math.max(0, (x - a) / (b - a))));
 
 /** Deforma los vértices de una geometría y recalcula normales. */
-const deformar = (g: THREE.BufferGeometry, f: (p: THREE.Vector3) => void) => {
+export const deformar = (g: THREE.BufferGeometry, f: (p: THREE.Vector3) => void) => {
   const pos = g.attributes.position as THREE.BufferAttribute;
   const p = new THREE.Vector3();
   for (let i = 0; i < pos.count; i++) {
@@ -520,7 +520,7 @@ const fusionar = (gs: THREE.BufferGeometry[]) => {
 export {fusionar};
 
 /** Molécula de bolas y varillas a partir de átomos (posición, radio) y enlaces (índices). */
-const molecula = (atomos: [V, number][], enlaces: [number, number][]) => {
+export const molecula = (atomos: [V, number][], enlaces: [number, number][]) => {
   const gs: THREE.BufferGeometry[] = [];
   for (const [p, r] of atomos) {
     const s = new THREE.SphereGeometry(r, 18, 14);
