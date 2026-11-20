@@ -1,24 +1,44 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { geoPath } from "d3-geo";
+import { geoMercator, geoPath } from "d3-geo";
 import type { FeatureCollection, Geometry } from "geojson";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { cancelRender, continueRender, delayRender, random, staticFile } from "remotion";
 import mundo50 from "world-atlas/countries-50m.json";
 import FUENTES from "./tierra_fuentes.json";
-import { CamaraGlobo, proyeccionDe, RADIO } from "./Globo";
+import { aPantalla, CamaraGlobo, LonLat, mezclar, proyeccionDe, RADIO } from "./Globo";
 
 // «Tierra»: globo de alta calidad hecho con imagen real (no con dibujos vectoriales).
 //  · color: satélite (NASA Blue Marble) o atlas físico (tintas hipsométricas), con el relieve sombreado
 //  · alturas reales (AWS Terrain Tiles): el mar puede subir metro a metro (nivelMar) y entra por donde entraría
 //  · luz 3D, atmósfera, nubes que se mueven y fronteras finas encima
-// Usa la misma cámara y proyección que src/comun/Globo.tsx (aPantalla, mezclar, Ruta valen igual).
+//  · modo plano (camara.plana): mapa Mercator a pantalla completa, como los vídeos de mapas virales
+//  · estilo "mapa": satélite oscuro, relieve marcado y océano azul petróleo (el de esos vídeos)
+// En modo globo usa la misma cámara y proyección que src/comun/Globo.tsx. Para las piezas de encima,
+// usa siempre proyeccionT / aPantallaT / mezclarT, que valen para los dos modos.
 // Las texturas salen de scripts/texturas_mapa.py → public/mapas/ y tierra_fuentes.json.
 
 const W = 1080;
 const H = 1920;
 
-export type EstiloTierra = "satelite" | "relieve";
+export type EstiloTierra = "satelite" | "relieve" | "mapa";
+export type CamaraT = CamaraGlobo & { plana?: boolean };
+
+// proyección d3 de una cámara (globo ortográfico o Mercator plano) para dibujar encima
+export const proyeccionT = (c: CamaraT) =>
+  c.plana
+    ? geoMercator()
+        .scale(RADIO * c.zoom)
+        .center([c.lon, c.lat])
+        .translate([W / 2, c.y ?? 1000])
+        .precision(0.5)
+    : proyeccionDe(c);
+
+// lon/lat -> pantalla (null si cae en la cara oculta del globo)
+export const aPantallaT = (c: CamaraT, ll: LonLat): [number, number] | null =>
+  c.plana ? (proyeccionT(c)(ll) as [number, number]) : aPantalla(c, ll);
+
+export const mezclarT = (a: CamaraT, b: CamaraT, k: number): CamaraT => ({ ...mezclar(a, b, k), plana: a.plana });
 type NombreFuente = keyof typeof FUENTES;
 type Meta = { z: number; x0: number; y0: number; ancho: number; alto: number };
 
@@ -78,8 +98,25 @@ const useTexturas = (estilo: EstiloTierra, nombres: NombreFuente[], conNubes: bo
 
 // ---------- colores ----------
 
-// agua por profundidad (m) — igual que AGUA en scripts/texturas_mapa.py
-const AGUA: [number, number, number, number][] = [
+// agua por profundidad (m) — igual que AGUA y AGUA_MAPA en scripts/texturas_mapa.py
+type Paleta = [number, number, number, number][];
+export const AGUA_MAPA: Paleta = [
+  [0, 44, 88, 100],
+  [30, 32, 74, 90],
+  [200, 25, 62, 81],
+  [1000, 21, 53, 73],
+  [3000, 18, 45, 65],
+  [6000, 13, 34, 52],
+];
+// agua NUEVA (tierra inundada) en el estilo mapa: más clara, para que se vea por dónde entra el mar
+const INUNDA_MAPA: Paleta = [
+  [0, 96, 176, 190],
+  [15, 74, 150, 170],
+  [60, 54, 120, 145],
+  [200, 34, 84, 104],
+  [6000, 20, 52, 72],
+];
+const AGUA_CLARA: Paleta = [
   [0, 120, 205, 220],
   [25, 66, 170, 208],
   [200, 38, 124, 184],
@@ -87,7 +124,7 @@ const AGUA: [number, number, number, number][] = [
   [3000, 14, 58, 122],
   [6000, 8, 34, 84],
 ];
-const colorAgua = (p: number, out: number[]) => {
+const colorAgua = (p: number, out: number[], AGUA: Paleta) => {
   let i = 0;
   while (i < AGUA.length - 2 && p > AGUA[i + 1][0]) i++;
   const a = AGUA[i];
@@ -101,9 +138,10 @@ const colorAgua = (p: number, out: number[]) => {
 // ---------- fronteras ----------
 
 const topo = mundo50 as unknown as Topology<{ countries: GeometryCollection }>;
-const PAISES = (feature(topo, topo.objects.countries) as FeatureCollection<Geometry, { name: string }>).features;
+export const PAISES_50 = (feature(topo, topo.objects.countries) as FeatureCollection<Geometry, { name: string }>).features;
 const FRONTERAS = mesh(topo, topo.objects.countries, (a, b) => a !== b);
 
+const PAISES = PAISES_50;
 export const paisGeo = (nombre: string) => PAISES.find((p) => p.properties.name === nombre);
 
 // ---------- estrellas ----------
@@ -119,7 +157,7 @@ const ESTRELLAS = Array.from({ length: 180 }, (_, i) => ({
 // ---------- componente ----------
 
 type Props = {
-  camara: CamaraGlobo;
+  camara: CamaraT;
   f: number;
   estilo?: EstiloTierra;
   nivelMar?: number; // metros sobre el nivel actual (0 = hoy)
@@ -139,14 +177,16 @@ export const Tierra: React.FC<Props> = ({
   nubes = 0,
   fronteras = 0.5,
   fuentes = ["mundo"],
-  fondo = "espacio",
+  fondo,
   hielo = 1,
   children,
 }) => {
   const lista = (fuentes.includes("mundo") ? fuentes : ["mundo", ...fuentes]) as NombreFuente[];
   const datos = useTexturas(estilo, lista, nubes > 0);
   const lienzo = useRef<HTMLCanvasElement>(null);
-  const proy = proyeccionDe(camara);
+  const plana = !!camara.plana;
+  const verFondo = fondo ?? (plana ? "ninguno" : "espacio");
+  const proy = proyeccionT(camara);
   const trazo = geoPath(proy);
   const cx = W / 2;
   const cy = camara.y ?? 1000;
@@ -156,14 +196,14 @@ export const Tierra: React.FC<Props> = ({
     if (!datos || !lienzo.current) return;
     const ctx = lienzo.current.getContext("2d")!;
     const img = ctx.createImageData(W, H);
-    pintar(img.data, datos.fuentes, datos.nubes, { cx, cy, R, lon0: camara.lon, lat0: camara.lat, nivelMar, nubes, f, hielo });
+    pintar(img.data, datos.fuentes, datos.nubes, { cx, cy, R, lon0: camara.lon, lat0: camara.lat, nivelMar, nubes, f, hielo, plana, estilo });
     ctx.putImageData(img, 0, 0);
-  }, [datos, cx, cy, R, camara.lon, camara.lat, nivelMar, nubes, f, hielo]);
+  }, [datos, cx, cy, R, camara.lon, camara.lat, nivelMar, nubes, f, hielo, plana, estilo]);
 
   const verHalo = R < 4000;
   return (
     <div style={{ position: "absolute", inset: 0 }}>
-      {fondo === "espacio" && (
+      {verFondo === "espacio" && (
         <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
           <defs>
             <radialGradient id="t-espacio" cx="50%" cy="50%" r="75%">
@@ -188,7 +228,7 @@ export const Tierra: React.FC<Props> = ({
         {fronteras > 0 && (
           <path d={trazo(FRONTERAS) ?? ""} fill="none" stroke={`rgba(255,255,255,${0.55 * fronteras})`} strokeWidth={1.6} strokeLinejoin="round" />
         )}
-        {children?.(proy, trazo)}
+        {children?.(proy as ReturnType<typeof proyeccionDe>, trazo)}
       </svg>
     </div>
   );
@@ -196,7 +236,19 @@ export const Tierra: React.FC<Props> = ({
 
 // ---------- el pintor (píxel a píxel) ----------
 
-type Params = { cx: number; cy: number; R: number; lon0: number; lat0: number; nivelMar: number; nubes: number; f: number; hielo: number };
+type Params = {
+  cx: number;
+  cy: number;
+  R: number;
+  lon0: number;
+  lat0: number;
+  nivelMar: number;
+  nubes: number;
+  f: number;
+  hielo: number;
+  plana: boolean;
+  estilo: EstiloTierra;
+};
 
 const RAD = Math.PI / 180;
 const LUZ = (() => {
@@ -206,7 +258,10 @@ const LUZ = (() => {
 })();
 
 function pintar(out: Uint8ClampedArray, fuentes: Fuente[], nubesTex: Tex | null, p: Params) {
-  const { cx, cy, R, lon0, lat0, nivelMar, nubes, f, hielo } = p;
+  const { cx, cy, R, lon0, lat0, nivelMar, nubes, f, hielo, plana, estilo } = p;
+  const AGUA = estilo === "mapa" ? INUNDA_MAPA : AGUA_CLARA;
+  const POLO_N = estilo === "mapa" ? [18, 44, 64] : [26, 78, 138];
+  const Y0 = Math.log(Math.tan(Math.PI / 4 + (lat0 * RAD) / 2)); // Mercator del centro (modo plano)
   const sinF0 = Math.sin(lat0 * RAD);
   const cosF0 = Math.cos(lat0 * RAD);
   // resolución de pantalla en radianes por píxel (en el centro)
@@ -227,22 +282,38 @@ function pintar(out: Uint8ClampedArray, fuentes: Fuente[], nubesTex: Tex | null,
   const ag = [0, 0, 0];
   const deriva = f * 0.012; // las nubes avanzan despacio hacia el este
 
-  const yMin = Math.max(0, Math.floor(cy - R));
-  const yMax = Math.min(H - 1, Math.ceil(cy + R));
+  const yMin = plana ? 0 : Math.max(0, Math.floor(cy - R));
+  const yMax = plana ? H - 1 : Math.min(H - 1, Math.ceil(cy + R));
   for (let y = yMin; y <= yMax; y++) {
     const py = (cy - (y + 0.5)) / R;
     const py2 = py * py;
-    if (py2 >= 1) continue;
-    const ancho = Math.sqrt(1 - py2) * R;
-    const xMin = Math.max(0, Math.floor(cx - ancho));
-    const xMax = Math.min(W - 1, Math.ceil(cx + ancho));
+    let xMin = 0;
+    let xMax = W - 1;
+    let latFila = 0;
+    if (plana) {
+      latFila = Math.atan(Math.sinh(Y0 + py)) / RAD;
+    } else {
+      if (py2 >= 1) continue;
+      const ancho = Math.sqrt(1 - py2) * R;
+      xMin = Math.max(0, Math.floor(cx - ancho));
+      xMax = Math.min(W - 1, Math.ceil(cx + ancho));
+    }
     for (let x = xMin; x <= xMax; x++) {
       const px = (x + 0.5 - cx) / R;
-      const rho2 = px * px + py2;
-      if (rho2 >= 1) continue;
-      const zz = Math.sqrt(1 - rho2);
-      const lat = Math.asin(Math.max(-1, Math.min(1, zz * sinF0 + py * cosF0))) / RAD;
-      let lon = lon0 + Math.atan2(px, zz * cosF0 - py * sinF0) / RAD;
+      let lat: number;
+      let lon: number;
+      let zz = 1;
+      let rho2 = 0;
+      if (plana) {
+        lat = latFila;
+        lon = lon0 + px / RAD;
+      } else {
+        rho2 = px * px + py2;
+        if (rho2 >= 1) continue;
+        zz = Math.sqrt(1 - rho2);
+        lat = Math.asin(Math.max(-1, Math.min(1, zz * sinF0 + py * cosF0))) / RAD;
+        lon = lon0 + Math.atan2(px, zz * cosF0 - py * sinF0) / RAD;
+      }
       lon = ((((lon + 180) % 360) + 360) % 360) - 180;
 
       muestrear(base.fu, lon, lat, s, true);
@@ -259,7 +330,7 @@ function pintar(out: Uint8ClampedArray, fuentes: Fuente[], nubesTex: Tex | null,
       // casquetes polares: la textura Mercator acaba en ±85°; se funde con un color liso para que no salgan rayas
       const polo = Math.max(0, Math.min(1, (Math.abs(lat) - 82.5) / 2.5));
       if (polo > 0) {
-        const [pr, pg, pb] = lat > 0 ? [26, 78, 138] : [236, 240, 246];
+        const [pr, pg, pb] = lat > 0 ? POLO_N : [236, 240, 246];
         cr += (pr - cr) * polo;
         cg += (pg - cg) * polo;
         cb += (pb - cb) * polo;
@@ -283,7 +354,7 @@ function pintar(out: Uint8ClampedArray, fuentes: Fuente[], nubesTex: Tex | null,
         const moja = Math.max(0, Math.min(1, (nivelMar - alt) / 3 + 0.5)) * tierra;
         if (moja > 0) {
           const prof = Math.max(0, nivelMar - alt);
-          colorAgua(prof, ag);
+          colorAgua(prof, ag, AGUA);
           // agua poco profunda: se intuye el terreno debajo
           const vela = Math.min(1, 0.55 + prof / 60);
           const wr = ag[0] * vela + cr * 0.6 * (1 - vela);
@@ -309,19 +380,22 @@ function pintar(out: Uint8ClampedArray, fuentes: Fuente[], nubesTex: Tex | null,
         cb += (255 - cb) * n;
       }
 
-      // luz 3D (más suave cuanto más cerca está la cámara)
-      const dif = px * LUZ[0] + py * LUZ[1] + zz * LUZ[2];
-      const luz = 0.6 + 0.52 * Math.max(0, dif);
-      cr *= luz;
-      cg *= luz;
-      cb *= luz;
-      // atmósfera en el borde
-      const rim = rho2 * rho2 * rho2 * 0.55;
-      cr += (150 - cr) * rim;
-      cg += (205 - cg) * rim;
-      cb += (255 - cb) * rim;
-      // borde del disco con antialias
-      const a = Math.max(0, Math.min(1, (1 - Math.sqrt(rho2)) * R));
+      let a = 1;
+      if (!plana) {
+        // luz 3D (más suave cuanto más cerca está la cámara)
+        const dif = px * LUZ[0] + py * LUZ[1] + zz * LUZ[2];
+        const luz = 0.6 + 0.52 * Math.max(0, dif);
+        cr *= luz;
+        cg *= luz;
+        cb *= luz;
+        // atmósfera en el borde
+        const rim = rho2 * rho2 * rho2 * 0.55;
+        cr += (150 - cr) * rim;
+        cg += (205 - cg) * rim;
+        cb += (255 - cb) * rim;
+        // borde del disco con antialias
+        a = Math.max(0, Math.min(1, (1 - Math.sqrt(rho2)) * R));
+      }
 
       const o = (y * W + x) * 4;
       out[o] = cr;

@@ -1,5 +1,6 @@
 import React from "react";
 import { interpolate, spring, useVideoConfig } from "remotion";
+import { MONTSERRAT } from "./fuentes";
 
 type Props = {
   tam?: number; // tamaño de letra en px (74 por defecto)
@@ -8,7 +9,7 @@ type Props = {
   frameLocal: number;
   duracion: number;
   tiempos?: number[]; // frame (local) en que se dice cada palabra, si hay voz alineada
-  estilo?: "clasico" | "fino"; // fino: letra pequeña, aparecen al decirse, clave en recuadro azul
+  estilo?: "clasico" | "fino" | "mapa"; // fino: letra pequeña, clave en recuadro azul · mapa: mayúsculas Montserrat, clave amarilla con brillo
 };
 
 // Subtítulos palabra por palabra: la palabra actual brilla, las siguientes están apagadas.
@@ -37,6 +38,52 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
     if (b.length) bloques.push(b);
   }
   const visibles = tiempos ? (bloques.find((bl) => bl.includes(Math.max(0, actual))) ?? bloques[0]) : palabras.map((_, i) => i);
+
+  if (estilo === "mapa") {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: 190,
+          left: 60,
+          right: 60,
+          textAlign: "center",
+          fontFamily: MONTSERRAT,
+          fontSize: tam,
+          fontWeight: 900,
+          lineHeight: 1.18,
+          textTransform: "uppercase",
+          letterSpacing: 0.5,
+        }}
+      >
+        {visibles
+          .filter((i) => i <= actual)
+          .map((i) => {
+            const p = palabras[i];
+            const pop = spring({ frame: frameLocal - inicioDe(i), fps, config: { damping: 11, mass: 0.5 } });
+            const esClave = clave.includes(p);
+            return (
+              <span
+                key={i}
+                style={{
+                  display: "inline-block",
+                  margin: `0 ${Math.round(tam * 0.14)}px`,
+                  color: esClave ? "#ffe23a" : "#ffffff",
+                  opacity: Math.min(1, pop * 1.5),
+                  transform: `translateY(${(1 - pop) * 16}px)`,
+                  fontSize: esClave ? tam * 1.12 : tam,
+                  textShadow: esClave
+                    ? "0 0 22px rgba(255,226,58,0.75), 0 0 6px rgba(255,226,58,0.6), 0 6px 18px rgba(0,0,0,0.75)"
+                    : "0 5px 0 rgba(0,0,0,0.22), 0 6px 20px rgba(0,0,0,0.85)",
+                }}
+              >
+                {p}
+              </span>
+            );
+          })}
+      </div>
+    );
+  }
 
   if (estilo === "fino") {
     return (

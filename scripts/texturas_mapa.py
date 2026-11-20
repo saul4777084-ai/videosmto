@@ -41,6 +41,8 @@ REGIONES = {
     "mundo": (4, 0, 0, 16, 16),
     "europa": (6, 28, 17, 11, 10),  # Atlántico a Turquía, del norte de África a Escandinavia
     "asia": (5, 16, 8, 14, 9),  # de Europa del Este a Corea y Japón
+    "america_norte": (6, 14, 22, 8, 10),  # golfo de México, Florida y el Caribe
+    "sudamerica": (6, 16, 29, 11, 12),  # Amazonas y Río de la Plata
 }
 
 
@@ -175,6 +177,9 @@ def paleta(valores, paradas):
 
 # Mismo agua que en src/comun/Tierra.tsx (AGUA): profundidad en metros
 AGUA = [(0, (120, 205, 220)), (25, (66, 170, 208)), (200, (38, 124, 184)), (1000, (24, 88, 158)), (3000, (14, 58, 122)), (6000, (8, 34, 84))]
+# Estilo "mapa" (como los vídeos de mapas virales): océano azul petróleo oscuro y casi uniforme
+# Mismo agua que AGUA_MAPA en src/comun/Tierra.tsx
+AGUA_MAPA = [(0, (44, 88, 100)), (30, (32, 74, 90)), (200, (25, 62, 81)), (1000, (21, 53, 73)), (3000, (18, 45, 65)), (6000, (13, 34, 52))]
 TIERRA_ATLAS = [
     (-50, (113, 153, 93)), (0, (113, 153, 93)), (100, (132, 166, 102)), (300, (170, 180, 118)), (600, (201, 190, 135)),
     (1000, (205, 172, 124)), (1600, (184, 146, 108)), (2500, (158, 128, 104)), (3600, (146, 128, 118)), (4600, (214, 214, 220)), (5600, (246, 246, 250)),
@@ -245,6 +250,15 @@ def hacer_region(nombre, bm):
     atlas_t = np.clip(atlas * luz_t, 0, 255)
     mar_atlas = agua * (1 - hielo_mar) + np.clip(np.array([240, 244, 250], np.float32) * luz_t, 0, 255) * hielo_mar
     Image.fromarray(np.clip(atlas_t * m + mar_atlas * (1 - m), 0, 255).astype(np.uint8)).save(os.path.join(SALIDA, f"{nombre}_relieve.jpg"), quality=92)
+    # mapa: satélite más oscuro y saturado, relieve marcado y mar oscuro (estilo de los vídeos de mapas virales)
+    hs_mapa = sombreado(alt, z, y0, exa * 1.25)
+    luz_mapa = (0.4 + 0.72 * hs_mapa)[..., None]
+    bruto = blue_marble_en(bm, z, x0, y0, nx, ny)
+    g2 = bruto.mean(-1, keepdims=True)
+    mapa_t = np.clip((g2 + (bruto - g2) * 1.28) * 0.86 * luz_mapa, 0, 255)
+    agua_mapa = paleta(np.maximum(-alt_mar, 0), AGUA_MAPA) * (0.86 + 0.18 * hs_m)[..., None]
+    mar_mapa = agua_mapa * (1 - hielo_mar) + np.clip(bruto * 0.95 * luz_t, 0, 255) * hielo_mar
+    Image.fromarray(np.clip(mapa_t * m + mar_mapa * (1 - m), 0, 255).astype(np.uint8)).save(os.path.join(SALIDA, f"{nombre}_mapa.jpg"), quality=92)
     print("  texturas guardadas", flush=True)
     return {"z": z, "x0": x0, "y0": y0, "ancho": nx * 256, "alto": ny * 256}
 

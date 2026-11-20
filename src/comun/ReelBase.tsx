@@ -20,7 +20,7 @@ type Props<I extends string> = {
   tamSubtitulos?: number; // tamaño de letra de los subtítulos (74 por defecto)
   zoomSuave?: boolean; // acercamiento leve en todas las escenas (false = solo en las que tienen "enfasis")
   ladoAvatar?: "izquierda" | "derecha"; // esquina inferior del avatar (izquierda por defecto)
-  estiloSubtitulos?: "clasico" | "fino";
+  estiloSubtitulos?: "clasico" | "fino" | "mapa";
   oscurecerArriba?: boolean; // degradado oscuro arriba para leer los subtítulos
 };
 
