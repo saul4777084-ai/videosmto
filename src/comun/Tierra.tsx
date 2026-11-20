@@ -21,7 +21,7 @@ import { aPantalla, CamaraGlobo, LonLat, mezclar, proyeccionDe, RADIO } from "./
 const W = 1080;
 const H = 1920;
 
-export type EstiloTierra = "satelite" | "relieve" | "mapa";
+export type EstiloTierra = "satelite" | "relieve" | "mapa" | "dibujo";
 export type CamaraT = CamaraGlobo & { plana?: boolean };
 
 // proyección d3 de una cámara (globo ortográfico o Mercator plano) para dibujar encima
@@ -115,6 +115,12 @@ const INUNDA_MAPA: Paleta = [
   [60, 54, 120, 145],
   [200, 34, 84, 104],
   [6000, 20, 52, 72],
+];
+// agua nueva en el estilo dibujo (Napoleón, Colón): el mismo azul liso del mar
+const INUNDA_DIBUJO: Paleta = [
+  [0, 46, 132, 186],
+  [60, 36, 120, 176],
+  [6000, 24, 96, 152],
 ];
 const AGUA_CLARA: Paleta = [
   [0, 120, 205, 220],
@@ -259,7 +265,7 @@ const LUZ = (() => {
 
 function pintar(out: Uint8ClampedArray, fuentes: Fuente[], nubesTex: Tex | null, p: Params) {
   const { cx, cy, R, lon0, lat0, nivelMar, nubes, f, hielo, plana, estilo } = p;
-  const AGUA = estilo === "mapa" ? INUNDA_MAPA : AGUA_CLARA;
+  const AGUA = estilo === "mapa" ? INUNDA_MAPA : estilo === "dibujo" ? INUNDA_DIBUJO : AGUA_CLARA;
   const POLO_N = estilo === "mapa" ? [18, 44, 64] : [26, 78, 138];
   const Y0 = Math.log(Math.tan(Math.PI / 4 + (lat0 * RAD) / 2)); // Mercator del centro (modo plano)
   const sinF0 = Math.sin(lat0 * RAD);

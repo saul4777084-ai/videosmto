@@ -259,6 +259,21 @@ def hacer_region(nombre, bm):
     agua_mapa = paleta(np.maximum(-alt_mar, 0), AGUA_MAPA) * (0.86 + 0.18 * hs_m)[..., None]
     mar_mapa = agua_mapa * (1 - hielo_mar) + np.clip(bruto * 0.95 * luz_t, 0, 255) * hielo_mar
     Image.fromarray(np.clip(mapa_t * m + mar_mapa * (1 - m), 0, 255).astype(np.uint8)).save(os.path.join(SALIDA, f"{nombre}_mapa.jpg"), quality=92)
+    # dibujo: el mapa "dibujado" de Napoleón, Colón y Vuelta al mundo (tierra verde con textura, mar azul liso)
+    rng = np.random.default_rng(3)
+    ruido = rng.standard_normal((ny * 256 // 4 + 1, nx * 256 // 4 + 1)).astype(np.float32)
+    ruido = np.asarray(Image.fromarray(ruido).resize((nx * 256, ny * 256), Image.BICUBIC))
+    luz_dib = (0.78 + 0.22 * hs_t + 0.07 * ruido)[..., None]
+    verde = np.array([104, 148, 64], np.float32)
+    # solo el hielo de verdad (Groenlandia y la Antártida): la nieve de invierno de Siberia o Canadá no
+    lon = lon_de_columna(z, x0, nx * 256)
+    casquete = (lat[:, None] < -60) | ((lat[:, None] > 59) & (lon[None, :] > -75) & (lon[None, :] < -10))
+    hielo_d = (hielo * casquete)[..., None]
+    tierra_dib = np.clip((verde * (1 - hielo_d) + np.array([236, 240, 244], np.float32) * hielo_d) * luz_dib, 0, 255)
+    prof = np.clip(np.maximum(-alt_mar, 0) / 5000, 0, 1)[..., None] * 0.55
+    mar_dib = np.array([34, 116, 172], np.float32) * (1 - prof) + np.array([16, 72, 128], np.float32) * prof
+    mar_dib = mar_dib * (1 - hielo_mar) + np.array([236, 240, 244], np.float32) * hielo_mar
+    Image.fromarray(np.clip(tierra_dib * m + mar_dib * (1 - m), 0, 255).astype(np.uint8)).save(os.path.join(SALIDA, f"{nombre}_dibujo.jpg"), quality=92)
     print("  texturas guardadas", flush=True)
     return {"z": z, "x0": x0, "y0": y0, "ancho": nx * 256, "alto": ny * 256}
 
