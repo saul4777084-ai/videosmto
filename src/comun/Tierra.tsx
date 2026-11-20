@@ -118,9 +118,9 @@ const INUNDA_MAPA: Paleta = [
 ];
 // agua nueva en el estilo dibujo (Napoleón, Colón): el mismo azul liso del mar
 const INUNDA_DIBUJO: Paleta = [
-  [0, 46, 132, 186],
-  [60, 36, 120, 176],
-  [6000, 24, 96, 152],
+  [0, 78, 160, 208],
+  [60, 56, 140, 194],
+  [6000, 34, 112, 168],
 ];
 const AGUA_CLARA: Paleta = [
   [0, 120, 205, 220],

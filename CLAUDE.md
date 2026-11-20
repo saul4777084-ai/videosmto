@@ -30,8 +30,10 @@
   en la cara oculta; ejemplo: `src/VueltaMundo`).
   **Mapas de alta calidad (preferido):** `src/comun/Tierra.tsx` (satélite real + relieve con alturas reales; globo o
   plano Mercator con `camara.plana`; `estilo="mapa"` = estilo de los vídeos de mapas virales que pidió el usuario;
-  `nivelMar` inunda por alturas reales) con las piezas de `src/comun/PiezasTierra.tsx` (Zona rayada, Paises, Rotulo,
-  Ciudad, FlechaG, Caja, Titular, Sello) y subtítulos `estiloSubtitulos="mapa"`. Ejemplos: `src/Deshielo`, `src/Mongoles`.
+  `nivelMar` inunda por alturas reales). **El usuario prefiere el aspecto de Napoleón:** `estilo="dibujo"` (tierra verde,
+  mar azul) con `camara.plana`, piezas de `src/comun/PiezasNapoleon.tsx` (etiquetas azul marino, años dorados serif,
+  chips, sellos) y subtítulos clásicos (`tamSubtitulos={60}`). Ejemplos: `src/Deshielo`, `src/Mongoles`.
+  (Alternativa: estilo "mapa" + `src/comun/PiezasTierra.tsx`, el de los vídeos de mapas virales.)
   Texturas: `scripts/texturas_mapa.py [region]` (añade regiones en REGIONES). Sin voz: `scripts/tiempos_sin_voz.py`.
   Fotogramas sueltos para revisar: `node scripts/fotos.mjs COMPOSICION CARPETA FRAME...`.
 - **Entrega:** copia cada video terminado a `videos/`, envíaselo al usuario y haz commit y push a `main`.

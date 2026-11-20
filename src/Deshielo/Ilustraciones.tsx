@@ -3,8 +3,8 @@ import { AbsoluteFill, Easing, interpolate, spring } from "remotion";
 import { Dibujo } from "../comun/tipos";
 import { LonLat } from "../comun/Globo";
 import { CamaraT, mezclarT, Tierra } from "../comun/Tierra";
-import { AMARILLO, Caja, Ciudad, Creditos, Linea, Paises, ROJO, Rotulo, Sello, Titular } from "../comun/PiezasTierra";
-import { MONTSERRAT } from "../comun/fuentes";
+import { AMARILLO, Caja, Ciudad, Creditos, Linea, Paises, ROJO, Rotulo, Sello, Titular } from "../comun/PiezasNapoleon";
+import { SANS as MONTSERRAT, SERIF } from "../comun/PiezasNapoleon";
 import type { Escenario, Ilustracion } from "./escenas";
 
 // Estilo de los vídeos de mapas virales: mapa plano con satélite oscuro, rótulos grandes inclinados,
@@ -35,13 +35,13 @@ const NivelMar: React.FC<{ f: number; nivel: number; y?: number }> = ({ f, nivel
           left: 0,
           right: 0,
           textAlign: "center",
-          fontFamily: MONTSERRAT,
+          fontFamily: SERIF,
           fontWeight: 900,
           fontSize: 130,
           color: nivel > 0.5 ? AMARILLO : "#fff",
           fontVariantNumeric: "tabular-nums",
           transform: `scale(${aparece(f, 4, 12)})`,
-          textShadow: nivel > 0.5 ? "0 0 26px rgba(255,226,58,0.7), 0 8px 24px rgba(0,0,0,0.7)" : "0 8px 24px rgba(0,0,0,0.7)",
+          textShadow: nivel > 0.5 ? "0 8px 24px rgba(0,0,0,0.7)" : "0 8px 24px rgba(0,0,0,0.7)",
         }}
       >
         +{Math.round(nivel)} M
@@ -188,7 +188,7 @@ const L: Record<string, LonLat> = {
   bangkok: [100.5, 13.75],
 };
 
-const Mapa: React.FC<React.ComponentProps<typeof Tierra>> = (props) => <Tierra estilo="mapa" fronteras={0} {...props} />;
+const Mapa: React.FC<React.ComponentProps<typeof Tierra>> = (props) => <Tierra estilo="dibujo" fronteras={0.5} {...props} />;
 
 // ---------- escenas ----------
 
@@ -240,7 +240,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         <Vineta />
         <Edificio f={f} inicio={e.en("edificio")} nivel={nivel} />
         {f >= e.en("subiria") && (
-          <div style={{ position: "absolute", top: 1440, left: 330, right: 20, textAlign: "center", fontFamily: MONTSERRAT, fontWeight: 900, color: AMARILLO, fontSize: 190, fontVariantNumeric: "tabular-nums", textShadow: "0 0 30px rgba(255,226,58,0.7), 0 10px 26px rgba(0,0,0,0.7)" }}>
+          <div style={{ position: "absolute", top: 1440, left: 330, right: 20, textAlign: "center", fontFamily: SERIF, fontWeight: 900, color: AMARILLO, fontSize: 190, fontVariantNumeric: "tabular-nums", textShadow: "0 10px 26px rgba(0,0,0,0.7)" }}>
             +{Math.round(nivel)} M
           </div>
         )}
@@ -389,7 +389,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         <Vineta />
         <Reloj f={f} inicio={6} />
         {f >= t && (
-          <div style={{ position: "absolute", top: 1180, left: 0, right: 0, textAlign: "center", fontFamily: MONTSERRAT, fontWeight: 900, fontSize: 170, color: AMARILLO, fontVariantNumeric: "tabular-nums", textShadow: "0 0 30px rgba(255,226,58,0.7), 0 10px 26px rgba(0,0,0,0.7)", transform: `scale(${aparece(f, t, 10)})` }}>
+          <div style={{ position: "absolute", top: 1180, left: 0, right: 0, textAlign: "center", fontFamily: SERIF, fontWeight: 900, fontSize: 170, color: AMARILLO, fontVariantNumeric: "tabular-nums", textShadow: "0 10px 26px rgba(0,0,0,0.7)", transform: `scale(${aparece(f, t, 10)})` }}>
             +{v >= 1000 ? `${Math.floor(v / 1000)}.${String(v % 1000).padStart(3, "0")}` : v}
           </div>
         )}

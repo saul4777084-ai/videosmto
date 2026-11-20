@@ -3,8 +3,8 @@ import { AbsoluteFill, Easing, interpolate } from "remotion";
 import { Dibujo } from "../comun/tipos";
 import { LonLat } from "../comun/Globo";
 import { CamaraT, mezclarT, Tierra } from "../comun/Tierra";
-import { AZUL, Caja, Capa, Ciudad, Creditos, FlechaG, Linea, LineaG, NARANJA, Rotulo, Sello, Titular, Zona } from "../comun/PiezasTierra";
-import { MONTSERRAT } from "../comun/fuentes";
+import { AZUL, Caja, Capa, Ciudad, Creditos, FlechaG, Linea, LineaG, NARANJA, Rotulo, Sello, Titular, Zona } from "../comun/PiezasNapoleon";
+import { SERIF } from "../comun/PiezasNapoleon";
 import type { Escenario, Ilustracion } from "./escenas";
 
 // Estilo de los vídeos de mapas virales: mapa plano con satélite oscuro, el imperio en naranja rayado con
@@ -117,7 +117,7 @@ const Hundido: React.FC<{ x: number; y: number; f: number; inicio: number }> = (
   );
 };
 
-const Mapa: React.FC<React.ComponentProps<typeof Tierra>> = (props) => <Tierra estilo="mapa" fronteras={0} fuentes={["mundo", "asia"]} {...props} />;
+const Mapa: React.FC<React.ComponentProps<typeof Tierra>> = (props) => <Tierra estilo="dibujo" fronteras={0.5} fuentes={["mundo", "asia"]} {...props} />;
 
 // ---------- escenas ----------
 
@@ -334,7 +334,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         </Mapa>
         <Vineta />
         {f >= mi && (
-          <div style={{ position: "absolute", top: 1300, left: 0, right: 0, textAlign: "center", fontFamily: MONTSERRAT, fontWeight: 900, fontSize: 108, whiteSpace: "nowrap", color: "#ffe23a", fontVariantNumeric: "tabular-nums", textShadow: "0 0 30px rgba(255,226,58,0.7), 0 10px 26px rgba(0,0,0,0.7)" }}>
+          <div style={{ position: "absolute", top: 1300, left: 0, right: 0, textAlign: "center", fontFamily: SERIF, fontWeight: 900, fontSize: 108, whiteSpace: "nowrap", color: "#f2c230", fontVariantNumeric: "tabular-nums", textShadow: "0 10px 26px rgba(0,0,0,0.7)" }}>
             {v} MILLONES
           </div>
         )}
