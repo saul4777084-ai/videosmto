@@ -13,7 +13,7 @@ const MORADO = "#9b6bff";
 const PIEL = "#f0bf98";
 
 // ---------- el móvil: carcasa con pantalla (encendida o negra) ----------
-const Movil: React.FC<{ x: number; y: number; ancho: number; giro?: number; escala?: number; encendido?: boolean; brillo?: number; children?: React.ReactNode }> = ({
+export const Movil: React.FC<{ x: number; y: number; ancho: number; giro?: number; escala?: number; encendido?: boolean; brillo?: number; children?: React.ReactNode }> = ({
   x,
   y,
   ancho,

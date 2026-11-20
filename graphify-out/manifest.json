@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795140230.5241294,
-    "seen": 1795140531.722034,
-    "ast_hash": "034bc30ce9bf42c1b68148c7667cbfa8",
+    "mtime": 1795141083.1156573,
+    "seen": 1795141331.1305213,
+    "ast_hash": "f617fbbd4d86ca607eb09a5cda654aa4",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -1026,9 +1026,9 @@
     "semantic_hash": ""
   },
   "src/comun/ReelBase.tsx": {
-    "mtime": 1795039216.054028,
-    "seen": 1795041785.3601034,
-    "ast_hash": "8b62bef2901f9c80a5f9ace8566a7b08",
+    "mtime": 1795141145.1828945,
+    "seen": 1795141331.1305547,
+    "ast_hash": "6c7cc72642dccfe5f28692207de307a8",
     "semantic_hash": ""
   },
   "src/comun/Subtitulos.tsx": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795140511.5501788,
-    "seen": 1795140531.7223084,
-    "ast_hash": "3ede51f88a42526cf51a69232e6190f3",
+    "mtime": 1795141308.3702261,
+    "seen": 1795141331.1309128,
+    "ast_hash": "ca7b417c845d5838adeb2287899acd4a",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3960,9 +3960,9 @@
     "semantic_hash": ""
   },
   "src/Movil30/Ilustraciones.tsx": {
-    "mtime": 1795140486.4332483,
-    "seen": 1795140531.722004,
-    "ast_hash": "79503d67db4ff3ff6175dceff9a696cc",
+    "mtime": 1795140802.6955853,
+    "seen": 1795141331.1304824,
+    "ast_hash": "0c7a4998e6f3f2ddc41de22a9b949e91",
     "semantic_hash": ""
   },
   "src/Movil30/Reel.tsx": {
@@ -4035,6 +4035,54 @@
     "mtime": 1795140591.5930548,
     "seen": 1795140601.7055924,
     "ast_hash": "0e48efaa163291647de0c5916282e7f5",
+    "semantic_hash": ""
+  },
+  "src/Desierto/Ilustraciones.tsx": {
+    "mtime": 1795141275.5769048,
+    "seen": 1795141331.130407,
+    "ast_hash": "835ee6cef67b0f383eba1c699e82dcdd",
+    "semantic_hash": ""
+  },
+  "src/Desierto/Reel.tsx": {
+    "mtime": 1795141083.101571,
+    "seen": 1795141331.1304097,
+    "ast_hash": "a07cdede0b87e38d8cdc82762dcc1784",
+    "semantic_hash": ""
+  },
+  "src/Desierto/efectos.ts": {
+    "mtime": 1795141083.0982127,
+    "seen": 1795141331.1304111,
+    "ast_hash": "1917cb2caafc36a0b74b00c19740747c",
+    "semantic_hash": ""
+  },
+  "src/Desierto/escenas.ts": {
+    "mtime": 1795141154.3781857,
+    "seen": 1795141331.1304123,
+    "ast_hash": "3ccd5f34948b7918f1f7397f0b062fba",
+    "semantic_hash": ""
+  },
+  "src/Desierto/guion.json": {
+    "mtime": 1795140701.6938117,
+    "seen": 1795141331.1304133,
+    "ast_hash": "d0064c1be927d1ad7f5943356b7b75e1",
+    "semantic_hash": ""
+  },
+  "src/Desierto/tiempos.json": {
+    "mtime": 1795140737.3301063,
+    "seen": 1795141331.1304142,
+    "ast_hash": "f45b87cc32c325a377337a607b229ace",
+    "semantic_hash": ""
+  },
+  "src/Desierto/voz_texto.txt": {
+    "mtime": 1795140701.712692,
+    "seen": 1795141331.1309144,
+    "ast_hash": "753d59297b4945f21b41a1d3cdab7106",
+    "semantic_hash": ""
+  },
+  "videos/reel-movil-30-dias.mp4": {
+    "mtime": 1795141060.2902114,
+    "seen": 1795141331.1310968,
+    "ast_hash": "8677de07501260f08e145a53e22e010c",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

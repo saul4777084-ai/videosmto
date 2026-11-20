@@ -307,3 +307,26 @@ añade música en la app si lo publicas así.
 > ¿Cuántos días aguantarías tú? Te leo en los comentarios.
 >
 > #DetoxDigital #Salud #Bienestar
+
+## ¿Cuánto tiempo sobrevivirías perdido en el desierto a 50 °C? — `videos/reel-desierto.mp4`
+~1:45 sin voz (se ajusta al alinear la tuya) · avatar a la derecha · todo en 2D.
+
+### TikTok
+> Lo primero que se rinde en el desierto no eres tú: es tu móvil 📱🔥
+>
+> Golpe de calor, espejismos, el mito del cactus… y el corredor que sobrevivió 9 días perdido en el Sahara.
+>
+> ¿Cuántas horas aguantarías tú? 👇
+>
+> #desierto #supervivencia #datoscuriosos #calor #aprendeentiktok #sahara
+
+### Facebook
+> **¿Cuánto sobrevivirías perdido en el desierto a 50 °C?** 🏜️
+>
+> Sudas hasta litro y medio por hora, con un 10 % menos de agua deliras y, sin agua, a la sombra aguantarías unos
+> dos días. Los militares lo resumen así: raciona el sudor, no el agua. Y en 1994, Mauro Prosperi sobrevivió nueve
+> días perdido en el Sahara.
+>
+> ¿Cuántas horas aguantarías tú? Te leo en los comentarios.
+>
+> #Supervivencia #Desierto #DatosCuriosos

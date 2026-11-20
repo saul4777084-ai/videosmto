@@ -22,6 +22,8 @@ import { ReelInmovil, ReelInmovil2D } from "./Inmovil/Reel";
 import { DURACION_TOTAL as DURACION_INMOVIL } from "./Inmovil/escenas";
 import { ReelMovil30 } from "./Movil30/Reel";
 import { DURACION_TOTAL as DURACION_MOVIL30 } from "./Movil30/escenas";
+import { ReelDesierto } from "./Desierto/Reel";
+import { DURACION_TOTAL as DURACION_DESIERTO } from "./Desierto/escenas";
 import { ReelSahara } from "./Sahara/Reel";
 import { DURACION_TOTAL as DURACION_SAHARA } from "./Sahara/escenas";
 import { DURACION_TOTAL as DURACION_NAPOLEON } from "./Napoleon/escenas";
@@ -133,6 +135,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ReelInmovil" component={ReelInmovil} durationInFrames={DURACION_INMOVIL} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelInmovil2D" component={ReelInmovil2D} durationInFrames={DURACION_INMOVIL} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelMovil30" component={ReelMovil30} durationInFrames={DURACION_MOVIL30} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelDesierto" component={ReelDesierto} durationInFrames={DURACION_DESIERTO} fps={FPS} width={1080} height={1920} />
       <Composition
         id="ReelSahara"
         component={ReelSahara}

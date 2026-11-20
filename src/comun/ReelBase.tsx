@@ -133,7 +133,7 @@ const Capa: React.FC<{
     const suave = Easing.bezier(0.22, 1, 0.36, 1);
     // desenfoca justo antes del momento clave, enfoca acercándose y sigue acercándose despacio
     const acerca = interpolate(f, [m, m + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: suave });
-    const deriva = interpolate(f, [m + 12, duracion], [0, 0.04], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+    const deriva = interpolate(f, [m + 12, Math.max(duracion, m + 13)], [0, 0.04], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
     zoom = 1 + (z - 1) * acerca + deriva;
     desenfoque =
       interpolate(f, [m - 9, m, m + 12], [0, 14, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) +
