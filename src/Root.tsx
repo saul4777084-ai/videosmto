@@ -35,6 +35,7 @@ import { ReelMillonHoyV2 } from "./MillonHoyV2/Reel";
 import { CatalogoEscenarios, DURACION_ESCENARIOS } from "./Mundo3D/CatalogoEscenarios";
 import { CatalogoPersonajes, DURACION_PERSONAJES } from "./Mundo3D/CatalogoPersonajes";
 import { DURACION_MUESTRARIO, Muestrario } from "./Muestrario/Muestrario";
+import { MuestraDeshielo, MuestrasMapas, MUESTRAS } from "./MuestrasMapas/Muestras";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -160,6 +161,8 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      <Composition id="MuestrasMapas" component={MuestrasMapas} durationInFrames={MUESTRAS * 30} fps={FPS} width={1080} height={1920} />
+      <Composition id="MuestraDeshielo" component={MuestraDeshielo} durationInFrames={180} fps={FPS} width={1080} height={1920} />
       <Composition
         id="ReelPaises"
         component={ReelPaises}
