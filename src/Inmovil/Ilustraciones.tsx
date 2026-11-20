@@ -51,14 +51,14 @@ const Tumbado: React.FC<{ f: number; x: number; y: number; escala?: number; acci
   <Tu f={f} x={x} y={y} escala={escala} acciones={acciones} giro={-90} cara={cara} />
 );
 
-const Texto: React.FC<{ x: number; y: number; tam: number; color?: string; children: React.ReactNode; centro?: boolean; peso?: number }> = ({ x, y, tam, color = "#fff", children, centro = true, peso = 900 }) => (
+export const Texto: React.FC<{ x: number; y: number; tam: number; color?: string; children: React.ReactNode; centro?: boolean; peso?: number }> = ({ x, y, tam, color = "#fff", children, centro = true, peso = 900 }) => (
   <div style={{ position: "absolute", left: x, top: y, transform: centro ? "translate(-50%, -50%)" : undefined, fontFamily: SANS, fontWeight: peso, fontSize: tam, color, whiteSpace: "pre", textAlign: "center", lineHeight: 1.05, textShadow: "0 6px 18px rgba(0,0,0,0.6)" }}>
     {children}
   </div>
 );
 
 // calendario de pared que pasa hojas: día n
-const Calendario: React.FC<{ f: number; inicio: number; x: number; y: number; dia: number; tam?: number }> = ({ f, inicio, x, y, dia, tam = 1 }) => {
+export const Calendario: React.FC<{ f: number; inicio: number; x: number; y: number; dia: number; tam?: number }> = ({ f, inicio, x, y, dia, tam = 1 }) => {
   if (f < inicio) return null;
   const s = muelle(f, inicio, 10);
   const ancho = 300 * tam;
@@ -71,7 +71,7 @@ const Calendario: React.FC<{ f: number; inicio: number; x: number; y: number; di
 };
 
 // barra de progreso con etiqueta
-const Barra: React.FC<{ x: number; y: number; ancho: number; valor: number; color: string; etiqueta?: string }> = ({ x, y, ancho, valor, color, etiqueta }) => (
+export const Barra: React.FC<{ x: number; y: number; ancho: number; valor: number; color: string; etiqueta?: string }> = ({ x, y, ancho, valor, color, etiqueta }) => (
   <div style={{ position: "absolute", left: x, top: y, width: ancho }}>
     {etiqueta && <div style={{ fontFamily: SANS, fontWeight: 900, fontSize: 42, color: "#dff6ff", marginBottom: 10 }}>{etiqueta}</div>}
     <div style={{ height: 70, borderRadius: 35, background: "rgba(255,255,255,0.15)", border: "5px solid rgba(255,255,255,0.5)", overflow: "hidden" }}>

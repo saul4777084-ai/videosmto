@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795123915.0213697,
-    "seen": 1795125489.8628535,
-    "ast_hash": "bdd1f06cd1fcfed834711b999159feaa",
+    "mtime": 1795140230.5241294,
+    "seen": 1795140531.722034,
+    "ast_hash": "034bc30ce9bf42c1b68148c7667cbfa8",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795124416.4579272,
-    "seen": 1795125489.8630984,
-    "ast_hash": "cacdbea693c817b2ad9e4e0d74c4d5b4",
+    "mtime": 1795140511.5501788,
+    "seen": 1795140531.7223084,
+    "ast_hash": "3ede51f88a42526cf51a69232e6190f3",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3366,9 +3366,9 @@
     "semantic_hash": ""
   },
   "clipper/servidor.py": {
-    "mtime": 1795101723.9003277,
-    "seen": 1795101869.7187068,
-    "ast_hash": "41d69a2e39a76e0083ab9c6ea78eab7a",
+    "mtime": 1795125525.920523,
+    "seen": 1795140531.721841,
+    "ast_hash": "e93cca14c288f4fba3782d3972275bda",
     "semantic_hash": ""
   },
   "scripts/voz_clonada.py": {
@@ -3396,9 +3396,9 @@
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795101795.0345225,
-    "seen": 1795101869.7190688,
-    "ast_hash": "68bc8b0c020cdac059208665d8cc0071",
+    "mtime": 1795125525.9183235,
+    "seen": 1795140531.722307,
+    "ast_hash": "9e3b24fe1b91b8ca78d584ebcd505424",
     "semantic_hash": ""
   },
   "voces/README.md": {
@@ -3786,15 +3786,15 @@
     "semantic_hash": ""
   },
   "src/Inmovil/Astronautas3D.tsx": {
-    "mtime": 1795124279.6758394,
-    "seen": 1795125489.8627875,
+    "mtime": 1795125526.08698,
+    "seen": 1795140531.7219648,
     "ast_hash": "39fe086a13fe7854d73917465463b277",
     "semantic_hash": ""
   },
   "src/Inmovil/Ilustraciones.tsx": {
-    "mtime": 1795124406.621514,
-    "seen": 1795125489.8627899,
-    "ast_hash": "c105c856510eee2dfe3743accac2e377",
+    "mtime": 1795140056.0826614,
+    "seen": 1795140531.7219667,
+    "ast_hash": "d22dedcdc81973cec10893914da913c9",
     "semantic_hash": ""
   },
   "src/Inmovil/Reel.tsx": {
@@ -3804,38 +3804,38 @@
     "semantic_hash": ""
   },
   "src/Inmovil/efectos.ts": {
-    "mtime": 1795124279.675106,
-    "seen": 1795125489.8627932,
+    "mtime": 1795125526.0872338,
+    "seen": 1795140531.7219715,
     "ast_hash": "79178c9b9badded33a754abc2062feb1",
     "semantic_hash": ""
   },
   "src/Inmovil/escenas.ts": {
-    "mtime": 1795124342.7892973,
-    "seen": 1795125489.862795,
+    "mtime": 1795125526.0872338,
+    "seen": 1795140531.7219732,
     "ast_hash": "efa3c04f729d226dbd1f4800a33c244a",
     "semantic_hash": ""
   },
   "src/Inmovil/guion.json": {
-    "mtime": 1795124232.5644302,
-    "seen": 1795125489.8627968,
+    "mtime": 1795125526.0872338,
+    "seen": 1795140531.7219756,
     "ast_hash": "d1b1c7870429c018009b55c5344adf2b",
     "semantic_hash": ""
   },
   "src/Inmovil/tiempos.json": {
-    "mtime": 1795124279.658097,
-    "seen": 1795125489.862798,
+    "mtime": 1795125526.0872338,
+    "seen": 1795140531.721977,
     "ast_hash": "022ca291150ba90d98ef8e1c2469731c",
     "semantic_hash": ""
   },
   "src/Inmovil/voz_texto.txt": {
-    "mtime": 1795124416.4576154,
-    "seen": 1795125489.8631008,
+    "mtime": 1795125526.0872338,
+    "seen": 1795140531.7223103,
     "ast_hash": "7f18fb853ebe7f6d2cda531b0cfe8fc2",
     "semantic_hash": ""
   },
   "public/voz/inmovil.mp3": {
-    "mtime": 1795124279.6556423,
-    "seen": 1795125489.8632712,
+    "mtime": 1795125526.0823233,
+    "seen": 1795140531.7224548,
     "ast_hash": "a7749c7e0004ea879228c9bc83b29682",
     "semantic_hash": ""
   },
@@ -3954,9 +3954,63 @@
     "semantic_hash": ""
   },
   "videos/reel-inmovil-1min.mp4": {
-    "mtime": 1795125477.4823217,
-    "seen": 1795125489.8632834,
+    "mtime": 1795125526.1383233,
+    "seen": 1795140531.7224672,
     "ast_hash": "64ec786a70129e0803e59cf4b08b4f5b",
+    "semantic_hash": ""
+  },
+  "src/Movil30/Ilustraciones.tsx": {
+    "mtime": 1795140486.4332483,
+    "seen": 1795140531.722004,
+    "ast_hash": "79503d67db4ff3ff6175dceff9a696cc",
+    "semantic_hash": ""
+  },
+  "src/Movil30/Reel.tsx": {
+    "mtime": 1795140230.5095701,
+    "seen": 1795140531.7220056,
+    "ast_hash": "fa09bcd19862b8adf49c7c56622201f8",
+    "semantic_hash": ""
+  },
+  "src/Movil30/efectos.ts": {
+    "mtime": 1795140230.5081954,
+    "seen": 1795140531.722007,
+    "ast_hash": "2e5a2a09d58ed48446b6a4cbac5d0319",
+    "semantic_hash": ""
+  },
+  "src/Movil30/escenas.ts": {
+    "mtime": 1795140050.6066158,
+    "seen": 1795140531.722008,
+    "ast_hash": "5101405ee4efcddb4426624b857f9330",
+    "semantic_hash": ""
+  },
+  "src/Movil30/guion.json": {
+    "mtime": 1795139914.9039452,
+    "seen": 1795140531.7220092,
+    "ast_hash": "2dcd45a17cb0c8c199650b7662e89805",
+    "semantic_hash": ""
+  },
+  "src/Movil30/tiempos.json": {
+    "mtime": 1795140036.064039,
+    "seen": 1795140531.7220104,
+    "ast_hash": "8893e60d3110990d49b51d8a33667f08",
+    "semantic_hash": ""
+  },
+  "src/Movil30/voz_texto.txt": {
+    "mtime": 1795139923.018154,
+    "seen": 1795140531.7223115,
+    "ast_hash": "87a3eb835ac18ac93b30f19d8db8175e",
+    "semantic_hash": ""
+  },
+  "videos/reel-paises-desaparecidos.mp4": {
+    "mtime": 1795125525.9983234,
+    "seen": 1795140531.7224727,
+    "ast_hash": "0a27bea3dd6e6c757622024915f5815b",
+    "semantic_hash": ""
+  },
+  "videos/reel-vuelta-al-mundo.mp4": {
+    "mtime": 1795125526.0703235,
+    "seen": 1795140531.722477,
+    "ast_hash": "a4880fea97e5612854bf8676c4a2548c",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

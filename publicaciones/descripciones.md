@@ -283,3 +283,27 @@ Archivo: `videos/reel-millon.mp4`
 - **Portada:** elige un fotograma con el título grande (por ejemplo, «1492» o el inodoro roto).
 - **Sin voz:** en TikTok, añade un sonido en tendencia a volumen bajo para que el algoritmo lo mueva más.
 - **Salud:** TikTok y Facebook revisan con más cuidado los videos médicos; deja siempre la frase de «consulta a tu médico».
+
+## ¿Qué le pasa a tu cuerpo si dejas el móvil 30 días? — `videos/reel-movil-30-dias.mp4`
+Tono sarcástico · ~80–100 s · avatar a la derecha. Hasta que llegue la voz, va sin narración (texto + efectos):
+añade música en la app si lo publicas así.
+
+### TikTok
+> Día 1: buscas el móvil en el bolsillo. Día 30: descubres que existe gente 📵😅
+>
+> Vibraciones fantasma, abstinencia de notificaciones… y un estudio de 2025 con un resultado que no te esperas.
+>
+> ¿Cuántos días aguantarías tú? Sí, contesta con el móvil 👇
+>
+> #movil #adiccionalmovil #detoxdigital #salud #datoscuriosos #aprendeentiktok
+
+### Facebook
+> **¿Qué le pasa a tu cuerpo si dejas el móvil 30 días?** 📵
+>
+> Lo miramos unas 96 veces al día. Si lo dejas: los primeros días, ansiedad y vibraciones fantasma; después,
+> duermes mejor, tu cuello descansa y te concentras más. En un estudio de 2025, 467 personas pasaron dos semanas
+> sin internet en el móvil y el 91 % mejoró en atención, ánimo o bienestar.
+>
+> ¿Cuántos días aguantarías tú? Te leo en los comentarios.
+>
+> #DetoxDigital #Salud #Bienestar
