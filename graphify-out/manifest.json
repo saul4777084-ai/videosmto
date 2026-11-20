@@ -3366,9 +3366,9 @@
     "semantic_hash": ""
   },
   "clipper/servidor.py": {
-    "mtime": 1795125525.920523,
-    "seen": 1795140531.721841,
-    "ast_hash": "e93cca14c288f4fba3782d3972275bda",
+    "mtime": 1795140591.5930548,
+    "seen": 1795140601.7051256,
+    "ast_hash": "ab72dc545625246763d77d29bff1c79c",
     "semantic_hash": ""
   },
   "scripts/voz_clonada.py": {
@@ -3390,15 +3390,15 @@
     "semantic_hash": ""
   },
   "clipper/README.md": {
-    "mtime": 1795101865.7331402,
-    "seen": 1795101869.7190676,
-    "ast_hash": "058f26dbe7aad3298da09ed3fd3573da",
+    "mtime": 1795140591.5924633,
+    "seen": 1795140601.7055476,
+    "ast_hash": "a7b3a9d2181b212f089a17161420fe29",
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795125525.9183235,
-    "seen": 1795140531.722307,
-    "ast_hash": "9e3b24fe1b91b8ca78d584ebcd505424",
+    "mtime": 1795140591.5930548,
+    "seen": 1795140601.7055488,
+    "ast_hash": "b54a8dac4e0d32d0cb7988d404a730f4",
     "semantic_hash": ""
   },
   "voces/README.md": {
@@ -4011,6 +4011,30 @@
     "mtime": 1795125526.0703235,
     "seen": 1795140531.722477,
     "ast_hash": "a4880fea97e5612854bf8676c4a2548c",
+    "semantic_hash": ""
+  },
+  "clipper/app/manifest.json": {
+    "mtime": 1795140591.5930548,
+    "seen": 1795140601.7051187,
+    "ast_hash": "3fd662447e42b20f41f9482a0c7465f9",
+    "semantic_hash": ""
+  },
+  "clipper/app/sw.js": {
+    "mtime": 1795140591.5930548,
+    "seen": 1795140601.7051225,
+    "ast_hash": "e857f0ff5151cb08e610adfaced28328",
+    "semantic_hash": ""
+  },
+  "clipper/app/icono-192.png": {
+    "mtime": 1795140591.5924633,
+    "seen": 1795140601.705591,
+    "ast_hash": "bce72d58aef0fb4d5e2858b0fd625f9d",
+    "semantic_hash": ""
+  },
+  "clipper/app/icono-512.png": {
+    "mtime": 1795140591.5930548,
+    "seen": 1795140601.7055924,
+    "ast_hash": "0e48efaa163291647de0c5916282e7f5",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

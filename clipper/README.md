@@ -51,6 +51,12 @@ El ordenador tiene que estar encendido y con `servidor.py` en marcha. Los clips 
 - **Compartir…:** cuando un clip está listo, este botón abre el menú del móvil para mandarlo directo a TikTok, Instagram o WhatsApp.
 - Mientras genera, la pantalla se mantiene encendida para que no se corte la espera.
 
+## 4b. Instalarlo como app ($SANTORYU$)
+
+Con el servidor en marcha, abre la página en Chrome → menú ⋮ → **Instalar app** (o *Añadir a pantalla de inicio*).
+Sale el icono de $SANTORYU$ y se abre a pantalla completa, sin barra del navegador.
+La app necesita el servidor encendido (en el ordenador o en Termux); los archivos están en `clipper/app/`.
+
 ## 5. Sin ordenador (Android con Termux)
 
 Instalar (una vez): Termux desde F-Droid y luego

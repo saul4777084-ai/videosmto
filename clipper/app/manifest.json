@@ -1,0 +1,16 @@
+{
+  "name": "SANTORYU CLIPS",
+  "short_name": "SANTORYU CLIPS",
+  "description": "Clipea directos de YouTube desde el móvil",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a0540",
+  "theme_color": "#0f1115",
+  "lang": "es",
+  "icons": [
+    {"src": "/app/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/app/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}

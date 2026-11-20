@@ -2,7 +2,9 @@
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>$SANTORYU$</title>
 <meta name="theme-color" content="#0f1115"><meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="$SANTORYU$">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SANTORYU CLIPS">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/app/icono-192.png"><link rel="apple-touch-icon" href="/app/icono-192.png">
 <style>
 :root{--bg:#0f1115;--card:#1a1d24;--txt:#e8e8ea;--sub:#9aa0aa;--acc:#ff3d5a;--borde:#2a2e38;--ok:#4cc483}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.4 system-ui,sans-serif}
@@ -145,6 +147,7 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
 <p id="resumen" class="estado" style="margin:0 0 10px"></p>
 <div id="lista"></div>
 </main>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 <script>
 const $ = id => document.getElementById(id);
 let directo = null;
