@@ -332,7 +332,7 @@ con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
 
 # Vídeo 4 · ¿Qué le pasa a tu cuerpo si tomas Coca-Cola durante 30 días?
 
-Composición `CocaCola30Dias` (1080×1920, 30 fps, 86,6 s, **sin audio**) · vídeo: `out/coca-cola-30-dias.mp4` ·
+Composición `CocaCola30Dias` (1080×1920, 30 fps, 86,6 s) · vídeo sin audio: `out/coca-cola-30-dias.mp4` · con música y efectos: `out/coca-cola-30-dias-efectos.mp4` ·
 subtítulos aparte: `out/coca-cola-30-dias.srt` (también van grabados en el vídeo) ·
 texto para grabar la voz: `guiones/coca-cola-30-dias.md` (con el segundo en que empieza cada frase) y
 `guiones/coca-cola-30-dias-elevenlabs.txt` (con pausas `<break>`).
@@ -340,7 +340,16 @@ texto para grabar la voz: `guiones/coca-cola-30-dias.md` (con el segundo en que 
 ```bash
 python3 tools/tiempos_cola.py   # guion → tiempos de escenas, frases y subtítulos + textos y .srt
 tools/render_cola.sh            # render por tramos (WebGL por CPU, varias horas) → out/coca-cola-30-dias.mp4
+python3 tools/sintetizar_cola.py  # música y efectos sincronizados → public/cola/banda.wav + out/coca-cola-30-dias-efectos.mp4
 ```
+
+**Música y efectos** (`out/coca-cola-30-dias-efectos.mp4`, sin voz; la banda sola en `public/cola/banda.wav` para tu
+editor): dron y acordes de suspense que se tensan día a día y se resuelven en el final, ostinato que acelera,
+latidos al ritmo del corazón animado, golpe y campanita con cada "DÍA", barrido de rayos X cuando el cuerpo se vuelve
+transparente, trago y líquido bajando por el esófago, chapoteo y gas en el estómago, tics del contador de azúcar y de
+las 7 cucharaditas, rumor de la sangre, destellos de la insulina, clics de acople en los receptores, gotas de grasa,
+avisos de los indicadores del día 30, chispazos en el cerebro, la botella en la mesa, el vaso y el agua. La música
+baja donde va cada frase para dejar sitio a tu voz (la banda queda a unos −18 LUFS).
 
 Escenas: introducción (hombre con la botella, la piel se vuelve transparente) · día 1 (el refresco baja por el
 esófago, estómago con burbujas y azúcar, glucosa y fructosa en la sangre) · día 7 (glóbulos rojos y glucosa que
