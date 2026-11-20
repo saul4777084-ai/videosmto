@@ -428,3 +428,90 @@ export const Creditos: React.FC = () => (
     </div>
   </AbsoluteFill>
 );
+
+// ---------- titulares apilados (el estilo de subtítulos del usuario) ----------
+// Arriba una caja negra pequeña, en medio la frase clave grande en amarillo con brillo y debajo un remate en
+// blanco o en caja de color. Cada parte entra en su momento ("en", frame local) y el hueco está reservado desde
+// el principio, así nada salta de sitio.
+
+export type Parte = { texto: string; tipo: "caja" | "grande" | "blanco" | "rojo" | "naranja" | "verde" | "azul"; en: number };
+
+const FONDOS: Record<string, string> = {
+  caja: "rgba(14,16,22,0.92)",
+  rojo: "#d6283c",
+  naranja: "#d9773a",
+  verde: "#1f9d55",
+  azul: "#2f6fd0",
+};
+
+export const Titulares: React.FC<{ f: number; partes: Parte[]; y?: number }> = ({ f, partes, y = 175 }) => (
+  <div style={{ position: "absolute", top: y, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+    {partes.map((p, i) => {
+      const s = f >= p.en ? aparece(f, p.en, p.tipo === "grande" ? 10 : 12) : 0;
+      const texto = p.texto.toUpperCase();
+      if (p.tipo === "grande") {
+        const tam = Math.min(104, 1000 / (texto.length * 0.74));
+        return (
+          <div
+            key={i}
+            style={{
+              fontFamily: MONTSERRAT,
+              fontWeight: 900,
+              fontSize: tam,
+              lineHeight: 1.05,
+              color: AMARILLO,
+              whiteSpace: "nowrap",
+              opacity: Math.min(1, s * 1.6),
+              transform: `scale(${interpolate(s, [0, 1], [0.55, 1])})`,
+              textShadow: "0 0 26px rgba(255,226,58,0.75), 0 0 8px rgba(255,226,58,0.6), 0 8px 24px rgba(0,0,0,0.7)",
+            }}
+          >
+            {texto}
+          </div>
+        );
+      }
+      if (p.tipo === "blanco") {
+        return (
+          <div
+            key={i}
+            style={{
+              fontFamily: MONTSERRAT,
+              fontWeight: 900,
+              fontSize: Math.min(46, 1000 / (texto.length * 0.7)),
+              color: "#fff",
+              letterSpacing: 1,
+              whiteSpace: "nowrap",
+              opacity: Math.min(1, s * 1.6),
+              transform: `translateY(${(1 - s) * 18}px)`,
+              textShadow: SOMBRA_TXT,
+            }}
+          >
+            {texto}
+          </div>
+        );
+      }
+      const tam = Math.min(40, 960 / (texto.length * 0.74));
+      return (
+        <div
+          key={i}
+          style={{
+            background: FONDOS[p.tipo],
+            color: "#fff",
+            fontFamily: MONTSERRAT,
+            fontWeight: 900,
+            fontSize: tam,
+            letterSpacing: 1,
+            padding: `${tam * 0.2}px ${tam * 0.45}px`,
+            borderRadius: tam * 0.16,
+            whiteSpace: "nowrap",
+            opacity: Math.min(1, s * 1.6),
+            transform: `rotate(${p.tipo === "rojo" ? -2.5 : 0}deg) scale(${interpolate(s, [0, 1], [0.6, 1])})`,
+            boxShadow: "0 10px 24px rgba(0,0,0,0.45)",
+          }}
+        >
+          {texto}
+        </div>
+      );
+    })}
+  </div>
+);
