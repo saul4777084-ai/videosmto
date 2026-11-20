@@ -330,3 +330,49 @@ añade música en la app si lo publicas así.
 > Se te acabó el agua: ¿caminas ya hacia la carretera (A) o esperas a la noche junto al coche (B)? Comenta A o B.
 >
 > #Supervivencia #Desierto #DatosCuriosos
+
+---
+
+## ¿Y si se derritiera todo el hielo del planeta? (≈62 s, mapas sin voz) — `videos/reel-deshielo.mp4`
+Sin voz (texto + efectos): en TikTok añade un sonido en tendencia a volumen bajo.
+
+### TikTok / Reels
+> **Si se derritiera TODO el hielo, el mar subiría 70 metros** 🌊🧊
+>
+> Ámsterdam, Venecia, Sevilla, Miami, Buenos Aires y Shanghái acabarían bajo el agua… y el Amazonas se
+> convertiría en un mar. Madrid se salvaría por sus 650 metros 😅
+>
+> ¿Tu ciudad sobreviviría? Escríbela en los comentarios 👇
+>
+> #mapas #geografia #deshielo #cambioclimatico #niveldelmar #curiosidades #sabiasque #ciencia
+
+### Facebook / YouTube Shorts
+> **¿Qué pasaría si se derritiera todo el hielo de la Tierra?** 🌍
+>
+> El mar subiría unos 70 metros y desaparecerían ciudades como Ámsterdam, Venecia, Sevilla, Miami o Buenos Aires.
+> Tardaría miles de años, pero el mar ya ha subido más de 20 cm desde 1900.
+>
+> #Mapas #Geografía #Ciencia #Curiosidades
+
+---
+
+## El Imperio mongol: el más grande de la historia (≈58 s, mapas sin voz) — `videos/reel-mongoles.mp4`
+Sin voz (texto + efectos): en TikTok añade un sonido épico en tendencia a volumen bajo.
+
+### TikTok / Reels
+> **De niño abandonado a dueño de medio mundo** 🐎🗺️
+>
+> Temuyín unió a las tribus, se convirtió en Gengis Kan y sus nietos llegaron de Corea a Hungría:
+> 24 millones de km², más que toda Sudamérica. Solo dos tormentas salvaron a Japón 🌪️
+>
+> ¿Quién fue más grande: Gengis Kan o Alejandro Magno? Comenta 👇
+>
+> #historia #mapas #gengiskan #imperiomongol #mongolia #alejandromagno #curiosidades #sabiasque
+
+### Facebook / YouTube Shorts
+> **El Imperio mongol, el más grande de la historia** 🗺️
+>
+> De 1206 a 1279, los mongoles pasaron de las estepas a dominar China, Asia Central, Persia y Rusia:
+> 24 millones de km². Así creció, año a año, sobre el mapa.
+>
+> #Historia #Mapas #GengisKan #Curiosidades

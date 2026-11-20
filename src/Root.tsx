@@ -36,6 +36,10 @@ import { CatalogoEscenarios, DURACION_ESCENARIOS } from "./Mundo3D/CatalogoEscen
 import { CatalogoPersonajes, DURACION_PERSONAJES } from "./Mundo3D/CatalogoPersonajes";
 import { DURACION_MUESTRARIO, Muestrario } from "./Muestrario/Muestrario";
 import { MuestraDeshielo, MuestrasMapas, MUESTRAS } from "./MuestrasMapas/Muestras";
+import { ReelDeshielo } from "./Deshielo/Reel";
+import { ReelMongoles } from "./Mongoles/Reel";
+import { DURACION_TOTAL as DURACION_MONGOLES } from "./Mongoles/escenas";
+import { DURACION_TOTAL as DURACION_DESHIELO } from "./Deshielo/escenas";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -161,6 +165,8 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      <Composition id="ReelDeshielo" component={ReelDeshielo} durationInFrames={DURACION_DESHIELO} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelMongoles" component={ReelMongoles} durationInFrames={DURACION_MONGOLES} fps={FPS} width={1080} height={1920} />
       <Composition id="MuestrasMapas" component={MuestrasMapas} durationInFrames={MUESTRAS * 30} fps={FPS} width={1080} height={1920} />
       <Composition id="MuestraDeshielo" component={MuestraDeshielo} durationInFrames={180} fps={FPS} width={1080} height={1920} />
       <Composition

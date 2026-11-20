@@ -28,6 +28,12 @@
 - **Mapas:** `src/Colon/Mapa.tsx` (fronteras reales con world-atlas + d3-geo, cámara, niebla, rutas).
   Para el mundo entero: `src/comun/Globo.tsx` (globo terráqueo que gira, países pintados, rutas que se recortan
   en la cara oculta; ejemplo: `src/VueltaMundo`).
+  **Mapas de alta calidad (preferido):** `src/comun/Tierra.tsx` (satélite real + relieve con alturas reales; globo o
+  plano Mercator con `camara.plana`; `estilo="mapa"` = estilo de los vídeos de mapas virales que pidió el usuario;
+  `nivelMar` inunda por alturas reales) con las piezas de `src/comun/PiezasTierra.tsx` (Zona rayada, Paises, Rotulo,
+  Ciudad, FlechaG, Caja, Titular, Sello) y subtítulos `estiloSubtitulos="mapa"`. Ejemplos: `src/Deshielo`, `src/Mongoles`.
+  Texturas: `scripts/texturas_mapa.py [region]` (añade regiones en REGIONES). Sin voz: `scripts/tiempos_sin_voz.py`.
+  Fotogramas sueltos para revisar: `node scripts/fotos.mjs COMPOSICION CARPETA FRAME...`.
 - **Entrega:** copia cada video terminado a `videos/`, envíaselo al usuario y haz commit y push a `main`.
 - **Publicar:** descripciones y hashtags en `publicaciones/descripciones.md`. Nunca publiques en redes sin el OK del usuario.
 
