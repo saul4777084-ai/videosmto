@@ -276,7 +276,7 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Historia #Mapas #Geografía #Curiosidades
 
-## Turno de noche — Gasolinera, parte 1 (95 s) — `videos/TurnoNoche.mp4`
+## Turno de noche — Gasolinera, parte 1 (64 s, con voz) — `videos/TurnoNoche.mp4`
 
 ### Instagram Reels / TikTok
 > **Si a las 3:33 llaman al cristal… no abras** 🚪🌧️

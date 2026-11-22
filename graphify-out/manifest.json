@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795190611.425531,
-    "seen": 1795191134.9032218,
-    "ast_hash": "45c3abca17e2f622cf356493a192d6e2",
+    "mtime": 1795368294.4962313,
+    "seen": 1795368311.362686,
+    "ast_hash": "75c31b9aaf1fa7d2440bbc117ffc8ffe",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3996,15 +3996,15 @@
     "semantic_hash": ""
   },
   "src/TurnoNoche/Ilustraciones.tsx": {
-    "mtime": 1795190588.4527433,
-    "seen": 1795191134.8991406,
-    "ast_hash": "6689097b96117c39a933011e39081786",
+    "mtime": 1795367803.749489,
+    "seen": 1795368311.3623686,
+    "ast_hash": "68e5541d45a38f23db537373cbbdfdaf",
     "semantic_hash": ""
   },
   "src/TurnoNoche/Reel.tsx": {
-    "mtime": 1795190377.7626019,
-    "seen": 1795191134.8991435,
-    "ast_hash": "9d3519ac50ec31e1910cb2c1c630022a",
+    "mtime": 1795367803.7501235,
+    "seen": 1795368311.3623717,
+    "ast_hash": "36ae0380c0a2d9daf903beefdee9048d",
     "semantic_hash": ""
   },
   "src/TurnoNoche/Vistas.tsx": {
@@ -4014,15 +4014,15 @@
     "semantic_hash": ""
   },
   "src/TurnoNoche/efectos.ts": {
-    "mtime": 1795190260.5011399,
-    "seen": 1795191134.8991473,
-    "ast_hash": "c7d5777bfba4ae20712c9661f361dc05",
+    "mtime": 1795367803.7475493,
+    "seen": 1795368311.3623762,
+    "ast_hash": "ab18b33d6cb10bac189db5b653c8d0da",
     "semantic_hash": ""
   },
   "src/TurnoNoche/escenas.ts": {
-    "mtime": 1795190247.5214567,
-    "seen": 1795191134.8991494,
-    "ast_hash": "a0c09003aa9a6fb5e86a4e12846bb05e",
+    "mtime": 1795367803.747277,
+    "seen": 1795368311.3623788,
+    "ast_hash": "c475f2413f13d863f819d299724ab324",
     "semantic_hash": ""
   },
   "src/comun/Terror/Camara.tsx": {
@@ -4092,9 +4092,27 @@
     "semantic_hash": ""
   },
   "videos/TurnoNoche.mp4": {
-    "mtime": 1795191115.9466283,
-    "seen": 1795191134.9037037,
-    "ast_hash": "9fa7904808e825e0ad946b96edce1474",
+    "mtime": 1795368280.739159,
+    "seen": 1795368311.3628583,
+    "ast_hash": "296da48fb85241d020c3acea8a198492",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche/guion.json": {
+    "mtime": 1795366093.0544145,
+    "seen": 1795368311.3623807,
+    "ast_hash": "e58dd844195042e37ea02d2ce910be19",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche/tiempos.json": {
+    "mtime": 1795367774.0158174,
+    "seen": 1795368311.362383,
+    "ast_hash": "6523adc045b8bb2592e3b5502cfa2512",
+    "semantic_hash": ""
+  },
+  "public/voz/turno-noche.mp3": {
+    "mtime": 1795367764.4739153,
+    "seen": 1795368311.3628557,
+    "ast_hash": "87bea842a4321aafdab47e72729a2bc0",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
