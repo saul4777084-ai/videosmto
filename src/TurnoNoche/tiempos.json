@@ -1,0 +1,473 @@
+{
+ "duracion": 62.877,
+ "frases": [
+  {
+   "texto": "Primera noche trabajando en una gasolinera en mitad de la nada.",
+   "palabras": [
+    0.08,
+    0.56,
+    0.88,
+    1.28,
+    1.36,
+    1.52,
+    2.24,
+    2.32,
+    2.64,
+    2.72,
+    3.04
+   ],
+   "inicio": 0.0,
+   "segundos": 3.43,
+   "tiempos": [
+    0.08,
+    0.56,
+    0.88,
+    1.28,
+    1.36,
+    1.52,
+    2.24,
+    2.32,
+    2.64,
+    2.72,
+    3.04
+   ]
+  },
+  {
+   "texto": "La siguiente está a 80 kilómetros.",
+   "palabras": [
+    3.68,
+    3.84,
+    4.24,
+    4.64,
+    5.04,
+    5.44
+   ],
+   "inicio": 3.43,
+   "segundos": 2.72,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.81,
+    1.21,
+    1.61,
+    2.01
+   ]
+  },
+  {
+   "texto": "El encargado, al irse, solo te dijo una cosa:",
+   "palabras": [
+    6.4,
+    6.72,
+    7.52,
+    7.84,
+    8.4,
+    8.72,
+    8.88,
+    9.28,
+    9.52
+   ],
+   "inicio": 6.15,
+   "segundos": 3.76,
+   "tiempos": [
+    0.25,
+    0.57,
+    1.37,
+    1.69,
+    2.25,
+    2.57,
+    2.73,
+    3.13,
+    3.37
+   ]
+  },
+  {
+   "texto": "«Si a las 3:33 llaman al cristal, no abras.»",
+   "palabras": [
+    10.16,
+    10.4,
+    10.56,
+    11.28,
+    12.0,
+    12.56,
+    12.72,
+    13.68,
+    13.92
+   ],
+   "inicio": 9.91,
+   "segundos": 5.32,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.65,
+    1.37,
+    2.09,
+    2.65,
+    2.81,
+    3.77,
+    4.01
+   ]
+  },
+  {
+   "texto": "3:33.",
+   "palabras": [
+    15.48
+   ],
+   "inicio": 15.23,
+   "segundos": 1.56,
+   "tiempos": [
+    0.25
+   ]
+  },
+  {
+   "texto": "Toc. Toc. Toc.",
+   "palabras": [
+    17.04,
+    17.84,
+    18.48
+   ],
+   "inicio": 16.79,
+   "segundos": 2.16,
+   "tiempos": [
+    0.25,
+    1.05,
+    1.69
+   ]
+  },
+  {
+   "texto": "Fuera no hay nadie.",
+   "palabras": [
+    19.2,
+    20.16,
+    20.48,
+    20.72
+   ],
+   "inicio": 18.95,
+   "segundos": 2.24,
+   "tiempos": [
+    0.25,
+    1.21,
+    1.53,
+    1.77
+   ]
+  },
+  {
+   "texto": "En la cámara 2, un hombre empapado, sin coche, junto al surtidor.",
+   "palabras": [
+    21.44,
+    21.6,
+    21.76,
+    22.28,
+    22.8,
+    23.04,
+    23.36,
+    24.24,
+    24.48,
+    25.12,
+    25.44,
+    25.6
+   ],
+   "inicio": 21.19,
+   "segundos": 5.2,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.57,
+    1.09,
+    1.61,
+    1.85,
+    2.17,
+    3.05,
+    3.29,
+    3.93,
+    4.25,
+    4.41
+   ]
+  },
+  {
+   "texto": "Mirando a la cámara.",
+   "palabras": [
+    26.64,
+    27.12,
+    27.2,
+    27.36
+   ],
+   "inicio": 26.39,
+   "segundos": 1.28,
+   "tiempos": [
+    0.25,
+    0.73,
+    0.81,
+    0.97
+   ]
+  },
+  {
+   "texto": "Rebobinas. A las 3:20 la puerta se abrió sola.",
+   "palabras": [
+    27.92,
+    29.04,
+    29.2,
+    29.88,
+    30.56,
+    30.72,
+    31.12,
+    31.28,
+    31.84
+   ],
+   "inicio": 27.67,
+   "segundos": 4.4,
+   "tiempos": [
+    0.25,
+    1.37,
+    1.53,
+    2.21,
+    2.89,
+    3.05,
+    3.45,
+    3.61,
+    4.17
+   ]
+  },
+  {
+   "texto": "Y oíste la campanita. Pensaste que era el viento.",
+   "palabras": [
+    32.32,
+    32.48,
+    33.04,
+    33.12,
+    34.0,
+    34.64,
+    34.88,
+    35.04,
+    35.2
+   ],
+   "inicio": 32.07,
+   "segundos": 3.52,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.97,
+    1.05,
+    1.93,
+    2.57,
+    2.81,
+    2.97,
+    3.13
+   ]
+  },
+  {
+   "texto": "Vuelves al directo. Ahora está dentro.",
+   "palabras": [
+    35.84,
+    36.4,
+    36.56,
+    37.28,
+    37.76,
+    38.08
+   ],
+   "inicio": 35.59,
+   "segundos": 2.8,
+   "tiempos": [
+    0.25,
+    0.81,
+    0.97,
+    1.69,
+    2.17,
+    2.49
+   ]
+  },
+  {
+   "texto": "Cada vez que la imagen salta, está un pasillo más cerca.",
+   "palabras": [
+    38.64,
+    38.96,
+    39.12,
+    39.28,
+    39.44,
+    39.84,
+    40.64,
+    40.96,
+    41.12,
+    41.68,
+    41.84
+   ],
+   "inicio": 38.39,
+   "segundos": 3.92,
+   "tiempos": [
+    0.25,
+    0.57,
+    0.73,
+    0.89,
+    1.05,
+    1.45,
+    2.25,
+    2.57,
+    2.73,
+    3.29,
+    3.45
+   ]
+  },
+  {
+   "texto": "Hasta que desaparece de todas las cámaras.",
+   "palabras": [
+    42.56,
+    42.8,
+    42.96,
+    43.76,
+    43.92,
+    44.24,
+    44.4
+   ],
+   "inicio": 42.31,
+   "segundos": 2.64,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.65,
+    1.45,
+    1.61,
+    1.93,
+    2.09
+   ]
+  },
+  {
+   "texto": "Levantas la vista. El pasillo está vacío.",
+   "palabras": [
+    45.2,
+    45.84,
+    46.0,
+    46.56,
+    46.8,
+    47.36,
+    47.6
+   ],
+   "inicio": 44.95,
+   "segundos": 3.2,
+   "tiempos": [
+    0.25,
+    0.89,
+    1.05,
+    1.61,
+    1.85,
+    2.41,
+    2.65
+   ]
+  },
+  {
+   "texto": "En la cámara de la caja te ves a ti…",
+   "palabras": [
+    48.4,
+    48.56,
+    48.72,
+    49.12,
+    49.28,
+    49.44,
+    49.84,
+    50.0,
+    50.32,
+    50.48
+   ],
+   "inicio": 48.15,
+   "segundos": 2.48,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.57,
+    0.97,
+    1.13,
+    1.29,
+    1.69,
+    1.85,
+    2.17,
+    2.33
+   ]
+  },
+  {
+   "texto": "…y a tus pies, agachado tras el mostrador, está él.",
+   "palabras": [
+    50.88,
+    51.12,
+    51.28,
+    51.44,
+    52.08,
+    52.8,
+    53.04,
+    53.2,
+    54.16,
+    54.56
+   ],
+   "inicio": 50.63,
+   "segundos": 4.24,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.65,
+    0.81,
+    1.45,
+    2.17,
+    2.41,
+    2.57,
+    3.53,
+    3.93
+   ]
+  },
+  {
+   "texto": "Toc. Toc. Toc. Es el encargado, fuera, gritando:",
+   "palabras": [
+    55.12,
+    55.76,
+    56.4,
+    57.04,
+    57.28,
+    57.52,
+    58.32,
+    58.8
+   ],
+   "inicio": 54.87,
+   "segundos": 4.56,
+   "tiempos": [
+    0.25,
+    0.89,
+    1.53,
+    2.17,
+    2.41,
+    2.65,
+    3.45,
+    3.93
+   ]
+  },
+  {
+   "texto": "¡NO LE MIRES!",
+   "palabras": [
+    59.68,
+    59.92,
+    60.16
+   ],
+   "inicio": 59.43,
+   "segundos": 1.28,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.73
+   ]
+  },
+  {
+   "texto": "Sígueme para la parte 2.",
+   "palabras": [
+    60.96,
+    61.6,
+    61.84,
+    61.92,
+    62.22
+   ],
+   "inicio": 60.71,
+   "segundos": 2.167,
+   "tiempos": [
+    0.25,
+    0.89,
+    1.13,
+    1.21,
+    1.51
+   ]
+  }
+ ]
+}

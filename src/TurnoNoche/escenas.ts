@@ -1,6 +1,11 @@
-// "Turno de noche" (gasolinera, parte 1). Sin voz: el texto se escribe palabra a palabra
-// y cada escena dura lo necesario para leerlo con calma.
+// "Turno de noche" (gasolinera, parte 1). Con la voz del usuario (public/voz/turno-noche.mp3):
+// duración de cada escena y tiempo de cada palabra salen de tiempos.json (scripts/alinear_voz.py).
+// Si se borra tiempos.json, se pone CON_VOZ = false y vuelve la versión sin voz.
 import { Escena, framesDe } from "../comun/tipos";
+import alineado from "./tiempos.json";
+
+export const CON_VOZ = true;
+const COLA_FINAL = 1.6; // segundos extra al final para el cierre en iris
 
 export type Ilustracion =
   | "exterior"
@@ -24,7 +29,7 @@ export type Ilustracion =
   | "grito"
   | "final";
 
-export const ESCENAS: Escena<Ilustracion>[] = [
+const SIN_VOZ: Escena<Ilustracion>[] = [
   { ilustracion: "exterior", segundos: 5, texto: "Primera noche trabajando en una gasolinera en mitad de la nada.", clave: ["nada."] },
   { ilustracion: "cartel", segundos: 4, texto: "La siguiente está a 80 kilómetros.", clave: ["80"] },
   { ilustracion: "llaves", segundos: 4.5, texto: "El encargado, al irse, solo te dijo una cosa:", clave: ["cosa:"] },
@@ -46,6 +51,15 @@ export const ESCENAS: Escena<Ilustracion>[] = [
   { ilustracion: "grito", segundos: 3.2, texto: "¡NO LE MIRES!", sinSubtitulos: true },
   { ilustracion: "final", segundos: 4.3, texto: "Sígueme para la parte 2.", clave: ["parte", "2."] },
 ];
+
+export const ESCENAS: Escena<Ilustracion>[] = CON_VOZ
+  ? SIN_VOZ.map((e, i) => {
+      const fr = alineado.frases[i];
+      if (fr.texto !== e.texto) throw new Error(`guion.json no coincide con la escena ${i + 1}: ${fr.texto}`);
+      const ultima = i === SIN_VOZ.length - 1;
+      return { ...e, segundos: fr.segundos + (ultima ? COLA_FINAL : 0), tiempos: fr.tiempos };
+    })
+  : SIN_VOZ;
 
 export const DURACION_TOTAL = ESCENAS.reduce((t, e) => t + framesDe(e.segundos), 0);
 

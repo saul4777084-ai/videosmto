@@ -1,10 +1,10 @@
 import React from "react";
 import { ReelBase } from "../comun/ReelBase";
 import { EFECTOS } from "./efectos";
-import { ESCENAS } from "./escenas";
+import { CON_VOZ, ESCENAS } from "./escenas";
 import { DIBUJOS } from "./Ilustraciones";
 
-// "Turno de noche" — historia de terror en segunda persona, SIN avatar y SIN voz (lo pidió el usuario):
+// "Turno de noche" — historia de terror en segunda persona, SIN avatar (lo pidió el usuario), con la voz del usuario:
 // cortes secos, subtítulos estilo terror y ambiente de lluvia + fluorescentes + drone grave.
 export const ReelTurnoNoche: React.FC = () => (
   <ReelBase
@@ -16,11 +16,13 @@ export const ReelTurnoNoche: React.FC = () => (
     sonidoCambio={false}
     zoomSuave={false}
     estiloSubtitulos="terror"
+    voz={CON_VOZ ? "voz/turno-noche.mp3" : undefined}
+    volumenEfectos={CON_VOZ ? 0.6 : 1}
     musica="sfx/drone.wav"
-    volumenMusica={0.5}
+    volumenMusica={CON_VOZ ? 0.35 : 0.5}
     ambientes={[
-      { archivo: "sfx/lluvia.wav", volumen: 0.22 },
-      { archivo: "sfx/zumbido.wav", volumen: 0.05 },
+      { archivo: "sfx/lluvia.wav", volumen: CON_VOZ ? 0.14 : 0.22 },
+      { archivo: "sfx/zumbido.wav", volumen: CON_VOZ ? 0.03 : 0.05 },
     ]}
   />
 );

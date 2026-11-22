@@ -90,8 +90,8 @@ const CaraEncargado: Dibujo = ({ f }) => {
 };
 
 const Reloj: Dibujo = ({ f }) => {
-  const minuto = f < 24 ? "03:32" : "03:33";
-  const pulso = f >= 24 ? interpolate(f - 24, [0, 3, 12], [1.12, 1.12, 1], { extrapolateRight: "clamp" }) : 1;
+  const minuto = f < 12 ? "03:32" : "03:33";
+  const pulso = f >= 12 ? interpolate(f - 12, [0, 3, 12], [1.12, 1.12, 1], { extrapolateRight: "clamp" }) : 1;
   const dos = Math.floor(f / 15) % 2 === 0;
   return (
     <AbsoluteFill style={{ background: "#050505" }}>
@@ -150,7 +150,7 @@ const CaraDesconocido: Dibujo = ({ f }) => (
     <Mov f={f} rango={[0, dur("cam2cara")]} de={[0, 0, 1]} a={[0, 60, 1.25]}>
       <Lienzo fondo="#0b0e14">
         <rect width="1080" height="1920" fill="#10141c" />
-        <CaraGrande x={540} y={1000} escala={1.5} ojos={lerp(f, [30, 50], [0.6, 1])} giro={lerp(f, [0, 110], [-2, -7])} />
+        <CaraGrande x={540} y={1000} escala={1.5} ojos={lerp(f, [0, 20], [0.6, 1])} giro={lerp(f, [0, 110], [-2, -7])} />
         <Lluvia f={f} n={80} opacidad={0.3} />
       </Lienzo>
     </Mov>
@@ -187,9 +187,10 @@ const Campanita: Dibujo = ({ f }) => {
 };
 
 const CristalEncargado: Dibujo = ({ f }) => {
-  const cara = lerp(f, [36, 46], [0, 1]);
-  const grita = f > 46 ? 0.6 + Math.abs(Math.sin(f / 2.5)) * 0.4 : 0;
-  const golpes = [0, 14, 27];
+  const tCara = en("cristal", "Es") - 6;
+  const cara = lerp(f, [tCara, tCara + 10], [0, 1]);
+  const grita = f > tCara + 10 ? 0.6 + Math.abs(Math.sin(f / 2.5)) * 0.4 : 0;
+  const golpes = [0, 1, 2].map((k) => en("cristal", "Toc.", k));
   const g = golpes.reduce((acc, t) => acc + Math.max(0, 1 - Math.abs(f - t) / 4), 0);
   return (
     <AbsoluteFill>
@@ -219,7 +220,7 @@ const CristalEncargado: Dibujo = ({ f }) => {
           ))}
         </Lienzo>
       </Mov>
-      <Relampago f={f} en={44} />
+      <Relampago f={f} en={en("cristal", "Es") + 2} />
       <Acabado f={f} vineta={0.85} />
     </AbsoluteFill>
   );
