@@ -17,3 +17,5 @@ for (const f of frames.map(Number)) {
   console.log(out);
 }
 await browser.close({ silent: true });
+// borra el empaquetado temporal (cada uno ocupa ~200 MB con las texturas)
+fs.rmSync(serveUrl, { recursive: true, force: true });

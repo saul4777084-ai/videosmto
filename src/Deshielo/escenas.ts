@@ -76,7 +76,8 @@ export const ESCENARIOS = Object.fromEntries(
       const buscada = normal(palabra);
       let vistos = 0;
       for (let k = 0; k < palabras.length; k++) {
-        if (palabras[k] === buscada && ++vistos === n) return Math.round((e.tiempos?.[k] ?? 0) * 30);
+        // con voz, lo que entra con la última palabra de la frase se adelanta: que se vea antes del corte
+        if (palabras[k] === buscada && ++vistos === n) return Math.min(Math.round((e.tiempos?.[k] ?? 0) * 30), framesDe(e.segundos) - 14);
       }
       throw new Error(`"${palabra}" no está en: ${e.texto}`);
     };
