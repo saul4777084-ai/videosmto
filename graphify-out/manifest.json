@@ -4115,6 +4115,24 @@
     "ast_hash": "87bea842a4321aafdab47e72729a2bc0",
     "semantic_hash": ""
   },
+  "publicador/servidor.py": {
+    "mtime": 1795370502.1676855,
+    "seen": 1795370573.0366862,
+    "ast_hash": "544c8dc6cf5ed99297daabe0348015f4",
+    "semantic_hash": ""
+  },
+  "publicador/README.md": {
+    "mtime": 1795370558.5092561,
+    "seen": 1795370573.0372791,
+    "ast_hash": "475b2debd9e7b09944a6026670435371",
+    "semantic_hash": ""
+  },
+  "publicador/index.html": {
+    "mtime": 1795370462.3292503,
+    "seen": 1795370573.0372808,
+    "ast_hash": "9b1773306c3ab9a8e25e879ac2d229ac",
+    "semantic_hash": ""
+  },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
     "mtime": 1795124762.2014544,
     "seen": 1795126110.689186,

@@ -14,3 +14,8 @@ graphify-out/cache/hook_sessions/
 voces/mi_voz/
 voces/tio/
 voces/tio2/
+
+# Publicador: claves y estado locales (repositorio público: no subir)
+publicador/config.json
+publicador/estado.json
+publicador/*.tmp
