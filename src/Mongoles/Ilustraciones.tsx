@@ -241,8 +241,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
             <>
               <Zona trazo={trazo} cam={cam} capas={[capa(E1206), capa(E1227, k(f, ar, 40), [80, 43])]} />
               <FlechaG cam={cam} ruta={[[96, 46], [84, 44.5], [74, 41.5], [67.6, 39.8]]} t={k(f, 4, sa - 4)} />
-              <Ciudad cam={cam} ll={L.samarcanda} nombre="Samarcanda" f={f} inicio={sa} hundida={sa + 8} />
-              <Ciudad cam={cam} ll={L.bujara} nombre="Bujará" f={f} inicio={bu} hundida={bu + 8} lado="izq" />
+              <Ciudad cam={cam} ll={L.samarcanda} nombre="Samarcanda" f={f} inicio={sa} hundida={sa + 4} />
+              <Ciudad cam={cam} ll={L.bujara} nombre="Bujará" f={f} inicio={bu} hundida={bu + 4} lado="izq" />
             </>
           )}
         </Mapa>
@@ -310,7 +310,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
             <>
               <Zona trazo={trazo} cam={cam} capas={[capa(E1241), capa(E1259, k(f, ca, 40), [58, 36])]} />
               <FlechaG cam={cam} ruta={[[59, 37], [52, 35.5], [45.2, 33.6]]} t={k(f, 4, bg)} />
-              <Ciudad cam={cam} ll={L.bagdad} nombre="Bagdad" f={f} inicio={bg} hundida={bg + 10} lado="izq" />
+              <Ciudad cam={cam} ll={L.bagdad} nombre="Bagdad" f={f} inicio={bg} hundida={bg + 4} lado="izq" />
             </>
           )}
         </Mapa>
@@ -372,8 +372,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         <Vineta />
         <Caja f={f} inicio={8} texto="1274" y={1360} x={330} tam={60} />
         <Caja f={f} inicio={segunda} texto="1281" y={1360} x={750} tam={60} />
-        <Sello f={f} inicio={tor + 4} texto="kamikaze" x={540} y={1560} tam={78} giro={-8} />
-        <Linea f={f} inicio={tor + 14} texto="«viento divino»" y={1680} tam={44} />
+        <Sello f={f} inicio={tor} texto="kamikaze" x={540} y={1560} tam={78} giro={-8} />
+        <Linea f={f} inicio={tor + 6} texto="«viento divino»" y={1680} tam={44} />
         <Creditos />
       </AbsoluteFill>
     );

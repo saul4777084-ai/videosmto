@@ -195,7 +195,7 @@ const Mapa: React.FC<React.ComponentProps<typeof Tierra>> = (props) => <Tierra e
 export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<Ilustracion, Dibujo> => ({
   gancho: ({ f }) => {
     const cam = P(-30 + f * 0.12, 30, interpolate(f, [0, 120], [0.8, 0.9]));
-    const k = interpolate(f, [56, 114], [0, 1], { ...clamp, easing: suave });
+    const k = interpolate(f, [30, 86], [0, 1], { ...clamp, easing: suave });
     return (
       <AbsoluteFill>
         <Mapa camara={cam} f={f} hielo={1 - k} nivelMar={70 * k} />
@@ -256,7 +256,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
     const nivel = sube(f, 8, 70);
     const ciudad = (k: string, nombre: string, palabra: string, lado: "izq" | "der" = "der") => {
       const t = e.en(palabra);
-      return <Ciudad key={k} cam={cam} ll={L[k]} nombre={nombre} f={f} inicio={t} hundida={t + 10} lado={lado} />;
+      return <Ciudad key={k} cam={cam} ll={L[k]} nombre={nombre} f={f} inicio={t} hundida={t + 4} lado={lado} />;
     };
     return (
       <AbsoluteFill>
@@ -290,8 +290,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           {() => (
             <>
               <Rotulo cam={cam} ll={[-4.6, 39.0]} texto="España" f={f} inicio={2} tam={100} giro={-6} salida={sev - 4} />
-              <Ciudad cam={cam} ll={L.sevilla} nombre="Sevilla" f={f} inicio={sev} hundida={sev + 10} />
-              <Ciudad cam={cam} ll={L.valencia} nombre="Valencia" f={f} inicio={val} hundida={val + 10} />
+              <Ciudad cam={cam} ll={L.sevilla} nombre="Sevilla" f={f} inicio={sev} hundida={sev + 4} />
+              <Ciudad cam={cam} ll={L.valencia} nombre="Valencia" f={f} inicio={val} hundida={val + 4} />
               <Ciudad cam={cam} ll={L.madrid} nombre="Madrid" f={f} inicio={e.en("Madrid")} salvada={e.en("salvaria")} nota="650 M" />
             </>
           )}
@@ -316,8 +316,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
           {() => (
             <>
               <Rotulo cam={cam} ll={[-81.9, 28.4]} texto="Florida" f={f} inicio={e.en("Florida")} tam={84} giro={-62} />
-              <Ciudad cam={cam} ll={L.miami} nombre="Miami" f={f} inicio={mia} hundida={mia + 10} />
-              <Ciudad cam={cam} ll={L.cancun} nombre="Cancún" f={f} inicio={can} hundida={can + 10} lado="izq" />
+              <Ciudad cam={cam} ll={L.miami} nombre="Miami" f={f} inicio={mia} hundida={mia + 4} />
+              <Ciudad cam={cam} ll={L.cancun} nombre="Cancún" f={f} inicio={can} hundida={can + 4} lado="izq" />
             </>
           )}
         </Mapa>
@@ -338,7 +338,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
         <Mapa camara={cam} f={f} fuentes={["mundo", "sudamerica"]} nivelMar={nivel}>
           {() => (
             <>
-              <Ciudad cam={cam} ll={L.buenosAires} nombre="Buenos Aires" f={f} inicio={ba} hundida={ba + 12} lado="izq" />
+              <Ciudad cam={cam} ll={L.buenosAires} nombre="Buenos Aires" f={f} inicio={ba} hundida={ba + 4} lado="izq" />
               <Rotulo cam={cam} ll={[-60, -3]} texto="Amazonas" f={f} inicio={e.en("Amazonas")} tam={80} giro={-5} />
             </>
           )}
@@ -365,8 +365,8 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
             <>
               <Paises trazo={trazo} nombres={["Bangladesh"]} color={ROJO} f={f} inicio={bd} />
               <Rotulo cam={cam} ll={[90.3, 24.3]} texto="Bangladés" f={f} inicio={bd} tam={50} giro={-4} dy={-70} />
-              <Ciudad cam={cam} ll={L.shanghai} nombre="Shanghái" f={f} inicio={sh} hundida={sh + 10} lado="izq" />
-              <Ciudad cam={cam} ll={L.bangkok} nombre="Bangkok" f={f} inicio={bk} hundida={bk + 10} />
+              <Ciudad cam={cam} ll={L.shanghai} nombre="Shanghái" f={f} inicio={sh} hundida={sh + 4} lado="izq" />
+              <Ciudad cam={cam} ll={L.bangkok} nombre="Bangkok" f={f} inicio={bk} hundida={bk + 4} />
             </>
           )}
         </Mapa>
@@ -381,7 +381,7 @@ export const crearIlustraciones = (esc: Record<Ilustracion, Escenario>): Record<
     const e = esc.tiempo;
     const cam = P(40 + f * 0.12, 22, 0.85);
     const t = e.en("5.000");
-    const v = Math.round(interpolate(f, [t, t + 36], [0, 5000], { ...clamp, easing: Easing.out(Easing.cubic) }));
+    const v = Math.round(interpolate(f, [t, t + 20], [0, 5000], { ...clamp, easing: Easing.out(Easing.cubic) }));
     return (
       <AbsoluteFill>
         <Mapa camara={cam} f={f} />

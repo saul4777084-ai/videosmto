@@ -46,12 +46,24 @@ type Meta = { z: number; x0: number; y0: number; ancho: number; alto: number };
 
 type Tex = { w: number; h: number; d: Uint8ClampedArray };
 const cache = new Map<string, Promise<Tex>>();
+// descarga con reintentos (en renders largos a veces falla una petición suelta)
+const traer = async (url: string, intentos = 4): Promise<Blob> => {
+  for (let i = 0; ; i++) {
+    try {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(`${r.status} ${url}`);
+      return await r.blob();
+    } catch (e) {
+      if (i >= intentos - 1) throw e;
+      await new Promise((ok) => setTimeout(ok, 500 * (i + 1)));
+    }
+  }
+};
 const cargar = (archivo: string): Promise<Tex> => {
   if (!cache.has(archivo)) {
     cache.set(
       archivo,
-      fetch(staticFile(archivo))
-        .then((r) => r.blob())
+      traer(staticFile(archivo))
         .then((b) => createImageBitmap(b, { colorSpaceConversion: "none", premultiplyAlpha: "none" }))
         .then((img) => {
           const c = new OffscreenCanvas(img.width, img.height);
