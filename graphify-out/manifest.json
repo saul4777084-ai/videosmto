@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795141860.574259,
-    "seen": 1795148210.5424418,
-    "ast_hash": "fa6068a2946b9f9c45d1d6afb8272d44",
+    "mtime": 1795307186.7815168,
+    "seen": 1795307457.6882145,
+    "ast_hash": "38de3e802b24f41b594be1daeac01954",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -1026,15 +1026,15 @@
     "semantic_hash": ""
   },
   "src/comun/ReelBase.tsx": {
-    "mtime": 1795141145.1828945,
-    "seen": 1795141331.1305547,
-    "ast_hash": "6c7cc72642dccfe5f28692207de307a8",
+    "mtime": 1795306810.1270468,
+    "seen": 1795307457.6882882,
+    "ast_hash": "9b41a512e429fd598b7e3060132719cb",
     "semantic_hash": ""
   },
   "src/comun/Subtitulos.tsx": {
-    "mtime": 1794859919.773191,
-    "seen": 1795041785.3601055,
-    "ast_hash": "c2559e5169b71e0380ef3a69729b80a7",
+    "mtime": 1795148227.653598,
+    "seen": 1795307457.6882904,
+    "ast_hash": "86dd124e3bc7532854dfc530b6ac1721",
     "semantic_hash": ""
   },
   "src/comun/tipos.ts": {
@@ -2256,9 +2256,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1795123881.0074732,
-    "seen": 1795123907.9812877,
-    "ast_hash": "8ee5c78d45a29192f2adda788e778789",
+    "mtime": 1795306665.5799057,
+    "seen": 1795307457.6887553,
+    "ast_hash": "8ef823cdda35d48fbc1919ecba540934",
     "semantic_hash": ""
   },
   "README.md": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795148193.6486096,
-    "seen": 1795148210.5427136,
-    "ast_hash": "2231f54fc3e86b64038d2b569aaef72a",
+    "mtime": 1795307438.7039516,
+    "seen": 1795307457.6887696,
+    "ast_hash": "7b3ddc21ce7260b696373823dcea412b",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -4038,9 +4038,9 @@
     "semantic_hash": ""
   },
   "src/Desierto/Ilustraciones.tsx": {
-    "mtime": 1795148169.5373445,
-    "seen": 1795148210.5423431,
-    "ast_hash": "f188c2757ec1d7ff5c9cf2fb8a9b9176",
+    "mtime": 1795306879.3599184,
+    "seen": 1795307457.6880066,
+    "ast_hash": "283664521eb1428121da3f63be9ba503",
     "semantic_hash": ""
   },
   "src/Desierto/Reel.tsx": {
@@ -4086,9 +4086,9 @@
     "semantic_hash": ""
   },
   "scripts/texturas_mapa.py": {
-    "mtime": 1795141860.574259,
-    "seen": 1795148210.5422926,
-    "ast_hash": "9275f8fddf195b6674c38462d6c9244e",
+    "mtime": 1795306665.6119058,
+    "seen": 1795307457.6879275,
+    "ast_hash": "5dfebcea6525b2691757c41cb166ced5",
     "semantic_hash": ""
   },
   "src/MuestrasMapas/Muestras.tsx": {
@@ -4098,15 +4098,15 @@
     "semantic_hash": ""
   },
   "src/comun/Tierra.tsx": {
-    "mtime": 1795141860.574259,
-    "seen": 1795148210.5424683,
-    "ast_hash": "5ceeeac8e484dcc74c4d20dc7eee547b",
+    "mtime": 1795306665.6159058,
+    "seen": 1795307457.6882925,
+    "ast_hash": "2f977394e3e5fa6a92843a5bf8c07c08",
     "semantic_hash": ""
   },
   "src/comun/tierra_fuentes.json": {
-    "mtime": 1795141860.574259,
-    "seen": 1795148210.5424693,
-    "ast_hash": "45c9c642475161e62a5e10dbce3ee936",
+    "mtime": 1795148227.6575983,
+    "seen": 1795307457.688297,
+    "ast_hash": "fffe8b53f19c15774fdb8ef91bdb945a",
     "semantic_hash": ""
   },
   "public/mapas/asia_alt.png": {
@@ -4173,6 +4173,288 @@
     "mtime": 1795141839.6422577,
     "seen": 1795148210.5429244,
     "ast_hash": "f5ff06d5ca02a8ed257556e47905767e",
+    "semantic_hash": ""
+  },
+  "scripts/fotos.mjs": {
+    "mtime": 1795148227.6427543,
+    "seen": 1795307457.687919,
+    "ast_hash": "af15954f2f305351b3b236b842f64839",
+    "semantic_hash": ""
+  },
+  "scripts/musica_fondo.py": {
+    "mtime": 1795306801.361889,
+    "seen": 1795307457.687922,
+    "ast_hash": "b7a68ef1410948da632da40cf0ad7c14",
+    "semantic_hash": ""
+  },
+  "scripts/tiempos_sin_voz.py": {
+    "mtime": 1795148227.6489594,
+    "seen": 1795307457.6879299,
+    "ast_hash": "3b82602cd010adf9269632d0c75ac6f7",
+    "semantic_hash": ""
+  },
+  "src/Clima/Ilustraciones.tsx": {
+    "mtime": 1795307412.1586504,
+    "seen": 1795307457.687957,
+    "ast_hash": "ab80ac7b07e6dc79cb05b9ef3b5def18",
+    "semantic_hash": ""
+  },
+  "src/Clima/Reel.tsx": {
+    "mtime": 1795306923.8439782,
+    "seen": 1795307457.6879592,
+    "ast_hash": "93a5174734c9f697eab6049bc2508d40",
+    "semantic_hash": ""
+  },
+  "src/Clima/efectos.ts": {
+    "mtime": 1795306923.8423645,
+    "seen": 1795307457.687961,
+    "ast_hash": "aabcfe37b7ee67e53949aadb83da84dc",
+    "semantic_hash": ""
+  },
+  "src/Clima/escenas.ts": {
+    "mtime": 1795306923.835921,
+    "seen": 1795307457.6879628,
+    "ast_hash": "faae79d6f6899f83a2dc6792db5498e5",
+    "semantic_hash": ""
+  },
+  "src/Clima/guion.json": {
+    "mtime": 1795306849.4694521,
+    "seen": 1795307457.6879652,
+    "ast_hash": "914ebef34dcf59a9e0f76f83db69ea41",
+    "semantic_hash": ""
+  },
+  "src/Clima/tiempos.json": {
+    "mtime": 1795306849.52786,
+    "seen": 1795307457.6879668,
+    "ast_hash": "489f978d604a98ead15db9b3d4cbc1c9",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/Ilustraciones.tsx": {
+    "mtime": 1795306665.6159058,
+    "seen": 1795307457.6879964,
+    "ast_hash": "b1cba21a6dd343f89fb817538c52712a",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/Reel.tsx": {
+    "mtime": 1795149251.503952,
+    "seen": 1795307457.6879983,
+    "ast_hash": "224f41d479e12780a30fa40d8fd2b4ea",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/efectos.ts": {
+    "mtime": 1795148227.6491644,
+    "seen": 1795307457.6879997,
+    "ast_hash": "210678534450d85117a1027b225b9825",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/escenas.ts": {
+    "mtime": 1795148227.6491644,
+    "seen": 1795307457.6880014,
+    "ast_hash": "02b6265f9ed36d0986c07cf068042032",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/guion.json": {
+    "mtime": 1795148227.6491644,
+    "seen": 1795307457.688003,
+    "ast_hash": "9571d5f2306019ca275c7e6aa6a028ca",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/tiempos.json": {
+    "mtime": 1795148227.6491644,
+    "seen": 1795307457.6880045,
+    "ast_hash": "5e2cd4ea8a8288067c81308bfc84d3aa",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/Ilustraciones.tsx": {
+    "mtime": 1795306665.6159058,
+    "seen": 1795307457.6881099,
+    "ast_hash": "29f349e811f29301b5608ce621eebbf3",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/Reel.tsx": {
+    "mtime": 1795149251.503952,
+    "seen": 1795307457.6881113,
+    "ast_hash": "a5186784820678234b8ca4a660892b6c",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/efectos.ts": {
+    "mtime": 1795148227.649506,
+    "seen": 1795307457.6881132,
+    "ast_hash": "94d6e3e14af646d4fff4524ef89378ca",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/escenas.ts": {
+    "mtime": 1795148227.649506,
+    "seen": 1795307457.6881144,
+    "ast_hash": "c35a1e9e0450f7cc62bee5703bd038e8",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/guion.json": {
+    "mtime": 1795148227.649506,
+    "seen": 1795307457.6881163,
+    "ast_hash": "37415bac5367ac29e70b735f49c0e377",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/tiempos.json": {
+    "mtime": 1795148227.649506,
+    "seen": 1795307457.6881182,
+    "ast_hash": "0c3a4a287442ffd86f578cac5ce7e0a8",
+    "semantic_hash": ""
+  },
+  "src/MuestrasMapas/Estilos.tsx": {
+    "mtime": 1795306665.6159058,
+    "seen": 1795307457.688139,
+    "ast_hash": "7b8aba833e0be1e36b49ddc9c9e4ac74",
+    "semantic_hash": ""
+  },
+  "src/comun/PiezasNapoleon.tsx": {
+    "mtime": 1795306665.6159058,
+    "seen": 1795307457.6882837,
+    "ast_hash": "3b38bcd55512deb69cc7541db1bf4694",
+    "semantic_hash": ""
+  },
+  "src/comun/PiezasTierra.tsx": {
+    "mtime": 1795148227.6495981,
+    "seen": 1795307457.688286,
+    "ast_hash": "0f7d84b8e3fda60e19e7deae02de1c07",
+    "semantic_hash": ""
+  },
+  "src/comun/fuentes.ts": {
+    "mtime": 1795148227.653598,
+    "seen": 1795307457.6882944,
+    "ast_hash": "fec6a78e799f06e4b64cae64fe45289f",
+    "semantic_hash": ""
+  },
+  "public/fuentes/MONTSERRAT_LICENCIA.txt": {
+    "mtime": 1795148227.5439458,
+    "seen": 1795307457.6887674,
+    "ast_hash": "fd37613fd0b9b93e1a89782d16652c61",
+    "semantic_hash": ""
+  },
+  "src/Clima/voz_texto.txt": {
+    "mtime": 1795306879.364452,
+    "seen": 1795307457.688771,
+    "ast_hash": "ea5b3752f25b600f8353683fcdc26fc6",
+    "semantic_hash": ""
+  },
+  "public/mapas/america_norte_alt.png": {
+    "mtime": 1795148227.5655982,
+    "seen": 1795307457.688859,
+    "ast_hash": "bdb00e380b500ead4cb2b0b92c640d28",
+    "semantic_hash": ""
+  },
+  "public/mapas/america_norte_dibujo.jpg": {
+    "mtime": 1795306665.5839057,
+    "seen": 1795307457.688861,
+    "ast_hash": "560b17f9e7f1fe13f236578885849772",
+    "semantic_hash": ""
+  },
+  "public/mapas/america_norte_mapa.jpg": {
+    "mtime": 1795148227.577202,
+    "seen": 1795307457.6888628,
+    "ast_hash": "2aff3a905a0639c1f390a6b2f61d7689",
+    "semantic_hash": ""
+  },
+  "public/mapas/america_norte_relieve.jpg": {
+    "mtime": 1795148227.5800912,
+    "seen": 1795307457.6888642,
+    "ast_hash": "dde15367de88bb4594d89d476e094d2f",
+    "semantic_hash": ""
+  },
+  "public/mapas/america_norte_satelite.jpg": {
+    "mtime": 1795148227.5824406,
+    "seen": 1795307457.6888661,
+    "ast_hash": "c111b3772669a0fc43370beb8ef332e9",
+    "semantic_hash": ""
+  },
+  "public/mapas/asia_dibujo.jpg": {
+    "mtime": 1795306665.5919058,
+    "seen": 1795307457.688871,
+    "ast_hash": "caa9c923c68758581a9f0f2cd15183b6",
+    "semantic_hash": ""
+  },
+  "public/mapas/asia_mapa.jpg": {
+    "mtime": 1795148227.5824406,
+    "seen": 1795307457.6888723,
+    "ast_hash": "b6546e5bb21c6da41c1f127eb28f8edb",
+    "semantic_hash": ""
+  },
+  "public/mapas/europa_dibujo.jpg": {
+    "mtime": 1795306665.5959058,
+    "seen": 1795307457.6888814,
+    "ast_hash": "b5eadac8987e835f869c49b94b8fcdba",
+    "semantic_hash": ""
+  },
+  "public/mapas/europa_mapa.jpg": {
+    "mtime": 1795148227.588946,
+    "seen": 1795307457.6888835,
+    "ast_hash": "0b684e8f735622ec030fae21a6bc40eb",
+    "semantic_hash": ""
+  },
+  "public/mapas/mundo_dibujo.jpg": {
+    "mtime": 1795306665.6079056,
+    "seen": 1795307457.688892,
+    "ast_hash": "5d2039a932bbf546e435e469b49281f1",
+    "semantic_hash": ""
+  },
+  "public/mapas/mundo_mapa.jpg": {
+    "mtime": 1795148227.5935981,
+    "seen": 1795307457.688894,
+    "ast_hash": "8dab145f5f41f5e62228c8f051830dba",
+    "semantic_hash": ""
+  },
+  "public/mapas/sudamerica_alt.png": {
+    "mtime": 1795148227.6295981,
+    "seen": 1795307457.6889017,
+    "ast_hash": "290764844471f9fd074c59e884ddf8fd",
+    "semantic_hash": ""
+  },
+  "public/mapas/sudamerica_dibujo.jpg": {
+    "mtime": 1795306665.6119058,
+    "seen": 1795307457.688903,
+    "ast_hash": "cde2fe936ac87247bc718657cc134ef3",
+    "semantic_hash": ""
+  },
+  "public/mapas/sudamerica_mapa.jpg": {
+    "mtime": 1795148227.6344771,
+    "seen": 1795307457.6889052,
+    "ast_hash": "3a8332a7f424331e99ce0094a488f3aa",
+    "semantic_hash": ""
+  },
+  "public/mapas/sudamerica_relieve.jpg": {
+    "mtime": 1795148227.6396067,
+    "seen": 1795307457.688907,
+    "ast_hash": "dc658d87e18f03749d9f474293fddf33",
+    "semantic_hash": ""
+  },
+  "public/mapas/sudamerica_satelite.jpg": {
+    "mtime": 1795148227.6427543,
+    "seen": 1795307457.6889086,
+    "ast_hash": "a70b9683acc4e6985477a4b8b4de697d",
+    "semantic_hash": ""
+  },
+  "public/sfx/musica_clima.wav": {
+    "mtime": 1795306892.0559192,
+    "seen": 1795307457.689055,
+    "ast_hash": "ec9e7fceb157db73729fb5b72a52fab5",
+    "semantic_hash": ""
+  },
+  "videos/reel-deshielo.mp4": {
+    "mtime": 1795306665.6719058,
+    "seen": 1795307457.6891289,
+    "ast_hash": "8bfe5ca7c2c90c721e8017fb3a8960bb",
+    "semantic_hash": ""
+  },
+  "videos/reel-desierto-cine.mp4": {
+    "mtime": 1795149375.7816665,
+    "seen": 1795307457.6891305,
+    "ast_hash": "333d097caa885d3438ef4e56f1ee2dd3",
+    "semantic_hash": ""
+  },
+  "videos/reel-mongoles.mp4": {
+    "mtime": 1795306665.7279058,
+    "seen": 1795307457.689143,
+    "ast_hash": "4887ef27511d8576bddde1e67cb1d9ea",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

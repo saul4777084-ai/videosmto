@@ -376,3 +376,26 @@ Sin voz (texto + efectos): en TikTok añade un sonido épico en tendencia a volu
 > 24 millones de km². Así creció, año a año, sobre el mapa.
 >
 > #Historia #Mapas #GengisKan #Curiosidades
+
+## La Tierra tiene fiebre (calentamiento global) — `videos/reel-clima.mp4`
+~2:00 sin voz (≈1:30 con la tuya) · versión «cine» · música propia que gira a esperanza en «La buena noticia» · final A/B.
+
+### TikTok
+> La Tierra tiene fiebre 🌍🌡️ y te lo demuestro en un minuto.
+>
+> 2024, el año más caluroso jamás medido. El Ártico, −40 % de hielo. El 84 % de los corales, blanqueados… y una buena noticia ☀️
+>
+> ¿Qué cambiarías tú? Comenta A o B 👇
+>
+> #cambioclimatico #calentamientoglobal #clima #medioambiente #datoscuriosos #aprendeentiktok
+
+### Facebook
+> **La Tierra tiene fiebre: los datos del calentamiento global en un minuto** 🌍
+>
+> 2024 fue el año más caluroso jamás medido, 1,5 °C por encima de la era preindustrial. El aire tiene un 50 % más de
+> CO₂ que en 1800, los diez años más calurosos son los últimos diez y en el verano de 2022 el calor mató a más de
+> 60.000 personas en Europa. La buena noticia: la energía solar ya es la electricidad más barata de la historia.
+>
+> ¿Qué cambiarías tú: usar menos el coche (A) o comer menos carne (B)?
+>
+> #CambioClimático #Clima #MedioAmbiente

@@ -16,14 +16,14 @@ const NARANJA = "#ff8a2b";
 const PIEL = "#e8a77e";
 
 // ---------- cámara ----------
-type Cam = { z: number; x: number; y: number; r?: number };
-const suave = Easing.inOut(Easing.cubic);
-const mover = (f: number, a: number, b: number, de: Cam, hasta: Cam): Cam => {
+export type Cam = { z: number; x: number; y: number; r?: number };
+export const suave = Easing.inOut(Easing.cubic);
+export const mover = (f: number, a: number, b: number, de: Cam, hasta: Cam): Cam => {
   const k = interpolate(f, [a, Math.max(b, a + 1)], [0, 1], { ...clamp, easing: suave });
   return { z: de.z + (hasta.z - de.z) * k, x: de.x + (hasta.x - de.x) * k, y: de.y + (hasta.y - de.y) * k, r: (de.r ?? 0) + ((hasta.r ?? 0) - (de.r ?? 0)) * k };
 };
 // capa con paralaje: prof 0 = fija, 1 = sigue a la cámara, >1 = primer plano (se mueve más)
-const Plano: React.FC<{ cam: Cam; prof?: number; filtro?: string; children: React.ReactNode }> = ({ cam, prof = 1, filtro, children }) => (
+export const Plano: React.FC<{ cam: Cam; prof?: number; filtro?: string; children: React.ReactNode }> = ({ cam, prof = 1, filtro, children }) => (
   <div
     style={{
       position: "absolute",
@@ -35,10 +35,10 @@ const Plano: React.FC<{ cam: Cam; prof?: number; filtro?: string; children: Reac
     {children}
   </div>
 );
-const temblor = (f: number, fuerza: number) => ({ x: Math.sin(f * 2.7) * 9 * fuerza + Math.sin(f * 5.1) * 4 * fuerza, y: Math.cos(f * 3.3) * 7 * fuerza });
+export const temblor = (f: number, fuerza: number) => ({ x: Math.sin(f * 2.7) * 9 * fuerza + Math.sin(f * 5.1) * 4 * fuerza, y: Math.cos(f * 3.3) * 7 * fuerza });
 
 // ---------- acabado de cine: viñeta, grano y calima ----------
-const Cine: React.FC<{ f: number; vineta?: number; tinte?: string }> = ({ f, vineta = 0.7, tinte }) => (
+export const Cine: React.FC<{ f: number; vineta?: number; tinte?: string }> = ({ f, vineta = 0.7, tinte }) => (
   <>
     {tinte && <AbsoluteFill style={{ background: tinte, mixBlendMode: "soft-light" }} />}
     <AbsoluteFill style={{ background: `radial-gradient(ellipse at 50% 48%, rgba(0,0,0,0) 45%, rgba(0,0,0,${vineta}) 100%)` }} />
@@ -51,7 +51,7 @@ const Cine: React.FC<{ f: number; vineta?: number; tinte?: string }> = ({ f, vin
   </>
 );
 // distorsión por calor: aplica filter: url(#id) a una capa
-const Calima: React.FC<{ id: string; f: number; fuerza: number }> = ({ id, f, fuerza }) => (
+export const Calima: React.FC<{ id: string; f: number; fuerza: number }> = ({ id, f, fuerza }) => (
   <svg width={0} height={0} style={{ position: "absolute" }}>
     <filter id={id} x="-5%" y="-5%" width="110%" height="110%">
       <feTurbulence type="turbulence" baseFrequency="0.006 0.045" numOctaves={2} seed={Math.floor(f / 3) % 40} />
@@ -61,7 +61,7 @@ const Calima: React.FC<{ id: string; f: number; fuerza: number }> = ({ id, f, fu
 );
 
 // ---------- paisaje: cielo, sol, dunas, calima y arena ----------
-const Paisaje: React.FC<{ f: number; noche?: number; sol?: [number, number]; horizonte?: number; tormenta?: number; dunas?: string[] }> = ({ f, noche = 0, sol = [800, 760], horizonte = 1250, tormenta = 0, dunas }) => {
+export const Paisaje: React.FC<{ f: number; noche?: number; sol?: [number, number]; horizonte?: number; tormenta?: number; dunas?: string[] }> = ({ f, noche = 0, sol = [800, 760], horizonte = 1250, tormenta = 0, dunas }) => {
   const arriba = interpolateColors(noche, [0, 0.5, 1], ["#2f7fd0", "#d4553a", "#050a24"]);
   const medio = interpolateColors(noche, [0, 0.5, 1], ["#9fd0f0", "#ff9a55", "#1a2050"]);
   const abajo = interpolateColors(noche, [0, 0.5, 1], ["#fff0c8", "#ffd08a", "#2a2f5e"]);
@@ -116,7 +116,7 @@ const Paisaje: React.FC<{ f: number; noche?: number; sol?: [number, number]; hor
 };
 
 // ---------- el protagonista (sudadera roja, como siempre) ----------
-const Yo: React.FC<{ f: number; x: number; y: number; escala?: number; acciones: [number, Accion2D][]; cara?: Cara; calor?: number; sudadera?: string; piel?: string; mirar?: "derecha" | "izquierda"; sombra?: boolean }> = ({
+export const Yo: React.FC<{ f: number; x: number; y: number; escala?: number; acciones: [number, Accion2D][]; cara?: Cara; calor?: number; sudadera?: string; piel?: string; mirar?: "derecha" | "izquierda"; sombra?: boolean }> = ({
   f,
   x,
   y,
@@ -140,7 +140,7 @@ const Yo: React.FC<{ f: number; x: number; y: number; escala?: number; acciones:
 );
 
 // texto de interfaz (pantallas, HUD)
-const T: React.FC<{ x: number; y: number; tam: number; color?: string; peso?: number; children: React.ReactNode; ancho?: number; alinear?: "left" | "center"; mono?: boolean; op?: number }> = ({
+export const T: React.FC<{ x: number; y: number; tam: number; color?: string; peso?: number; children: React.ReactNode; ancho?: number; alinear?: "left" | "center"; mono?: boolean; op?: number }> = ({
   x,
   y,
   tam,
@@ -174,7 +174,7 @@ const T: React.FC<{ x: number; y: number; tam: number; color?: string; peso?: nu
 );
 
 // esquinas de visor de cámara + REC
-const Visor: React.FC<{ f: number; texto: string; color?: string }> = ({ f, texto, color = "#fff" }) => (
+export const Visor: React.FC<{ f: number; texto: string; color?: string }> = ({ f, texto, color = "#fff" }) => (
   <>
     {[
       [70, 470, "borderTop", "borderLeft"],
@@ -1045,7 +1045,7 @@ const argelia: Fabrica = ({ en, dur }) => ({ f }) => {
 };
 
 // ---------- 17 · final interactivo: ¿qué haces? A o B ----------
-const Opcion: React.FC<{ f: number; inicio: number; letra: string; texto: string; color: string; y: number; marcada?: boolean }> = ({ f, inicio, letra, texto, color, y, marcada }) => {
+export const Opcion: React.FC<{ f: number; inicio: number; letra: string; texto: string; color: string; y: number; marcada?: boolean }> = ({ f, inicio, letra, texto, color, y, marcada }) => {
   if (f < inicio) return null;
   const s = muelle(f, inicio, 12);
   return (

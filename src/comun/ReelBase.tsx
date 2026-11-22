@@ -13,6 +13,7 @@ type Props<I extends string> = {
   dibujos: Record<I, Dibujo>;
   efectos: Record<I, Golpe[]>;
   volumenMusica?: number;
+  musica?: string; // pista de fondo en public/ (se repite si el vídeo es más largo)
   mostrarAvatar?: boolean;
   voz?: string; // archivo de voz en public/ que suena de principio a fin
   avatar?: "poses" | "marioneta"; // poses: dorso hacia arriba con poses dibujadas
@@ -26,7 +27,7 @@ type Props<I extends string> = {
 
 // Plantilla de reel: escenas ilustradas con fundido, subtítulos palabra por palabra,
 // avatar marioneta siempre visible y efectos de sonido sincronizados.
-export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda", estiloSubtitulos = "clasico", oscurecerArriba = true , tamSubtitulos, volumenEfectos = 1 }: Props<I>) {
+export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenMusica = 0.16, musica = "sfx/musica.wav", mostrarAvatar = true, voz, avatar = "poses", zoomSuave = true, ladoAvatar = "izquierda", estiloSubtitulos = "clasico", oscurecerArriba = true , tamSubtitulos, volumenEfectos = 1 }: Props<I>) {
   const frame = useCurrentFrame();
   const inicios = iniciosDe(escenas);
   const duracion = duracionDe(escenas);
@@ -42,7 +43,7 @@ export function ReelBase<I extends string>({ escenas, dibujos, efectos, volumenM
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       {voz && <Audio src={staticFile(voz)} volume={1} />}
-      <Sonidos escenas={escenas} efectos={efectos} inicios={inicios} duracion={duracion} volumenMusica={volumenMusica} volumenEfectos={volumenEfectos} />
+      <Sonidos escenas={escenas} efectos={efectos} inicios={inicios} duracion={duracion} musica={musica} volumenMusica={volumenMusica} volumenEfectos={volumenEfectos} />
 
       {escenas.map((e, i) => {
         const D: Dibujo = dibujos[e.ilustracion];
@@ -167,6 +168,7 @@ function Sonidos<I extends string>({
   efectos,
   inicios,
   duracion,
+  musica,
   volumenMusica,
   volumenEfectos,
 }: {
@@ -174,12 +176,13 @@ function Sonidos<I extends string>({
   efectos: Record<I, Golpe[]>;
   inicios: number[];
   duracion: number;
+  musica: string;
   volumenMusica: number;
   volumenEfectos: number;
 }) {
   return (
     <>
-      <Audio src={staticFile("sfx/musica.wav")} volume={volumenMusica} durationInFrames={duracion} />
+      <Audio src={staticFile(musica)} volume={volumenMusica} durationInFrames={duracion} loop />
       {escenas.map((e, i) => {
         const golpes: Golpe[] = [...(i > 0 ? ([[0, "whoosh", 0.45]] as Golpe[]) : []), ...efectos[e.ilustracion], ...ticsDe(e)];
         return golpes.map(([f, efecto, vol = 0.6], k) => (
