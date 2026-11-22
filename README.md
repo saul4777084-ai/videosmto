@@ -343,6 +343,19 @@ tools/render_cola.sh            # render por tramos (WebGL por CPU, varias horas
 python3 tools/sintetizar_cola.py  # música y efectos sincronizados → public/cola/banda.wav + out/coca-cola-30-dias-efectos.mp4
 ```
 
+**Con tu voz** (`out/coca-cola-30-dias-final.mp4`: voz + música + efectos, −14 LUFS):
+
+```bash
+python3 tools/voz_cola.py tu_voz.mp3   # transcribe tu audio (faster-whisper), corta cada frase y rehace los tiempos
+tools/render_cola.sh                   # vuelve a renderizar la imagen con esos tiempos (borra antes out/tramos-cola/*.mp4)
+python3 tools/sintetizar_cola.py       # música, efectos y voz → out/coca-cola-30-dias-final.mp4
+```
+
+`voz_cola.py` localiza las 16 frases del guion en tu audio aunque la locución no respete las pausas, coloca cada una
+en su sitio (con las pausas del guion entre frases y 1,5 s entre escenas) y guarda el instante real de cada
+palabra: los subtítulos, los rótulos y los efectos siguen a tu voz palabra a palabra. Después ajusta en
+`src/videos/cola/plan.json` en qué segundo de cada escena cambia la toma si alguna frase dura mucho más o menos.
+
 **Música y efectos** (`out/coca-cola-30-dias-efectos.mp4`, sin voz; la banda sola en `public/cola/banda.wav` para tu
 editor): dron y acordes de suspense que se tensan día a día y se resuelven en el final, ostinato que acelera,
 latidos al ritmo del corazón animado, golpe y campanita con cada "DÍA", barrido de rayos X cuando el cuerpo se vuelve

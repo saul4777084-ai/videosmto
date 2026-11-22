@@ -128,24 +128,50 @@ def mmss(s):
     return f'{int(s // 60)}:{s % 60:04.1f}'
 
 
+def voz_grabada():
+    """Duraciones y palabras medidas en la locución real (tools/voz_cola.py), si existe."""
+    ruta = os.path.join(RAIZ, 'src', 'videos', 'cola', 'voz.json')
+    if not os.path.exists(ruta):
+        return None
+    with open(ruta, encoding='utf-8') as f:
+        return json.load(f)['frases']
+
+
 def main():
     escenas, frases_json, subs = [], [], []
     t = 0.0
     k = 0
+    grabada = voz_grabada()
+    if grabada:
+        print('usando la duración real de la locución (src/videos/cola/voz.json)')
     for eid, titulo, inicio_min, frases in ESCENAS:
         inicio = max(inicio_min, t)
         cursor = inicio + RETARDO_INICIO
         for texto, voz, pausa in frases:
-            dur = medir(voz, k)
+            g = grabada[k] if grabada else None
+            if g and g['texto'] != texto:
+                raise SystemExit(f'voz.json no corresponde al guion: "{g["texto"]}" ≠ "{texto}". Vuelve a ejecutar tools/voz_cola.py')
+            dur = g['dur'] if g else medir(voz, k)
             k += 1
-            frases_json.append({'escena': eid, 'texto': texto, 'voz': voz, 'inicio': round(cursor, 3), 'fin': round(cursor + dur, 3), 'pausa': pausa})
+            palabras_txt = texto.split()
+            if g:
+                tp = [cursor + v for v in g['palabras']]
+            else:  # reparto por letras
+                tot = len(texto)
+                tp, acum = [], 0
+                for w in palabras_txt:
+                    tp.append(cursor + dur * acum / tot)
+                    acum += len(w) + 1
+            frases_json.append({'escena': eid, 'texto': texto, 'voz': voz, 'inicio': round(cursor, 3), 'fin': round(cursor + dur, 3), 'pausa': pausa,
+                                'palabras': [round(v, 3) for v in tp]})
             lineas = trocear(texto)
-            letras = sum(len(l) for l in lineas)
-            c = cursor
-            for l in lineas:
-                d = dur * len(l) / letras
-                subs.append({'texto': l, 'inicio': round(c, 3), 'fin': round(c + d, 3)})
-                c += d
+            j = 0
+            for n_l, l in enumerate(lineas):
+                n = len(l.split())
+                ini = tp[j]
+                fin = tp[j + n] if j + n < len(tp) else cursor + dur
+                subs.append({'texto': l, 'inicio': round(ini, 3), 'fin': round(fin, 3), 'palabras': [round(v, 3) for v in tp[j:j + n]]})
+                j += n
             cursor += dur + pausa
         t = cursor + COLA_ESCENA
         escenas.append({'id': eid, 'titulo': titulo, 'inicio': round(inicio, 3)})

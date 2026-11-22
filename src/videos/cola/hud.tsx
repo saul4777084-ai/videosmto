@@ -20,8 +20,10 @@ const sombra = '0 3px 14px rgba(0,0,0,0.9)';
 export const momento = (inicioFrase: string, palabra: string) => {
   const f = tiempos.frases.find((x) => x.texto.startsWith(inicioFrase));
   if (!f) return 0;
-  const i = f.texto.toLowerCase().indexOf(palabra.toLowerCase());
-  return f.inicio + (f.fin - f.inicio) * (Math.max(0, i) / f.texto.length);
+  const i = Math.max(0, f.texto.toLowerCase().indexOf(palabra.toLowerCase()));
+  const tp = (f as {palabras?: number[]}).palabras;
+  if (tp) return tp[f.texto.slice(0, i).split(' ').length - 1] ?? f.inicio;
+  return f.inicio + (f.fin - f.inicio) * (i / f.texto.length);
 };
 export const escena = (id: string) => tiempos.escenas.find((e) => e.id === id)!;
 
@@ -263,7 +265,8 @@ export const Subtitulos: React.FC<{tAbs: number}> = ({tAbs}) => {
     <div style={{position: 'absolute', left: 60, right: 60, top: 1330, display: 'flex', justifyContent: 'center', opacity: o, transform: `scale(${pop})`}}>
       <div style={{padding: '12px 26px', borderRadius: 18, background: 'rgba(0,0,0,0.45)', fontFamily: F, fontWeight: 800, fontSize: 54, lineHeight: 1.16, textAlign: 'center', color: '#fff', textShadow: '0 3px 10px rgba(0,0,0,0.95)'}}>
         {palabras.map((p, i) => {
-          const ini = s.inicio + ((s.fin - s.inicio) * acum) / total;
+          const tp = (s as {palabras?: number[]}).palabras;
+          const ini = tp ? tp[i] : s.inicio + ((s.fin - s.inicio) * acum) / total;
           acum += p.length + 1;
           const dicha = tAbs >= ini;
           const clave = CLAVE.test(p.replace(/^[¿(]/, ''));

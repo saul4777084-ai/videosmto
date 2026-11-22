@@ -8,6 +8,7 @@ baja de volumen donde va cada frase para dejar sitio a la locución que grabes.
 Escribe:
     public/cola/banda.wav                 música + efectos (estéreo, 48 kHz) para tu editor
     out/coca-cola-30-dias-efectos.mp4     el vídeo con esa banda sonora (sin voz)
+    out/coca-cola-30-dias-final.mp4       con tu voz (si existe public/cola/voz.wav, ver tools/voz_cola.py)
 
 Uso:  python3 tools/sintetizar_cola.py
 """
@@ -51,6 +52,8 @@ def momento(inicio_frase, palabra):
     """Segundo en que se dice una palabra (mismo reparto por letras que los subtítulos)."""
     f = next(x for x in T['frases'] if x['texto'].startswith(inicio_frase))
     i = max(0, f['texto'].lower().find(palabra.lower()))
+    if 'palabras' in f:
+        return f['palabras'][len(f['texto'][:i].split(' ')) - 1]
     return f['inicio'] + (f['fin'] - f['inicio']) * i / len(f['texto'])
 
 
@@ -538,3 +541,31 @@ if os.path.exists(video):
     subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', video, '-i', ruta_wav, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k',
                     '-shortest', '-movflags', '+faststart', salida], check=True)
     print('vídeo con efectos:', os.path.relpath(salida, RAIZ))
+
+# ------------------------------------------------------------------------------------ con tu voz
+# Si existe public/cola/voz.wav (tools/voz_cola.py), mezcla voz + música + efectos y normaliza
+# a -14 LUFS (nivel habitual de TikTok/Reels/Shorts).
+ruta_voz = os.path.join(RAIZ, 'public/cola/voz.wav')
+if os.path.exists(ruta_voz):
+    with wave.open(ruta_voz) as w:
+        v = np.frombuffer(w.readframes(w.getnframes()), '<i2').astype(np.float64) / 32768
+    v = np.pad(v, (0, max(0, N - len(v))))[:N]
+    # voz algo más presente: limpia graves y realza la inteligibilidad
+    v = hp(v, 80)
+    v = v + bp(v, 2500, 5000) * 0.25
+    hablando = np.abs(v) > 1e-4
+    v = v / (np.sqrt(np.mean(v[hablando] ** 2)) or 1) * 0.12
+    mix = mezcla * 0.55 + np.stack([v, v], axis=1)
+    mix = np.tanh(mix / 0.95) * 0.95
+    ruta_mix = os.path.join(RAIZ, 'public/cola/mezcla.wav')
+    with wave.open(ruta_mix, 'wb') as w:
+        w.setnchannels(2)
+        w.setsampwidth(2)
+        w.setframerate(SR)
+        w.writeframes((mix * 32767).astype('<i2').tobytes())
+    print('mezcla con voz: public/cola/mezcla.wav')
+    if os.path.exists(video):
+        final = os.path.join(RAIZ, 'out/coca-cola-30-dias-final.mp4')
+        subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', video, '-i', ruta_mix, '-map', '0:v', '-map', '1:a', '-c:v', 'copy',
+                        '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11', '-ar', '48000', '-c:a', 'aac', '-b:a', '256k', '-shortest', '-movflags', '+faststart', final], check=True)
+        print('vídeo final con voz:', os.path.relpath(final, RAIZ))
