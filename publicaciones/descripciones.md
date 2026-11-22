@@ -333,8 +333,7 @@ añade música en la app si lo publicas así.
 
 ---
 
-## ¿Y si se derritiera todo el hielo del planeta? (≈62 s, mapas sin voz) — `videos/reel-deshielo.mp4`
-Sin voz (texto + efectos): en TikTok añade un sonido en tendencia a volumen bajo.
+## ¿Y si se derritiera todo el hielo del planeta? (53 s, con voz) — `videos/reel-deshielo.mp4`
 
 ### TikTok / Reels
 > **Si se derritiera TODO el hielo, el mar subiría 70 metros** 🌊🧊
@@ -356,8 +355,7 @@ Sin voz (texto + efectos): en TikTok añade un sonido en tendencia a volumen baj
 
 ---
 
-## El Imperio mongol: el más grande de la historia (≈58 s, mapas sin voz) — `videos/reel-mongoles.mp4`
-Sin voz (texto + efectos): en TikTok añade un sonido épico en tendencia a volumen bajo.
+## El Imperio mongol: el más grande de la historia (57 s, con voz) — `videos/reel-mongoles.mp4`
 
 ### TikTok / Reels
 > **De niño abandonado a dueño de medio mundo** 🐎🗺️
