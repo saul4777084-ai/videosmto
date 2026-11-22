@@ -378,7 +378,7 @@ Sin voz (texto + efectos): en TikTok añade un sonido épico en tendencia a volu
 > #Historia #Mapas #GengisKan #Curiosidades
 
 ## La Tierra tiene fiebre (calentamiento global) — `videos/reel-clima.mp4`
-~2:00 sin voz (≈1:30 con la tuya) · versión «cine» · música propia que gira a esperanza en «La buena noticia» · final A/B.
+~2:00 sin voz (≈1:30 con la tuya) · versión «cine» sin mapas · música propia que gira a esperanza en «La buena noticia» · final A/B.
 
 ### TikTok
 > La Tierra tiene fiebre 🌍🌡️ y te lo demuestro en un minuto.

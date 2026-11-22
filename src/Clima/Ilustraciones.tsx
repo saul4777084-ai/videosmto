@@ -1,16 +1,12 @@
 // «La Tierra tiene fiebre»: planos a pantalla completa con cámara en movimiento (piezas de cine del desierto),
-// globo satelital (Tierra), mapa estilo Napoleón para Europa, bandas de calentamiento y gráficas animadas.
+// calles, mar, hielo y laboratorio de datos: sin mapas ni globos (lo pidió el usuario), bandas de calentamiento y gráficas.
 // Todo 2D. Cada elemento entra en la palabra que lo nombra (en("palabra")).
 // Zona libre: el avatar ocupa la esquina inferior derecha (x > 720, y > 1420) y los subtítulos la franja de arriba (y≈200–420).
 import React from "react";
 import { AbsoluteFill, interpolate, interpolateColors, random } from "remotion";
-import { geoCircle } from "d3-geo";
-import { Globo } from "../comun/Globo";
-import { Ciudad, Paises } from "../comun/PiezasNapoleon";
-import { CamaraT, Tierra } from "../comun/Tierra";
 import { Dibujo } from "../comun/tipos";
-import { Cine, mover, Opcion, Paisaje, Plano, T, temblor, Yo } from "../Desierto/Ilustraciones";
-import { AMARILLO, clamp, Cuenta, H, muelle, ROJO, Rotulo, SANS, Sello, Termometro, tramo, VERDE, W } from "../Frio/Piezas";
+import { Calima, Cine, mover, Opcion, Paisaje, Plano, T, temblor, Yo } from "../Desierto/Ilustraciones";
+import { AMARILLO, clamp, Cuenta, H, muelle, ROJO, Rotulo, SANS, Sello, tramo, VERDE, W } from "../Frio/Piezas";
 import type { Escenario, Ilustracion } from "./escenas";
 
 type Fabrica = (e: Escenario) => Dibujo;
@@ -36,28 +32,82 @@ const anomalia = (anio: number) => {
   return base + (random(`an${anio}`) - 0.5) * 0.28;
 };
 
-// ---------- 1 · gancho: la Tierra con fiebre ----------
+// ---------- calle en perspectiva (edificios a los lados, punto de fuga al centro) ----------
+const Calle: React.FC<{ f: number; cielo: [string, string]; fachada: string; sombra: string; ventanas?: string }> = ({ f, cielo, fachada, sombra, ventanas = "#2a2f3a" }) => {
+  const fuga: [number, number] = [540, 1050];
+  const lado = (izq: boolean) =>
+    Array.from({ length: 5 }, (_, i) => {
+      const k0 = i / 5;
+      const k1 = (i + 1) / 5;
+      const xa = izq ? interpolate(k0, [0, 1], [-200, fuga[0] - 60]) : interpolate(k0, [0, 1], [W + 200, fuga[0] + 60]);
+      const xb = izq ? interpolate(k1, [0, 1], [-200, fuga[0] - 60]) : interpolate(k1, [0, 1], [W + 200, fuga[0] + 60]);
+      const topA = interpolate(k0, [0, 1], [-200, fuga[1] - 260]);
+      const topB = interpolate(k1, [0, 1], [-200, fuga[1] - 260]);
+      const baseA = interpolate(k0, [0, 1], [H + 200, fuga[1] + 40]);
+      const baseB = interpolate(k1, [0, 1], [H + 200, fuga[1] + 40]);
+      return (
+        <g key={`${izq}${i}`}>
+          <path d={`M ${xa} ${topA} L ${xb} ${topB} L ${xb} ${baseB} L ${xa} ${baseA} Z`} fill={i % 2 ? fachada : sombra} />
+          {[0.25, 0.5, 0.75].map((v) => (
+            <path
+              key={v}
+              d={`M ${xa + (xb - xa) * 0.25} ${topA + (baseA - topA) * (v - 0.08)} L ${xa + (xb - xa) * 0.7} ${topB + (baseB - topB) * (v - 0.08)} L ${xa + (xb - xa) * 0.7} ${topB + (baseB - topB) * v} L ${xa + (xb - xa) * 0.25} ${topA + (baseA - topA) * v} Z`}
+              fill={ventanas}
+            />
+          ))}
+        </g>
+      );
+    });
+  return (
+    <>
+      <AbsoluteFill style={{ background: `linear-gradient(${cielo[0]} 0%, ${cielo[1]} 55%)` }} />
+      <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
+        <path d={`M -400 ${H} L ${fuga[0] - 40} ${fuga[1] + 40} L ${fuga[0] + 40} ${fuga[1] + 40} L ${W + 400} ${H} Z`} fill="#4a4440" />
+        {Array.from({ length: 7 }, (_, i) => {
+          const k = ((i / 7 + f / 160) % 1) ** 2;
+          const y = interpolate(k, [0, 1], [fuga[1] + 50, H + 100]);
+          const w = interpolate(k, [0, 1], [3, 40]);
+          return <rect key={i} x={fuga[0] - w / 2} y={y} width={w} height={w * 4} fill="#f2e2b0" opacity={0.8} />;
+        })}
+        {lado(true)}
+        {lado(false)}
+      </svg>
+    </>
+  );
+};
+
+// letrero de farmacia con la temperatura en verde LED
+const Farmacia: React.FC<{ f: number; x: number; y: number; temp: number }> = ({ f, x, y, temp }) => (
+  <div style={{ position: "absolute", left: x - 150, top: y - 150, width: 300, height: 300 }}>
+    <div style={{ position: "absolute", left: 100, top: 0, width: 100, height: 300, background: "#0e3a1a", boxShadow: `0 0 ${50 + Math.sin(f / 4) * 15}px rgba(40,255,90,0.6)` }} />
+    <div style={{ position: "absolute", left: 0, top: 100, width: 300, height: 100, background: "#0e3a1a" }} />
+    <div style={{ position: "absolute", left: 0, top: 108, width: 300, textAlign: "center", fontFamily: "'Courier New', monospace", fontWeight: 900, fontSize: 80, color: "#3dff6a", textShadow: "0 0 18px #3dff6a", lineHeight: "84px" }}>
+      {`${Math.round(temp)}°`}
+    </div>
+  </div>
+);
+
+// ---------- 1 · gancho: la calle en plena ola de calor; la farmacia marca la fiebre ----------
 const gancho: Fabrica = ({ en, dur }) => ({ f }) => {
   const tf = en("fiebre,");
   const tm = en("minuto.");
-  const latido = f > tf ? 1 + Math.max(0, Math.sin(((f - tf) / 22) * Math.PI * 2)) * 0.06 : 1;
-  const cam: CamaraT = { lon: interpolate(f, [0, dur], [-30, 10]), lat: 15, zoom: interpolate(f, [0, dur], [0.95, 1.1]), y: 1150 };
-  const R = 450 * cam.zoom;
+  const temp = interpolate(f, [0, tf + 20], [36, 47], clamp);
+  const cam = mover(f, 0, dur, { z: 1.0, x: 0, y: 30 }, { z: 1.15, x: 0, y: -20 });
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <Tierra camara={cam} f={f} estilo="satelite" nubes={0.35} fronteras={0} />
-      <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
-        <defs>
-          <radialGradient id="fiebre">
-            <stop offset={0.86} stopColor="#ff3b1f" stopOpacity={0} />
-            <stop offset={0.93} stopColor="#ff3b1f" stopOpacity={0.55 * tramo(f, tf - 6, tf + 6)} />
-            <stop offset={1} stopColor="#ff3b1f" stopOpacity={0} />
-          </radialGradient>
-        </defs>
-        <circle cx={540} cy={1150} r={R * 1.14 * latido} fill="url(#fiebre)" />
-        <circle cx={540} cy={1150} r={R} fill={`rgba(255,60,20,${0.18 * tramo(f, tf, tf + 10)})`} />
-      </svg>
-      <Termometro x={930} y={620} alto={380} temp={interpolate(f, [tf - 6, tf + 20], [36.5, 39.5], clamp)} min={34} max={41} marcas={[37, 40]} escala={0.8} />
+      <Calima id="calima-gancho-clima" f={f} fuerza={22} />
+      <Plano cam={cam} prof={0.8} filtro="url(#calima-gancho-clima)">
+        <Calle f={f} cielo={["#ffd27a", "#fff6dc"]} fachada="#d9a06a" sombra="#a8704a" ventanas="#5a3a2a" />
+        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
+          <circle cx={540} cy={860} r={300 + Math.sin(f / 8) * 20} fill="#fffbe6" opacity={0.5} />
+          <circle cx={540} cy={860} r={110} fill="#fffdf2" />
+        </svg>
+      </Plano>
+      <Plano cam={cam} prof={1}>
+        <Farmacia f={f} x={290} y={800} temp={temp} />
+        <Yo f={f} x={560} y={1800} escala={1.0} acciones={[[0, "reposo"], [tf, "alarma"]]} cara={f > tf ? "sorpresa" : "preocupado"} calor={tramo(f, 0, tf + 20)} sombra={false} />
+      </Plano>
+      <AbsoluteFill style={{ background: `rgba(255,120,40,${0.12 + 0.1 * tramo(f, tf, tf + 20)})`, mixBlendMode: "multiply" }} />
       <Cine f={f} vineta={0.55} />
       <Rotulo f={f} inicio={0} texto={"LA TIERRA\nTIENE FIEBRE"} y={220} tam={120} color="#fff" />
       <Rotulo f={f} inicio={tm} texto="TE LO DEMUESTRO EN 1 MINUTO" y={520} tam={46} fondo={AMARILLO} color="#3a1a00" giro={-2} />
@@ -379,39 +429,66 @@ const ranking: Fabrica = ({ en, dur }) => ({ f }) => {
   );
 };
 
-// ---------- 8 · el Ártico visto desde arriba: el hielo de verano se encoge ----------
+// ---------- 8 · el Ártico: un oso polar sobre un bloque de hielo que se agrieta y se encoge ----------
 const artico: Fabrica = ({ en, dur }) => ({ f }) => {
   const ta = en("Ártico");
+  const tp = en("perdido");
   const t40 = en("40");
-  const t79 = en("1979.");
   const k = tramo(f, ta, t40 + 10);
-  const r = interpolate(k, [0, 1], [22, 17]);
   const anio = Math.round(interpolate(k, [0, 1], [1979, 2024]));
-  const cam: CamaraT = { lon: interpolate(f, [0, dur], [-60, -30]), lat: 78, zoom: interpolate(f, [0, dur], [1.5, 1.8]), y: 1050 };
-  const casquete = (rad: number) => {
-    const anillo = Array.from({ length: 73 }, (_, i) => {
-      const lon = -180 + i * 5;
-      const w = rad + Math.sin(i * 0.9) * 1.6 + Math.sin(i * 2.3) * 0.9;
-      return [lon, 90 - w] as [number, number];
-    }).reverse(); // sentido horario: d3 lo toma como el casquete, no como su complemento
-    return { type: "Polygon" as const, coordinates: [anillo] };
-  };
+  const escala = interpolate(k, [0, 1], [1, 0.6]);
+  const cam = mover(f, 0, dur, { z: 1.0, x: 0, y: 0 }, { z: 1.15, x: 0, y: -30 });
+  const cx = 470;
+  const cy = 1330;
+  const bloque = (e: number) => `M ${cx - 330 * e} ${cy} L ${cx - 250 * e} ${cy - 50 * e} L ${cx - 60 * e} ${cy - 70 * e} L ${cx + 180 * e} ${cy - 55 * e} L ${cx + 320 * e} ${cy - 10 * e} L ${cx + 260 * e} ${cy + 40 * e} L ${cx - 200 * e} ${cy + 45 * e} Z`;
+  const trozos = [0, 1, 2].map((i) => {
+    const t0 = tp + i * 12;
+    const d = f > t0 ? (f - t0) * (1.2 + i * 0.4) : 0;
+    return { t0, d, x: cx + (i - 1) * 260, y: cy + 10 };
+  });
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <Globo camara={cam} f={f}>
-        {(_p, trazo) => (
-          <>
-            <path d={trazo(geoCircle().center([0, 90]).radius(22)()) ?? ""} fill="none" stroke="#7fd3ff" strokeWidth={4} strokeDasharray="14 10" opacity={tramo(f, t40, t40 + 8)} />
-            <path d={trazo(casquete(r)) ?? ""} fill="rgba(245,250,255,0.95)" stroke="#fff" strokeWidth={3} />
-          </>
-        )}
-      </Globo>
+      <Plano cam={cam} prof={0.4}>
+        <AbsoluteFill style={{ background: "linear-gradient(#9cc6e8 0%, #e8d4e0 50%, #f6e6d8 62%)" }} />
+        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
+          <path d="M -40 1180 L 200 1120 L 330 1170 L 520 1100 L 700 1160 L 900 1110 L 1120 1170 L 1120 1200 L -40 1200 Z" fill="#dfeaf5" opacity={0.7} />
+        </svg>
+      </Plano>
+      <Plano cam={cam} prof={1}>
+        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
+          <rect x={-60} y={1190} width={W + 120} height={800} fill="#0d3b5a" />
+          {Array.from({ length: 10 }, (_, i) => {
+            const y = 1230 + i * 70;
+            let d = `M -60 ${y}`;
+            for (let x = -60; x <= W + 60; x += 40) d += ` L ${x} ${y + Math.sin(x / 60 + f / 10 + i) * (4 + i)}`;
+            return <path key={i} d={d} fill="none" stroke="#3a7aa8" strokeWidth={3} opacity={0.5} />;
+          })}
+          {/* trozos que se desprenden y se alejan */}
+          {trozos.map((t, i) =>
+            f > t.t0 ? <path key={i} d={`M ${t.x - 50} ${t.y} l 40 -22 l 60 6 l 10 24 l -60 14 Z`} transform={`translate(${(i - 1) * t.d * 2} ${t.d * 0.6})`} fill="#f4f9ff" stroke="#9fd0f0" strokeWidth={4} /> : null,
+          )}
+          {/* bloque principal con su reflejo */}
+          <path d={bloque(escala)} fill="#f4f9ff" stroke="#9fd0f0" strokeWidth={6} />
+          <path d={bloque(escala)} transform={`translate(0 ${100 * escala}) scale(1 -0.3)`} style={{ transformOrigin: `${cx}px ${cy}px` }} fill="#5a9ac8" opacity={0.3} />
+          {f > tp && <path d={`M ${cx - 40} ${cy - 60 * escala} l 20 30 l -15 25 l 25 30`} stroke="#7ab8e0" strokeWidth={5} fill="none" opacity={tramo(f, tp, tp + 6)} />}
+          {/* oso polar */}
+          <g transform={`translate(${cx} ${cy - 55 * escala}) scale(${0.8 + escala * 0.2})`}>
+            <ellipse cx={0} cy={-55} rx={110} ry={62} fill="#fbfbf6" />
+            <ellipse cx={-100} cy={-80} rx={48} ry={40} fill="#fbfbf6" />
+            <circle cx={-120} cy={-110} r={14} fill="#fbfbf6" />
+            <circle cx={-136} cy={-80} r={6} fill="#222" />
+            <circle cx={-108} cy={-92} r={4} fill="#222" />
+            {[-70, -20, 30, 80].map((lx, i) => (
+              <rect key={lx} x={lx - 18} y={-20} width={36} height={60} rx={14} fill="#f0f0ea" transform={`rotate(${Math.sin(f / 18 + i) * 3} ${lx} -20)`} />
+            ))}
+          </g>
+        </svg>
+      </Plano>
       <Cine f={f} vineta={0.55} />
       <div style={{ position: "absolute", left: 100, top: 470, width: 540, height: 170, borderRadius: 24, background: "rgba(5,10,25,0.7)", border: "3px solid rgba(255,255,255,0.3)" }} />
-      <T x={130} y={490} tam={28} color="#cfe6ff">HIELO DEL ÁRTICO · SEPTIEMBRE</T>
+      <T x={130} y={490} tam={28} color="#cfe6ff">HIELO DEL ÁRTICO EN VERANO</T>
       <T x={130} y={535} tam={84} color="#fff">{f > ta ? `${anio}` : "1979"}</T>
-      <Rotulo f={f} inicio={t40} texto="−40 %" x={760} y={560} tam={130} fondo={ROJO} color="#fff" giro={-4} />
-      {f > t79 && <T x={540} y={1460} tam={30} color="#7fd3ff" alinear="center" ancho={700} op={tramo(f, t79, t79 + 6)}>- - - borde del hielo en 1979</T>}
+      <Rotulo f={f} inicio={t40} texto="−40 %" x={800} y={560} tam={130} fondo={ROJO} color="#fff" giro={-4} />
     </AbsoluteFill>
   );
 };
@@ -491,30 +568,51 @@ const coral: Fabrica = ({ en, dur }) => ({ f }) => {
   );
 };
 
-// ---------- 10 · mapa estilo Napoleón: la ola de calor de 2022 en Europa ----------
-const PAISES_CALOR = ["Spain", "Portugal", "France", "Italy", "Germany", "United Kingdom", "Greece", "Belgium", "Netherlands", "Switzerland", "Austria", "Croatia"];
+// ---------- 10 · la ola de calor de 2022: calle vacía, farmacia a 44° y ambulancias ----------
 const europa: Fabrica = ({ en, dur }) => ({ f }) => {
   const tm = en("mata:");
   const t22 = en("2022");
   const t60 = en("60.000");
-  const cam: CamaraT = { lon: interpolate(f, [0, dur], [1, 4]), lat: interpolate(f, [0, dur], [49.5, 50]), zoom: interpolate(f, [0, dur], [3.6, 4.1]), y: 1150, plana: true };
-  const pulso = 0.5 + Math.sin(f / 6) * 0.15;
+  const temp = interpolate(f, [0, tm + 20], [40, 44], clamp);
+  const cam = mover(f, 0, dur, { z: 1.1, x: -40, y: 0 }, { z: 1.0, x: 40, y: -20 });
+  const amb = interpolate(f, [tm - 10, tm + 70], [-700, 1300], clamp);
+  const destello = f > tm - 10 && Math.floor(f / 4) % 2 === 0;
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <Tierra camara={cam} f={f} estilo="dibujo" fronteras={0.5} fuentes={["mundo", "europa"]}>
-        {(_p, trazo) => (
-          <>
-            <Paises trazo={trazo} nombres={PAISES_CALOR} color="214,40,30" f={f} inicio={tm} />
-            <Ciudad cam={cam} ll={[-0.13, 51.5]} nombre="Londres" f={f} inicio={t22} nota="40 °C" />
-            <Ciudad cam={cam} ll={[-7.56, 41.19]} nombre="Pinhão" f={f} inicio={t22 + 8} nota="47 °C" />
-          </>
-        )}
-      </Tierra>
-      {f > tm && <AbsoluteFill style={{ background: `rgba(255,60,20,${0.12 * pulso})`, mixBlendMode: "multiply" }} />}
-      <Cine f={f} vineta={0.45} />
-      <Rotulo f={f} inicio={t22} texto="VERANO DE 2022" y={480} tam={58} fondo="#0b1f44" color={AMARILLO} />
-      <Miles f={f} a={t60 - 6} b={t60 + 16} hasta={60000} y={580} tam={150} />
-      <Rotulo f={f} inicio={t60 + 8} texto="MUERTES POR CALOR" y={760} tam={54} fondo={ROJO} color="#fff" giro={-2} />
+      <Calima id="calima-europa" f={f} fuerza={16} />
+      <Plano cam={cam} prof={1} filtro="url(#calima-europa)">
+        <Calle f={f} cielo={["#ff9a55", "#ffe0b0"]} fachada="#e6c49a" sombra="#b58a62" ventanas="#4a3226" />
+      </Plano>
+      <Plano cam={cam} prof={1}>
+        <Farmacia f={f} x={790} y={1000} temp={temp} />
+        {/* ambulancia que cruza */}
+        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
+          <g transform={`translate(${amb} 1500)`}>
+            <ellipse cx={0} cy={150} rx={300} ry={24} fill="rgba(0,0,0,0.3)" />
+            <rect x={-280} y={-120} width={420} height={250} rx={24} fill="#f6f6f2" />
+            <path d="M 140 -60 L 230 -60 L 290 30 L 290 130 L 140 130 Z" fill="#f6f6f2" />
+            <path d="M 160 -40 L 220 -40 L 265 30 L 160 30 Z" fill="#7fb8e0" />
+            <rect x={-280} y={20} width={570} height={36} fill="#e8203a" />
+            <rect x={-110} y={-80} width={36} height={100} fill="#e8203a" />
+            <rect x={-142} y={-48} width={100} height={36} fill="#e8203a" />
+            <rect x={-60} y={-150} width={110} height={30} rx={10} fill={destello ? "#3a8bff" : "#1a3a7a"} />
+            {[-180, 190].map((cx) => (
+              <circle key={cx} cx={cx} cy={130} r={52} fill="#1a1a1a" />
+            ))}
+          </g>
+        </svg>
+      </Plano>
+      {destello && <AbsoluteFill style={{ background: "rgba(40,120,255,0.18)" }} />}
+      <Cine f={f} vineta={0.6} />
+      {/* rótulo de telediario */}
+      {f > t22 && (
+        <div style={{ position: "absolute", left: 100, right: 100, top: 1180, opacity: tramo(f, t22, t22 + 6) }}>
+          <div style={{ display: "inline-block", background: ROJO, color: "#fff", fontFamily: SANS, fontWeight: 900, fontSize: 32, padding: "8px 22px" }}>OLA DE CALOR · EUROPA</div>
+          <div style={{ background: "rgba(255,255,255,0.95)", color: "#111", fontFamily: SANS, fontWeight: 900, fontSize: 36, padding: "14px 22px" }}>Verano de 2022: el más mortal en décadas</div>
+        </div>
+      )}
+      <Miles f={f} a={t60 - 6} b={t60 + 16} hasta={60000} y={520} tam={160} />
+      <Rotulo f={f} inicio={t60 + 8} texto="MUERTES POR CALOR" y={720} tam={56} fondo={ROJO} color="#fff" giro={-2} />
     </AbsoluteFill>
   );
 };
@@ -827,26 +925,45 @@ const ternera: Fabrica = ({ en, dur }) => ({ f }) => {
   );
 };
 
-// ---------- 17 · final: ¿qué cambiarías? A o B ----------
+// ---------- 17 · final: el cruce de caminos, ¿A o B? ----------
 const final: Fabrica = ({ en, dur }) => ({ f }) => {
   const tq = en("cambiarías");
   const ta = en("A:");
   const tb = en("B:");
   const tco = en("Comenta");
   const ts = en("sígueme.");
-  const cam = mover(f, 0, dur, { z: 1.0, x: 0, y: 0 }, { z: 1.08, x: 0, y: -30 });
+  const cam = mover(f, 0, dur, { z: 1.1, x: 0, y: 40 }, { z: 1.0, x: 0, y: -20 });
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <Plano cam={cam} prof={1}>
-        <Tierra camara={{ lon: 10 + f * 0.15, lat: 20, zoom: 1.0, y: 1500 }} f={f} estilo="satelite" nubes={0.3} fronteras={0} />
+      <Plano cam={cam} prof={0.5}>
+        <Paisaje f={f} noche={0.45} sol={[540, 1150]} horizonte={1200} dunas={["#7aa84a", "#5f8f3a", "#4a7a2e", "#3a6224"]} />
       </Plano>
-      <Cine f={f} vineta={0.65} />
-      <Rotulo f={f} inicio={tq - 4} texto="¿QUÉ CAMBIARÍAS TÚ?" y={500} tam={78} color="#fff" />
-      <Opcion f={f} inicio={ta} letra="A" texto="Usar menos el coche" color={ROJO} y={700} marcada={f > tco && Math.floor(f / 12) % 2 === 0} />
-      <Opcion f={f} inicio={tb} letra="B" texto="Comer menos carne" color={AZUL} y={860} marcada={f > tco && Math.floor(f / 12) % 2 === 1} />
-      <Rotulo f={f} inicio={tco} texto="COMENTA A o B" x={440} y={1030} tam={60} color={AMARILLO} />
+      <Plano cam={cam} prof={1}>
+        <svg width={W} height={H} style={{ position: "absolute", inset: 0 }}>
+          {/* camino que se divide en dos */}
+          <path d="M 380 1920 L 470 1640 L 250 1430 L 330 1430 L 520 1600 L 560 1600 L 750 1430 L 830 1430 L 610 1640 L 700 1920 Z" fill="#c9a87a" />
+          <g transform="translate(0 200)">
+          {/* poste A: coche */}
+          <rect x={196} y={1050} width={14} height={190} fill="#6a4a2a" />
+          <rect x={120} y={1000} width={170} height={80} rx={14} fill={ROJO} />
+          <text x={205} y={1056} textAnchor="middle" fontFamily={SANS} fontWeight={900} fontSize={50} fill="#fff">A</text>
+          <path d="M 150 980 Q 150 950 175 948 L 190 930 L 230 930 L 245 948 Q 265 950 265 975 L 265 980 Z" fill="#fff" opacity={0.9} />
+          {/* poste B: plato */}
+          <rect x={866} y={1050} width={14} height={190} fill="#6a4a2a" />
+          <rect x={790} y={1000} width={170} height={80} rx={14} fill={AZUL} />
+          <text x={875} y={1056} textAnchor="middle" fontFamily={SANS} fontWeight={900} fontSize={50} fill="#fff">B</text>
+          <ellipse cx={875} cy={960} rx={52} ry={16} fill="#fff" opacity={0.9} />
+          </g>
+        </svg>
+        <Yo f={f} x={540} y={1820} escala={0.7} acciones={[[0, "pensar"], [tco, "senalarArriba"]]} cara={f > tco ? "feliz" : "pensativo"} sombra={false} />
+      </Plano>
+      <Cine f={f} vineta={0.6} />
+      <Rotulo f={f} inicio={tq - 4} texto="¿QUÉ CAMBIARÍAS TÚ?" y={480} tam={78} color="#fff" />
+      <Opcion f={f} inicio={ta} letra="A" texto="Usar menos el coche" color={ROJO} y={620} marcada={f > tco && Math.floor(f / 12) % 2 === 0} />
+      <Opcion f={f} inicio={tb} letra="B" texto="Comer menos carne" color={AZUL} y={770} marcada={f > tco && Math.floor(f / 12) % 2 === 1} />
+      <Rotulo f={f} inicio={tco} texto="COMENTA A o B" x={440} y={920} tam={56} color={AMARILLO} />
       {f > ts && (
-        <div style={{ position: "absolute", left: 440, top: 1140, transform: `translateX(-50%) scale(${muelle(f, ts, 9)})`, padding: "18px 44px", borderRadius: 60, background: f > ts + 8 ? "#2a3550" : ROJO, color: "#fff", fontFamily: SANS, fontWeight: 900, fontSize: 52, whiteSpace: "nowrap", boxShadow: "0 14px 34px rgba(0,0,0,0.5)" }}>
+        <div style={{ position: "absolute", left: 440, top: 1020, transform: `translateX(-50%) scale(${muelle(f, ts, 9)})`, padding: "18px 44px", borderRadius: 60, background: f > ts + 8 ? "#2a3550" : ROJO, color: "#fff", fontFamily: SANS, fontWeight: 900, fontSize: 52, whiteSpace: "nowrap", boxShadow: "0 14px 34px rgba(0,0,0,0.5)" }}>
           {f > ts + 8 ? "SIGUIENDO ✓" : "SEGUIR"}
         </div>
       )}

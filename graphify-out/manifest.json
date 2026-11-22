@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795307438.7039516,
-    "seen": 1795307457.6887696,
-    "ast_hash": "7b3ddc21ce7260b696373823dcea412b",
+    "mtime": 1795307917.76172,
+    "seen": 1795307923.0945613,
+    "ast_hash": "54d7dec79c4a6e9c8fdc8b501ee4ff7f",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -4194,9 +4194,9 @@
     "semantic_hash": ""
   },
   "src/Clima/Ilustraciones.tsx": {
-    "mtime": 1795307412.1586504,
-    "seen": 1795307457.687957,
-    "ast_hash": "ab80ac7b07e6dc79cb05b9ef3b5def18",
+    "mtime": 1795307905.9271638,
+    "seen": 1795307923.0941033,
+    "ast_hash": "7537022ac6be9399ee7f60a1e098612b",
     "semantic_hash": ""
   },
   "src/Clima/Reel.tsx": {
