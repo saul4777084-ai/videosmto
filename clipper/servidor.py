@@ -269,7 +269,7 @@ def capturar_directo(d):
                     # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar
                     entradas += ["-live_start_index", str(-segmentos_atras(t, seg)), "-i", u]
             run(["ffmpeg", "-y", *entradas, "-t", str(seg), "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
-                 "-c:v", "copy", "-af", "aresample=async=1", "-c:a", "aac", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
+                 "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
             for p in glob.glob(os.path.join(TRABAJO, nombre + "_*.m3u8")):
                 os.remove(p)
             return nombre, nombre + ".ts", seg
@@ -406,9 +406,7 @@ def bucle_auto(d):
             lista = os.path.join(TRABAJO, f"{vid}_{int(time.time())}.csv")
             proc = subprocess.Popen(
                 ["ffmpeg", "-y", "-v", "warning", *entradas_vivo(urls), "-map", "0:v:0",
-                 # audio recodificado (barato) con async: si se pierden trozos del directo, el hueco se rellena con
-                 # silencio y el audio no se adelanta a la imagen
-                 "-map", f"{len(urls) - 1}:a:0?", "-c:v", "copy", "-af", "aresample=async=1", "-c:a", "aac", "-f", "segment", "-segment_time", str(cada),
+                 "-map", f"{len(urls) - 1}:a:0?", "-c", "copy", "-f", "segment", "-segment_time", str(cada),
                  "-reset_timestamps", "1", "-segment_format_options", "movflags=+faststart",
                  "-segment_list", lista, "-segment_list_type", "csv", "-strftime", "1",
                  os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
@@ -505,7 +503,7 @@ def editar(d, nombre, entrada, dur, srt):
     salida = os.path.join(TRABAJO, nombre + ".listo.mp4")  # a CLIPS solo cuando está terminado
     # cwd=TRABAJO para pasar nombres relativos a los filtros (evita escapar rutas con ':' en Windows)
     run(["ffmpeg", "-y", "-ss", str(ini), "-i", entrada, "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
-         "-af", f"aresample=async=1,atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
+         "-af", f"atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
          "-movflags", "+faststart", salida], cwd=TRABAJO, baja=True)
     os.replace(salida, os.path.join(CLIPS, nombre + ".mp4"))
     for p in glob.glob(os.path.join(TRABAJO, nombre + ".*")):
