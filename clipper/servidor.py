@@ -1,5 +1,5 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
-import base64, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.request, webbrowser
+import base64, collections, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -251,6 +251,22 @@ def mover_terminados(lista, d=None):
                         AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
+def leer_avisos(proc):
+    """Lee los mensajes de ffmpeg mientras graba: si nadie los lee, el búfer se llena y ffmpeg se queda parado
+    (la grabación se congela y el directo se salta trozos). Avisa en pantalla si se pierden trozos."""
+    ultimas = collections.deque(maxlen=20)
+
+    def leer():
+        for linea in proc.stderr:
+            ultimas.append(linea.strip())
+            if "skipping" in linea or "expired" in linea:
+                AUTO["error"] = ("Se han perdido trozos del directo (conexión lenta o móvil saturado): "
+                                 "prueba Calidad Rápida (720p) o clips más largos.")
+
+    threading.Thread(target=leer, daemon=True).start()
+    return ultimas
+
+
 def bucle_auto(d):
     cada, fallos = AUTO["cada"], 0
     alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
@@ -264,7 +280,7 @@ def bucle_auto(d):
         if urls:
             lista = os.path.join(TRABAJO, f"{vid}_{int(time.time())}.csv")
             proc = subprocess.Popen(
-                ["ffmpeg", "-y", "-v", "error", *[x for u in urls for x in ("-i", u)], "-map", "0:v:0",
+                ["ffmpeg", "-y", "-v", "warning", *[x for u in urls for x in ("-i", u)], "-map", "0:v:0",
                  # audio recodificado (barato) con async: si se pierden trozos del directo, el hueco se rellena con
                  # silencio y el audio no se adelanta a la imagen
                  "-map", f"{len(urls) - 1}:a:0?", "-c:v", "copy", "-af", "aresample=async=1", "-c:a", "aac", "-f", "segment", "-segment_time", str(cada),
@@ -272,12 +288,15 @@ def bucle_auto(d):
                  "-segment_list", lista, "-segment_list_type", "csv", "-strftime", "1",
                  os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, errors="replace")
+            ultimas = leer_avisos(proc)
             inicio = time.time()
             while proc.poll() is None and not PARAR.wait(2):
                 mover_terminados(lista, d)
             if PARAR.is_set():
                 proc.terminate()  # ffmpeg cierra bien el trozo que estaba grabando, que también se guarda
-            error = (proc.communicate()[1].strip().splitlines() or ["el directo dejó de llegar"])[-1]
+            proc.wait()
+            time.sleep(0.5)  # que el hilo lector recoja las últimas líneas
+            error = ultimas[-1] if ultimas else "el directo dejó de llegar"
             mover_terminados(lista, d)
             os.remove(lista) if os.path.exists(lista) else None
             if PARAR.is_set():
