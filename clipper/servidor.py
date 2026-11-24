@@ -251,6 +251,39 @@ def mover_terminados(lista, d=None):
                         AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
+DIAG = {"pistas": 0, "ultimas": []}
+
+
+def huecos(p, tipo):
+    """(inicio, duración, huecos > 0,3 s, mayor hueco) de la pista de vídeo (v) o audio (a) de un archivo."""
+    ts = []
+    for x in run(["ffprobe", "-v", "error", "-select_streams", f"{tipo}:0", "-show_entries", "packet=pts_time",
+                  "-of", "csv=p=0", p], check=False).stdout.split():
+        try:
+            ts.append(float(x.strip(",")))
+        except ValueError:
+            pass
+    if not ts:
+        return "sin pista"
+    ts.sort()
+    saltos = [b - a for a, b in zip(ts, ts[1:])]
+    return (f"empieza {ts[0]:.2f} s, dura {ts[-1] - ts[0]:.1f} s, huecos >0,3 s: {sum(g > 0.3 for g in saltos)}, "
+            f"mayor: {max(saltos, default=0):.2f} s")
+
+
+def diagnostico():
+    """Texto para la página /diagnostico: lo que hace falta para ver por qué un clip se congela o se desfasa."""
+    v = run(["ffmpeg", "-version"], check=False).stdout.splitlines()[:1]
+    out = [f"ffmpeg: {v[0] if v else '?'}", f"pistas del directo (1 = juntas, 2 = vídeo y audio aparte): {DIAG['pistas']}",
+           f"en cola: {COLA.qsize()} · estado: {AUTO.get('error') or 'ok'}", "", "Últimos mensajes de ffmpeg:"]
+    out += [f"  {x[:160]}" for x in list(DIAG["ultimas"])[-8:]] or ["  (ninguno)"]
+    for carpeta in (TRABAJO, CLIPS):
+        archivos = sorted(glob.glob(os.path.join(carpeta, "*.mp4")) + glob.glob(os.path.join(carpeta, "*.ts")), key=os.path.getmtime)[-3:]
+        for a in archivos:
+            out += ["", os.path.basename(a), "  vídeo: " + huecos(a, "v"), "  audio: " + huecos(a, "a")]
+    return "\n".join(out)
+
+
 def leer_avisos(proc):
     """Lee los mensajes de ffmpeg mientras graba: si nadie los lee, el búfer se llena y ffmpeg se queda parado
     (la grabación se congela y el directo se salta trozos). Avisa en pantalla si se pierden trozos."""
@@ -289,6 +322,7 @@ def bucle_auto(d):
                  os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, errors="replace")
             ultimas = leer_avisos(proc)
+            DIAG.update(pistas=len(urls), ultimas=ultimas)
             inicio = time.time()
             while proc.poll() is None and not PARAR.wait(2):
                 mover_terminados(lista, d)
@@ -439,6 +473,8 @@ class App(BaseHTTPRequestHandler):
             return self.responder(200, json.dumps(lista_clips()).encode())
         if self.path == "/api/auto":
             return self.responder(200, json.dumps(estado_auto()).encode())
+        if self.path == "/diagnostico":
+            return self.responder(200, diagnostico().encode(), "text/plain; charset=utf-8")
         self.responder(404, b"{}")
 
     def do_POST(self):
