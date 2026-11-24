@@ -83,7 +83,7 @@ FORMATOS = {
 }
 # altura máxima que se descarga, crf, preset. En vertical se recorta ~1/3 del ancho: hace falta fuente alta para que no salga borroso
 # ultrafast: «Hacer vertical» tarda ~40 % menos que con veryfast; el crf algo más alto compensa el peso del archivo
-CALIDADES = {"rapida": (720, 27, "ultrafast"), "buena": (1080, 20, "ultrafast"), "maxima": (2160, 18, "veryfast")}
+CALIDADES = {"baja": (480, 27, "ultrafast"), "rapida": (720, 27, "ultrafast"), "buena": (1080, 20, "ultrafast"), "maxima": (2160, 18, "veryfast")}
 TAMANOS = {"pequeno": 12, "mediano": 16, "grande": 22}
 COLORES = {"blanco": "&H00FFFFFF", "amarillo": "&H0000E5FF", "verde": "&H0066FF33"}  # ASS: &HAABBGGRR
 POSICIONES = {"abajo": 2, "centro": 5, "arriba": 8}
@@ -232,6 +232,23 @@ AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titul
 COLA, PARAR, HILO = queue.Queue(), threading.Event(), [None]
 
 
+def avisar_si_va_lento(p):
+    """Con vídeo y audio por separado, si la conexión no da (o YouTube frena el vídeo), el vídeo llega más
+    despacio que el audio: el clip sale congelado y desfasado. Se ve comparando lo que dura cada pista."""
+    dur = {}
+    for linea in run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,duration", "-of", "csv=p=0", p],
+                     check=False).stdout.split():
+        tipo, _, v = linea.partition(",")
+        try:
+            dur[tipo] = float(v)
+        except ValueError:
+            pass
+    if dur.get("audio", 0) > 5 and dur.get("video", 0) < 0.8 * dur["audio"]:
+        AUTO["error"] = (f"El vídeo llega más lento que el audio ({dur.get('video', 0):.0f} s de vídeo por {dur['audio']:.0f} s de audio): "
+                         "tu conexión no da para esta calidad. Para el automático, elige Calidad Rápida (720p) o Baja (480p) "
+                         "y vuelve a empezar.")
+
+
 def mover_terminados(lista, d=None):
     """Pasa a CLIPS los trozos que ffmpeg ya cerró (los apunta en la lista al terminar cada uno).
     Con d, cada trozo se encola para editarlo con esos ajustes y el original se borra al terminar."""
@@ -243,6 +260,7 @@ def mover_terminados(lista, d=None):
             if linea.strip() and os.path.isfile(p):
                 os.replace(p, os.path.join(CLIPS, os.path.basename(p)))
                 AUTO["hechos"] += 1
+                avisar_si_va_lento(os.path.join(CLIPS, os.path.basename(p)))
                 try:
                     if d:
                         pedir_vertical({**d, "archivo": os.path.basename(p), "borrar_original": True})
