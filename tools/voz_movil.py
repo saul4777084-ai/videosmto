@@ -110,10 +110,20 @@ def main():
                 i += 1
         while i > lim and voz[max(0, i - 1)]:
             i -= 1
-        # fin: avanza hasta 0,2 s de silencio seguido
+        # fin: avanza hasta 0,2 s de silencio seguido, sin pasar del comienzo de la frase siguiente;
+        # si la voz apenas hace pausa, corta en el punto más silencioso antes de la siguiente frase
+        sig = None
+        if k + 1 < len(frases):
+            js2 = [j2 for j2 in range(len(frases[k + 1][0].split())) if (k + 1, j2) in mapa]
+            if js2:
+                sig = mapa[(k + 1, js2[0])][0]
+        tope = len(voz) - 20 if sig is None else min(len(voz) - 20, int(sig * 100))
         j = int(b * 100)
-        while j < len(voz) - 20 and voz[j:j + 20].any():
+        while j < tope and voz[j:j + 20].any():
             j += 1
+        if sig is not None and j >= tope:
+            v0, v1 = max(int(b * 100) - 15, 0), min(int(sig * 100) + 15, len(db))
+            j = v0 + int(np.argmin(db[v0:v1])) if v1 > v0 else int(b * 100)
         ini, fin = max(0, i / 100 - 0.03), min(len(x) / SR, j / 100 + 0.06)
         # instante (relativo al inicio de la frase) de cada palabra; las que falten se interpolan
         tps = []

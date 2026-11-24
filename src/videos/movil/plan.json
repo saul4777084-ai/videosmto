@@ -1,44 +1,131 @@
 {
   "_nota": "Tomas de cada escena (t = segundo de inicio dentro de la escena; escenas y tiempos en tiempos.json, de tools/tiempos_movil.py) y eventos sincronizados con la voz (segundos desde el inicio de su toma). Los usan la imagen, los rótulos y el sonido (tools/sintetizar_movil.py).",
   "escenas": {
-    "intro": [{"t": 0, "toma": "intro"}],
+    "intro": [
+      {
+        "t": 0,
+        "toma": "intro"
+      }
+    ],
     "dia1": [
-      {"t": 0, "toma": "notificacion"},
-      {"t": 6.1, "toma": "feed"},
-      {"t": 12.9, "toma": "recompensa"}
+      {
+        "t": 0,
+        "toma": "notificacion"
+      },
+      {
+        "t": 6.7,
+        "toma": "feed"
+      },
+      {
+        "t": 13.32,
+        "toma": "recompensa"
+      }
     ],
     "dia7": [
-      {"t": 0, "toma": "sinapsis"},
-      {"t": 6.5, "toma": "circuito"},
-      {"t": 9.9, "toma": "bucle"}
+      {
+        "t": 0,
+        "toma": "sinapsis"
+      },
+      {
+        "t": 7.13,
+        "toma": "circuito"
+      },
+      {
+        "t": 10.76,
+        "toma": "bucle"
+      }
     ],
     "dia15": [
-      {"t": 0, "toma": "prefrontal"},
-      {"t": 10.8, "toma": "ojo"}
+      {
+        "t": 0,
+        "toma": "prefrontal"
+      },
+      {
+        "t": 12.05,
+        "toma": "ojo"
+      }
     ],
     "dia30": [
-      {"t": 0, "toma": "noche"},
-      {"t": 7.95, "toma": "melatonina"},
-      {"t": 13.75, "toma": "cansado"}
+      {
+        "t": 0,
+        "toma": "noche"
+      },
+      {
+        "t": 7.97,
+        "toma": "melatonina"
+      },
+      {
+        "t": 14.56,
+        "toma": "cansado"
+      }
     ],
-    "final": [{"t": 0, "toma": "final"}]
+    "final": [
+      {
+        "t": 0,
+        "toma": "final"
+      }
+    ]
   },
   "eventos": {
-    "avisos": [2.0, 3.6, 4.7],
-    "premios": [
-      {"t": 0.4, "tipo": "burbuja"},
-      {"t": 1.5, "tipo": "corazon"},
-      {"t": 1.85, "tipo": "corazon"},
-      {"t": 2.8, "tipo": "play"},
-      {"t": 3.7, "tipo": "estrella"},
-      {"t": 4.0, "tipo": "corazon"},
-      {"t": 4.9, "tipo": "burbuja"},
-      {"t": 5.9, "tipo": "corazon"},
-      {"t": 6.25, "tipo": "play"}
+    "avisos": [
+      2.22,
+      3.99,
+      5.19
     ],
-    "bucle": [0.3, 1.3, 2.3],
-    "interrupciones": [1.6, 3.0, 4.2, 6.5, 8.3],
-    "parpadeos": [0.5, 4.4],
-    "bocaAbajo": 6.75
+    "premios": [
+      {
+        "t": 0.43,
+        "tipo": "burbuja"
+      },
+      {
+        "t": 1.63,
+        "tipo": "corazon"
+      },
+      {
+        "t": 2.17,
+        "tipo": "corazon"
+      },
+      {
+        "t": 3.57,
+        "tipo": "play"
+      },
+      {
+        "t": 4.68,
+        "tipo": "estrella"
+      },
+      {
+        "t": 5.03,
+        "tipo": "corazon"
+      },
+      {
+        "t": 6.44,
+        "tipo": "burbuja"
+      },
+      {
+        "t": 7.54,
+        "tipo": "corazon"
+      },
+      {
+        "t": 7.89,
+        "tipo": "play"
+      }
+    ],
+    "bucle": [
+      0.21,
+      1.5,
+      2.7
+    ],
+    "interrupciones": [
+      2.05,
+      2.97,
+      4.33,
+      7.0,
+      8.9
+    ],
+    "parpadeos": [
+      0.63,
+      4.48
+    ],
+    "bocaAbajo": 6.9
   }
 }

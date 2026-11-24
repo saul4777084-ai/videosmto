@@ -1,5 +1,5 @@
 {
- "duracion": 95.41,
+ "duracion": 101.88,
  "escenas": [
   {
    "id": "intro",
@@ -11,31 +11,31 @@
    "id": "dia1",
    "titulo": "DÍA 1",
    "inicio": 9.0,
-   "fin": 27.91
+   "fin": 29.97
   },
   {
    "id": "dia7",
    "titulo": "DÍA 7",
-   "inicio": 27.91,
-   "fin": 41.05
+   "inicio": 29.97,
+   "fin": 44.38
   },
   {
    "id": "dia15",
    "titulo": "DÍA 15",
-   "inicio": 41.05,
-   "fin": 57.78
+   "inicio": 44.38,
+   "fin": 62.73
   },
   {
    "id": "dia30",
    "titulo": "DÍA 30",
-   "inicio": 57.78,
-   "fin": 77.4
+   "inicio": 62.73,
+   "fin": 83.32
   },
   {
    "id": "final",
    "titulo": "FINAL",
-   "inicio": 77.4,
-   "fin": 95.41
+   "inicio": 83.32,
+   "fin": 101.88
   }
  ],
  "frases": [
@@ -44,41 +44,41 @@
    "texto": "¿Qué le pasa a tu cerebro si usas el móvil 8 horas al día durante 30 días?",
    "voz": "¿Qué le pasa a tu cerebro si usas el móvil ocho horas al día durante treinta días?",
    "inicio": 0.6,
-   "fin": 5.29,
+   "fin": 5.86,
    "pausa": 0.5,
    "palabras": [
     0.6,
-    0.71,
-    0.83,
-    1.07,
-    1.23,
-    1.35,
-    1.75,
-    2.01,
-    2.27,
-    2.43,
-    2.71,
-    3.13,
-    3.43,
-    3.67,
-    3.89,
-    4.19,
-    4.69
+    0.72,
+    0.86,
+    1.12,
+    1.32,
+    1.44,
+    1.84,
+    2.04,
+    2.32,
+    2.48,
+    2.84,
+    3.32,
+    3.7,
+    3.94,
+    4.14,
+    4.52,
+    5.04
    ]
   },
   {
    "escena": "intro",
    "texto": "Vamos a verlo por dentro.",
    "voz": "Vamos a verlo por dentro.",
-   "inicio": 5.79,
-   "fin": 7.21,
+   "inicio": 6.36,
+   "fin": 7.93,
    "pausa": 0.0,
    "palabras": [
-    5.82,
-    6.14,
-    6.38,
-    6.64,
-    6.82
+    6.39,
+    6.69,
+    6.91,
+    7.17,
+    7.37
    ]
   },
   {
@@ -86,341 +86,341 @@
    "texto": "Día uno. Suena una notificación, y tu cerebro reacciona antes de que lo pienses.",
    "voz": "Día uno. Suena una notificación, y tu cerebro reacciona antes de que lo pienses.",
    "inicio": 9.6,
-   "fin": 14.84,
+   "fin": 15.44,
    "pausa": 0.45,
    "palabras": [
-    9.64,
-    10.0,
-    10.24,
-    11.0,
-    11.18,
-    11.8,
-    12.3,
-    12.42,
-    12.78,
-    13.42,
-    13.9,
-    14.08,
-    14.16,
-    14.28
+    9.65,
+    9.98,
+    10.92,
+    11.22,
+    11.42,
+    12.08,
+    12.6,
+    12.76,
+    13.22,
+    13.92,
+    14.38,
+    14.54,
+    14.64,
+    14.78
    ]
   },
   {
    "escena": "dia1",
    "texto": "Cada mensaje, cada «me gusta» y cada vídeo nuevo es una pequeña recompensa que no sabes cuándo llegará.",
    "voz": "Cada mensaje, cada me gusta y cada vídeo nuevo es una pequeña recompensa que no sabes cuándo llegará.",
-   "inicio": 15.29,
-   "fin": 21.78,
+   "inicio": 15.89,
+   "fin": 22.2,
    "pausa": 0.4,
    "palabras": [
-    15.32,
-    15.52,
-    16.46,
-    16.62,
-    16.8,
-    17.1,
-    17.68,
-    17.94,
-    18.2,
-    18.56,
-    18.88,
-    19.06,
-    19.4,
-    20.12,
-    20.3,
-    20.5,
-    20.86,
-    21.3
+    15.92,
+    16.1,
+    16.92,
+    17.06,
+    17.24,
+    17.58,
+    18.14,
+    18.44,
+    18.74,
+    19.08,
+    19.26,
+    19.44,
+    19.84,
+    20.52,
+    20.72,
+    20.96,
+    21.3,
+    21.64
    ]
   },
   {
    "escena": "dia1",
    "texto": "El sistema de recompensa responde con dopamina, la molécula que te empuja a buscar más.",
    "voz": "El sistema de recompensa responde con dopamina, la molécula que te empuja a buscar más.",
-   "inicio": 22.18,
-   "fin": 27.01,
+   "inicio": 22.6,
+   "fin": 29.07,
    "pausa": 0.0,
    "palabras": [
-    22.21,
-    22.35,
-    22.67,
-    22.83,
-    23.39,
+    22.63,
+    22.81,
+    23.13,
+    23.29,
     23.93,
-    24.05,
-    24.95,
-    25.03,
-    25.51,
-    25.61,
-    25.75,
-    26.19,
-    26.29,
-    26.51
+    24.77,
+    24.97,
+    26.25,
+    26.37,
+    26.91,
+    27.01,
+    27.17,
+    27.69,
+    27.95,
+    28.33
    ]
   },
   {
    "escena": "dia7",
    "texto": "Día siete. Tu cerebro aprende el patrón: aviso, mirar, recompensa.",
    "voz": "Día siete. Tu cerebro aprende el patrón: aviso, mirar, recompensa.",
-   "inicio": 28.51,
-   "fin": 34.24,
+   "inicio": 30.57,
+   "fin": 36.93,
    "pausa": 0.4,
    "palabras": [
-    28.54,
-    29.14,
-    29.48,
-    30.12,
-    30.52,
-    31.02,
-    31.1,
-    31.96,
-    32.8,
-    33.6
+    30.6,
+    31.14,
+    32.2,
+    32.28,
+    32.66,
+    33.12,
+    33.2,
+    34.1,
+    35.06,
+    36.06
    ]
   },
   {
    "escena": "dia7",
    "texto": "Cuanto más se repite, más fuerte se vuelve el circuito, y coges el móvil casi sin pensarlo.",
    "voz": "Cuanto más se repite, más fuerte se vuelve el circuito, y coges el móvil casi sin pensarlo.",
-   "inicio": 34.64,
-   "fin": 40.15,
+   "inicio": 37.33,
+   "fin": 43.48,
    "pausa": 0.0,
    "palabras": [
-    34.67,
-    34.89,
-    35.13,
-    35.29,
-    36.01,
-    36.13,
-    36.49,
-    36.69,
-    36.99,
-    37.11,
-    37.69,
-    38.11,
-    38.41,
-    38.55,
-    38.85,
-    39.21,
-    39.47
+    37.36,
+    37.62,
+    37.94,
+    38.08,
+    38.74,
+    39.02,
+    39.44,
+    39.64,
+    39.96,
+    40.08,
+    40.64,
+    40.94,
+    41.42,
+    41.62,
+    41.98,
+    42.32,
+    42.62
    ]
   },
   {
    "escena": "dia15",
    "texto": "Día quince. Saltar de una cosa a otra cada pocos segundos tiene un precio.",
    "voz": "Día quince. Saltar de una cosa a otra cada pocos segundos tiene un precio.",
-   "inicio": 41.65,
-   "fin": 46.42,
+   "inicio": 44.98,
+   "fin": 50.35,
    "pausa": 0.4,
    "palabras": [
-    41.68,
-    42.26,
-    42.56,
-    43.5,
-    43.66,
-    43.8,
-    44.1,
-    44.26,
-    44.44,
-    44.64,
-    45.08,
-    45.48,
-    45.86,
-    46.02
+    45.03,
+    45.32,
+    46.4,
+    46.76,
+    46.94,
+    47.1,
+    47.4,
+    47.7,
+    47.98,
+    48.23,
+    48.48,
+    49.02,
+    49.48,
+    49.7
    ]
   },
   {
    "escena": "dia15",
    "texto": "Después de cada interrupción, a la parte frontal del cerebro le cuesta volver a concentrarse.",
    "voz": "Después de cada interrupción, a la parte frontal del cerebro le cuesta volver a concentrarse.",
-   "inicio": 46.82,
-   "fin": 51.71,
+   "inicio": 50.75,
+   "fin": 56.29,
    "pausa": 0.4,
    "palabras": [
-    46.85,
-    47.19,
-    47.41,
-    47.59,
-    48.57,
-    48.59,
-    48.67,
-    48.91,
-    49.31,
-    49.51,
-    49.95,
-    50.11,
-    50.45,
-    50.73,
-    50.91
+    50.78,
+    51.0,
+    51.22,
+    51.42,
+    52.36,
+    52.4,
+    52.5,
+    52.76,
+    53.22,
+    53.54,
+    54.14,
+    54.28,
+    54.6,
+    54.9,
+    55.12
    ]
   },
   {
    "escena": "dia15",
    "texto": "Y frente a la pantalla parpadeas menos: los ojos se secan y se cansan.",
    "voz": "Y frente a la pantalla parpadeas menos: los ojos se secan y se cansan.",
-   "inicio": 52.11,
-   "fin": 56.88,
+   "inicio": 56.69,
+   "fin": 61.83,
    "pausa": 0.0,
    "palabras": [
-    52.11,
-    52.2,
-    52.38,
-    52.56,
-    52.62,
-    53.0,
-    53.72,
-    54.66,
-    54.8,
-    55.12,
-    55.36,
-    55.8,
-    56.22,
-    56.36
+    56.69,
+    56.84,
+    57.1,
+    57.36,
+    57.44,
+    57.92,
+    58.72,
+    59.52,
+    59.64,
+    59.92,
+    60.14,
+    60.6,
+    60.88,
+    61.04
    ]
   },
   {
    "escena": "dia30",
    "texto": "Día treinta. 8 horas al día son 240 horas: diez días enteros mirando una pantalla.",
    "voz": "Día treinta. Ocho horas al día son doscientas cuarenta horas: diez días enteros mirando una pantalla.",
-   "inicio": 58.38,
-   "fin": 65.57,
+   "inicio": 63.33,
+   "fin": 70.54,
    "pausa": 0.4,
    "palabras": [
-    58.41,
-    59.09,
-    59.43,
-    60.29,
-    60.61,
-    60.83,
-    61.01,
-    61.33,
-    61.97,
-    62.71,
-    63.45,
-    63.77,
-    64.33,
-    64.73,
-    64.95
+    63.33,
+    63.73,
+    64.65,
+    64.89,
+    65.19,
+    65.39,
+    65.59,
+    65.85,
+    66.39,
+    67.24,
+    68.09,
+    68.45,
+    69.01,
+    69.39,
+    69.61
    ]
   },
   {
    "escena": "dia30",
    "texto": "De noche, la luz y el contenido que engancha pueden retrasar la melatonina, la hormona del sueño.",
    "voz": "De noche, la luz y el contenido que engancha pueden retrasar la melatonina, la hormona del sueño.",
-   "inicio": 65.97,
-   "fin": 71.36,
+   "inicio": 70.94,
+   "fin": 77.12,
    "pausa": 0.4,
    "palabras": [
-    66.02,
-    66.1,
-    66.76,
-    66.84,
-    67.04,
-    67.22,
-    67.28,
-    67.62,
-    67.88,
-    68.32,
-    68.66,
-    69.24,
-    69.4,
-    70.36,
-    70.44,
-    70.74,
-    70.94
+    70.99,
+    71.1,
+    71.8,
+    71.9,
+    72.18,
+    72.42,
+    72.54,
+    72.94,
+    73.24,
+    73.74,
+    74.26,
+    74.86,
+    74.98,
+    75.94,
+    76.0,
+    76.38,
+    76.62
    ]
   },
   {
    "escena": "dia30",
    "texto": "Y dormir peor se asocia con menos atención, peor memoria y más ansiedad.",
    "voz": "Y dormir peor se asocia con menos atención, peor memoria y más ansiedad.",
-   "inicio": 71.76,
-   "fin": 76.5,
+   "inicio": 77.52,
+   "fin": 82.42,
    "pausa": 0.0,
    "palabras": [
-    71.79,
-    71.93,
-    72.11,
-    72.59,
-    72.79,
-    73.13,
-    73.33,
-    73.57,
-    74.49,
-    74.81,
-    75.23,
-    75.67,
-    75.87
+    77.55,
+    77.63,
+    77.85,
+    78.33,
+    78.49,
+    78.87,
+    79.11,
+    79.43,
+    80.29,
+    80.57,
+    80.97,
+    81.41,
+    81.65
    ]
   },
   {
    "escena": "final",
    "texto": "El móvil no es el enemigo: el problema es no darle nunca un descanso a tu cerebro.",
    "voz": "El móvil no es el enemigo: el problema es no darle nunca un descanso a tu cerebro.",
-   "inicio": 78.0,
-   "fin": 83.65,
+   "inicio": 83.92,
+   "fin": 89.7,
    "pausa": 0.4,
    "palabras": [
-    78.03,
-    78.71,
-    79.01,
-    79.31,
-    79.53,
-    79.65,
-    80.47,
-    80.61,
-    80.97,
-    81.35,
-    81.63,
-    81.89,
-    82.29,
-    82.51,
-    82.99,
-    83.09,
-    83.17
+    83.95,
+    84.07,
+    84.39,
+    84.85,
+    85.13,
+    85.27,
+    86.07,
+    86.19,
+    86.55,
+    86.89,
+    87.15,
+    87.49,
+    87.91,
+    88.15,
+    88.71,
+    88.81,
+    88.93
    ]
   },
   {
    "escena": "final",
    "texto": "Silencia las notificaciones y deja la pantalla una hora antes de dormir.",
    "voz": "Silencia las notificaciones y deja la pantalla una hora antes de dormir.",
-   "inicio": 84.05,
-   "fin": 87.98,
+   "inicio": 90.1,
+   "fin": 94.06,
    "pausa": 0.5,
    "palabras": [
-    84.05,
-    84.54,
-    84.7,
-    85.48,
-    85.8,
-    86.02,
-    86.14,
-    86.56,
-    86.92,
-    87.14,
-    87.44,
-    87.6
+    90.14,
+    90.52,
+    90.72,
+    91.46,
+    91.66,
+    91.84,
+    91.98,
+    92.34,
+    92.82,
+    93.08,
+    93.44,
+    93.62
    ]
   },
   {
    "escena": "final",
    "texto": "La buena noticia: tu cerebro se adapta, y también puede recuperarse.",
    "voz": "La buena noticia: tu cerebro se adapta, y también puede recuperarse.",
-   "inicio": 88.48,
-   "fin": 92.81,
+   "inicio": 94.56,
+   "fin": 99.28,
    "pausa": 0.0,
    "palabras": [
-    88.51,
-    88.71,
-    88.87,
-    89.83,
-    89.89,
-    90.25,
-    90.41,
-    90.83,
-    91.33,
-    91.69,
-    92.09
+    94.56,
+    95.03,
+    95.23,
+    96.21,
+    96.37,
+    96.75,
+    96.89,
+    97.43,
+    97.65,
+    98.05,
+    98.45
    ]
   }
  ],
@@ -428,526 +428,526 @@
   {
    "texto": "¿Qué le pasa a tu cerebro",
    "inicio": 0.6,
-   "fin": 1.75,
+   "fin": 1.84,
    "palabras": [
     0.6,
-    0.71,
-    0.83,
-    1.07,
-    1.23,
-    1.35
+    0.72,
+    0.86,
+    1.12,
+    1.32,
+    1.44
    ]
   },
   {
    "texto": "si usas el móvil 8 horas",
-   "inicio": 1.75,
-   "fin": 3.43,
+   "inicio": 1.84,
+   "fin": 3.7,
    "palabras": [
-    1.75,
-    2.01,
-    2.27,
-    2.43,
-    2.71,
-    3.13
+    1.84,
+    2.04,
+    2.32,
+    2.48,
+    2.84,
+    3.32
    ]
   },
   {
    "texto": "al día durante 30 días?",
-   "inicio": 3.43,
-   "fin": 5.29,
+   "inicio": 3.7,
+   "fin": 5.86,
    "palabras": [
-    3.43,
-    3.67,
-    3.89,
-    4.19,
-    4.69
+    3.7,
+    3.94,
+    4.14,
+    4.52,
+    5.04
    ]
   },
   {
    "texto": "Vamos a verlo por dentro.",
-   "inicio": 5.82,
-   "fin": 7.21,
+   "inicio": 6.39,
+   "fin": 7.93,
    "palabras": [
-    5.82,
-    6.14,
-    6.38,
-    6.64,
-    6.82
+    6.39,
+    6.69,
+    6.91,
+    7.17,
+    7.37
    ]
   },
   {
    "texto": "Día uno.",
-   "inicio": 9.64,
-   "fin": 10.24,
+   "inicio": 9.65,
+   "fin": 10.92,
    "palabras": [
-    9.64,
-    10.0
+    9.65,
+    9.98
    ]
   },
   {
    "texto": "Suena una notificación,",
-   "inicio": 10.24,
-   "fin": 11.8,
+   "inicio": 10.92,
+   "fin": 12.08,
    "palabras": [
-    10.24,
-    11.0,
-    11.18
+    10.92,
+    11.22,
+    11.42
    ]
   },
   {
    "texto": "y tu cerebro reacciona antes",
-   "inicio": 11.8,
-   "fin": 13.9,
+   "inicio": 12.08,
+   "fin": 14.38,
    "palabras": [
-    11.8,
-    12.3,
-    12.42,
-    12.78,
-    13.42
+    12.08,
+    12.6,
+    12.76,
+    13.22,
+    13.92
    ]
   },
   {
    "texto": "de que lo pienses.",
-   "inicio": 13.9,
-   "fin": 14.84,
+   "inicio": 14.38,
+   "fin": 15.44,
    "palabras": [
-    13.9,
-    14.08,
-    14.16,
-    14.28
+    14.38,
+    14.54,
+    14.64,
+    14.78
    ]
   },
   {
    "texto": "Cada mensaje, cada «me gusta» y cada vídeo",
-   "inicio": 15.32,
-   "fin": 18.2,
+   "inicio": 15.92,
+   "fin": 18.74,
    "palabras": [
-    15.32,
-    15.52,
-    16.46,
-    16.62,
-    16.8,
-    17.1,
-    17.68,
-    17.94
+    15.92,
+    16.1,
+    16.92,
+    17.06,
+    17.24,
+    17.58,
+    18.14,
+    18.44
    ]
   },
   {
    "texto": "nuevo es una pequeña recompensa",
-   "inicio": 18.2,
-   "fin": 20.12,
+   "inicio": 18.74,
+   "fin": 20.52,
    "palabras": [
-    18.2,
-    18.56,
-    18.88,
-    19.06,
-    19.4
+    18.74,
+    19.08,
+    19.26,
+    19.44,
+    19.84
    ]
   },
   {
    "texto": "que no sabes cuándo llegará.",
-   "inicio": 20.12,
-   "fin": 21.78,
+   "inicio": 20.52,
+   "fin": 22.2,
    "palabras": [
-    20.12,
-    20.3,
-    20.5,
-    20.86,
-    21.3
+    20.52,
+    20.72,
+    20.96,
+    21.3,
+    21.64
    ]
   },
   {
    "texto": "El sistema de recompensa responde con dopamina,",
-   "inicio": 22.21,
-   "fin": 24.95,
+   "inicio": 22.63,
+   "fin": 26.25,
    "palabras": [
-    22.21,
-    22.35,
-    22.67,
-    22.83,
-    23.39,
+    22.63,
+    22.81,
+    23.13,
+    23.29,
     23.93,
-    24.05
+    24.77,
+    24.97
    ]
   },
   {
    "texto": "la molécula que te empuja a buscar más.",
-   "inicio": 24.95,
-   "fin": 27.01,
+   "inicio": 26.25,
+   "fin": 29.07,
    "palabras": [
-    24.95,
-    25.03,
-    25.51,
-    25.61,
-    25.75,
-    26.19,
-    26.29,
-    26.51
+    26.25,
+    26.37,
+    26.91,
+    27.01,
+    27.17,
+    27.69,
+    27.95,
+    28.33
    ]
   },
   {
    "texto": "Día siete.",
-   "inicio": 28.54,
-   "fin": 29.48,
+   "inicio": 30.6,
+   "fin": 32.2,
    "palabras": [
-    28.54,
-    29.14
+    30.6,
+    31.14
    ]
   },
   {
    "texto": "Tu cerebro aprende el patrón: aviso, mirar, recompensa.",
-   "inicio": 29.48,
-   "fin": 34.24,
+   "inicio": 32.2,
+   "fin": 36.93,
    "palabras": [
-    29.48,
-    30.12,
-    30.52,
-    31.02,
-    31.1,
-    31.96,
-    32.8,
-    33.6
+    32.2,
+    32.28,
+    32.66,
+    33.12,
+    33.2,
+    34.1,
+    35.06,
+    36.06
    ]
   },
   {
    "texto": "Cuanto más se repite,",
-   "inicio": 34.67,
-   "fin": 36.01,
+   "inicio": 37.36,
+   "fin": 38.74,
    "palabras": [
-    34.67,
-    34.89,
-    35.13,
-    35.29
+    37.36,
+    37.62,
+    37.94,
+    38.08
    ]
   },
   {
    "texto": "más fuerte se vuelve el circuito,",
-   "inicio": 36.01,
-   "fin": 37.69,
+   "inicio": 38.74,
+   "fin": 40.64,
    "palabras": [
-    36.01,
-    36.13,
-    36.49,
-    36.69,
-    36.99,
-    37.11
+    38.74,
+    39.02,
+    39.44,
+    39.64,
+    39.96,
+    40.08
    ]
   },
   {
    "texto": "y coges el móvil casi sin pensarlo.",
-   "inicio": 37.69,
-   "fin": 40.15,
+   "inicio": 40.64,
+   "fin": 43.48,
    "palabras": [
-    37.69,
-    38.11,
-    38.41,
-    38.55,
-    38.85,
-    39.21,
-    39.47
+    40.64,
+    40.94,
+    41.42,
+    41.62,
+    41.98,
+    42.32,
+    42.62
    ]
   },
   {
    "texto": "Día quince.",
-   "inicio": 41.68,
-   "fin": 42.56,
+   "inicio": 45.03,
+   "fin": 46.4,
    "palabras": [
-    41.68,
-    42.26
+    45.03,
+    45.32
    ]
   },
   {
    "texto": "Saltar de una cosa a otra",
-   "inicio": 42.56,
-   "fin": 44.44,
+   "inicio": 46.4,
+   "fin": 47.98,
    "palabras": [
-    42.56,
-    43.5,
-    43.66,
-    43.8,
-    44.1,
-    44.26
+    46.4,
+    46.76,
+    46.94,
+    47.1,
+    47.4,
+    47.7
    ]
   },
   {
    "texto": "cada pocos segundos tiene un precio.",
-   "inicio": 44.44,
-   "fin": 46.42,
+   "inicio": 47.98,
+   "fin": 50.35,
    "palabras": [
-    44.44,
-    44.64,
-    45.08,
-    45.48,
-    45.86,
-    46.02
+    47.98,
+    48.23,
+    48.48,
+    49.02,
+    49.48,
+    49.7
    ]
   },
   {
    "texto": "Después de cada interrupción,",
-   "inicio": 46.85,
-   "fin": 48.57,
+   "inicio": 50.78,
+   "fin": 52.36,
    "palabras": [
-    46.85,
-    47.19,
-    47.41,
-    47.59
+    50.78,
+    51.0,
+    51.22,
+    51.42
    ]
   },
   {
    "texto": "a la parte frontal del cerebro",
-   "inicio": 48.57,
-   "fin": 49.95,
+   "inicio": 52.36,
+   "fin": 54.14,
    "palabras": [
-    48.57,
-    48.59,
-    48.67,
-    48.91,
-    49.31,
-    49.51
+    52.36,
+    52.4,
+    52.5,
+    52.76,
+    53.22,
+    53.54
    ]
   },
   {
    "texto": "le cuesta volver a concentrarse.",
-   "inicio": 49.95,
-   "fin": 51.71,
+   "inicio": 54.14,
+   "fin": 56.29,
    "palabras": [
-    49.95,
-    50.11,
-    50.45,
-    50.73,
-    50.91
+    54.14,
+    54.28,
+    54.6,
+    54.9,
+    55.12
    ]
   },
   {
    "texto": "Y frente a la pantalla parpadeas menos:",
-   "inicio": 52.11,
-   "fin": 54.66,
+   "inicio": 56.69,
+   "fin": 59.52,
    "palabras": [
-    52.11,
-    52.2,
-    52.38,
-    52.56,
-    52.62,
-    53.0,
-    53.72
+    56.69,
+    56.84,
+    57.1,
+    57.36,
+    57.44,
+    57.92,
+    58.72
    ]
   },
   {
    "texto": "los ojos se secan y se cansan.",
-   "inicio": 54.66,
-   "fin": 56.88,
+   "inicio": 59.52,
+   "fin": 61.83,
    "palabras": [
-    54.66,
-    54.8,
-    55.12,
-    55.36,
-    55.8,
-    56.22,
-    56.36
+    59.52,
+    59.64,
+    59.92,
+    60.14,
+    60.6,
+    60.88,
+    61.04
    ]
   },
   {
    "texto": "Día treinta.",
-   "inicio": 58.41,
-   "fin": 59.43,
+   "inicio": 63.33,
+   "fin": 64.65,
    "palabras": [
-    58.41,
-    59.09
+    63.33,
+    63.73
    ]
   },
   {
    "texto": "8 horas al día son 240 horas:",
-   "inicio": 59.43,
-   "fin": 62.71,
+   "inicio": 64.65,
+   "fin": 67.24,
    "palabras": [
-    59.43,
-    60.29,
-    60.61,
-    60.83,
-    61.01,
-    61.33,
-    61.97
+    64.65,
+    64.89,
+    65.19,
+    65.39,
+    65.59,
+    65.85,
+    66.39
    ]
   },
   {
    "texto": "diez días enteros mirando una pantalla.",
-   "inicio": 62.71,
-   "fin": 65.57,
+   "inicio": 67.24,
+   "fin": 70.54,
    "palabras": [
-    62.71,
-    63.45,
-    63.77,
-    64.33,
-    64.73,
-    64.95
+    67.24,
+    68.09,
+    68.45,
+    69.01,
+    69.39,
+    69.61
    ]
   },
   {
    "texto": "De noche, la luz y el contenido",
-   "inicio": 66.02,
-   "fin": 67.62,
+   "inicio": 70.99,
+   "fin": 72.94,
    "palabras": [
-    66.02,
-    66.1,
-    66.76,
-    66.84,
-    67.04,
-    67.22,
-    67.28
+    70.99,
+    71.1,
+    71.8,
+    71.9,
+    72.18,
+    72.42,
+    72.54
    ]
   },
   {
    "texto": "que engancha pueden retrasar la melatonina,",
-   "inicio": 67.62,
-   "fin": 70.36,
+   "inicio": 72.94,
+   "fin": 75.94,
    "palabras": [
-    67.62,
-    67.88,
-    68.32,
-    68.66,
-    69.24,
-    69.4
+    72.94,
+    73.24,
+    73.74,
+    74.26,
+    74.86,
+    74.98
    ]
   },
   {
    "texto": "la hormona del sueño.",
-   "inicio": 70.36,
-   "fin": 71.36,
+   "inicio": 75.94,
+   "fin": 77.12,
    "palabras": [
-    70.36,
-    70.44,
-    70.74,
-    70.94
+    75.94,
+    76.0,
+    76.38,
+    76.62
    ]
   },
   {
    "texto": "Y dormir peor",
-   "inicio": 71.79,
-   "fin": 72.59,
+   "inicio": 77.55,
+   "fin": 78.33,
    "palabras": [
-    71.79,
-    71.93,
-    72.11
+    77.55,
+    77.63,
+    77.85
    ]
   },
   {
    "texto": "se asocia con menos atención,",
-   "inicio": 72.59,
-   "fin": 74.49,
+   "inicio": 78.33,
+   "fin": 80.29,
    "palabras": [
-    72.59,
-    72.79,
-    73.13,
-    73.33,
-    73.57
+    78.33,
+    78.49,
+    78.87,
+    79.11,
+    79.43
    ]
   },
   {
    "texto": "peor memoria y más ansiedad.",
-   "inicio": 74.49,
-   "fin": 76.5,
+   "inicio": 80.29,
+   "fin": 82.42,
    "palabras": [
-    74.49,
-    74.81,
-    75.23,
-    75.67,
-    75.87
+    80.29,
+    80.57,
+    80.97,
+    81.41,
+    81.65
    ]
   },
   {
    "texto": "El móvil no es el enemigo:",
-   "inicio": 78.03,
-   "fin": 80.47,
+   "inicio": 83.95,
+   "fin": 86.07,
    "palabras": [
-    78.03,
-    78.71,
-    79.01,
-    79.31,
-    79.53,
-    79.65
+    83.95,
+    84.07,
+    84.39,
+    84.85,
+    85.13,
+    85.27
    ]
   },
   {
    "texto": "el problema es no darle nunca",
-   "inicio": 80.47,
-   "fin": 82.29,
+   "inicio": 86.07,
+   "fin": 87.91,
    "palabras": [
-    80.47,
-    80.61,
-    80.97,
-    81.35,
-    81.63,
-    81.89
+    86.07,
+    86.19,
+    86.55,
+    86.89,
+    87.15,
+    87.49
    ]
   },
   {
    "texto": "un descanso a tu cerebro.",
-   "inicio": 82.29,
-   "fin": 83.65,
+   "inicio": 87.91,
+   "fin": 89.7,
    "palabras": [
-    82.29,
-    82.51,
-    82.99,
-    83.09,
-    83.17
+    87.91,
+    88.15,
+    88.71,
+    88.81,
+    88.93
    ]
   },
   {
    "texto": "Silencia las notificaciones y deja",
-   "inicio": 84.05,
-   "fin": 86.02,
+   "inicio": 90.14,
+   "fin": 91.84,
    "palabras": [
-    84.05,
-    84.54,
-    84.7,
-    85.48,
-    85.8
+    90.14,
+    90.52,
+    90.72,
+    91.46,
+    91.66
    ]
   },
   {
    "texto": "la pantalla una hora antes de dormir.",
-   "inicio": 86.02,
-   "fin": 87.98,
+   "inicio": 91.84,
+   "fin": 94.06,
    "palabras": [
-    86.02,
-    86.14,
-    86.56,
-    86.92,
-    87.14,
-    87.44,
-    87.6
+    91.84,
+    91.98,
+    92.34,
+    92.82,
+    93.08,
+    93.44,
+    93.62
    ]
   },
   {
    "texto": "La buena noticia:",
-   "inicio": 88.51,
-   "fin": 89.83,
+   "inicio": 94.56,
+   "fin": 96.21,
    "palabras": [
-    88.51,
-    88.71,
-    88.87
+    94.56,
+    95.03,
+    95.23
    ]
   },
   {
    "texto": "tu cerebro se adapta,",
-   "inicio": 89.83,
-   "fin": 90.83,
+   "inicio": 96.21,
+   "fin": 97.43,
    "palabras": [
-    89.83,
-    89.89,
-    90.25,
-    90.41
+    96.21,
+    96.37,
+    96.75,
+    96.89
    ]
   },
   {
    "texto": "y también puede recuperarse.",
-   "inicio": 90.83,
-   "fin": 92.81,
+   "inicio": 97.43,
+   "fin": 99.28,
    "palabras": [
-    90.83,
-    91.33,
-    91.69,
-    92.09
+    97.43,
+    97.65,
+    98.05,
+    98.45
    ]
   }
  ]
