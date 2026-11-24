@@ -294,7 +294,7 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Terror #HistoriasDeTerror #Miedo #Creepy
 
-## Turno de noche — Gasolinera, parte 2 (74 s) — `videos/TurnoNoche2.mp4`
+## Turno de noche — Gasolinera, parte 2 (51 s, con voz) — `videos/TurnoNoche2.mp4`
 
 ### Instagram Reels / TikTok
 > **Son las 3:33 y el encargado llama al cristal… ¿abrirías?** 🔑🚪

@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795480390.1146388,
-    "seen": 1795480739.1077957,
-    "ast_hash": "4d8ac345721d7ea570b19e6ebe9c06af",
+    "mtime": 1795551472.9409368,
+    "seen": 1795551486.7254276,
+    "ast_hash": "75114a3088dd101781e1ef42444580de",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -4134,27 +4134,27 @@
     "semantic_hash": ""
   },
   "src/TurnoNoche2/Ilustraciones.tsx": {
-    "mtime": 1795480295.5156937,
-    "seen": 1795480739.1075704,
-    "ast_hash": "c2b64ae8a12da6fd5525547020b894d1",
+    "mtime": 1795551008.2935863,
+    "seen": 1795551486.7250924,
+    "ast_hash": "bcbe90aaab890369207c936f19db7d8d",
     "semantic_hash": ""
   },
   "src/TurnoNoche2/Reel.tsx": {
-    "mtime": 1795480213.6134694,
-    "seen": 1795480739.107572,
-    "ast_hash": "c79500b9aed87960b3d4f4bdc9f88e20",
+    "mtime": 1795551008.2941637,
+    "seen": 1795551486.7250943,
+    "ast_hash": "d8644dd870f3622d21d129bd313f6d1e",
     "semantic_hash": ""
   },
   "src/TurnoNoche2/efectos.ts": {
-    "mtime": 1795480213.612014,
-    "seen": 1795480739.107573,
-    "ast_hash": "f4df576926bda5026c72632968ed44f6",
+    "mtime": 1795551008.292703,
+    "seen": 1795551486.7250957,
+    "ast_hash": "8aea26e8cbc95314ac6123c2828fe39e",
     "semantic_hash": ""
   },
   "src/TurnoNoche2/escenas.ts": {
-    "mtime": 1795480213.6097512,
-    "seen": 1795480739.1075735,
-    "ast_hash": "26c57b6b92422e29f6d225886335c3c3",
+    "mtime": 1795551008.2921922,
+    "seen": 1795551486.725097,
+    "ast_hash": "05d0096ea4bdb238154b9eb3a2776925",
     "semantic_hash": ""
   },
   "src/TurnoNoche2/guion.json": {
@@ -4176,9 +4176,21 @@
     "semantic_hash": ""
   },
   "videos/TurnoNoche2.mp4": {
-    "mtime": 1795481731.475745,
-    "seen": 1795482202.41544,
-    "ast_hash": "14d00af4e7c65635cb7413160a6696f6",
+    "mtime": 1795551452.7077966,
+    "seen": 1795551486.72568,
+    "ast_hash": "7b810ffd279c6c4264f302729c5ab044",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche2/tiempos.json": {
+    "mtime": 1795550987.431769,
+    "seen": 1795551486.7250998,
+    "ast_hash": "66719fac2574a58107c78db2ddc81a42",
+    "semantic_hash": ""
+  },
+  "public/voz/turno-noche-2.mp3": {
+    "mtime": 1795550955.2371879,
+    "seen": 1795551486.7256742,
+    "ast_hash": "37bce1bc96b2e5f1e377264a8bf1e178",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
