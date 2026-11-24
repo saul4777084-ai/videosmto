@@ -82,7 +82,8 @@ FORMATOS = {
     "original": "[0:v]null",
 }
 # altura máxima que se descarga, crf, preset. En vertical se recorta ~1/3 del ancho: hace falta fuente alta para que no salga borroso
-CALIDADES = {"rapida": (720, 26, "veryfast"), "buena": (1080, 20, "veryfast"), "maxima": (2160, 18, "medium")}
+# ultrafast: «Hacer vertical» tarda ~40 % menos que con veryfast; el crf algo más alto compensa el peso del archivo
+CALIDADES = {"rapida": (720, 27, "ultrafast"), "buena": (1080, 23, "ultrafast"), "maxima": (2160, 18, "veryfast")}
 TAMANOS = {"pequeno": 12, "mediano": 16, "grande": 22}
 COLORES = {"blanco": "&H00FFFFFF", "amarillo": "&H0000E5FF", "verde": "&H0066FF33"}  # ASS: &HAABBGGRR
 POSICIONES = {"abajo": 2, "centro": 5, "arriba": 8}
