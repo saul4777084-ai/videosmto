@@ -111,7 +111,7 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
     <input type="radio" name="cada" id="c300" value="300"><label for="c300">5 min</label>
   </div>
   <button id="auto" type="button" disabled style="width:100%;margin-top:14px;padding:16px">▶ Empezar automático</button>
-  <p id="estadoAuto" class="estado" style="margin-top:8px">Graba sin parar y cada clip aparece en cuanto termina, sin editar (así va rápido y casi no gasta batería). Luego pulsa «Hacer vertical» en los que te gusten. Sigue aunque cierres la página o bloquees el teléfono (con termux-wake-lock). Gasta datos y espacio.</p>
+  <p id="estadoAuto" class="estado" style="margin-top:8px">Graba sin parar y cada clip sale ya editado con los ajustes de abajo (por defecto, vertical con fondo desenfocado), unos segundos después de terminar su trozo. Sigue aunque cierres la página o bloquees el teléfono (con termux-wake-lock). Gasta datos y espacio.</p>
 </div>
 
 <details class="card">
@@ -120,7 +120,7 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
   <div class="fila">
     <label>Formato<select id="formato">
       <option value="vertical">Vertical 9:16 (recorte)</option>
-      <option value="desenfocado">Vertical con fondo desenfocado</option>
+      <option value="desenfocado" selected>Vertical con fondo desenfocado</option>
       <option value="original">Original</option></select></label>
     <label>Encuadre<select id="encuadre">
       <option value="0">Izquierda</option><option value="0.25">Centro-izq.</option><option value="0.5" selected>Centro</option>

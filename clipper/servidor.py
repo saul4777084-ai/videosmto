@@ -83,7 +83,7 @@ FORMATOS = {
 }
 # altura máxima que se descarga, crf, preset. En vertical se recorta ~1/3 del ancho: hace falta fuente alta para que no salga borroso
 # ultrafast: «Hacer vertical» tarda ~40 % menos que con veryfast; el crf algo más alto compensa el peso del archivo
-CALIDADES = {"rapida": (720, 27, "ultrafast"), "buena": (1080, 23, "ultrafast"), "maxima": (2160, 18, "veryfast")}
+CALIDADES = {"rapida": (720, 27, "ultrafast"), "buena": (1080, 20, "ultrafast"), "maxima": (2160, 18, "veryfast")}
 TAMANOS = {"pequeno": 12, "mediano": 16, "grande": 22}
 COLORES = {"blanco": "&H00FFFFFF", "amarillo": "&H0000E5FF", "verde": "&H0066FF33"}  # ASS: &HAABBGGRR
 POSICIONES = {"abajo": 2, "centro": 5, "arriba": 8}
@@ -232,8 +232,9 @@ AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titul
 COLA, PARAR, HILO = queue.Queue(), threading.Event(), [None]
 
 
-def mover_terminados(lista):
-    """Pasa a CLIPS los trozos que ffmpeg ya cerró (los apunta en la lista al terminar cada uno)."""
+def mover_terminados(lista, d=None):
+    """Pasa a CLIPS los trozos que ffmpeg ya cerró (los apunta en la lista al terminar cada uno).
+    Con d, cada trozo se encola para editarlo con esos ajustes y el original se borra al terminar."""
     if not os.path.exists(lista):
         return
     with open(lista, encoding="utf-8") as f:
@@ -242,6 +243,11 @@ def mover_terminados(lista):
             if linea.strip() and os.path.isfile(p):
                 os.replace(p, os.path.join(CLIPS, os.path.basename(p)))
                 AUTO["hechos"] += 1
+                try:
+                    if d:
+                        pedir_vertical({**d, "archivo": os.path.basename(p), "borrar_original": True})
+                except Exception as e:  # un trozo raro no para la grabación
+                    AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
 def bucle_auto(d):
@@ -265,11 +271,11 @@ def bucle_auto(d):
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, errors="replace")
             inicio = time.time()
             while proc.poll() is None and not PARAR.wait(2):
-                mover_terminados(lista)
+                mover_terminados(lista, d)
             if PARAR.is_set():
                 proc.terminate()  # ffmpeg cierra bien el trozo que estaba grabando, que también se guarda
             error = (proc.communicate()[1].strip().splitlines() or ["el directo dejó de llegar"])[-1]
-            mover_terminados(lista)
+            mover_terminados(lista, d)
             os.remove(lista) if os.path.exists(lista) else None
             if PARAR.is_set():
                 break
@@ -289,6 +295,8 @@ def editor():
         d, nombre, entrada, seg = COLA.get()
         try:
             editar(d, nombre, entrada, seg, "")
+            if d.get("borrar_original") and os.path.isfile(entrada):
+                os.remove(entrada)  # del automático solo queda el clip editado
         except Exception as e:
             AUTO["error"] = "No se pudo hacer vertical un clip: " + str(e)
 
