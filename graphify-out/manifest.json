@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795307186.7815168,
-    "seen": 1795307457.6882145,
-    "ast_hash": "38de3e802b24f41b594be1daeac01954",
+    "mtime": 1795480809.6028361,
+    "seen": 1795480992.6195447,
+    "ast_hash": "ebcd22ac495bb5c9e6976a2c05894a88",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795307917.76172,
-    "seen": 1795307923.0945613,
-    "ast_hash": "54d7dec79c4a6e9c8fdc8b501ee4ff7f",
+    "mtime": 1795480963.7299998,
+    "seen": 1795480992.6198208,
+    "ast_hash": "45362183ed98be8e5d43911415039b73",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -4068,9 +4068,9 @@
     "semantic_hash": ""
   },
   "src/Desierto/tiempos.json": {
-    "mtime": 1795147690.4844139,
-    "seen": 1795148210.5423517,
-    "ast_hash": "20063ab70177555d3d925d029bb95775",
+    "mtime": 1795365790.0372047,
+    "seen": 1795480992.619442,
+    "ast_hash": "9f64bf1a6980cfded3474ec0c77388b0",
     "semantic_hash": ""
   },
   "src/Desierto/voz_texto.txt": {
@@ -4098,9 +4098,9 @@
     "semantic_hash": ""
   },
   "src/comun/Tierra.tsx": {
-    "mtime": 1795306665.6159058,
-    "seen": 1795307457.6882925,
-    "ast_hash": "2f977394e3e5fa6a92843a5bf8c07c08",
+    "mtime": 1795367252.4561355,
+    "seen": 1795480992.6195903,
+    "ast_hash": "6d1cd49471b6639293ff81589fe8be2a",
     "semantic_hash": ""
   },
   "src/comun/tierra_fuentes.json": {
@@ -4176,9 +4176,9 @@
     "semantic_hash": ""
   },
   "scripts/fotos.mjs": {
-    "mtime": 1795148227.6427543,
-    "seen": 1795307457.687919,
-    "ast_hash": "af15954f2f305351b3b236b842f64839",
+    "mtime": 1795367252.4486034,
+    "seen": 1795480992.6193628,
+    "ast_hash": "70eb780e66eba2c872002d53f11748e6",
     "semantic_hash": ""
   },
   "scripts/musica_fondo.py": {
@@ -4224,15 +4224,15 @@
     "semantic_hash": ""
   },
   "src/Clima/tiempos.json": {
-    "mtime": 1795306849.52786,
-    "seen": 1795307457.6879668,
-    "ast_hash": "489f978d604a98ead15db9b3d4cbc1c9",
+    "mtime": 1795365806.9428997,
+    "seen": 1795480992.6193976,
+    "ast_hash": "2bba08e3dae2609bfd2672f4525bfb8f",
     "semantic_hash": ""
   },
   "src/Deshielo/Ilustraciones.tsx": {
-    "mtime": 1795306665.6159058,
-    "seen": 1795307457.6879964,
-    "ast_hash": "b1cba21a6dd343f89fb817538c52712a",
+    "mtime": 1795367252.4486034,
+    "seen": 1795480992.6194253,
+    "ast_hash": "7d7e7de13385c5ff1add3d20f703c916",
     "semantic_hash": ""
   },
   "src/Deshielo/Reel.tsx": {
@@ -4242,15 +4242,15 @@
     "semantic_hash": ""
   },
   "src/Deshielo/efectos.ts": {
-    "mtime": 1795148227.6491644,
-    "seen": 1795307457.6879997,
-    "ast_hash": "210678534450d85117a1027b225b9825",
+    "mtime": 1795367252.4486034,
+    "seen": 1795480992.6194282,
+    "ast_hash": "7c7b2b5a5e19c9ce40acbc528cbe02a0",
     "semantic_hash": ""
   },
   "src/Deshielo/escenas.ts": {
-    "mtime": 1795148227.6491644,
-    "seen": 1795307457.6880014,
-    "ast_hash": "02b6265f9ed36d0986c07cf068042032",
+    "mtime": 1795367252.4486034,
+    "seen": 1795480992.619429,
+    "ast_hash": "ebca49dd11889bf592855c7608dcbb74",
     "semantic_hash": ""
   },
   "src/Deshielo/guion.json": {
@@ -4260,15 +4260,15 @@
     "semantic_hash": ""
   },
   "src/Deshielo/tiempos.json": {
-    "mtime": 1795148227.6491644,
-    "seen": 1795307457.6880045,
-    "ast_hash": "5e2cd4ea8a8288067c81308bfc84d3aa",
+    "mtime": 1795367252.455186,
+    "seen": 1795480992.6194324,
+    "ast_hash": "0b44e2a8649acf1d71a76899e62e6a4e",
     "semantic_hash": ""
   },
   "src/Mongoles/Ilustraciones.tsx": {
-    "mtime": 1795306665.6159058,
-    "seen": 1795307457.6881099,
-    "ast_hash": "29f349e811f29301b5608ce621eebbf3",
+    "mtime": 1795367252.455186,
+    "seen": 1795480992.6194906,
+    "ast_hash": "c64d987f20f8d1a8895f0cd72da0a5ed",
     "semantic_hash": ""
   },
   "src/Mongoles/Reel.tsx": {
@@ -4284,9 +4284,9 @@
     "semantic_hash": ""
   },
   "src/Mongoles/escenas.ts": {
-    "mtime": 1795148227.649506,
-    "seen": 1795307457.6881144,
-    "ast_hash": "c35a1e9e0450f7cc62bee5703bd038e8",
+    "mtime": 1795367252.455186,
+    "seen": 1795480992.6195018,
+    "ast_hash": "46e3be11ac46b94e6a7fd5bd5c084566",
     "semantic_hash": ""
   },
   "src/Mongoles/guion.json": {
@@ -4296,9 +4296,9 @@
     "semantic_hash": ""
   },
   "src/Mongoles/tiempos.json": {
-    "mtime": 1795148227.649506,
-    "seen": 1795307457.6881182,
-    "ast_hash": "0c3a4a287442ffd86f578cac5ce7e0a8",
+    "mtime": 1795367252.4561355,
+    "seen": 1795480992.6195056,
+    "ast_hash": "75724e7041359fcebb079607737796e2",
     "semantic_hash": ""
   },
   "src/MuestrasMapas/Estilos.tsx": {
@@ -4434,9 +4434,9 @@
     "semantic_hash": ""
   },
   "public/sfx/musica_clima.wav": {
-    "mtime": 1795306892.0559192,
-    "seen": 1795307457.689055,
-    "ast_hash": "ec9e7fceb157db73729fb5b72a52fab5",
+    "mtime": 1795365837.9405193,
+    "seen": 1795480992.6200054,
+    "ast_hash": "c2bb6212d563e6bfaa58a4b20dd7e20e",
     "semantic_hash": ""
   },
   "videos/reel-deshielo.mp4": {
@@ -4455,6 +4455,114 @@
     "mtime": 1795306665.7279058,
     "seen": 1795307457.689143,
     "ast_hash": "4887ef27511d8576bddde1e67cb1d9ea",
+    "semantic_hash": ""
+  },
+  "src/Cueva/Ilustraciones.tsx": {
+    "mtime": 1795480937.9879684,
+    "seen": 1795480992.6194174,
+    "ast_hash": "3e4c486af89d661552ac4c3c575a3618",
+    "semantic_hash": ""
+  },
+  "src/Cueva/Reel.tsx": {
+    "mtime": 1795480809.5885434,
+    "seen": 1795480992.619419,
+    "ast_hash": "f3c374a5661dd34f755a591a44988030",
+    "semantic_hash": ""
+  },
+  "src/Cueva/efectos.ts": {
+    "mtime": 1795480809.5859904,
+    "seen": 1795480992.61942,
+    "ast_hash": "f8f932e7e6b90ccf7f706516228fb2d1",
+    "semantic_hash": ""
+  },
+  "src/Cueva/escenas.ts": {
+    "mtime": 1795480403.3579664,
+    "seen": 1795480992.6194212,
+    "ast_hash": "c213d76124f078b2dc0533e33613408c",
+    "semantic_hash": ""
+  },
+  "src/Cueva/guion.json": {
+    "mtime": 1795480381.0247445,
+    "seen": 1795480992.6194222,
+    "ast_hash": "94ee6e2d7ad9267efe9f96348e71532c",
+    "semantic_hash": ""
+  },
+  "src/Cueva/tiempos.json": {
+    "mtime": 1795480384.8646204,
+    "seen": 1795480992.6194234,
+    "ast_hash": "67646e0520793a57dc0d2c0e956e4d51",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/guion_voz.json": {
+    "mtime": 1795367252.455186,
+    "seen": 1795480992.6194313,
+    "ast_hash": "2ccee543777da4562008bb3ad95ecb24",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/guion_voz.json": {
+    "mtime": 1795367252.4561355,
+    "seen": 1795480992.6195042,
+    "ast_hash": "496d6a9470bc2d63a7bbedca9169f27a",
+    "semantic_hash": ""
+  },
+  "src/Cueva/voz_texto.txt": {
+    "mtime": 1795480381.1080494,
+    "seen": 1795480992.6198227,
+    "ast_hash": "5493df91ae7699d21deb53533afe51f3",
+    "semantic_hash": ""
+  },
+  "src/Deshielo/voz_texto.txt": {
+    "mtime": 1795365890.2934465,
+    "seen": 1795480992.619824,
+    "ast_hash": "71e8a3bd0881bdb1e7af87308ae3a267",
+    "semantic_hash": ""
+  },
+  "src/Mongoles/voz_texto.txt": {
+    "mtime": 1795365890.2934465,
+    "seen": 1795480992.6198287,
+    "ast_hash": "53779d609f9d89d26d48398755b236ed",
+    "semantic_hash": ""
+  },
+  "public/voz/clima.mp3": {
+    "mtime": 1795365772.0604098,
+    "seen": 1795480992.6200354,
+    "ast_hash": "af0df29568cf8f6965db783fac635740",
+    "semantic_hash": ""
+  },
+  "public/voz/deshielo.mp3": {
+    "mtime": 1795367252.4422343,
+    "seen": 1795480992.6200364,
+    "ast_hash": "3347eea1786fd6d024d6fa1b9e6d8730",
+    "semantic_hash": ""
+  },
+  "public/voz/desierto.mp3": {
+    "mtime": 1795365772.0556998,
+    "seen": 1795480992.6200373,
+    "ast_hash": "542a1f205cc62d2e24b45206108fd913",
+    "semantic_hash": ""
+  },
+  "public/voz/mongoles.mp3": {
+    "mtime": 1795367252.4486034,
+    "seen": 1795480992.6200416,
+    "ast_hash": "0701102a1d63ceea153fb0672a5ae71e",
+    "semantic_hash": ""
+  },
+  "videos/reel-clima-voz.mp4": {
+    "mtime": 1795368042.6966505,
+    "seen": 1795480992.6200502,
+    "ast_hash": "8d0d4a99bcf137ab1c85b5ff540b8f8b",
+    "semantic_hash": ""
+  },
+  "videos/reel-clima.mp4": {
+    "mtime": 1795308894.0360382,
+    "seen": 1795480992.6200511,
+    "ast_hash": "a81b30dad81e572e7594c48545b05064",
+    "semantic_hash": ""
+  },
+  "videos/reel-desierto-cine-voz.mp4": {
+    "mtime": 1795367219.7130277,
+    "seen": 1795480992.6200552,
+    "ast_hash": "bfad32d7ed55ca16a0d8ddcd517e28e3",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

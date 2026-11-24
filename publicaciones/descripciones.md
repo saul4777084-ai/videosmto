@@ -399,3 +399,28 @@ Sin voz (texto + efectos): en TikTok añade un sonido épico en tendencia a volu
 > ¿Qué cambiarías tú: usar menos el coche (A) o comer menos carne (B)?
 >
 > #CambioClimático #Clima #MedioAmbiente
+
+## ¿Qué le pasa a tu cuerpo si pasas 18 días atrapado en una cueva, a oscuras? — `videos/reel-cueva.mp4`
+~1:53 sin voz · versión «cine» como el desierto · avatar en la esquina inferior derecha · final A/B.
+
+### TikTok / Reels
+> **18 días atrapado en una cueva, a oscuras** 🕳️🔦
+>
+> Negro total, humedad al 100 % y un cerebro que se inventa luces. Michel Siffre tardaba 5 minutos en contar 2,
+> los 12 niños de Tailandia bebieron agua de las rocas… y una española aguantó 500 días bajo tierra.
+>
+> Te quedas atrapado sin luz: ¿buscas la salida (A) o esperas quieto (B)? Comenta 👇
+>
+> #supervivencia #cueva #cuerpohumano #datoscuriosos #sabiasque #thamluang #aprendeentiktok
+
+### Facebook / YouTube Shorts
+> **¿Qué le pasa a tu cuerpo si pasas 18 días en una cueva, a oscuras?** 🕳️
+>
+> Sin sol, tu reloj interno se desajusta y pierdes la noción del tiempo: en 1962, Michel Siffre salió de su cueva
+> creyendo que era agosto y era septiembre. En 2018, 12 niños y su entrenador sobrevivieron en la cueva Tham Luang
+> bebiendo el agua que goteaba de las rocas y meditando para gastar menos energía. Y Beatriz Flamini pasó 500 días
+> en una cueva de Granada creyendo que llevaba 170.
+>
+> ¿Tú qué harías: buscar la salida (A) o quedarte quieto y esperar (B)?
+>
+> #Supervivencia #Cueva #CuerpoHumano #Curiosidades
