@@ -397,3 +397,25 @@ añade música en la app si lo publicas así.
 > ¿Qué cambiarías tú: usar menos el coche (A) o comer menos carne (B)?
 >
 > #CambioClimático #Clima #MedioAmbiente
+
+---
+
+## Hernán Cortés y la caída de Tenochtitlan (≈66 s sin voz) — `videos/reel-cortes.mp4`
+
+### TikTok / Reels
+> **500 españoles contra un imperio de millones** ⚔️🗺️
+>
+> Cortés hundió sus propios barcos, se alió con los tlaxcaltecas, apresó a Moctezuma, huyó en la Noche Triste…
+> y en 1521 cayó Tenochtitlan. Sobre sus ruinas nació la Ciudad de México 🇲🇽
+>
+> ¿Héroe o villano? Escríbelo en los comentarios 👇
+>
+> #historia #mapas #hernancortes #tenochtitlan #mexico #aztecas #moctezuma #curiosidades #sabiasque
+
+### Facebook / YouTube Shorts
+> **Cómo cayó Tenochtitlan** 🗺️
+>
+> De Cuba a Veracruz, de Tlaxcala al lago de Texcoco: así conquistó Hernán Cortés el imperio mexica entre 1519 y 1521,
+> paso a paso sobre el mapa.
+>
+> #Historia #Mapas #México #HernánCortés

@@ -1,0 +1,392 @@
+{
+ "provisional": true,
+ "duracion": 65.96,
+ "frases": [
+  {
+   "texto": "Con 500 hombres derrotó a un imperio de millones de personas.",
+   "palabras": [
+    0.21,
+    0.45,
+    0.68,
+    1.04,
+    1.4,
+    1.56,
+    1.76,
+    2.12,
+    2.32,
+    2.71,
+    2.91
+   ],
+   "inicio": 0.0,
+   "segundos": 4.2,
+   "tiempos": [
+    0.21,
+    0.45,
+    0.68,
+    1.04,
+    1.4,
+    1.56,
+    1.76,
+    2.12,
+    2.32,
+    2.71,
+    2.91
+   ]
+  },
+  {
+   "texto": "En 1519, Hernán Cortés zarpó de Cuba con 11 barcos.",
+   "palabras": [
+    4.45,
+    4.68,
+    5.19,
+    5.57,
+    5.96,
+    6.3,
+    6.53,
+    6.84,
+    7.11,
+    7.34
+   ],
+   "inicio": 4.2,
+   "segundos": 4.77,
+   "tiempos": [
+    0.25,
+    0.48,
+    0.99,
+    1.37,
+    1.76,
+    2.1,
+    2.33,
+    2.64,
+    2.91,
+    3.14
+   ]
+  },
+  {
+   "texto": "Desembarcó en la costa de México y fundó Veracruz.",
+   "palabras": [
+    9.22,
+    9.76,
+    9.99,
+    10.22,
+    10.56,
+    10.79,
+    11.18,
+    11.37,
+    11.72
+   ],
+   "inicio": 8.97,
+   "segundos": 4.45,
+   "tiempos": [
+    0.25,
+    0.79,
+    1.02,
+    1.25,
+    1.59,
+    1.82,
+    2.21,
+    2.4,
+    2.75
+   ]
+  },
+  {
+   "texto": "Para que nadie pudiera volver, hundió sus propios barcos.",
+   "palabras": [
+    13.67,
+    13.98,
+    14.25,
+    14.59,
+    15.01,
+    15.6,
+    15.98,
+    16.25,
+    16.67
+   ],
+   "inicio": 13.42,
+   "segundos": 4.88,
+   "tiempos": [
+    0.25,
+    0.56,
+    0.83,
+    1.17,
+    1.59,
+    2.18,
+    2.56,
+    2.83,
+    3.25
+   ]
+  },
+  {
+   "texto": "Los totonacas y los tlaxcaltecas, enemigos de los mexicas, se unieron a él.",
+   "palabras": [
+    18.55,
+    18.82,
+    19.32,
+    19.51,
+    19.78,
+    20.59,
+    21.05,
+    21.28,
+    21.55,
+    22.17,
+    22.4,
+    22.83,
+    23.02
+   ],
+   "inicio": 18.3,
+   "segundos": 6.2,
+   "tiempos": [
+    0.25,
+    0.52,
+    1.02,
+    1.21,
+    1.48,
+    2.29,
+    2.75,
+    2.98,
+    3.25,
+    3.87,
+    4.1,
+    4.53,
+    4.72
+   ]
+  },
+  {
+   "texto": "En noviembre llegó a Tenochtitlan, una ciudad sobre un lago más grande que cualquier ciudad de España.",
+   "palabras": [
+    24.75,
+    24.98,
+    25.48,
+    25.82,
+    26.02,
+    26.83,
+    27.1,
+    27.48,
+    27.83,
+    28.06,
+    28.37,
+    28.64,
+    29.02,
+    29.29,
+    29.79,
+    30.17,
+    30.4
+   ],
+   "inicio": 24.5,
+   "segundos": 7.53,
+   "tiempos": [
+    0.25,
+    0.48,
+    0.98,
+    1.32,
+    1.52,
+    2.33,
+    2.6,
+    2.98,
+    3.33,
+    3.56,
+    3.87,
+    4.14,
+    4.52,
+    4.79,
+    5.29,
+    5.67,
+    5.9
+   ]
+  },
+  {
+   "texto": "El emperador Moctezuma lo recibió con regalos, y Cortés lo tomó prisionero.",
+   "palabras": [
+    32.28,
+    32.51,
+    33.01,
+    33.51,
+    33.74,
+    34.16,
+    34.43,
+    35.05,
+    35.24,
+    35.63,
+    35.86,
+    36.17
+   ],
+   "inicio": 32.03,
+   "segundos": 5.92,
+   "tiempos": [
+    0.25,
+    0.48,
+    0.98,
+    1.48,
+    1.71,
+    2.13,
+    2.4,
+    3.02,
+    3.21,
+    3.6,
+    3.83,
+    4.14
+   ]
+  },
+  {
+   "texto": "En 1520, en la Noche Triste, los españoles huyeron y murieron cientos.",
+   "palabras": [
+    38.2,
+    38.43,
+    38.94,
+    39.17,
+    39.4,
+    39.75,
+    40.33,
+    40.6,
+    41.1,
+    41.52,
+    41.71,
+    42.17
+   ],
+   "inicio": 37.95,
+   "segundos": 5.89,
+   "tiempos": [
+    0.25,
+    0.48,
+    0.99,
+    1.22,
+    1.45,
+    1.8,
+    2.38,
+    2.65,
+    3.15,
+    3.57,
+    3.76,
+    4.22
+   ]
+  },
+  {
+   "texto": "Pero volvió con miles de aliados y 13 barcos construidos para el lago.",
+   "palabras": [
+    44.09,
+    44.4,
+    44.78,
+    45.05,
+    45.4,
+    45.63,
+    46.05,
+    46.24,
+    46.47,
+    46.86,
+    47.43,
+    47.74,
+    47.97
+   ],
+   "inicio": 43.84,
+   "segundos": 5.68,
+   "tiempos": [
+    0.25,
+    0.56,
+    0.94,
+    1.21,
+    1.56,
+    1.79,
+    2.21,
+    2.4,
+    2.63,
+    3.02,
+    3.59,
+    3.9,
+    4.13
+   ]
+  },
+  {
+   "texto": "Además, la viruela ya había matado a muchísimos mexicas.",
+   "palabras": [
+    49.77,
+    50.35,
+    50.58,
+    51.01,
+    51.24,
+    51.58,
+    51.97,
+    52.16,
+    52.7
+   ],
+   "inicio": 49.52,
+   "segundos": 4.84,
+   "tiempos": [
+    0.25,
+    0.83,
+    1.06,
+    1.49,
+    1.72,
+    2.06,
+    2.45,
+    2.64,
+    3.18
+   ]
+  },
+  {
+   "texto": "El 13 de agosto de 1521 cayó Tenochtitlan, y sobre sus ruinas nació la Ciudad de México.",
+   "palabras": [
+    54.61,
+    54.84,
+    55.07,
+    55.3,
+    55.69,
+    55.92,
+    56.22,
+    56.53,
+    57.34,
+    57.54,
+    57.88,
+    58.15,
+    58.54,
+    58.88,
+    59.11,
+    59.5,
+    59.73
+   ],
+   "inicio": 54.36,
+   "segundos": 7.0,
+   "tiempos": [
+    0.25,
+    0.48,
+    0.71,
+    0.94,
+    1.33,
+    1.56,
+    1.86,
+    2.17,
+    2.98,
+    3.18,
+    3.52,
+    3.79,
+    4.18,
+    4.52,
+    4.75,
+    5.14,
+    5.37
+   ]
+  },
+  {
+   "texto": "¿Héroe o villano? Escríbelo en los comentarios.",
+   "palabras": [
+    61.61,
+    61.96,
+    62.15,
+    62.92,
+    63.41,
+    63.64,
+    63.91
+   ],
+   "inicio": 61.36,
+   "segundos": 4.6,
+   "tiempos": [
+    0.25,
+    0.6,
+    0.79,
+    1.56,
+    2.05,
+    2.28,
+    2.55
+   ]
+  }
+ ]
+}
