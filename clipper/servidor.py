@@ -168,7 +168,7 @@ def generar_directo(d):
     nombre, entrada, seg = capturar_directo(d)
     if d.get("editar"):
         return editar(d, nombre, entrada, seg, "")
-    run(["ffmpeg", "-y", "-v", "error", "-i", entrada, "-c", "copy", "-movflags", "+faststart",
+    run(["ffmpeg", "-y", "-v", "error", "-ss", str(inicio_video(os.path.join(TRABAJO, entrada))), "-i", entrada, "-c", "copy", "-movflags", "+faststart",
          os.path.join(CLIPS, nombre + ".mp4")], cwd=TRABAJO)
     os.remove(os.path.join(TRABAJO, entrada))
     return {"archivo": "/clips/" + nombre + ".mp4"}
@@ -324,8 +324,22 @@ def lista_clips():
              "mb": round(os.path.getsize(p) / 1e6, 1)} for p in clips[:200]]
 
 
+def inicio_video(p):
+    """Segundos hasta el primer fotograma: con vídeo y audio por separado, el audio puede empezar antes."""
+    t = {}
+    for linea in run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,start_time", "-of", "csv=p=0", p]).stdout.split():
+        tipo, _, v = linea.partition(",")
+        try:
+            t.setdefault(tipo, float(v))
+        except ValueError:
+            pass
+    return round(max(0.0, t["video"] - min(t.values())), 3) if "video" in t else 0.0
+
+
 def editar(d, nombre, entrada, dur, srt):
     """Pasa el tramo descargado (en TRABAJO) por formato, subtítulos y efectos, y lo deja en CLIPS."""
+    ini = inicio_video(os.path.join(TRABAJO, entrada))
+    dur = max(dur - ini, 1)
     vel = min(max(float(d.get("velocidad", 1)), 0.5), 2.0)
     crf, preset = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[1:]
     for ext, texto in ((".srt", srt), (".titulo.txt", str(d.get("titulo", "")).strip()[:80]),
@@ -336,7 +350,7 @@ def editar(d, nombre, entrada, dur, srt):
     cadena = filtro(d, nombre, dur, bool(srt)) + f",setpts=PTS/{vel}[v]"
     salida = os.path.join(TRABAJO, nombre + ".listo.mp4")  # a CLIPS solo cuando está terminado
     # cwd=TRABAJO para pasar nombres relativos a los filtros (evita escapar rutas con ':' en Windows)
-    run(["ffmpeg", "-y", "-i", entrada, "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
+    run(["ffmpeg", "-y", "-ss", str(ini), "-i", entrada, "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
          "-af", f"atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
          "-movflags", "+faststart", salida], cwd=TRABAJO)
     os.replace(salida, os.path.join(CLIPS, nombre + ".mp4"))
