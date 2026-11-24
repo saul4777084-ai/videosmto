@@ -1,0 +1,11 @@
+¿Qué le pasa a tu cerebro si usas el móvil ocho horas al día durante treinta días? <break time="0.5s" /> Vamos a verlo por dentro.
+<break time="1.5s" />
+Día uno. Suena una notificación, y tu cerebro reacciona antes de que lo pienses. <break time="0.5s" /> Cada mensaje, cada me gusta y cada vídeo nuevo es una pequeña recompensa que no sabes cuándo llegará. <break time="0.4s" /> El sistema de recompensa responde con dopamina, la molécula que te empuja a buscar más.
+<break time="1.5s" />
+Día siete. Tu cerebro aprende el patrón: aviso, mirar, recompensa. <break time="0.4s" /> Cuanto más se repite, más fuerte se vuelve el circuito, y coges el móvil casi sin pensarlo.
+<break time="1.5s" />
+Día quince. Saltar de una cosa a otra cada pocos segundos tiene un precio. <break time="0.4s" /> Después de cada interrupción, a la parte frontal del cerebro le cuesta volver a concentrarse. <break time="0.4s" /> Y frente a la pantalla parpadeas menos: los ojos se secan y se cansan.
+<break time="1.5s" />
+Día treinta. Ocho horas al día son doscientas cuarenta horas: diez días enteros mirando una pantalla. <break time="0.4s" /> De noche, la luz y el contenido que engancha pueden retrasar la melatonina, la hormona del sueño. <break time="0.4s" /> Y dormir peor se asocia con menos atención, peor memoria y más ansiedad.
+<break time="1.5s" />
+El móvil no es el enemigo: el problema es no darle nunca un descanso a tu cerebro. <break time="0.4s" /> Silencia las notificaciones y deja la pantalla una hora antes de dormir. <break time="0.5s" /> La buena noticia: tu cerebro se adapta, y también puede recuperarse.

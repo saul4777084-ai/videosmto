@@ -330,6 +330,53 @@ con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
 
 ---
 
+# Vídeo 5 · ¿Qué le pasa a tu cerebro si usas el móvil 8 horas al día durante 30 días?
+
+Composición `Movil8Horas` (1080×1920, 30 fps, 95,4 s) · **vídeo final con voz, música y efectos:
+`out/movil-8-horas-final.mp4`** (−14 LUFS) · sin voz: `out/movil-8-horas-efectos.mp4` · solo imagen:
+`out/movil-8-horas.mp4` · subtítulos aparte: `out/movil-8-horas.srt` (también van grabados) · texto para
+publicar: `out/movil-8-horas.txt` · guion con tiempos: `guiones/movil-8-horas.md` · texto para ElevenLabs:
+`guiones/movil-8-horas-elevenlabs.txt`.
+
+La voz es de ElevenLabs (voz «Rodrigo», narrador de documental en español de España, modelo
+`eleven_multilingual_v2`): `public/movil/voz_elevenlabs.mp3`.
+
+```bash
+python3 tools/voz_movil.py public/movil/voz_elevenlabs.mp3   # encaja la voz: tiempos de escenas, frases y palabras
+tools/render_movil.sh                                         # imagen por tramos (WebGL por CPU, ~2,5 h) → out/movil-8-horas.mp4
+python3 tools/sintetizar_movil.py                             # música + efectos + voz → out/movil-8-horas-final.mp4
+node tools/fotos_movil.mjs carpeta 12.5 toma:ojo@3            # fotogramas de prueba (un solo empaquetado)
+```
+
+Escenas: introducción (hombre en penumbra mirando el móvil; la piel se vuelve transparente y se enciende el
+cerebro) · día 1 (llega una notificación y el móvil vibra; la red social lanza «me gusta», mensajes y vídeos como
+pequeñas recompensas a intervalos imprevisibles; se enciende la vía de la recompensa: área tegmental ventral →
+núcleo accumbens → corteza prefrontal, y sale dopamina) · día 7 (sinapsis: la dopamina cruza la hendidura y
+aparecen más receptores; circuito del hábito aviso → mirar → premio cada vez más rápido; la pantalla se enciende
+una y otra vez) · día 15 (corteza prefrontal: un haz de concentración que cada notificación rompe y que tarda en
+recomponerse; ojo que apenas parpadea y se seca) · día 30 (dormitorio de noche con 240 h = 10 días; la luz de
+la pantalla frena a la glándula pineal y llega menos melatonina; cerebro cansado: sueño, atención y memoria ↓,
+ansiedad ↑) · final (el móvil, boca abajo sobre la mesa; la luz se vuelve cálida y aparece «DESCANSO»).
+
+- El móvil y la red social son **genéricos** (sin marcas ni logotipos); la interfaz se dibuja en un canvas cada fotograma.
+- Los días son una estructura narrativa, y el guion habla de asociaciones («se asocia con», «pueden retrasar»),
+  no de causas demostradas. Las curvas de dopamina, concentración y melatonina son ilustrativas.
+- Los eventos sincronizados (avisos, recompensas, interrupciones, parpadeos, el móvil boca abajo) están en
+  `src/videos/movil/plan.json` y los usan a la vez la imagen, los paneles y el sonido.
+
+| Quieres cambiar… | Archivo |
+|---|---|
+| Texto de la narración y pausas | `tools/tiempos_movil.py` (luego vuelve a generar la voz y `tools/voz_movil.py`) |
+| Qué tomas tiene cada escena y los eventos sincronizados | `src/videos/movil/plan.json` |
+| Cámaras, luces y animación de cada toma | `src/videos/movil/tomas.tsx` |
+| Móvil, cerebro con vía de recompensa/prefrontal/pineal, ojo, hombre con el móvil | `src/videos/movil/objetos.tsx` · geometría en `persona.ts` |
+| Pantalla del móvil (bloqueo, notificaciones, red social) | `src/videos/movil/pantalla.ts` |
+| Título, paneles, indicadores, consejos, cierre, subtítulos | `src/videos/movil/hud.tsx` |
+| Música y efectos | `tools/sintetizar_movil.py` |
+| Sin subtítulos grabados | `--props='{"subtitulos":false}'` |
+
+---
+
 # Vídeo 4 · ¿Qué le pasa a tu cuerpo si tomas Coca-Cola durante 30 días?
 
 Composición `CocaCola30Dias` (1080×1920, 30 fps, 86,6 s) · vídeo sin audio: `out/coca-cola-30-dias.mp4` · con música y efectos: `out/coca-cola-30-dias-efectos.mp4` ·
