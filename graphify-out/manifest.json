@@ -1032,9 +1032,9 @@
     "semantic_hash": ""
   },
   "src/comun/Subtitulos.tsx": {
-    "mtime": 1795151814.8762052,
-    "seen": 1795191134.8991933,
-    "ast_hash": "39c47b24028ac1e157c54511404a610a",
+    "mtime": 1795481101.1829,
+    "seen": 1795482202.4150438,
+    "ast_hash": "36ea1ead451206213f9ccd47744a4155",
     "semantic_hash": ""
   },
   "src/comun/tipos.ts": {
@@ -4008,9 +4008,9 @@
     "semantic_hash": ""
   },
   "src/TurnoNoche/Vistas.tsx": {
-    "mtime": 1795480157.8129609,
-    "seen": 1795480739.1075642,
-    "ast_hash": "898683db0766c4ea6df857bb24f00073",
+    "mtime": 1795481126.6497235,
+    "seen": 1795482202.415015,
+    "ast_hash": "16c25d584a6c396d2c317ddc8efe1fd5",
     "semantic_hash": ""
   },
   "src/TurnoNoche/efectos.ts": {
@@ -4026,21 +4026,21 @@
     "semantic_hash": ""
   },
   "src/comun/Terror/Camara.tsx": {
-    "mtime": 1795151946.908411,
-    "seen": 1795191134.899195,
-    "ast_hash": "80f1a5c26bd6a454b33b00babefe9122",
+    "mtime": 1795481101.1825197,
+    "seen": 1795482202.4150448,
+    "ast_hash": "405c336eb5133846eeac2624cab660d3",
     "semantic_hash": ""
   },
   "src/comun/Terror/Efectos.tsx": {
-    "mtime": 1795151911.324409,
-    "seen": 1795191134.8991973,
-    "ast_hash": "89e82091e5d6649fa5a6c735be10f7cb",
+    "mtime": 1795481101.1822932,
+    "seen": 1795482202.415046,
+    "ast_hash": "77957f742eedac9cf4d1437ea03f224f",
     "semantic_hash": ""
   },
   "src/comun/Terror/Personajes.tsx": {
-    "mtime": 1795480157.7147326,
-    "seen": 1795480739.1075978,
-    "ast_hash": "dcd5c5c318bfd516f5a03cd052ca53b1",
+    "mtime": 1795481232.713084,
+    "seen": 1795482202.4150472,
+    "ast_hash": "6e722e493555d37afa8ed48558f7ae15",
     "semantic_hash": ""
   },
   "public/sfx/campanita.wav": {
@@ -4092,9 +4092,9 @@
     "semantic_hash": ""
   },
   "videos/TurnoNoche.mp4": {
-    "mtime": 1795368280.739159,
-    "seen": 1795368311.3628583,
-    "ast_hash": "296da48fb85241d020c3acea8a198492",
+    "mtime": 1795482177.107761,
+    "seen": 1795482202.4154391,
+    "ast_hash": "a1f4fe943c019d492b34b3ec64111217",
     "semantic_hash": ""
   },
   "src/TurnoNoche/guion.json": {
@@ -4176,9 +4176,9 @@
     "semantic_hash": ""
   },
   "videos/TurnoNoche2.mp4": {
-    "mtime": 1795480706.4757085,
-    "seen": 1795480739.1079693,
-    "ast_hash": "645ba988d45be8c3f2eee3fbf351ede4",
+    "mtime": 1795481731.475745,
+    "seen": 1795482202.41544,
+    "ast_hash": "14d00af4e7c65635cb7413160a6696f6",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
