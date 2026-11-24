@@ -305,17 +305,18 @@ def diagnostico():
 def leer_avisos(proc):
     """Lee los mensajes de ffmpeg mientras graba: si nadie los lee, el búfer se llena y ffmpeg se queda parado
     (la grabación se congela y el directo se salta trozos). Avisa en pantalla si se pierden trozos."""
-    ultimas = collections.deque(maxlen=20)
+    ultimas, perdidas = collections.deque(maxlen=20), threading.Event()
 
     def leer():
         for linea in proc.stderr:
             ultimas.append(linea.strip())
             if "skipping" in linea or "expired" in linea:
+                perdidas.set()
                 AUTO["error"] = ("Se han perdido trozos del directo (conexión lenta o móvil saturado): "
                                  "prueba Calidad Rápida (720p) o clips más largos.")
 
     threading.Thread(target=leer, daemon=True).start()
-    return ultimas
+    return ultimas, perdidas
 
 
 def bucle_auto(d):
@@ -339,12 +340,15 @@ def bucle_auto(d):
                  "-segment_list", lista, "-segment_list_type", "csv", "-strftime", "1",
                  os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, errors="replace")
-            ultimas = leer_avisos(proc)
+            ultimas, perdidas = leer_avisos(proc)
             DIAG.update(pistas=len(urls), ultimas=ultimas)
-            inicio = time.time()
+            inicio, bajar = time.time(), False
             while proc.poll() is None and not PARAR.wait(2):
                 mover_terminados(lista, d)
-            if PARAR.is_set():
+                if perdidas.is_set() and alto > 480:  # la conexión no da: se graba a menos resolución
+                    bajar = True
+                    break
+            if PARAR.is_set() or bajar:
                 proc.terminate()  # ffmpeg cierra bien el trozo que estaba grabando, que también se guarda
             proc.wait()
             time.sleep(0.5)  # que el hilo lector recoja las últimas líneas
@@ -353,6 +357,11 @@ def bucle_auto(d):
             os.remove(lista) if os.path.exists(lista) else None
             if PARAR.is_set():
                 break
+            if bajar:
+                alto = 720 if alto > 720 else 480
+                AUTO["error"] = f"Se perdían trozos del directo (conexión lenta): ahora graba a {alto}p para que no se congele."
+                fallos = 0
+                continue
             if time.time() - inicio > 120:  # grabó un buen rato: es un corte puntual, no un fallo seguido
                 fallos = 0
         fallos += 1
