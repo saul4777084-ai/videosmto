@@ -54,7 +54,10 @@ export const Gasolinera: React.FC<{ f: number; desconocido?: boolean; dependient
       <rect x="740" y="1010" width="140" height="85" fill="#7f7a68" />
       {dependiente && <Dependiente x={800} y={1080} escala={0.24} />}
       <rect x="740" y="1040" width="140" height="55" fill="#6e6a5a" />
-      <rect x="190" y="1095" width="700" height="35" fill="#1c2028" />
+      <rect x="150" y="1095" width="780" height="35" fill="url(#ladrillo)" />
+      <rect x="150" y="824" width="40" height="271" fill="url(#ladrillo)" />
+      <rect x="890" y="824" width="40" height="271" fill="url(#ladrillo)" />
+      <rect x="150" y="1095" width="780" height="35" fill="#000" opacity="0.25" />
       {/* marquesina */}
       <rect x="40" y="630" width="1000" height="92" fill="#d6dbe1" />
       <rect x="40" y="690" width="1000" height="18" fill={ROJO} />
@@ -67,7 +70,26 @@ export const Gasolinera: React.FC<{ f: number; desconocido?: boolean; dependient
       ))}
       {/* luz bajo la marquesina */}
       <ellipse cx="540" cy="1290" rx="600" ry="230" fill="url(#charco)" />
-      <path d="M60 740 L1020 740 L1100 1400 L-20 1400 Z" fill="#fff8e0" opacity="0.06" />
+      <path d="M60 740 L1020 740 L1100 1400 L-20 1400 Z" fill="#fff8e0" opacity="0.05" />
+      <defs>
+        <linearGradient id="haz" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fffbe8" stopOpacity="0.22" />
+          <stop offset="1" stopColor="#fffbe8" stopOpacity="0" />
+        </linearGradient>
+        <pattern id="ladrillo" width="60" height="30" patternUnits="userSpaceOnUse">
+          <rect width="60" height="30" fill="#5a3a30" />
+          <path d="M0 0 H60 M0 15 H60 M30 0 V15 M0 15 V30 M60 15 V30" stroke="#2a1d18" strokeWidth="2.5" />
+          <rect x="3" y="3" width="24" height="9" fill="#6b463a" opacity="0.6" />
+          <rect x="33" y="18" width="24" height="9" fill="#4d322a" opacity="0.6" />
+        </pattern>
+        <linearGradient id="reflejo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity="0.16" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {[150, 330, 510, 690, 870].map((x) => (
+        <path key={x} d={`M${x} 744 L${x + 80} 744 L${x + 230} 1330 L${x - 150} 1330 Z`} fill="url(#haz)" />
+      ))}
       {/* columnas */}
       <rect x="226" y="738" width="34" height="600" fill="#b9c0c8" />
       <rect x="820" y="738" width="34" height="600" fill="#b9c0c8" />
@@ -90,8 +112,15 @@ export const Gasolinera: React.FC<{ f: number; desconocido?: boolean; dependient
       ))}
       {desconocido && <Desconocido x={790} y={1325} escala={0.56} cabeza={-4} />}
       {/* reflejos en el suelo mojado */}
-      <rect x="360" y="1350" width="110" height="160" fill="#e3e6ea" opacity="0.07" />
-      <rect x="640" y="1350" width="110" height="160" fill="#e3e6ea" opacity="0.07" />
+      <rect x="360" y="1346" width="110" height="200" fill="url(#reflejo)" />
+      <rect x="640" y="1346" width="110" height="200" fill="url(#reflejo)" />
+      <rect x="360" y="1346" width="110" height="40" fill="#c0262c" opacity="0.18" />
+      <rect x="640" y="1346" width="110" height="40" fill="#c0262c" opacity="0.18" />
+      <rect x="40" y="1400" width="1000" height="60" fill="#c0262c" opacity="0.05" />
+      {/* charcos */}
+      {[[200, 1460, 120], [780, 1500, 160], [480, 1540, 90]].map(([cx, cy, rx]) => (
+        <ellipse key={cx} cx={cx} cy={cy} rx={rx} ry={rx * 0.16} fill="#8fa3bd" opacity="0.12" />
+      ))}
       {/* poste con cartel 24H */}
       <rect x="975" y="500" width="22" height="620" fill="#3b414a" />
       <rect x="890" y="290" width="180" height="230" rx="10" fill="#14171c" stroke="#3b414a" strokeWidth="6" />

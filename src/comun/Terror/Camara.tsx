@@ -1,5 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random } from "remotion";
+import { Textura } from "./Efectos";
 
 export type ModoCamara = "REC" | "DIRECTO" | "GRABACION" | "REBOBINAR";
 
@@ -45,6 +46,7 @@ export const CamaraSeguridad: React.FC<Props> = ({ f, etiqueta, inicio, modo = "
         }}
       >
         {children}
+        {!mini && <Textura opacidad={0.5} />}
       </AbsoluteFill>
       {/* verde de visión nocturna: los blancos se vuelven verde menta y los negros, verde oscuro */}
       <AbsoluteFill style={{ background: "#66ff95", mixBlendMode: "multiply" }} />

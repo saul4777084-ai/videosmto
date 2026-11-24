@@ -62,8 +62,29 @@ export const Polvo: React.FC<{ f: number; n?: number; color?: string }> = ({ f, 
   </g>
 );
 
-// Grano de película (cambia cada 2 frames)
-export const Grano: React.FC<{ f: number; opacidad?: number }> = ({ f, opacidad = 0.09 }) => (
+// Textura de suciedad (manchas grandes y suaves, como las paredes del vídeo de referencia).
+// Fija: no cambia con el tiempo, así parece parte de las paredes y no ruido.
+export const Textura: React.FC<{ opacidad?: number; semilla?: number }> = ({ opacidad = 0.55, semilla = 7 }) => (
+  <AbsoluteFill style={{ opacity: opacidad, mixBlendMode: "soft-light", pointerEvents: "none" }}>
+    <svg width="100%" height="100%" viewBox="0 0 540 960" preserveAspectRatio="none">
+      <filter id={`mugre${semilla}`} x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.011 0.018" numOctaves="4" seed={semilla} />
+        <feColorMatrix type="saturate" values="0" />
+        <feComponentTransfer>
+          <feFuncR type="linear" slope="1.6" intercept="-0.3" />
+          <feFuncG type="linear" slope="1.6" intercept="-0.3" />
+          <feFuncB type="linear" slope="1.6" intercept="-0.3" />
+        </feComponentTransfer>
+      </filter>
+      <rect width="540" height="960" filter={`url(#mugre${semilla})`} />
+    </svg>
+  </AbsoluteFill>
+);
+
+// Grano de película (cambia cada 2 frames) + textura de suciedad
+export const Grano: React.FC<{ f: number; opacidad?: number; textura?: boolean }> = ({ f, opacidad = 0.09, textura = true }) => (
+  <>
+  {textura && <Textura />}
   <AbsoluteFill style={{ opacity: opacidad, mixBlendMode: "overlay", pointerEvents: "none" }}>
     <svg width="100%" height="100%" viewBox="0 0 270 480" preserveAspectRatio="none">
       <filter id={`grano${Math.floor(f / 2) % 8}`}>
@@ -72,6 +93,7 @@ export const Grano: React.FC<{ f: number; opacidad?: number }> = ({ f, opacidad 
       <rect width="270" height="480" filter={`url(#grano${Math.floor(f / 2) % 8})`} />
     </svg>
   </AbsoluteFill>
+  </>
 );
 
 export const Vineta: React.FC<{ fuerza?: number; color?: string }> = ({ fuerza = 0.75, color = "0,0,0" }) => (

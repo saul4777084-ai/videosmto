@@ -41,6 +41,9 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
 
   if (estilo === "terror") {
     return (
+      <>
+      {/* franja oscura detrás del texto, como en el vídeo de referencia */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 120, height: 300, background: "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.42) 22%, rgba(0,0,0,0.42) 78%, rgba(0,0,0,0))" }} />
       <div
         style={{
           position: "absolute",
@@ -92,6 +95,7 @@ export const Subtitulos: React.FC<Props> = ({ texto, clave = [], frameLocal, dur
             );
           })}
       </div>
+      </>
     );
   }
 
