@@ -294,6 +294,24 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Terror #HistoriasDeTerror #Miedo #Creepy
 
+## Turno de noche — Gasolinera, parte 2 (74 s) — `videos/TurnoNoche2.mp4`
+
+### Instagram Reels / TikTok
+> **Son las 3:33 y el encargado llama al cristal… ¿abrirías?** 🔑🚪
+>
+> Él mismo te dio la regla: si a las 3:33 llaman al cristal, no abras. Pero ahora es él quien golpea… y lo que tienes a tus pies dice que ese no es el encargado 👁️
+>
+> ¿A quién harías caso tú? 👇 Parte 3 muy pronto.
+>
+> #terror #historiasdeterror #miedo #creepy #historiasanimadas #turnodenoche #parte2 #paranormal #parati
+
+### Facebook / YouTube Shorts
+> **Turno de noche (parte 2)** 🔑
+>
+> Son las 3:33, el encargado golpea el cristal y te pide que abras. Pero la regla era clara… y no está solo.
+>
+> #Terror #HistoriasDeTerror #Miedo #Creepy
+
 ---
 
 ## Consejos para publicar

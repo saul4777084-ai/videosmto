@@ -473,7 +473,33 @@ def rebobinar():
     return fundido(tono + siseo, 0.05, 0.15)
 
 
-TERROR = {"drone": drone, "zumbido": zumbido, "estatica": estatica, "susto": susto, "campanita": campanita,
+def respiracion(d=4.0):
+    """Respiración lenta y ronca muy cerca (dos inspiraciones)."""
+    r = _r(107)
+    x = np.zeros(int(d * SR))
+    for t0, dur, lo, hi in [(0.1, 1.1, 300, 1600), (1.3, 0.9, 200, 1100), (2.3, 1.1, 300, 1600), (3.4, 0.5, 200, 1100)]:
+        n = int(dur * SR)
+        aire = banda(r.standard_normal(n), lo, hi) * np.sin(np.pi * np.arange(n) / n) ** 1.5
+        ronquido = np.sin(2 * np.pi * 70 * np.arange(n) / SR) * (r.standard_normal(n) * 0.5 + 0.5) * 0.12 * np.sin(np.pi * np.arange(n) / n)
+        colocar(x, aire + ronquido, t0)
+    return fundido(x, 0.05, 0.3)
+
+
+def cerradura():
+    """Llave que entra y gira: roce metálico y clac."""
+    r = _r(108)
+    x = np.zeros(int(1.2 * SR))
+    n = int(0.35 * SR)
+    roce = banda(r.standard_normal(n), 2500, 8000) * env(n, 0.02) * np.linspace(1, 0.3, n) * 0.4
+    colocar(x, roce, 0)
+    for t0, f in [(0.55, 1800), (0.75, 1200)]:
+        m = int(0.12 * SR)
+        clac = resonador(r.standard_normal(m) * env(m, 0.0002, 0.003), [(f, 12, 1), (f * 2.3, 15, 0.5)]) * env(m, 0.0003, 0.04)
+        colocar(x, clac, t0)
+    return x
+
+
+TERROR = {"respiracion": respiracion, "cerradura": cerradura, "drone": drone, "zumbido": zumbido, "estatica": estatica, "susto": susto, "campanita": campanita,
           "toc_cristal": toc_cristal, "latido_rapido": latido_rapido, "rebobinar": rebobinar}
 
 

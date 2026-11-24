@@ -92,7 +92,8 @@ export const Desconocido: React.FC<Base & { pose?: "pie" | "andar" | "agachado";
 };
 
 // El encargado: mayor, robusto, impermeable amarillo, bigote gris.
-export const Encargado: React.FC<Base & { boca?: number }> = ({ x, y, escala = 1, giro = 0, boca = 0 }) => (
+// sonrisa: 0..1 (sonrisa antinatural de oreja a oreja); ojos: 0..1 ojos brillantes
+export const Encargado: React.FC<Base & { boca?: number; sonrisa?: number; ojos?: number }> = ({ x, y, escala = 1, giro = 0, boca = 0, sonrisa = 0, ojos = 0 }) => (
   <g transform={`translate(${x} ${y}) scale(${escala}) rotate(${giro})`}>
     <ellipse cx="0" cy="0" rx="120" ry="18" fill="#000" opacity="0.35" />
     <rect x="-55" y="-250" width="45" height="245" fill="#2d3340" />
@@ -111,9 +112,17 @@ export const Encargado: React.FC<Base & { boca?: number }> = ({ x, y, escala = 1
       <path d="M58 -10 C60 -50 40 -66 20 -66 L40 -20 Z" fill="#8f8f8f" />
       <circle cx="-20" cy="-4" r="6" fill="#1b1b1b" />
       <circle cx="20" cy="-4" r="6" fill="#1b1b1b" />
+      {ojos > 0 && <OjosBrillantes x1={-20} x2={20} y={-4} r={6} intensidad={ojos} />}
       <path d="M-30 -20 l20 -4 M30 -20 l-20 -4" stroke="#6d6d6d" strokeWidth="5" />
       <path d="M-28 26 C-20 14 20 14 28 26 C14 22 -14 22 -28 26 Z" fill="#9a9a9a" />
-      <ellipse cx="0" cy={36} rx={10 + boca * 8} ry={2 + boca * 14} fill="#3b1d16" />
+      {sonrisa > 0 ? (
+        <g>
+          <path d={`M${-22 - sonrisa * 34} ${30 - sonrisa * 8} Q0 ${44 + sonrisa * 34} ${22 + sonrisa * 34} ${30 - sonrisa * 8} Q0 ${40 + sonrisa * 12} ${-22 - sonrisa * 34} ${30 - sonrisa * 8} Z`} fill="#2a0f0b" />
+          <path d={`M${-18 - sonrisa * 30} ${32 - sonrisa * 6} Q0 ${42 + sonrisa * 16} ${18 + sonrisa * 30} ${32 - sonrisa * 6}`} stroke="#efe9d8" strokeWidth={3 + sonrisa * 5} fill="none" strokeDasharray="5 3" />
+        </g>
+      ) : (
+        <ellipse cx="0" cy={36} rx={10 + boca * 8} ry={2 + boca * 14} fill="#3b1d16" />
+      )}
     </g>
   </g>
 );

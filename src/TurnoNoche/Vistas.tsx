@@ -283,7 +283,8 @@ export const Caja: React.FC<{ f: number; agachado?: boolean }> = ({ f, agachado 
 
 // ------------------------------------------------------------------ puerta de cristal vista desde dentro
 // abierta: 0..1 (la hoja gira hacia fuera)
-export const Puerta: React.FC<{ f: number; abierta?: number; vistaCamara?: boolean }> = ({ f, abierta = 0, vistaCamara = false }) => {
+// fuera: lo que se ve al otro lado del cristal (por ejemplo, alguien de pie)
+export const Puerta: React.FC<{ f: number; abierta?: number; vistaCamara?: boolean; fuera?: React.ReactNode }> = ({ f, abierta = 0, vistaCamara = false, fuera }) => {
   const anchoHoja = 520 * (1 - abierta * 0.75);
   return (
     <g>
@@ -305,6 +306,7 @@ export const Puerta: React.FC<{ f: number; abierta?: number; vistaCamara?: boole
         </g>
       ))}
       <rect x="250" y="960" width="580" height="20" fill="#d6dbe1" opacity="0.4" />
+      {fuera}
       {/* lluvia vista a través del cristal */}
       <g opacity="0.5">
         {Array.from({ length: 60 }, (_, i) => {

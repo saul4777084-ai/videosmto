@@ -33,6 +33,8 @@ import { CatalogoPersonajes, DURACION_PERSONAJES } from "./Mundo3D/CatalogoPerso
 import { DURACION_MUESTRARIO, Muestrario } from "./Muestrario/Muestrario";
 import { ReelTurnoNoche } from "./TurnoNoche/Reel";
 import { DURACION_TOTAL as DURACION_TURNO_NOCHE } from "./TurnoNoche/escenas";
+import { ReelTurnoNoche2 } from "./TurnoNoche2/Reel";
+import { DURACION_TOTAL as DURACION_TURNO_NOCHE_2 } from "./TurnoNoche2/escenas";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -201,6 +203,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="Mundo3DPersonajes" component={CatalogoPersonajes} durationInFrames={DURACION_PERSONAJES} fps={FPS} width={1080} height={1920} />
       </Folder>
       <Composition id="ReelTurnoNoche" component={ReelTurnoNoche} durationInFrames={DURACION_TURNO_NOCHE} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelTurnoNoche2" component={ReelTurnoNoche2} durationInFrames={DURACION_TURNO_NOCHE_2} fps={FPS} width={1080} height={1920} />
       <Composition
         id="MuestrarioSonidos"
         component={Muestrario}
