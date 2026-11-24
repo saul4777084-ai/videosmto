@@ -8,7 +8,7 @@ export const EFECTOS: Record<Ilustracion, Golpe[]> = {
   recap: [[0, "estatica", 0.5], [6, "latido_rapido", 0.5]],
   respira: [[0, "respiracion", 0.9], [en("respira", "tobillos."), "latido", 0.5]],
   movil: [[0, "toc_cristal", 0.7], [en("movil", "móvil"), "toc_cristal", 0.9]],
-  pantalla: [[4, "tecla", 0.35], [16, "tecla", 0.35], [30, "tecla", 0.35], [48, "tecla", 0.35], [62, "tecla", 0.35], [76, "tecla", 0.35]],
+  pantalla: [0.05, 0.2, 0.35, 0.5, 0.65, 0.8].map((p): Golpe => [Math.round(p * dur("pantalla")), "tecla", 0.35]),
   reloj: [[0, "reloj", 0.35], [en("reloj", "3:33."), "latido", 0.6]],
   recuerdo: [[0, "proyector", 0.25], [en("recuerdo", "abras.»"), "golpe", 0.4]],
   cam2: [[0, "estatica", 0.5], [en("cam2", "coche."), "golpe", 0.35]],

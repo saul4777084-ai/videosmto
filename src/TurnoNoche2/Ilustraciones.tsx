@@ -92,7 +92,7 @@ const Movil: Dibujo = ({ f }) => {
 // la pantalla del móvil en grande, el mensaje escribiéndose
 const MENSAJE = ["ABRE.", "RÁPIDO.", "NO LE", "MIRES."];
 const Pantalla: Dibujo = ({ f }) => {
-  const letras = Math.floor(f / 2.6);
+  const letras = Math.floor(f / ((dur("pantalla") * 0.8) / MENSAJE.join("").length));
   let quedan = letras;
   const cursor = Math.floor(f / 8) % 2 === 0;
   return (
