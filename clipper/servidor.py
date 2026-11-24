@@ -220,7 +220,7 @@ def capturar_directo(d):
             # -copyts: vídeo y audio por separado empiezan en sitios distintos; con sus marcas de tiempo originales
             # quedan alineados (sin él, el audio sale desfasado). Con -copyts el -t de salida no vale: va en la entrada de vídeo.
             run(["ffmpeg", "-y", "-copyts", *entradas, "-shortest", "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
-                 "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
+                 "-c:v", "copy", "-af", "aresample=async=1", "-c:a", "aac", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
             return nombre, nombre + ".ts", seg
         except (RuntimeError, OSError):  # URL caducada (403, etc.): se piden otras a YouTube una vez
             if intento:
@@ -249,7 +249,8 @@ def mover_terminados(lista, d=None):
                     if d:
                         pedir_vertical({**d, "archivo": os.path.basename(p), "borrar_original": True})
                 except Exception as e:  # un trozo raro no para la grabación
-                    AUTO["error"] = "No se pudo editar un clip: " + str(e)
+                    if os.path.isfile(os.path.join(CLIPS, os.path.basename(p))):  # si ya no está, no hay nada que avisar
+                        AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
 def bucle_auto(d):
@@ -266,7 +267,9 @@ def bucle_auto(d):
             lista = os.path.join(TRABAJO, f"{vid}_{int(time.time())}.csv")
             proc = subprocess.Popen(
                 ["ffmpeg", "-y", "-v", "error", "-copyts", *[x for u in urls for x in ("-i", u)], "-map", "0:v:0",  # -copyts: ver capturar_directo
-                 "-map", f"{len(urls) - 1}:a:0?", "-c", "copy", "-avoid_negative_ts", "make_zero", "-f", "segment", "-segment_time", str(cada),
+                 # audio recodificado (barato) con async: si se pierden trozos del directo, el hueco se rellena con
+                 # silencio y el audio no se adelanta a la imagen
+                 "-map", f"{len(urls) - 1}:a:0?", "-c:v", "copy", "-af", "aresample=async=1", "-c:a", "aac", "-avoid_negative_ts", "make_zero", "-f", "segment", "-segment_time", str(cada),
                  "-reset_timestamps", "1", "-segment_format_options", "movflags=+faststart",
                  "-segment_list", lista, "-segment_list_type", "csv", "-strftime", "1",
                  os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
@@ -351,16 +354,18 @@ def editar(d, nombre, entrada, dur, srt):
     salida = os.path.join(TRABAJO, nombre + ".listo.mp4")  # a CLIPS solo cuando está terminado
     # cwd=TRABAJO para pasar nombres relativos a los filtros (evita escapar rutas con ':' en Windows)
     run(["ffmpeg", "-y", "-ss", str(ini), "-i", entrada, "-filter_complex", cadena, "-map", "[v]", "-map", "0:a?",
-         "-af", f"atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
-         "-movflags", "+faststart", salida], cwd=TRABAJO)
+         "-af", f"aresample=async=1,atempo={vel}", "-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-c:a", "aac",
+         "-movflags", "+faststart", salida], cwd=TRABAJO, baja=True)
     os.replace(salida, os.path.join(CLIPS, nombre + ".mp4"))
     for p in glob.glob(os.path.join(TRABAJO, nombre + ".*")):
         os.remove(p)
     return {"archivo": "/clips/" + nombre + ".mp4"}
 
 
-def run(cmd, check=True, cwd=None):
-    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", cwd=cwd)
+def run(cmd, check=True, cwd=None, baja=False):
+    # baja: prioridad baja (editar), para que la grabación del directo no se quede atrás y se salte trozos
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", cwd=cwd,
+                       preexec_fn=(lambda: os.nice(15)) if baja and os.name == "posix" else None)
     if check and r.returncode:
         raise RuntimeError(r.stderr.strip().splitlines()[-1] if r.stderr.strip() else "fallo en " + cmd[0])
     return r
