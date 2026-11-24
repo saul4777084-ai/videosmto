@@ -1,5 +1,5 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
-import base64, collections, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.parse, urllib.request, webbrowser
+import base64, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.parse, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -278,9 +278,9 @@ def capturar_directo(d):
                 raise
 
 
-# Modo automático: un solo ffmpeg graba el directo sin parar y lo parte en clips seguidos sin recomprimir
-# (casi sin gastar CPU); cada clip pasa a CLIPS en cuanto se cierra. Sigue aunque se cierre la página.
-# Editar (vertical, efectos) va aparte, solo en los clips que se pidan, con una cola de uno en uno.
+# Modo automático: el programa lee las listas de trozos del directo y, cada vez que hay trozos nuevos para un clip,
+# baja esos mismos números de trozo de vídeo y de audio (así van siempre a la par) sin recomprimir. Sigue aunque se
+# cierre la página. Editar (vertical, efectos) va aparte, con una cola de uno en uno.
 AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": ""}
 COLA, PARAR, HILO = queue.Queue(), threading.Event(), [None]
 
@@ -300,26 +300,6 @@ def avisar_si_va_lento(p):
         AUTO["error"] = (f"El vídeo llega más lento que el audio ({dur.get('video', 0):.0f} s de vídeo por {dur['audio']:.0f} s de audio): "
                          "tu conexión no da para esta calidad. Para el automático, elige Calidad Rápida (720p) o Baja (480p) "
                          "y vuelve a empezar.")
-
-
-def mover_terminados(lista, d=None):
-    """Pasa a CLIPS los trozos que ffmpeg ya cerró (los apunta en la lista al terminar cada uno).
-    Con d, cada trozo se encola para editarlo con esos ajustes y el original se borra al terminar."""
-    if not os.path.exists(lista):
-        return
-    with open(lista, encoding="utf-8") as f:
-        for linea in f:
-            p = os.path.join(TRABAJO, os.path.basename(linea.split(",")[0].strip()))
-            if linea.strip() and os.path.isfile(p):
-                os.replace(p, os.path.join(CLIPS, os.path.basename(p)))
-                AUTO["hechos"] += 1
-                avisar_si_va_lento(os.path.join(CLIPS, os.path.basename(p)))
-                try:
-                    if d:
-                        pedir_vertical({**d, "archivo": os.path.basename(p), "borrar_original": True})
-                except Exception as e:  # un trozo raro no para la grabación
-                    if os.path.isfile(os.path.join(CLIPS, os.path.basename(p))):  # si ya no está, no hay nada que avisar
-                        AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
 DIAG = {"pistas": 0, "ultimas": [], "listas": []}
@@ -356,91 +336,72 @@ def diagnostico():
     return "\n".join(out)
 
 
-def leer_avisos(proc):
-    """Lee los mensajes de ffmpeg mientras graba: si nadie los lee, el búfer se llena y ffmpeg se queda parado
-    (la grabación se congela y el directo se salta trozos). Avisa en pantalla si se pierden trozos."""
-    ultimas, perdidas = collections.deque(maxlen=20), threading.Event()
-
-    def leer():
-        for linea in proc.stderr:
-            ultimas.append(linea.strip())
-            if "skipping" in linea or "expired" in linea:
-                perdidas.set()
-                AUTO["error"] = ("Se han perdido trozos del directo (conexión lenta o móvil saturado): "
-                                 "prueba Calidad Rápida (720p) o clips más largos.")
-
-    threading.Thread(target=leer, daemon=True).start()
-    return ultimas, perdidas
+def leer_lista(u):
+    with urllib.request.urlopen(u, timeout=20) as r:
+        return trozos(r.read().decode("utf-8", "replace"), u)
 
 
-def entradas_vivo(urls):
-    """Entradas de ffmpeg para grabar en directo. Con vídeo y audio aparte, las dos empiezan en el mismo trozo
-    (3 antes del último que tienen las dos); si no, cada una empezaría donde le toque y saldrían desfasadas."""
-    if len(urls) > 1:
-        try:
-            listas = []
-            for u in urls:
-                with urllib.request.urlopen(u, timeout=20) as r:
-                    listas.append(trozos(r.read().decode("utf-8", "replace"), u))
-            comun = tramo_comun(listas, 0.1)
-            if comun:
-                ini = max(comun[1] - 3, max(seq for seq, _, _ in listas))
-                DIAG["listas"] = [(seq, len(segs)) for seq, segs, _ in listas]
-                return [x for u, (seq, segs, _) in zip(urls, listas) for x in ("-live_start_index", str(ini - seq - len(segs)), "-i", u)]
-        except OSError:
-            pass
-    return [x for u in urls for x in ("-i", u)]
+def guardar_clip(d, nombre, listas, ini, fin):
+    """Baja los trozos [ini, fin) de cada pista (vídeo y audio con los mismos números) a un clip en CLIPS."""
+    entradas = []
+    for k, info in enumerate(listas):
+        lista_local(info, ini, fin, os.path.join(TRABAJO, f"{nombre}_{k}.m3u8"))
+        entradas += ["-protocol_whitelist", "file,http,https,tcp,tls,crypto", "-i", f"{nombre}_{k}.m3u8"]
+    try:
+        run(["ffmpeg", "-y", "-v", "error", *entradas, "-map", "0:v:0", "-map", f"{len(listas) - 1}:a:0?",
+             "-c", "copy", "-movflags", "+faststart", nombre + ".mp4"], cwd=TRABAJO)
+    finally:
+        for p in glob.glob(os.path.join(TRABAJO, nombre + "_*.m3u8")):
+            os.remove(p)
+    destino = os.path.join(CLIPS, nombre + ".mp4")
+    os.replace(os.path.join(TRABAJO, nombre + ".mp4"), destino)
+    AUTO["hechos"] += 1
+    avisar_si_va_lento(destino)
+    try:
+        pedir_vertical({**d, "archivo": nombre + ".mp4", "borrar_original": True})
+    except Exception as e:  # el clip ya está guardado: un fallo al encolarlo no debe repetir la descarga
+        AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
 def bucle_auto(d):
-    cada, fallos = AUTO["cada"], 0
+    cada, fallos, siguiente = AUTO["cada"], 0, None  # siguiente: número del próximo trozo a grabar
     alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
     vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
     while not PARAR.is_set():
         try:
             urls = urls_directo(d["url"], alto, nuevas=fallos > 0)
-        except Exception as e:
-            urls, error = None, str(e)
-        if urls:
-            lista = os.path.join(TRABAJO, f"{vid}_{int(time.time())}.csv")
-            proc = subprocess.Popen(
-                ["ffmpeg", "-y", "-v", "warning", *entradas_vivo(urls), "-map", "0:v:0",
-                 "-map", f"{len(urls) - 1}:a:0?", "-c", "copy", "-f", "segment", "-segment_time", str(cada),
-                 "-reset_timestamps", "1", "-segment_format_options", "movflags=+faststart",
-                 "-segment_list", lista, "-segment_list_type", "csv", "-strftime", "1",
-                 os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
-                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, errors="replace")
-            ultimas, perdidas = leer_avisos(proc)
-            DIAG.update(pistas=len(urls), ultimas=ultimas)
-            inicio, bajar = time.time(), False
-            while proc.poll() is None and not PARAR.wait(2):
-                mover_terminados(lista, d)
-                if perdidas.is_set() and alto > 480:  # la conexión no da: se graba a menos resolución
-                    bajar = True
-                    break
-            if PARAR.is_set() or bajar:
-                proc.terminate()  # ffmpeg cierra bien el trozo que estaba grabando, que también se guarda
-            proc.wait()
-            time.sleep(0.5)  # que el hilo lector recoja las últimas líneas
-            error = ultimas[-1] if ultimas else "el directo dejó de llegar"
-            mover_terminados(lista, d)
-            os.remove(lista) if os.path.exists(lista) else None
-            if PARAR.is_set():
-                break
-            if bajar:
-                alto = 720 if alto > 720 else 480
-                AUTO["error"] = f"Se perdían trozos del directo (conexión lenta): ahora graba a {alto}p para que no se congele."
-                fallos = 0
+            listas = [leer_lista(u) for u in urls]
+            DIAG.update(pistas=len(urls), listas=[(seq, len(segs)) for seq, segs, _ in listas])
+            if any(seq is None or not segs for seq, segs, _ in listas):
+                raise RuntimeError("YouTube no ha dado la lista de trozos del directo")
+            ini0, fin = max(seq for seq, _, _ in listas), min(seq + len(segs) for seq, segs, _ in listas)
+            if siguiente is None:
+                siguiente = max(ini0, fin - 1)  # se empieza por lo más reciente
+            elif siguiente < ini0:  # la conexión no dio y esos trozos ya no están en YouTube
+                AUTO["error"] = f"Se perdieron {ini0 - siguiente} trozos del directo (conexión lenta)."
+                siguiente = ini0
+                if alto > 480:
+                    alto = 720 if alto > 720 else 480
+                    AUTO["error"] += f" Ahora graba a {alto}p para que no vuelva a pasar."
+            seq_v, segs_v, _ = listas[0]
+            k, total = siguiente, 0.0
+            while k < fin and total < cada - 0.5:
+                total += segs_v[k - seq_v][0]
+                k += 1
+            fallos = 0
+            if total >= cada - 0.5:  # ya hay trozos para un clip entero
+                guardar_clip(d, f"{vid}_{time.strftime('%Y%m%d-%H%M%S')}", listas, siguiente, k)
+                siguiente = k
                 continue
-            if time.time() - inicio > 120:  # grabó un buen rato: es un corte puntual, no un fallo seguido
-                fallos = 0
-        fallos += 1
-        AUTO["error"] = error
-        if fallos >= 3:
-            AUTO["error"] = "Parado: el directo ha terminado o no responde (" + error + ")"
-            break
-        PARAR.wait(3)
+        except Exception as e:
+            fallos += 1
+            AUTO["error"] = str(e)
+            DIAG["ultimas"] = [str(e)]
+            if fallos >= 3:
+                AUTO["error"] = "Parado: el directo ha terminado o no responde (" + str(e) + ")"
+                break
+        PARAR.wait(2)
     AUTO["activo"] = False
 
 
