@@ -3366,9 +3366,9 @@
     "semantic_hash": ""
   },
   "clipper/servidor.py": {
-    "mtime": 1795126056.2476068,
-    "seen": 1795126110.688535,
-    "ast_hash": "ab72dc545625246763d77d29bff1c79c",
+    "mtime": 1795560981.9666767,
+    "seen": 1795561222.9395063,
+    "ast_hash": "354cd0ea878b9f337377cb74f45de31e",
     "semantic_hash": ""
   },
   "scripts/voz_clonada.py": {
@@ -3390,15 +3390,15 @@
     "semantic_hash": ""
   },
   "clipper/README.md": {
-    "mtime": 1795126080.2727437,
-    "seen": 1795126110.688916,
-    "ast_hash": "a7b3a9d2181b212f089a17161420fe29",
+    "mtime": 1795561211.2275848,
+    "seen": 1795561222.939997,
+    "ast_hash": "e62185c1eee3a319d325f52bc191aceb",
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795126149.62578,
-    "seen": 1795191134.9032195,
-    "ast_hash": "b54a8dac4e0d32d0cb7988d404a730f4",
+    "mtime": 1795561076.2446973,
+    "seen": 1795561222.9399981,
+    "ast_hash": "54ac930300737979614ac1967aa94bf4",
     "semantic_hash": ""
   },
   "voces/README.md": {
@@ -4191,6 +4191,12 @@
     "mtime": 1795550955.2371879,
     "seen": 1795551486.7256742,
     "ast_hash": "37bce1bc96b2e5f1e377264a8bf1e178",
+    "semantic_hash": ""
+  },
+  "clipper/tiktok.py": {
+    "mtime": 1795560898.371566,
+    "seen": 1795561222.939509,
+    "ast_hash": "1bebf24d144cecee3c4f705fc5772257",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

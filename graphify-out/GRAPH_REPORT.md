@@ -1,17 +1,17 @@
 # Graph Report - videosmto  (2026-11-24)
 
 ## Corpus Check
-- 459 files · ~381,664 words
+- 460 files · ~384,135 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 22 file(s) not represented in the graph (top: .woff2 15, .geojson 4, (none) 3)
 
 ## Summary
-- 3849 nodes · 8072 edges · 241 communities (229 shown, 12 thin omitted)
+- 3880 nodes · 8167 edges · 241 communities (229 shown, 12 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 318 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5378935d`
+- Built from commit: `ae3ee7bd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -22,7 +22,7 @@
 - remotion-markup/REFERENCE.md
 - linea.ts
 - remotion-markup/SKILL.md
-- motor/Subtitulos.tsx
+- tiktok.py
 - alinear.py
 - publicador/servidor.py
 - render.mjs
@@ -203,7 +203,7 @@
 - Moving Map Render Stability
 - devDependencies
 - Cambios
-- MillonHoy/Ilustraciones.tsx
+- Muestrario.tsx
 - Using calculateMetadata
 - Flyover data sources
 - 3D Flyover — troubleshooting
@@ -222,7 +222,7 @@
 - Flyover data sources
 - 3D Flyover — troubleshooting
 - skills/remotion-markup/remotion-maps/techniques/maptiler/assets/MapTilerVectorElement.ts
-- framesDe
+- Logo.tsx
 - package.json
 - CatalogoEscenarios.tsx
 - remotion-best-practices/remotion-markup/images.md
@@ -278,8 +278,8 @@
   .agents/skills/becario-reels/assets/plantilla/src/piezas/basicas.tsx → .agents/skills/becario-reels/assets/plantilla/src/motor/estilos.ts
 - `PortadaCheck()` --calls--> `Portada()`  [EXTRACTED]
   .agents/skills/becario-reels/assets/plantilla/src/Root.tsx → .agents/skills/becario-reels/assets/plantilla/src/Portada.tsx
-- `ReelTurnoNoche2()` --calls--> `ReelBase()`  [EXTRACTED]
-  src/TurnoNoche2/Reel.tsx → src/comun/ReelBase.tsx
+- `LineaPuntos()` --calls--> `lerp()`  [EXTRACTED]
+  .agents/skills/becario-reels/assets/plantilla/src/piezas/basicas.tsx → .agents/skills/becario-reels/assets/plantilla/src/motor/anim.ts
 
 ## Import Cycles
 - None detected.
@@ -295,8 +295,8 @@ Cohesion: 0.08
 Nodes (81): banda(), barrido(), burbuja(), campana(), clic(), cristal(), ding(), exito() (+73 more)
 
 ### Community 2 - "tarjetas.tsx"
-Cohesion: 0.14
-Nodes (41): Galeria(), Barras(), barras, CARTA, Cifras(), cifras, Comparacion(), comparacion (+33 more)
+Cohesion: 0.13
+Nodes (49): Movil(), Cta(), cta, Palabra(), Perfil(), Galeria(), Barras(), barras (+41 more)
 
 ### Community 3 - "remotion-markup/REFERENCE.md"
 Cohesion: 0.04
@@ -304,23 +304,23 @@ Nodes (46): Measuring DOM nodes in Remotion, Measuring element dimensions, `<Htm
 
 ### Community 4 - "linea.ts"
 Cohesion: 0.06
-Nodes (57): BIBLIOTECA, CON_PERSONAJE, PLAN, POSES, SUBTITULOS, ADELANTO, ALTO, ANCHO (+49 more)
+Nodes (64): BIBLIOTECA, CON_PERSONAJE, PLAN, SUB_Y, SUBTITULOS, ADELANTO, s2f(), Escena() (+56 more)
 
 ### Community 5 - "remotion-markup/SKILL.md"
 Cohesion: 0.04
 Nodes (44): Cropping, Color picker, 3D content, Advanced Images, Advanced sequencing, Arabic and right-to-left text, Assets, Audio visualization (+36 more)
 
-### Community 6 - "motor/Subtitulos.tsx"
-Cohesion: 0.15
-Nodes (19): SUB_Y, s2f(), finFrase(), aparicion(), B, Caja(), cierra(), Grupo (+11 more)
+### Community 6 - "tiktok.py"
+Cohesion: 0.16
+Nodes (13): ajustes_tiktok(), cargar(), conectada(), ErrorTikTok, guardar(), guardar_token(), ok(), peticion() (+5 more)
 
 ### Community 7 - "alinear.py"
 Cohesion: 0.09
 Nodes (30): acortar_pausas(), alinear_final(), avisos_ritmo(), buscar_ffmpeg(), decodificar(), emparejar(), envolvente_db(), escribir_wav() (+22 more)
 
 ### Community 8 - "publicador/servidor.py"
-Cohesion: 0.08
-Nodes (32): App, bucle(), buscar_videos(), cargar_config(), conectada(), ErrorRed, fb_base(), fb_conectar() (+24 more)
+Cohesion: 0.10
+Nodes (30): App, bucle(), buscar_videos(), conectada(), ErrorRed, fb_base(), fb_conectar(), guardar() (+22 more)
 
 ### Community 9 - "render.mjs"
 Cohesion: 0.09
@@ -332,7 +332,7 @@ Nodes (26): Ancha(), arco(), Arena(), Aspa(), Atlas(), camaraEntre(), Cielo(), C
 
 ### Community 11 - "apps.tsx"
 Cohesion: 0.16
-Nodes (29): Chat(), chat, E, editor, EditorEscena(), Movil(), movil, V (+21 more)
+Nodes (26): Chat(), chat, E, editor, EditorEscena(), movil, V, VistaMini() (+18 more)
 
 ### Community 12 - "remotion-best-practices/remotion-maps/techniques/maptiler/assets/RiverReveal.tsx"
 Cohesion: 0.10
@@ -376,23 +376,23 @@ Nodes (98): CamaraSeguridad(), dosCifras(), hora(), ModoCamara, Monitores(), Pan
 
 ### Community 22 - "fotos.tsx"
 Cohesion: 0.22
-Nodes (19): EFECTOS, galeria, Imagen(), imagen, Marco(), usePopLocal(), SOMBRA, rnd() (+11 more)
+Nodes (20): EFECTOS, galeria, Imagen(), imagen, Marco(), usePopLocal(), SOMBRA, lerp() (+12 more)
 
 ### Community 23 - "Frio/Ilustraciones.tsx"
-Cohesion: 0.07
-Nodes (89): EFECTOS, Clave, CON_VOZ, DURACION_TOTAL, enfasisDe(), ESCENA, Escenario, ESCENARIOS (+81 more)
+Cohesion: 0.08
+Nodes (85): Accion2D, alcance(), BOCA, Cara, CEJAS, ik(), mezcla(), P (+77 more)
 
 ### Community 24 - "MillonHoyV2/Ilustraciones.tsx"
-Cohesion: 0.14
-Nodes (45): Accion2D, alcance(), BOCA, Cara, CEJAS, ik(), mezcla(), P (+37 more)
+Cohesion: 0.23
+Nodes (33): Billete(), Camara(), clamp, deudas(), emergencias(), en(), FABRICAS, final() (+25 more)
 
 ### Community 25 - "basicas.tsx"
-Cohesion: 0.11
-Nodes (31): Cta(), cta, Palabra(), Perfil(), Abanico(), altoAbanico(), anchoAbanico(), Etiqueta() (+23 more)
+Cohesion: 0.13
+Nodes (24): Abanico(), altoAbanico(), anchoAbanico(), Etiqueta(), PalabraTitulo(), preparar(), Titular(), titular (+16 more)
 
 ### Community 26 - "BanoRoto/Ilustraciones.tsx"
-Cohesion: 0.14
-Nodes (18): EFECTOS, DURACION_TOTAL, ESCENA, ESCENAS, Ilustracion, Azulejos(), Charco(), clamp (+10 more)
+Cohesion: 0.25
+Nodes (12): Azulejos(), Charco(), clamp, EscenaDanos(), EscenaFuga(), EscenaInodoro(), EscenaMoho(), EscenaReparar() (+4 more)
 
 ### Community 27 - "remotion-captions/SKILL.md"
 Cohesion: 0.10
@@ -411,16 +411,16 @@ Cohesion: 0.10
 Nodes (18): Effects should be inline too, Animate using `interpolate()`, Choose schema fields, Effects should be inline too, Give interactive elements a descriptive name, Keep all CSS styles inline, Keep composition metadata inline, Keep SVG paths editable with `Interactive.Path` (+10 more)
 
 ### Community 31 - "src/tipos.ts"
-Cohesion: 0.15
-Nodes (16): useFlota(), Tarjeta(), Ejemplo(), ejemplo, PROPIAS, DefEscena, EscenaPlan, FinalT (+8 more)
+Cohesion: 0.14
+Nodes (17): Tarjeta(), Ejemplo(), ejemplo, PROPIAS, DefEscena, Entrada, EscenaPlan, FinalT (+9 more)
 
 ### Community 32 - "remotion-interactivity/REFERENCE.md"
 Cohesion: 0.07
 Nodes (22): Effects should be inline too, Animate using `interpolate()`, Choose schema fields, Effects should be inline too, Give interactive elements a descriptive name, Keep all CSS styles inline, Keep composition metadata inline, Keep SVG paths editable with `Interactive.Path` (+14 more)
 
 ### Community 33 - "Vaginosis/Ilustraciones.tsx"
-Cohesion: 0.18
-Nodes (17): Bacilos(), Cocos(), EscenaAcido(), EscenaInvasion(), EscenaJabon(), EscenaLacto(), EscenaLimon(), EscenaNombre() (+9 more)
+Cohesion: 0.17
+Nodes (18): Bacilos(), Cocos(), EscenaAcido(), EscenaInvasion(), EscenaJabon(), EscenaLacto(), EscenaLimon(), EscenaNombre() (+10 more)
 
 ### Community 34 - "plantilla/package.json"
 Cohesion: 0.14
@@ -439,8 +439,8 @@ Cohesion: 0.12
 Nodes (15): A, AB, B, clip, __dir, even, havKm(), hs (+7 more)
 
 ### Community 38 - "ReelBase"
-Cohesion: 0.12
-Nodes (19): graphify, Reglas del proyecto (videos para redes), AvatarPoses(), movimiento(), POSE_DE, Props, Capa(), Props (+11 more)
+Cohesion: 0.08
+Nodes (32): graphify, Reglas del proyecto (videos para redes), ESCENAS, ReelColon(), AvatarPoses(), movimiento(), POSE_DE, Props (+24 more)
 
 ### Community 39 - "Flujo de trabajo"
 Cohesion: 0.11
@@ -459,7 +459,7 @@ Cohesion: 0.12
 Nodes (14): Azure Container Apps, Cloudflare Containers, Comparison of SSR methods, GitHub Actions, Plain Node.js APIs, Remotion Lambda, Steps to set up Lambda, Vercel (+6 more)
 
 ### Community 43 - "poses.py"
-Cohesion: 0.18
+Cohesion: 0.19
 Nodes (13): alargar_si_cortado(), cargar(), color_cabeza(), componentes(), fondo_de(), guardar(), main(), medir() (+5 more)
 
 ### Community 44 - "Descripciones para publicar"
@@ -535,8 +535,8 @@ Cohesion: 0.19
 Nodes (13): Brazo, capa(), CODO, CUELLO, giro(), HOMBRO, MANO_IZQ, Marioneta() (+5 more)
 
 ### Community 62 - "ref_react"
-Cohesion: 0.16
-Nodes (6): Arc(), arcLength, Atom(), LogoInner(), LogoProps, logoSchema
+Cohesion: 0.10
+Nodes (12): POSES, ALTO, ANCHO, FPS, SEMI, SOLAPE, resumen(), TOTAL (+4 more)
 
 ### Community 63 - "Escribir el guion"
 Cohesion: 0.15
@@ -567,8 +567,8 @@ Cohesion: 0.17
 Nodes (10): Color correction, Levels and Curves, LUTs and combining effects, Primary adjustments, See also, Studio workflow, Supported format and limitations, Available effects (+2 more)
 
 ### Community 70 - "Escenas3D.tsx"
-Cohesion: 0.16
-Nodes (59): Mundo(), Billete(), clamp01(), Fajo(), lerp(), lerp3(), LluviaBilletes(), Maletin() (+51 more)
+Cohesion: 0.15
+Nodes (54): Mundo(), Auto(), Barra(), Billete(), Cerdito(), clamp01(), Fajo(), Flecha() (+46 more)
 
 ### Community 71 - "MapTiler maps in Remotion"
 Cohesion: 0.18
@@ -595,8 +595,8 @@ Cohesion: 0.18
 Nodes (11): Choose the source for each map element, Drawing rivers, Files, Hybrid, Keep it minmal, MapTiler maps in Remotion, MapTiler SDK (`@maptiler/sdk`), MapTiler vector (+3 more)
 
 ### Community 77 - "json"
-Cohesion: 0.12
-Nodes (19): buscar_ffmpeg(), buscar_navegador(), copiar_plantilla(), es_ejecutable(), instalar(), main(), run(), ffmpeg_bin() (+11 more)
+Cohesion: 0.10
+Nodes (21): buscar_ffmpeg(), buscar_navegador(), copiar_plantilla(), es_ejecutable(), instalar(), main(), run(), ffmpeg_bin() (+13 more)
 
 ### Community 78 - "3D Flyover — architecture reference"
 Cohesion: 0.20
@@ -667,8 +667,8 @@ Cohesion: 0.20
 Nodes (9): Animated flight route example, Basic map example, Camera guidance, Core rules, Lines, Markers and labels, Prerequisites, Rendering (+1 more)
 
 ### Community 95 - "src/Root.tsx"
-Cohesion: 0.10
-Nodes (20): @remotion/media@^4.0.543, @remotion/media, DURACION_TOTAL, EFECTOS_DISPONIBLES, HelloWorld(), HelloWorldProps, Logo, Title (+12 more)
+Cohesion: 0.11
+Nodes (18): EFECTOS, DURACION_TOTAL, ESCENA, ESCENAS, Ilustracion, ReelBanoRoto(), DURACION_TOTAL, HelloWorld() (+10 more)
 
 ### Community 96 - "Map Explainer — architecture reference"
 Cohesion: 0.22
@@ -692,7 +692,7 @@ Nodes (14): Angular, Choosing a template or a framework, Rendering, Svelte, The 
 
 ### Community 101 - "Mundo3D.tsx"
 Cohesion: 0.10
-Nodes (41): Cofre(), Galeon(), IslaPirata(), Rover(), Templo(), Arbol(), Auto(), Avion() (+33 more)
+Nodes (40): three, Cofre(), Galeon(), IslaPirata(), Rover(), Templo(), Accion, Arbol() (+32 more)
 
 ### Community 102 - "Map Explainer — architecture reference"
 Cohesion: 0.22
@@ -871,8 +871,8 @@ Cohesion: 0.29
 Nodes (6): becario-reels · guía rápida, Cómo se instala, Licencias, Pruébala, Qué es, Si algo falla
 
 ### Community 146 - "Personajes3D.tsx"
-Cohesion: 0.17
-Nodes (19): three, Accion, Persona(), Pose, poseDe(), Tela(), texturaRayas(), V3 (+11 more)
+Cohesion: 0.25
+Nodes (25): Persona(), poseDe(), Tela(), Balon(), CapitanaBrisa(), Dani(), Estrella(), GorroFiesta() (+17 more)
 
 ### Community 147 - "CesiumJS — 3D flyovers in Remotion"
 Cohesion: 0.29
@@ -891,8 +891,8 @@ Cohesion: 0.18
 Nodes (13): EFECTOS, Clave, DURACION_TOTAL, enfasisDe(), ESCENA, Escenario, ESCENARIOS, ESCENAS (+5 more)
 
 ### Community 151 - "TurnoNoche2/escenas.ts"
-Cohesion: 0.22
-Nodes (9): EFECTOS, GOLPES_CRISTAL, CON_VOZ, DURACION_TOTAL, ESCENAS, Ilustracion, SIN_VOZ, DIBUJOS (+1 more)
+Cohesion: 0.19
+Nodes (11): framesDe(), EFECTOS, GOLPES_CRISTAL, CON_VOZ, DURACION_TOTAL, ESCENAS, Ilustracion, SIN_VOZ (+3 more)
 
 ### Community 152 - "remotion-best-practices/remotion-markup/timing.md"
 Cohesion: 0.29
@@ -1034,9 +1034,9 @@ Nodes (5): devDependencies, @types/react@19.2.7, typescript@5.9.3, @types/react,
 Cohesion: 0.40
 Nodes (4): 1.0 · 25-10-2026, 1.1 · 25-10-2026, 1.2 · 29-10-2026, Cambios
 
-### Community 188 - "MillonHoy/Ilustraciones.tsx"
-Cohesion: 0.28
-Nodes (25): Billete(), clamp, Deudas(), dinero(), Emergencias(), Emoji(), en(), Etiqueta() (+17 more)
+### Community 188 - "Muestrario.tsx"
+Cohesion: 0.20
+Nodes (9): @remotion/media@^4.0.543, @remotion/media, EFECTOS_DISPONIBLES, COLORES, DURACION_MUESTRARIO, ICONOS, LISTA, Muestrario() (+1 more)
 
 ### Community 189 - "Using calculateMetadata"
 Cohesion: 0.07
@@ -1094,17 +1094,17 @@ Nodes (4): City, Flyover data sources, Landscape, Why not extruded buildings
 Cohesion: 0.40
 Nodes (4): 3D Flyover — troubleshooting, Gotchas checklist, Symptom → fix, The headless dead-end (why we render through Remotion)
 
-### Community 207 - "framesDe"
-Cohesion: 0.18
-Nodes (10): EFECTOS, DURACION_TOTAL, DURACIONES, ESCENA, ESCENAS, Ilustracion, DIBUJOS, ReelDescubrimiento() (+2 more)
+### Community 207 - "Logo.tsx"
+Cohesion: 0.31
+Nodes (6): Arc(), arcLength, Atom(), LogoInner(), LogoProps, logoSchema
 
 ### Community 208 - "package.json"
 Cohesion: 0.05
 Nodes (57): allowScripts, esbuild, dependencies, d3-geo@^3.1.2, postprocessing@^6.37.6, react@19.3.1, react-dom@19.3.1, @react-three/fiber@^9.1.2 (+49 more)
 
 ### Community 209 - "CatalogoEscenarios.tsx"
-Cohesion: 0.12
-Nodes (19): ESCENARIOS3D, NombreEscenario, Camara(), direccionSol(), Escenario3D(), NombrePersonaje, PERSONAJES, CatalogoEscenarios() (+11 more)
+Cohesion: 0.13
+Nodes (18): ESCENARIOS3D, NombreEscenario, Camara(), direccionSol(), Escenario3D(), NombrePersonaje, PERSONAJES, CatalogoEscenarios() (+10 more)
 
 ### Community 210 - "remotion-best-practices/remotion-markup/images.md"
 Cohesion: 0.50
@@ -1144,7 +1144,7 @@ Nodes (7): Brazo, BrazoSVG(), mezclar(), Pose, PoseColon, POSES, Props
 
 ### Community 225 - "MillonHoy/escenas.ts"
 Cohesion: 0.05
-Nodes (39): EFECTOS, g, td, te, ti, tint, tinv, tp (+31 more)
+Nodes (69): EFECTOS, g, td, te, ti, tint, tinv, tp (+61 more)
 
 ### Community 226 - "Using calculateMetadata"
 Cohesion: 0.29
@@ -1155,8 +1155,8 @@ Cohesion: 0.40
 Nodes (5): scripts, build, dev, lint, upgrade
 
 ### Community 230 - "Clipper (privado)"
-Cohesion: 0.25
-Nodes (7): 1. Instalar (una vez, en tu ordenador), 2. Arrancar con contraseña, 3. Abrirlo desde el móvil o cualquier sitio (Tailscale), 4. En el móvil, 4b. Instalarlo como app ($SANTORYU$), 5. Sin ordenador (Android con Termux), Clipper (privado)
+Cohesion: 0.22
+Nodes (8): 1. Instalar (una vez, en tu ordenador), 2. Arrancar con contraseña, 3. Abrirlo desde el móvil o cualquier sitio (Tailscale), 4. En el móvil, 4b. Instalarlo como app ($SANTORYU$), 4c. Conectar TikTok (una vez), 5. Sin ordenador (Android con Termux), Clipper (privado)
 
 ### Community 233 - "Moving Map Render Stability"
 Cohesion: 0.33
@@ -1175,28 +1175,28 @@ Cohesion: 0.33
 Nodes (5): Moving Map Render Stability, Plate sizing and sharpness, Required pattern: fixed map plate, Symptom and cause, Verification
 
 ### Community 237 - "servidor.py"
-Cohesion: 0.09
-Nodes (23): ajustar(), analizar(), App, bucle_auto(), capturar_directo(), editar(), editor(), estado_auto() (+15 more)
+Cohesion: 0.08
+Nodes (32): ajustar(), analizar(), App, bucle_auto(), capturar_directo(), duracion(), editar(), editor() (+24 more)
 
 ### Community 238 - "Paises/Ilustraciones.tsx"
 Cohesion: 0.15
 Nodes (35): Calendario(), Globo(), emperador(), Rotulo(), Sello(), alemania(), camaraHacia(), CENTRO (+27 more)
 
 ### Community 240 - "Paises/escenas.ts"
-Cohesion: 0.17
-Nodes (14): Enfasis, EFECTOS, Clave, DURACION_TOTAL, enfasisDe(), ESCENA, Escenario, ESCENARIOS (+6 more)
-
-### Community 241 - "VueltaMundo/escenas.ts"
 Cohesion: 0.18
 Nodes (13): EFECTOS, Clave, DURACION_TOTAL, enfasisDe(), ESCENA, Escenario, ESCENARIOS, ESCENAS (+5 more)
+
+### Community 241 - "VueltaMundo/escenas.ts"
+Cohesion: 0.17
+Nodes (14): Enfasis, EFECTOS, Clave, DURACION_TOTAL, enfasisDe(), ESCENA, Escenario, ESCENARIOS (+6 more)
 
 ### Community 242 - "Mapa.tsx"
 Cohesion: 0.09
 Nodes (23): Camara, espanaPeninsula, LonLat, NIEBLA_A, NIEBLA_B, P(), paises, Props (+15 more)
 
 ### Community 243 - "comun/tipos.ts"
-Cohesion: 0.15
-Nodes (17): EFECTOS, ESCENAS, Ilustracion, ReelColon(), duracionDe(), Efecto, Escena, FPS (+9 more)
+Cohesion: 0.11
+Nodes (22): EFECTOS, DURACION_TOTAL, DURACIONES, ESCENA, ESCENAS, Ilustracion, DIBUJOS, ReelDescubrimiento() (+14 more)
 
 ### Community 245 - "actual.ts"
 Cohesion: 0.09
@@ -1208,17 +1208,17 @@ Nodes (30): BORDE, C, ESTILO, FINAL, LIENZO, MedidasPose, NOMBRES_FINALES, PLAN_
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `@remotion/layout-utils` connect `motor/Subtitulos.tsx` to `basicas.tsx`, `plantilla/package.json`, `tarjetas.tsx`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+- **Why does `@remotion/layout-utils` connect `linea.ts` to `basicas.tsx`, `plantilla/package.json`, `tarjetas.tsx`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Should `Colon/Ilustraciones.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.13387755102040816 - nodes in this community are weakly interconnected._
-- **Why does `ReelBase()` connect `ReelBase` to `MillonHoy/escenas.ts`, `Inmovil/escenas.ts`, `Napoleon/escenas.ts`, `Millon/escenas.ts`, `framesDe`, `Paises/escenas.ts`, `VueltaMundo/escenas.ts`, `comun/tipos.ts`, `TurnoNoche/Ilustraciones.tsx`, `Sahara/escenas.ts`, `Frio/Ilustraciones.tsx`, `TurnoNoche2/escenas.ts`, `BanoRoto/Ilustraciones.tsx`, `Marioneta.tsx`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `Dibujo` connect `Colon/Ilustraciones.tsx` to `MillonHoy/escenas.ts`, `Escenas3D.tsx`, `ReelBase`, `VueltaMundo/Ilustraciones.tsx`, `Napoleon/Ilustraciones.tsx`, `Paises/Ilustraciones.tsx`, `comun/tipos.ts`, `TurnoNoche/Ilustraciones.tsx`, `Frio/Ilustraciones.tsx`, `MillonHoyV2/Ilustraciones.tsx`, `Sahara/Ilustraciones.tsx`, `BanoRoto/Ilustraciones.tsx`?**
+  _High betweenness centrality (0.005) - this node is a cross-community bridge._
 - **Should `numpy` be split into smaller, more focused modules?**
   _Cohesion score 0.07656565656565656 - nodes in this community are weakly interconnected._
-- **Why does `lucide-react` connect `plantilla/package.json` to `basicas.tsx`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
 - **Should `tarjetas.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.1383838383838384 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13197586726998492 - nodes in this community are weakly interconnected._
 - **Should `remotion-markup/REFERENCE.md` be split into smaller, more focused modules?**
   _Cohesion score 0.038461538461538464 - nodes in this community are weakly interconnected._
+- **Should `linea.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.05541346973572037 - nodes in this community are weakly interconnected._
