@@ -1,5 +1,5 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
-import base64, collections, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.request, webbrowser
+import base64, collections, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.parse, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -202,6 +202,48 @@ def urls_directo(url, alto, nuevas=False):
     return guardadas[1]
 
 
+def trozos(texto, base):
+    """(número del primer trozo, [(duración, URL)], línea EXT-X-MAP o "") de una lista HLS."""
+    m = re.search(r"#EXT-X-MEDIA-SEQUENCE:(\d+)", texto)
+    segs, dur, mapa = [], None, ""
+    for l in texto.splitlines():
+        l = l.strip()
+        if l.startswith("#EXTINF:"):
+            dur = float(l[8:].split(",")[0])
+        elif l.startswith("#EXT-X-MAP:"):
+            mapa = re.sub(r'URI="([^"]+)"', lambda x: f'URI="{urllib.parse.urljoin(base, x.group(1))}"', l)
+        elif l and not l.startswith("#") and dur is not None:
+            segs.append((dur, urllib.parse.urljoin(base, l)))
+            dur = None
+    return (int(m.group(1)) if m else None), segs, mapa
+
+
+def tramo_comun(listas, seg):
+    """Vídeo y audio vienen en listas separadas: el mismo número de trozo es el mismo momento del directo.
+    Devuelve (primer trozo, trozo final exclusivo) comunes a todas que cubren los últimos 'seg' segundos, o None."""
+    if any(seq is None or not segs for seq, segs, _ in listas):
+        return None
+    ini0, fin = max(seq for seq, _, _ in listas), min(seq + len(segs) for seq, segs, _ in listas)
+    seq_v, segs_v, _ = listas[0]
+    ini, total = fin, 0.0
+    while ini > ini0 and total < seg:
+        ini -= 1
+        total += segs_v[ini - seq_v][0]
+    return (ini, fin) if ini < fin else None
+
+
+def lista_local(info, ini, fin, ruta):
+    """Lista HLS cerrada (como un vídeo normal) con los trozos [ini, fin) de una pista."""
+    seq, segs, mapa = info
+    elegidos = segs[ini - seq:fin - seq]
+    lineas = ["#EXTM3U", "#EXT-X-VERSION:6", f"#EXT-X-TARGETDURATION:{math.ceil(max(d for d, _ in elegidos))}",
+              f"#EXT-X-MEDIA-SEQUENCE:{ini}"] + ([mapa] if mapa else [])
+    for d, u in elegidos:
+        lineas += [f"#EXTINF:{d:.3f},", u]
+    with open(ruta, "w", encoding="utf-8") as f:
+        f.write("\n".join(lineas + ["#EXT-X-ENDLIST", ""]))
+
+
 def capturar_directo(d):
     """Copia (sin editar, tarda segundos) los últimos N segundos del directo a TRABAJO."""
     url, seg = d["url"], min(max(float(d.get("segundos", 60)), 5), 300)
@@ -210,15 +252,26 @@ def capturar_directo(d):
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
     for intento in (0, 1):
         try:
-            urls, entradas = urls_directo(url, alto, nuevas=intento == 1), []
+            urls, entradas, textos = urls_directo(url, alto, nuevas=intento == 1), [], []
             for u in urls:
                 with urllib.request.urlopen(u, timeout=20) as r:
-                    lista = r.read().decode("utf-8", "replace")
-                # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar
-                entradas += ["-live_start_index", str(-segmentos_atras(lista, seg)), "-i", u]
+                    textos.append(r.read().decode("utf-8", "replace"))
             nombre = f"{vid}_directo_{int(time.time())}"
+            listas = [trozos(t, u) for t, u in zip(textos, urls)]
+            DIAG["listas"] = [(seq, len(segs)) for seq, segs, _ in listas]
+            comun = tramo_comun(listas, seg) if len(urls) > 1 else None
+            if comun:  # vídeo y audio aparte: los dos desde el mismo trozo, si no salen desfasados
+                for k, info in enumerate(listas):
+                    lista_local(info, *comun, os.path.join(TRABAJO, f"{nombre}_{k}.m3u8"))
+                    entradas += ["-protocol_whitelist", "file,http,https,tcp,tls,crypto", "-i", f"{nombre}_{k}.m3u8"]
+            else:
+                for t, u in zip(textos, urls):
+                    # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar
+                    entradas += ["-live_start_index", str(-segmentos_atras(t, seg)), "-i", u]
             run(["ffmpeg", "-y", *entradas, "-t", str(seg), "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
                  "-c:v", "copy", "-af", "aresample=async=1", "-c:a", "aac", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
+            for p in glob.glob(os.path.join(TRABAJO, nombre + "_*.m3u8")):
+                os.remove(p)
             return nombre, nombre + ".ts", seg
         except (RuntimeError, OSError):  # URL caducada (403, etc.): se piden otras a YouTube una vez
             if intento:
@@ -269,7 +322,7 @@ def mover_terminados(lista, d=None):
                         AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
-DIAG = {"pistas": 0, "ultimas": []}
+DIAG = {"pistas": 0, "ultimas": [], "listas": []}
 
 
 def huecos(p, tipo):
@@ -293,6 +346,7 @@ def diagnostico():
     """Texto para la página /diagnostico: lo que hace falta para ver por qué un clip se congela o se desfasa."""
     v = run(["ffmpeg", "-version"], check=False).stdout.splitlines()[:1]
     out = [f"ffmpeg: {v[0] if v else '?'}", f"pistas del directo (1 = juntas, 2 = vídeo y audio aparte): {DIAG['pistas']}",
+           f"listas (primer trozo, cuántos): {DIAG['listas']}",
            f"en cola: {COLA.qsize()} · estado: {AUTO.get('error') or 'ok'}", "", "Últimos mensajes de ffmpeg:"]
     out += [f"  {x[:160]}" for x in list(DIAG["ultimas"])[-8:]] or ["  (ninguno)"]
     for carpeta in (TRABAJO, CLIPS):
@@ -319,6 +373,25 @@ def leer_avisos(proc):
     return ultimas, perdidas
 
 
+def entradas_vivo(urls):
+    """Entradas de ffmpeg para grabar en directo. Con vídeo y audio aparte, las dos empiezan en el mismo trozo
+    (3 antes del último que tienen las dos); si no, cada una empezaría donde le toque y saldrían desfasadas."""
+    if len(urls) > 1:
+        try:
+            listas = []
+            for u in urls:
+                with urllib.request.urlopen(u, timeout=20) as r:
+                    listas.append(trozos(r.read().decode("utf-8", "replace"), u))
+            comun = tramo_comun(listas, 0.1)
+            if comun:
+                ini = max(comun[1] - 3, max(seq for seq, _, _ in listas))
+                DIAG["listas"] = [(seq, len(segs)) for seq, segs, _ in listas]
+                return [x for u, (seq, segs, _) in zip(urls, listas) for x in ("-live_start_index", str(ini - seq - len(segs)), "-i", u)]
+        except OSError:
+            pass
+    return [x for u in urls for x in ("-i", u)]
+
+
 def bucle_auto(d):
     cada, fallos = AUTO["cada"], 0
     alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
@@ -332,7 +405,7 @@ def bucle_auto(d):
         if urls:
             lista = os.path.join(TRABAJO, f"{vid}_{int(time.time())}.csv")
             proc = subprocess.Popen(
-                ["ffmpeg", "-y", "-v", "warning", *[x for u in urls for x in ("-i", u)], "-map", "0:v:0",
+                ["ffmpeg", "-y", "-v", "warning", *entradas_vivo(urls), "-map", "0:v:0",
                  # audio recodificado (barato) con async: si se pierden trozos del directo, el hueco se rellena con
                  # silencio y el audio no se adelanta a la imagen
                  "-map", f"{len(urls) - 1}:a:0?", "-c:v", "copy", "-af", "aresample=async=1", "-c:a", "aac", "-f", "segment", "-segment_time", str(cada),
