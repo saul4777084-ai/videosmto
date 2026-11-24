@@ -425,7 +425,7 @@ añade música en la app si lo publicas así.
 
 ---
 
-## Hernán Cortés y la caída de Tenochtitlan (≈66 s sin voz) — `videos/reel-cortes.mp4`
+## Hernán Cortés y la caída de Tenochtitlan (59 s, con voz) — `videos/reel-cortes.mp4`
 
 ### TikTok / Reels
 > **500 españoles contra un imperio de millones** ⚔️🗺️
