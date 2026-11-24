@@ -1,6 +1,7 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
 import base64, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.parse, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
+import tiktok
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CLIPS = os.path.join(AQUI, "clips")
@@ -408,12 +409,142 @@ def bucle_auto(d):
 def editor():
     while True:
         d, nombre, entrada, seg = COLA.get()
+        original = os.path.basename(entrada)
         try:
             editar(d, nombre, entrada, seg, "")
             if d.get("borrar_original") and os.path.isfile(entrada):
                 os.remove(entrada)  # del automático solo queda el clip editado
+            if d.get("tiktok_texto") is not None:  # se pidió «Subir a TikTok» en un clip horizontal
+                marcar(original, "vertical", copia=nombre + ".mp4")
+                encolar_subida(nombre + ".mp4", d["tiktok_texto"])
         except Exception as e:
             AUTO["error"] = "No se pudo hacer vertical un clip: " + str(e)
+            if d.get("tiktok_texto") is not None:
+                marcar(original, "error", error="No se pudo hacer vertical: " + str(e))
+
+
+# Subidas a TikTok: de una en una, en cuanto el clip está listo, con un máximo por día.
+# El estado de cada clip se guarda en subidas.json para que siga ahí al reiniciar.
+RUTA_SUBIDAS = os.path.join(AQUI, "subidas.json")
+try:
+    with open(RUTA_SUBIDAS, encoding="utf-8") as f:
+        SUBIDAS = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    SUBIDAS = {"clips": {}, "publicadas": []}
+COLA_TIKTOK, CANDADO = queue.Queue(), threading.RLock()
+
+
+def marcar(archivo, estado, **datos):
+    with CANDADO:
+        SUBIDAS["clips"][archivo] = {"estado": estado, "hora": time.time(), **datos}
+        with open(RUTA_SUBIDAS + ".tmp", "w", encoding="utf-8") as f:
+            json.dump(SUBIDAS, f, ensure_ascii=False)
+        os.replace(RUTA_SUBIDAS + ".tmp", RUTA_SUBIDAS)
+
+
+def encolar_subida(archivo, texto):
+    marcar(archivo, "en_cola", texto=texto)
+    COLA_TIKTOK.put(archivo)
+
+
+def duracion(p):
+    return float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).stdout.strip())
+
+
+def es_vertical(p):
+    r = run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height:stream_side_data=rotation",
+             "-of", "json", p])
+    v = (json.loads(r.stdout).get("streams") or [{}])[0]
+    ancho, alto = v.get("width", 0), v.get("height", 0)
+    if any(abs(int(x.get("rotation", 0))) == 90 for x in v.get("side_data_list", [])):
+        ancho, alto = alto, ancho  # vídeo de móvil girado
+    return alto > ancho
+
+
+def huecos_hoy():
+    """Cuántas subidas quedan en las últimas 24 h y cuándo se libera la siguiente."""
+    with CANDADO:
+        ahora = time.time()
+        SUBIDAS["publicadas"] = [t for t in SUBIDAS["publicadas"] if ahora - t < 86400]
+        libres = int(tiktok.CONFIG["max_dia"]) - len(SUBIDAS["publicadas"])
+        return libres, (min(SUBIDAS["publicadas"]) + 86400 if SUBIDAS["publicadas"] else ahora)
+
+
+def subidor():
+    while True:
+        archivo = COLA_TIKTOK.get()
+        p = os.path.join(CLIPS, archivo)
+        texto = SUBIDAS["clips"].get(archivo, {}).get("texto", "")
+        try:
+            libres, cuando = huecos_hoy()
+            while libres <= 0:  # límite del día: espera a que haya hueco y entonces lo sube
+                marcar(archivo, "en_cola", texto=texto, nota="Límite diario alcanzado: se sube a las "
+                       + time.strftime("%H:%M", time.localtime(cuando)))
+                time.sleep(max(30, min(600, cuando - time.time() + 5)))
+                libres, cuando = huecos_hoy()
+            if not os.path.isfile(p):
+                raise ValueError("El clip se borró antes de subirlo.")
+            marcar(archivo, "subiendo", texto=texto)
+            r = tiktok.subir(p, texto, duracion(p), aviso=lambda m: marcar(archivo, "subiendo", texto=texto, nota=m))
+            with CANDADO:
+                SUBIDAS["publicadas"].append(time.time())
+            marcar(archivo, "publicado", texto=texto, **r)
+        except Exception as e:
+            marcar(archivo, "error", texto=texto, error=str(e))
+
+
+def pedir_tiktok(d):
+    """Botón «Subir a TikTok»: si el clip ya es vertical se sube; si no, se hace vertical y luego se sube."""
+    if not tiktok.conectada():
+        raise ValueError("Primero conecta tu cuenta en la tarjeta «TikTok» (abajo).")
+    archivo = os.path.basename(str(d.get("archivo", "")))  # basename: sin salir de clips/
+    p = os.path.join(CLIPS, archivo)
+    if not (p.endswith(".mp4") and os.path.isfile(p)):
+        raise ValueError("Ese clip ya no existe.")
+    if SUBIDAS["clips"].get(archivo, {}).get("estado") in ("en_cola", "subiendo", "haciendo_vertical", "publicado"):
+        raise ValueError("Este clip ya está subido o en camino.")
+    texto = tiktok.texto(str(d.get("titulo", "")).strip() or str(d.get("titulo_directo", "")).strip() or AUTO["titulo"])
+    if es_vertical(p):
+        encolar_subida(archivo, texto)
+    else:  # TikTok es vertical: con «Original» en ajustes se usa el recorte vertical
+        formato = d.get("formato") if d.get("formato") in ("vertical", "desenfocado") else "vertical"
+        marcar(archivo, "haciendo_vertical", texto=texto)
+        try:
+            pedir_vertical(dict(d, formato=formato, tiktok_texto=texto))
+        except Exception:
+            SUBIDAS["clips"].pop(archivo, None)
+            raise
+
+
+def reanudar_subidas():
+    """Al arrancar: lo que estaba en cola vuelve a la cola; lo que se cortó a medias queda como error."""
+    for archivo, e in list(SUBIDAS["clips"].items()):
+        if e["estado"] == "en_cola":
+            COLA_TIKTOK.put(archivo)
+        elif e["estado"] in ("subiendo", "haciendo_vertical"):
+            marcar(archivo, "error", texto=e.get("texto", ""), error="Se cortó al cerrar el Clipper: vuelve a pulsar «Subir a TikTok».")
+
+
+def vista_tiktok():
+    c = tiktok.CONFIG
+    libres, _ = huecos_hoy()
+    return {"conectada": tiktok.conectada(), "client_key": c["client_key"], "tiene_secreto": bool(c["client_secret"]),
+            "redirect_uri": c["redirect_uri"], "privacidad": c["privacidad"], "plantilla": c["plantilla"],
+            "max_dia": c["max_dia"], "quedan_hoy": max(0, libres), "en_cola": COLA_TIKTOK.qsize()}
+
+
+def ajustes_tiktok(d):
+    c = tiktok.CONFIG
+    for k in ("client_key", "redirect_uri", "plantilla"):
+        if k in d:
+            c[k] = str(d[k]).strip()[:2200]
+    if str(d.get("client_secret", "")).strip():  # vacío = conservar el que había
+        c["client_secret"] = str(d["client_secret"]).strip()
+    if d.get("privacidad") in tiktok.PRIVACIDADES:
+        c["privacidad"] = d["privacidad"]
+    if "max_dia" in d:
+        c["max_dia"] = min(max(int(d["max_dia"]), 1), 50)
+    tiktok.guardar()
 
 
 def pedir_vertical(d):
@@ -421,7 +552,7 @@ def pedir_vertical(d):
     p = os.path.join(CLIPS, os.path.basename(str(d.get("archivo", ""))))  # basename: sin salir de clips/
     if not (p.endswith(".mp4") and os.path.isfile(p)):
         raise ValueError("Ese clip ya no existe.")
-    dur = float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).stdout.strip())
+    dur = duracion(p)
     os.makedirs(TRABAJO, exist_ok=True)
     COLA.put((d, os.path.basename(p)[:-4] + "_vertical_" + str(int(time.time())), p, dur))
 
@@ -434,7 +565,8 @@ def lista_clips():
     clips = [p for p in glob.glob(os.path.join(CLIPS, "*.mp4"))]
     clips.sort(key=os.path.getmtime, reverse=True)
     return [{"archivo": "/clips/" + os.path.basename(p), "hora": os.path.getmtime(p),
-             "mb": round(os.path.getsize(p) / 1e6, 1)} for p in clips[:200]]
+             "mb": round(os.path.getsize(p) / 1e6, 1), "tiktok": SUBIDAS["clips"].get(os.path.basename(p))}
+            for p in clips[:200]]
 
 
 def inicio_video(p):
@@ -534,6 +666,19 @@ class App(BaseHTTPRequestHandler):
             return self.responder(200, json.dumps(estado_auto()).encode())
         if self.path == "/diagnostico":
             return self.responder(200, diagnostico().encode(), "text/plain; charset=utf-8")
+        if self.path == "/api/tiktok":
+            return self.responder(200, json.dumps(vista_tiktok()).encode())
+        if ruta == "/auth/tiktok/vuelta":  # si la Redirect URI apunta al propio Clipper, TikTok vuelve aquí
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            try:
+                tiktok.usar_codigo(self.path) if q.get("code") else None
+                msg = "✅ TikTok conectado. Ya puedes cerrar esta pestaña." if q.get("code") else \
+                    "TikTok no dio permiso: " + (q.get("error_description") or q.get("error") or ["sin motivo"])[0]
+            except Exception as e:
+                msg = "No se pudo conectar TikTok: " + str(e)
+            from html import escape
+            return self.responder(200, f'<meta charset="utf-8"><p style="font:18px system-ui;padding:20px">{escape(msg)} '
+                                       f'<a href="/">Volver al Clipper</a></p>'.encode(), "text/html; charset=utf-8")
         self.responder(404, b"{}")
 
     def do_POST(self):
@@ -554,6 +699,21 @@ class App(BaseHTTPRequestHandler):
             if self.path == "/api/vertical":  # no necesita link: trabaja sobre un clip ya guardado
                 pedir_vertical(d)
                 return self.responder(200, json.dumps(estado_auto()).encode())
+            if self.path == "/api/tiktok/subir":
+                pedir_tiktok(d)
+                return self.responder(200, json.dumps(lista_clips()).encode())
+            if self.path == "/api/tiktok/ajustes":
+                ajustes_tiktok(d)
+                return self.responder(200, json.dumps(vista_tiktok()).encode())
+            if self.path == "/api/tiktok/permiso":
+                return self.responder(200, json.dumps({"url": tiktok.url_permiso()}).encode())
+            if self.path == "/api/tiktok/codigo":
+                tiktok.usar_codigo(d.get("texto", ""))
+                return self.responder(200, json.dumps(vista_tiktok()).encode())
+            if self.path == "/api/tiktok/desconectar":
+                tiktok.CONFIG.update(access_token="", refresh_token="", expira=0)
+                tiktok.guardar()
+                return self.responder(200, json.dumps(vista_tiktok()).encode())
             if not re.match(r"^https?://", str(d.get("url", ""))):
                 raise ValueError("Pega un link http(s) válido")
             if self.path == "/api/auto":
@@ -633,5 +793,7 @@ if __name__ == "__main__":
     print(f"$SANTORYU$ en http://127.0.0.1:{puerto}  (Ctrl+C para salir)")
     print("Contraseña activada (usuario: clipper)" if CLAVE else "Sin contraseña: no lo publiques con Tailscale")
     threading.Thread(target=editor, daemon=True).start()
+    threading.Thread(target=subidor, daemon=True).start()
+    reanudar_subidas()
     webbrowser.open(f"http://127.0.0.1:{puerto}")
     ThreadingHTTPServer(("127.0.0.1", puerto), App).serve_forever()

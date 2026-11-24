@@ -32,6 +32,7 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
 .estado{color:var(--sub);font-size:13px;margin:0}.error{color:var(--acc)}
 .clip video{width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:10px}
 .acciones{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.acciones a{color:var(--acc)}
+.estado a{color:var(--acc)}
 @media (prefers-reduced-motion:reduce){.vivo::before{animation:none}}
 /* Cabecera $SANTORYU$: signos de dólar dorados y fajos de billetes a los lados */
 .marca{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0 20px}
@@ -144,6 +145,37 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
   <p class="estado" style="margin-top:10px">Estos ajustes se usan al pulsar «Hacer vertical». Los directos no tienen subtítulos en YouTube, así que los clips salen sin ellos.</p>
 </details>
 
+<details class="card" id="tt">
+  <summary>TikTok <span id="ttResumen" class="estado" style="display:inline;font-weight:400"></span></summary>
+  <div id="ttConectar">
+    <p class="estado" style="margin-top:0">Una sola vez: crea una app en developers.tiktok.com con <b>Login Kit</b> y <b>Content Posting API</b> (Direct Post), pide <code>user.info.basic</code> y <code>video.publish</code> y registra una Redirect URI. Lo tienes paso a paso en el README del Clipper.</p>
+    <div class="fila">
+      <label style="flex:1">Client key<input id="ttKey" autocomplete="off"></label>
+      <label style="flex:1">Client secret<input id="ttSecret" type="password" autocomplete="off"></label>
+      <label style="flex:1 1 100%">Redirect URI<input id="ttRedirect" type="url" autocomplete="off" placeholder="https://tu-pc.tailxxxx.ts.net/auth/tiktok/vuelta"></label>
+    </div>
+    <div class="acciones">
+      <button id="ttGuardarClaves" class="sec" type="button">Guardar claves</button>
+      <button id="ttPermiso" type="button">Conectar con TikTok</button>
+    </div>
+    <div class="fila" style="margin-top:12px">
+      <label style="flex:1">Si TikTok te deja en otra página, pega aquí su dirección completa<input id="ttCodigo" autocomplete="off" placeholder="https://…?code=…"></label>
+      <button id="ttUsarCodigo" class="sec" type="button">Usar código</button>
+    </div>
+  </div>
+  <h3>Publicación</h3>
+  <div class="fila">
+    <label style="flex:1 1 100%">Texto de cada clip ({titulo} = título del clip o, si no tiene, el del directo)<input id="ttPlantilla" maxlength="2200"></label>
+    <label>Quién lo ve<select id="ttPrivacidad">
+      <option value="PUBLIC_TO_EVERYONE">Todo el mundo</option><option value="FOLLOWER_OF_CREATOR">Seguidores</option>
+      <option value="MUTUAL_FOLLOW_FRIENDS">Amigos</option><option value="SELF_ONLY">Solo yo</option></select></label>
+    <label>Máximo al día<input id="ttMax" type="number" min="1" max="50" style="width:90px"></label>
+    <button id="ttGuardar" type="button">Guardar</button>
+  </div>
+  <p id="ttEstado" class="estado" style="margin-top:10px"></p>
+  <button id="ttDesconectar" class="sec" type="button" hidden style="margin-top:6px">Desconectar TikTok</button>
+</details>
+
 <div id="trabajando"></div>
 <p id="resumen" class="estado" style="margin:0 0 10px"></p>
 <div id="lista"></div>
@@ -176,14 +208,38 @@ const despierto = async (on) => {
 };
 
 let firma = "";
-function tarjetaClip({archivo, hora, mb}) {
+const ESTADO_TT = {haciendo_vertical: "🎵 Haciéndolo vertical para TikTok… se sube solo al terminar.",
+  vertical: "🎵 Se sube su copia vertical (la tienes arriba).", en_cola: "🎵 En cola para TikTok…",
+  subiendo: "🎵 Subiendo a TikTok…", publicado: "✅ Publicado en TikTok", error: "❌ TikTok: "};
+function pintarTT(el, t) {
+  const b = el.querySelector(".subirtt"), p = el.querySelector(".tt");
+  p.replaceChildren();
+  if (!t) return;
+  const ocupado = t.estado !== "error";
+  b.disabled = ocupado; b.textContent = t.estado === "error" ? "🎵 Reintentar TikTok" : "🎵 Subir a TikTok";
+  const txt = ESTADO_TT[t.estado] + (t.estado === "error" ? t.error : "") +
+    (t.estado === "publicado" && t.privacidad === "SELF_ONLY" ? " (como «Solo yo»: app sin auditar)" : "") +
+    (t.nota ? " · " + t.nota : "");
+  p.append(Object.assign(document.createElement("span"), {className: t.estado === "error" ? "error" : "", textContent: txt}));
+  if (t.url) p.append(" ", Object.assign(document.createElement("a"), {href: t.url, target: "_blank", rel: "noopener", textContent: "Ver"}));
+}
+function tarjetaClip({archivo, hora, mb, tiktok}) {
   const el = document.createElement("div"); el.className = "card clip";
   const h = new Date(hora * 1000).toLocaleTimeString("es", {hour: "2-digit", minute: "2-digit", second: "2-digit"});
   el.innerHTML = `<b></b><video controls playsinline preload="none" src="${archivo}"></video>
     <p class="acciones"><a href="${archivo}" download>⬇ Descargar</a>
     <button class="vertical" type="button">✨ Hacer vertical</button>
+    <button class="sec subirtt" type="button">🎵 Subir a TikTok</button>
     <button class="sec compartir" type="button" hidden>Compartir…</button><button class="sec borrar" type="button">Borrar</button></p>
-    <p class="estado"></p>`;
+    <p class="estado tt"></p><p class="estado"></p>`;
+  el.dataset.archivo = archivo;
+  pintarTT(el, tiktok);
+  const btt = el.querySelector(".subirtt");
+  btt.onclick = async () => {
+    btt.disabled = true;
+    try { pintarTT(el, (await api("/api/tiktok/subir", {archivo, ...ajustes(), titulo_directo: tituloDirecto()})).find(c => c.archivo === archivo)?.tiktok); }
+    catch (e) { error(el.querySelector(".tt"), e.message); btt.disabled = false; }
+  };
   el.querySelector("b").textContent = `Clip de las ${h} · ${mb} MB`;
   const est = el.querySelector("p.estado"), comp = el.querySelector(".compartir"), borrar = el.querySelector(".borrar");
   const vert = el.querySelector(".vertical");
@@ -211,7 +267,11 @@ function tarjetaClip({archivo, hora, mb}) {
 function pintar(clips) {
   const nueva = clips.map(c => c.archivo).join();
   $("resumen").textContent = clips.length ? `${clips.length} ${clips.length === 1 ? "clip" : "clips"} · ${clips.reduce((a, c) => a + c.mb, 0).toFixed(0)} MB en el teléfono` : "";
-  if (nueva === firma) return;  // no repintar si nada cambió (no corta un vídeo que se esté viendo)
+  if (nueva === firma) {  // no repintar si nada cambió (no corta un vídeo que se esté viendo): solo el estado de TikTok
+    const por = Object.fromEntries(clips.map(c => [c.archivo, c.tiktok]));
+    $("lista").querySelectorAll(".clip").forEach(el => pintarTT(el, por[el.dataset.archivo]));
+    return;
+  }
   firma = nueva;
   $("lista").replaceChildren(...clips.map(tarjetaClip));
 }
@@ -237,13 +297,44 @@ $("auto").onclick = async () => {
   try {
     pintarAuto(autoActivo ? await api("/api/auto", {accion: "parar"}) : await api("/api/auto", {
       ...directo, ...ajustes(), cada: +document.querySelector('input[name="cada"]:checked').value,
-      titulo_directo: $("info").textContent.replace("EN DIRECTO · ", "")}));
+      titulo_directo: tituloDirecto()}));
   } catch (e) { error($("estadoAuto"), e.message); $("auto").disabled = false; }
 };
 
 // cada 5 s: clips nuevos y estado del automático (también al volver a abrir la página)
 refrescar(); estadoAuto();
 setInterval(() => { if (!document.hidden) { refrescar(); estadoAuto(); } }, 5000);
+
+const tituloDirecto = () => directo ? $("info").textContent.replace("EN DIRECTO · ", "") : "";
+
+// ---- TikTok
+function pintarTikTok(t) {
+  $("ttResumen").textContent = t.conectada ? `· conectado · quedan ${t.quedan_hoy} hoy` : "· sin conectar";
+  $("ttConectar").hidden = t.conectada; $("ttDesconectar").hidden = !t.conectada;
+  const foco = document.activeElement;
+  if (foco?.matches?.("#tt input, #tt select")) return;  // no pisar lo que estás escribiendo
+  $("ttKey").value = t.client_key; $("ttRedirect").value = t.redirect_uri;
+  $("ttSecret").placeholder = t.tiene_secreto ? "•••••• (guardado)" : "";
+  $("ttPlantilla").value = t.plantilla; $("ttPrivacidad").value = t.privacidad; $("ttMax").value = t.max_dia;
+}
+const estadoTikTok = async () => { try { pintarTikTok(await (await fetch("/api/tiktok")).json()); } catch {} };
+const ttHacer = async (ruta, datos, ok) => {
+  try { const r = await api(ruta, datos); if (r.conectada !== undefined) pintarTikTok(r); $("ttEstado").textContent = ok || ""; return r; }
+  catch (e) { error($("ttEstado"), e.message); }
+};
+const clavesTT = () => ({client_key: $("ttKey").value, client_secret: $("ttSecret").value, redirect_uri: $("ttRedirect").value});
+$("ttGuardarClaves").onclick = async () => { if (await ttHacer("/api/tiktok/ajustes", clavesTT(), "Claves guardadas.")) $("ttSecret").value = ""; };
+$("ttPermiso").onclick = async () => {
+  if (!await ttHacer("/api/tiktok/ajustes", clavesTT())) return;
+  $("ttSecret").value = "";
+  const r = await ttHacer("/api/tiktok/permiso", {}, "Acepta en TikTok. Si al final no vuelves aquí, pega la dirección en «Usar código».");
+  if (r?.url) window.open(r.url, "_blank");
+};
+$("ttUsarCodigo").onclick = async () => { if (await ttHacer("/api/tiktok/codigo", {texto: $("ttCodigo").value}, "✅ TikTok conectado.")) $("ttCodigo").value = ""; };
+$("ttGuardar").onclick = () => ttHacer("/api/tiktok/ajustes", {plantilla: $("ttPlantilla").value, privacidad: $("ttPrivacidad").value, max_dia: +$("ttMax").value}, "Guardado.");
+$("ttDesconectar").onclick = () => ttHacer("/api/tiktok/desconectar", {}, "Desconectado.");
+estadoTikTok();
+setInterval(() => { if (!document.hidden) estadoTikTok(); }, 15000);
 
 const ajustes = () => ({formato: $("formato").value, encuadre: +$("encuadre").value, calidad: $("calidad").value,
   velocidad: +$("velocidad").value, titulo: $("titulo").value, marca: $("marca").value,
