@@ -215,9 +215,11 @@ def capturar_directo(d):
                 with urllib.request.urlopen(u, timeout=20) as r:
                     lista = r.read().decode("utf-8", "replace")
                 # si el directo no deja ir atrás, ffmpeg empieza en lo más antiguo que haya y graba hasta completar
-                entradas += ["-live_start_index", str(-segmentos_atras(lista, seg)), "-i", u]
+                entradas += ["-live_start_index", str(-segmentos_atras(lista, seg)), *(["-t", str(seg)] if not entradas else []), "-i", u]
             nombre = f"{vid}_directo_{int(time.time())}"
-            run(["ffmpeg", "-y", *entradas, "-t", str(seg), "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
+            # -copyts: vídeo y audio por separado empiezan en sitios distintos; con sus marcas de tiempo originales
+            # quedan alineados (sin él, el audio sale desfasado). Con -copyts el -t de salida no vale: va en la entrada de vídeo.
+            run(["ffmpeg", "-y", "-copyts", *entradas, "-shortest", "-map", "0:v:0", "-map", f"{len(urls) - 1}:a:0?",
                  "-c", "copy", "-f", "mpegts", nombre + ".ts"], cwd=TRABAJO)
             return nombre, nombre + ".ts", seg
         except (RuntimeError, OSError):  # URL caducada (403, etc.): se piden otras a YouTube una vez
@@ -263,8 +265,8 @@ def bucle_auto(d):
         if urls:
             lista = os.path.join(TRABAJO, f"{vid}_{int(time.time())}.csv")
             proc = subprocess.Popen(
-                ["ffmpeg", "-y", "-v", "error", *[x for u in urls for x in ("-i", u)], "-map", "0:v:0",
-                 "-map", f"{len(urls) - 1}:a:0?", "-c", "copy", "-f", "segment", "-segment_time", str(cada),
+                ["ffmpeg", "-y", "-v", "error", "-copyts", *[x for u in urls for x in ("-i", u)], "-map", "0:v:0",  # -copyts: ver capturar_directo
+                 "-map", f"{len(urls) - 1}:a:0?", "-c", "copy", "-avoid_negative_ts", "make_zero", "-f", "segment", "-segment_time", str(cada),
                  "-reset_timestamps", "1", "-segment_format_options", "movflags=+faststart",
                  "-segment_list", lista, "-segment_list_type", "csv", "-strftime", "1",
                  os.path.join(TRABAJO, f"{vid}_%Y%m%d-%H%M%S.mp4")],
