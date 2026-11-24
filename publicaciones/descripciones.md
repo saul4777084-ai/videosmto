@@ -333,8 +333,7 @@ añade música en la app si lo publicas así.
 
 ---
 
-## ¿Y si se derritiera todo el hielo del planeta? (≈62 s, mapas sin voz) — `videos/reel-deshielo.mp4`
-Sin voz (texto + efectos): en TikTok añade un sonido en tendencia a volumen bajo.
+## ¿Y si se derritiera todo el hielo del planeta? (53 s, con voz) — `videos/reel-deshielo.mp4`
 
 ### TikTok / Reels
 > **Si se derritiera TODO el hielo, el mar subiría 70 metros** 🌊🧊
@@ -356,8 +355,7 @@ Sin voz (texto + efectos): en TikTok añade un sonido en tendencia a volumen baj
 
 ---
 
-## El Imperio mongol: el más grande de la historia (≈58 s, mapas sin voz) — `videos/reel-mongoles.mp4`
-Sin voz (texto + efectos): en TikTok añade un sonido épico en tendencia a volumen bajo.
+## El Imperio mongol: el más grande de la historia (57 s, con voz) — `videos/reel-mongoles.mp4`
 
 ### TikTok / Reels
 > **De niño abandonado a dueño de medio mundo** 🐎🗺️
@@ -424,3 +422,25 @@ Sin voz (texto + efectos): en TikTok añade un sonido épico en tendencia a volu
 > ¿Tú qué harías: buscar la salida (A) o quedarte quieto y esperar (B)?
 >
 > #Supervivencia #Cueva #CuerpoHumano #Curiosidades
+
+---
+
+## Hernán Cortés y la caída de Tenochtitlan (≈66 s sin voz) — `videos/reel-cortes.mp4`
+
+### TikTok / Reels
+> **500 españoles contra un imperio de millones** ⚔️🗺️
+>
+> Cortés hundió sus propios barcos, se alió con los tlaxcaltecas, apresó a Moctezuma, huyó en la Noche Triste…
+> y en 1521 cayó Tenochtitlan. Sobre sus ruinas nació la Ciudad de México 🇲🇽
+>
+> ¿Héroe o villano? Escríbelo en los comentarios 👇
+>
+> #historia #mapas #hernancortes #tenochtitlan #mexico #aztecas #moctezuma #curiosidades #sabiasque
+
+### Facebook / YouTube Shorts
+> **Cómo cayó Tenochtitlan** 🗺️
+>
+> De Cuba a Veracruz, de Tlaxcala al lago de Texcoco: así conquistó Hernán Cortés el imperio mexica entre 1519 y 1521,
+> paso a paso sobre el mapa.
+>
+> #Historia #Mapas #México #HernánCortés

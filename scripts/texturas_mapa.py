@@ -43,6 +43,8 @@ REGIONES = {
     "asia": (5, 16, 8, 14, 9),  # de Europa del Este a Corea y Japón
     "america_norte": (6, 14, 22, 8, 10),  # golfo de México, Florida y el Caribe
     "sudamerica": (6, 16, 29, 11, 12),  # Amazonas y Río de la Plata
+    "mexico": (8, 56, 112, 5, 4),  # centro de México: Veracruz, Tlaxcala, volcanes y valle de México
+    "valle": (10, 228, 454, 4, 4),  # valle de México (lago de Texcoco, Tenochtitlan), con mucho detalle
 }
 
 
