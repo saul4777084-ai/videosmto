@@ -88,6 +88,7 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
     <button id="conectar" type="button">Conectar</button>
   </div>
   <p id="info" class="estado" style="margin-top:10px">Pega el enlace de un directo que se esté emitiendo y pulsa Conectar.</p>
+  <p id="resolucion" class="estado" style="margin-top:6px"></p>
 </div>
 
 <div class="card">
@@ -345,10 +346,13 @@ $("conectar").onclick = async () => {
   const url = $("url").value.trim();
   $("conectar").disabled = true; $("clipear").disabled = true; directo = null;
   $("info").className = "estado"; $("info").textContent = "Conectando con el directo…";
+  $("resolucion").textContent = "";
   try {
     const r = await api("/api/directo", {url, calidad: $("calidad").value});
     directo = {url, id: r.id};
     $("info").className = "vivo"; $("info").textContent = "EN DIRECTO · " + r.titulo;
+    $("resolucion").textContent = r.resolucion ? "Calidad del directo: " + r.resolucion : "";
+    $("resolucion").className = r.resolucion.includes("—") ? "estado error" : "estado";
     $("clipear").disabled = false;
     if (!autoActivo) $("auto").disabled = false;
   } catch (e) { $("info").className = "estado"; error($("info"), e.message); }

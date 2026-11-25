@@ -178,14 +178,40 @@ def generar_directo(d):
 URLS = {}  # (url, altura) -> (hora, [URL HLS]): extraer en el móvil tarda mucho y las URL valen horas
 
 
+def extraer(url, alto, cliente=None):
+    """Pide a YouTube los formatos del vídeo. Devuelve (info, formatos elegidos, altura conseguida)."""
+    hls = "[protocol^=m3u8]"
+    # el mejor vídeo hasta 'alto' (suelto o con audio) + el audio aparte. Antes se pedía primero vídeo y audio juntos,
+    # y si YouTube solo los daba juntos en baja resolución, el clip salía a 480p aunque hubiera 1080p por separado.
+    extra = ["--extractor-args", f"youtube:player_client={cliente}"] if cliente else []
+    info = json.loads(run(YTDLP + extra + ["-J", "--ignore-no-formats-error", "-S", "res,fps", "-f",
+                                           f"bv*{hls}[height<={alto}]+ba{hls}/b{hls}[height<={alto}]/bv*{hls}+ba{hls}/b{hls}",
+                                           "--", url]).stdout)
+    elegidos = [f for f in info.get("requested_formats") or [info] if f.get("url")]
+    return info, elegidos, max((f.get("height") or 0 for f in elegidos), default=0)
+
+
 def info_directo(url, alto):
     """Datos del vídeo; si está en directo, guarda sus URL HLS para los clips."""
-    hls = "[protocol^=m3u8]"
-    # vídeo y audio juntos o, si YouTube los da por separado, uno de cada (dos URL)
-    info = json.loads(run(YTDLP + ["-J", "--ignore-no-formats-error", "-f",
-                                   f"b{hls}[height<={alto}]/b{hls}/bv*{hls}[height<={alto}]+ba{hls}/bv*{hls}+ba{hls}",
-                                   "--", url]).stdout)
-    urls = [f["url"] for f in info.get("requested_formats") or [info] if f.get("url")]
+    info, elegidos, conseguida = extraer(url, alto)
+    probados = ["por defecto"]
+    # a veces YouTube solo da 480p al cliente por defecto de yt-dlp; Safari y TV suelen dar el directo en 1080p
+    for cliente in ("web_safari", "tv"):
+        if not info.get("is_live") or conseguida >= alto:
+            break
+        try:
+            otro = extraer(url, alto, cliente)
+            probados.append(cliente)
+        except Exception:
+            continue
+        if otro[0].get("is_live") and otro[1] and otro[2] > conseguida:
+            info, elegidos, conseguida = otro
+    urls = [f["url"] for f in elegidos]
+    ofrecidas = sorted({f["height"] for f in info.get("formats") or [] if f.get("height")
+                        and str(f.get("protocol", "")).startswith("m3u8") and f.get("vcodec") != "none"})
+    v = next((f for f in elegidos if f.get("height")), {})
+    DIAG["formato"] = {"pedida": alto, "conseguida": v.get("height"), "fps": v.get("fps"), "probados": probados,
+                       "itags": [f.get("format_id") for f in elegidos], "ofrecidas": ofrecidas}
     if info.get("is_live"):
         if not urls:
             raise ValueError("YouTube no ha dado el vídeo de este directo. En Termux comprueba que «node --version» "
@@ -342,7 +368,22 @@ def avisar_si_va_lento(p):
                          "y vuelve a empezar.")
 
 
-DIAG = {"pistas": 0, "ultimas": [], "listas": []}
+DIAG = {"pistas": 0, "ultimas": [], "listas": [], "formato": {}}
+
+
+def resumen_formato():
+    """Qué resolución se pidió, cuál dio YouTube y por qué, en una frase."""
+    f = DIAG["formato"]
+    if not f.get("conseguida"):
+        return ""
+    texto = f"{f['conseguida']}p" + (f"{round(f['fps'])}" if f.get("fps") and f["fps"] > 31 else "")
+    mejor = max(f["ofrecidas"], default=0)
+    if f["conseguida"] < min(f["pedida"], 1080) and mejor <= f["conseguida"]:
+        texto += (f" — YouTube solo da hasta {mejor}p a este aparato. Si el directo es de más calidad, actualiza "
+                  "yt-dlp («pip install -U yt-dlp») y comprueba que «node --version» funciona; luego reinicia el Clipper.")
+    elif f["conseguida"] < f["pedida"] and mejor > f["conseguida"]:
+        texto += f" (hay hasta {mejor}p, pero la calidad elegida o la conexión lo ha bajado)"
+    return texto
 
 
 def huecos(p, tipo):
@@ -367,6 +408,8 @@ def diagnostico():
     v = run(["ffmpeg", "-version"], check=False).stdout.splitlines()[:1]
     out = [f"ffmpeg: {v[0] if v else '?'}", f"pistas del directo (1 = juntas, 2 = vídeo y audio aparte): {DIAG['pistas']}",
            f"listas (primer trozo, cuántos): {DIAG['listas']}",
+           f"resolución: {resumen_formato() or '?'} · formatos (itag): {DIAG['formato'].get('itags')} · "
+           f"YouTube ofrece: {DIAG['formato'].get('ofrecidas')} · clientes probados: {DIAG['formato'].get('probados')}",
            f"en cola: {COLA.qsize()} · estado: {AUTO.get('error') or 'ok'}", "", "Últimos mensajes de ffmpeg:"]
     out += [f"  {x[:160]}" for x in list(DIAG["ultimas"])[-8:]] or ["  (ninguno)"]
     for carpeta in (TRABAJO, CLIPS):
@@ -783,7 +826,7 @@ class App(BaseHTTPRequestHandler):
                 info = info_directo(d["url"], CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0])
                 if not info.get("is_live"):
                     raise ValueError("Este video no está en directo ahora mismo. Pega el enlace de un directo que se esté emitiendo.")
-                res = {"id": info["id"], "titulo": info.get("title")}
+                res = {"id": info["id"], "titulo": info.get("title"), "resolucion": resumen_formato()}
             elif self.path == "/api/clip_directo":
                 res = generar_directo(d)
             elif self.path == "/api/clip":
