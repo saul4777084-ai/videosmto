@@ -283,7 +283,8 @@ function pintarAuto(e) {
   $("auto").textContent = e.activo ? "■ Parar automático" : "▶ Empezar automático";
   $("auto").disabled = !e.activo && !directo;
   const partes = [];
-  if (e.activo) partes.push(`Grabando · un clip cada ${e.cada >= 60 ? e.cada / 60 + " min" : e.cada + " s"}${e.titulo ? " · " + e.titulo : ""}`);
+  if (e.activo) partes.push(`Grabando a ${e.alto}p · un clip cada ${e.cada >= 60 ? e.cada / 60 + " min" : e.cada + " s"}${e.titulo ? " · " + e.titulo : ""}`);
+  if (e.activo && e.aviso) partes.push(e.aviso);
   if (e.activo || e.hechos) partes.push(e.hechos === 1 ? "1 clip hecho" : `${e.hechos} clips hechos`);
   if (e.en_cola) partes.push(`${e.en_cola} haciéndose vertical`);
   if (partes.length) $("estadoAuto").textContent = partes.join(" · ");

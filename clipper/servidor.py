@@ -282,7 +282,46 @@ def capturar_directo(d):
 # Modo automático: el programa lee las listas de trozos del directo y, cada vez que hay trozos nuevos para un clip,
 # baja esos mismos números de trozo de vídeo y de audio (así van siempre a la par) sin recomprimir. Sigue aunque se
 # cierre la página. Editar (vertical, efectos) va aparte, con una cola de uno en uno.
-AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": ""}
+AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": "", "alto": 0, "alto_max": 0, "aviso": ""}
+
+# Calidad del automático: baja si la conexión no da y vuelve a subir sola cuando se recupera.
+NIVELES = (480, 720, 1080, 2160)
+VENTANA, ESPERA_MIN, ESPERA_MAX = 600, 300, 1800  # s: ventana de pérdidas, espera antes de probar a subir
+
+
+def nueva_calidad(alto):
+    return {"alto": alto, "max": alto, "perdidas": [], "subir_a": None, "espera": ESPERA_MIN, "subido_en": None}
+
+
+def calidad_tras_perdida(c, ahora):
+    """Se perdieron trozos. Baja un nivel si es la segunda pérdida en 10 min o si acaba de subir de nivel
+    (una pérdida suelta es un bajón puntual y no merece perder calidad). Devuelve True si bajó."""
+    c["perdidas"] = [t for t in c["perdidas"] if ahora - t < VENTANA] + [ahora]
+    probando = c["subido_en"] is not None and ahora - c["subido_en"] < VENTANA
+    if c["alto"] <= NIVELES[0] or (len(c["perdidas"]) < 2 and not probando):
+        return False
+    # si falla justo después de subir, la próxima prueba espera el doble (hasta 30 min)
+    c["espera"] = min(c["espera"] * 2, ESPERA_MAX) if probando else ESPERA_MIN
+    c["alto"] = max(n for n in NIVELES if n < c["alto"])
+    c["perdidas"], c["subido_en"], c["subir_a"] = [], None, ahora + c["espera"]
+    return True
+
+
+def calidad_tras_espera(c, ahora):
+    """Si toca, sube un nivel (sin pasar de la calidad elegida). Devuelve True si subió."""
+    if c["alto"] >= c["max"] or c["subir_a"] is None or ahora < c["subir_a"]:
+        return False
+    c["alto"] = min(n for n in NIVELES if n > c["alto"])
+    c["subido_en"], c["perdidas"] = ahora, []
+    c["subir_a"] = ahora + c["espera"] if c["alto"] < c["max"] else None
+    return True
+
+
+def aviso_calidad(c):
+    if c["alto"] >= c["max"]:
+        return ""
+    prueba = time.strftime(" · a las %H:%M prueba a subir", time.localtime(c["subir_a"])) if c["subir_a"] else ""
+    return f"Calidad bajada a {c['alto']}p por la conexión{prueba}"
 COLA, PARAR, HILO = queue.Queue(), threading.Event(), [None]
 
 
@@ -366,12 +405,16 @@ def guardar_clip(d, nombre, listas, ini, fin):
 
 def bucle_auto(d):
     cada, fallos, siguiente = AUTO["cada"], 0, None  # siguiente: número del próximo trozo a grabar
-    alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
+    c = nueva_calidad(CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0])
+    AUTO.update(alto=c["alto"], alto_max=c["max"], aviso="")
     vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
     while not PARAR.is_set():
         try:
-            urls = urls_directo(d["url"], alto, nuevas=fallos > 0)
+            if calidad_tras_espera(c, time.time()):
+                AUTO["error"] = ""  # la conexión fue bien un rato: se vuelve a probar más calidad
+            AUTO.update(alto=c["alto"], aviso=aviso_calidad(c))
+            urls = urls_directo(d["url"], c["alto"], nuevas=fallos > 0)
             listas = [leer_lista(u) for u in urls]
             DIAG.update(pistas=len(urls), listas=[(seq, len(segs)) for seq, segs, _ in listas])
             if any(seq is None or not segs for seq, segs, _ in listas):
@@ -382,9 +425,9 @@ def bucle_auto(d):
             elif siguiente < ini0:  # la conexión no dio y esos trozos ya no están en YouTube
                 AUTO["error"] = f"Se perdieron {ini0 - siguiente} trozos del directo (conexión lenta)."
                 siguiente = ini0
-                if alto > 480:
-                    alto = 720 if alto > 720 else 480
-                    AUTO["error"] += f" Ahora graba a {alto}p para que no vuelva a pasar."
+                if calidad_tras_perdida(c, time.time()):
+                    AUTO["error"] += f" Baja a {c['alto']}p un rato; volverá a subir sola si la conexión mejora."
+                    AUTO.update(alto=c["alto"], aviso=aviso_calidad(c))
             seq_v, segs_v, _ = listas[0]
             k, total = siguiente, 0.0
             while k < fin and total < cada - 0.5:
@@ -770,6 +813,19 @@ def test():
     assert segmentos_atras("#EXTM3U\n#EXT-X-TARGETDURATION:5\n", 60) == 13
     assert segmentos_atras("#EXTM3U\n#EXT-X-TARGETDURATION:2\n", 30) == 16
     assert segmentos_atras("sin cabecera", 10) == 3
+    c = nueva_calidad(1080)
+    assert not calidad_tras_perdida(c, 0) and c["alto"] == 1080          # un corte suelto: no baja
+    assert not calidad_tras_perdida(c, 700) and c["alto"] == 1080        # otro 11 min después: tampoco
+    assert calidad_tras_perdida(c, 800) and c["alto"] == 720             # dos en 10 min: baja
+    assert not calidad_tras_espera(c, 800 + 299) and c["alto"] == 720    # aún no toca subir
+    assert calidad_tras_espera(c, 800 + 300) and c["alto"] == 1080       # 5 min bien: vuelve a 1080p
+    assert calidad_tras_perdida(c, 1200) and c["alto"] == 720            # falla nada más subir: baja ya...
+    assert c["subir_a"] == 1200 + 600                                    # ...y la próxima prueba espera el doble
+    assert calidad_tras_perdida(c, 1300) is False or c["alto"] == 480
+    c = nueva_calidad(720); calidad_tras_perdida(c, 0); calidad_tras_perdida(c, 1)
+    assert c["alto"] == 480 and not calidad_tras_perdida(c, 2)          # de 480p no baja más
+    calidad_tras_espera(c, 1 + 300)
+    assert c["alto"] == 720 and c["subir_a"] is None and not calidad_tras_espera(c, 10**6)  # no pasa de lo elegido
     # la cadena de filtros completa funciona en ffmpeg con un vídeo de prueba
     import shutil, tempfile
     if shutil.which("ffmpeg"):
