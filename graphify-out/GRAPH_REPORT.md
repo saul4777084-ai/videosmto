@@ -1,7 +1,7 @@
-# Graph Report - wt3  (2026-11-25)
+# Graph Report - wt4  (2026-11-25)
 
 ## Corpus Check
-- 497 files · ~431,742 words
+- 497 files · ~431,841 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 26 file(s) not represented in the graph (top: .woff2 18, .geojson 4, (none) 4)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `90bc77e3`
+- Built from commit: `61d09421`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -296,9 +296,9 @@
 1. `Rotulo()` - 105 edges
 2. `tramo()` - 76 edges
 3. `muelle()` - 61 edges
-4. `Mat()` - 53 edges
-5. `Cine()` - 53 edges
-6. `ReelBase()` - 53 edges
+4. `ReelBase()` - 53 edges
+5. `Mat()` - 53 edges
+6. `Cine()` - 53 edges
 7. `mover()` - 51 edges
 8. `Plano()` - 51 edges
 9. `Chip()` - 42 edges
@@ -1360,15 +1360,15 @@ Nodes (5): Moving Map Render Stability, Plate sizing and sharpness, Required pat
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `@remotion/layout-utils` connect `motor/Subtitulos.tsx` to `plantilla/package.json`, `tarjetas.tsx`, `titular.tsx`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **Should `Colon/Ilustraciones.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.1427304964539007 - nodes in this community are weakly interconnected._
 - **Why does `Dibujo` connect `Frio/Ilustraciones.tsx` to `Colon/Ilustraciones.tsx`, `MillonHoy/Ilustraciones.tsx`, `Escenas3D.tsx`, `Deshielo/Ilustraciones.tsx`, `Mongoles/Ilustraciones.tsx`, `Inmovil/escenas.ts`, `VueltaMundo/Ilustraciones.tsx`, `comun/tipos.ts`, `Napoleon/Ilustraciones.tsx`, `Cortes/Ilustraciones.tsx`, `MillonHoyV2/Ilustraciones.tsx`, `BanoRoto/Ilustraciones.tsx`, `Napoleon/Ilustraciones.tsx`, `Sahara/Ilustraciones.tsx`?**
   _High betweenness centrality (0.005) - this node is a cross-community bridge._
 - **Should `numpy` be split into smaller, more focused modules?**
   _Cohesion score 0.0802675585284281 - nodes in this community are weakly interconnected._
-- **Why does `Rotulo()` connect `Frio/Ilustraciones.tsx` to `Personajes3D.tsx`?**
-  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `Tierra.tsx`, `src/Root.tsx`, `@react-three/postprocessing`, `@remotion/three`, `@remotion/zod-types@4.0.543`, `PiezasNapoleon.tsx`, `@react-three/fiber`, `@types/three@^0.171.0`, `package.json`?**
+  _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **Should `tarjetas.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.12337662337662338 - nodes in this community are weakly interconnected._
 - **Should `remotion-markup/REFERENCE.md` be split into smaller, more focused modules?**

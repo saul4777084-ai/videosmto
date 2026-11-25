@@ -440,6 +440,8 @@ def guardar_clip(d, nombre, listas, ini, fin):
     os.replace(os.path.join(TRABAJO, nombre + ".mp4"), destino)
     AUTO["hechos"] += 1
     avisar_si_va_lento(destino)
+    if not d.get("auto_vertical"):  # por defecto el clip se queda tal cual (horizontal, como el directo)
+        return
     try:
         pedir_vertical({**d, "archivo": nombre + ".mp4", "borrar_original": True})
     except Exception as e:  # el clip ya está guardado: un fallo al encolarlo no debe repetir la descarga

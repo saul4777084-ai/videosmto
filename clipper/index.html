@@ -112,8 +112,9 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
     <input type="radio" name="cada" id="c120" value="120"><label for="c120">2 min</label>
     <input type="radio" name="cada" id="c300" value="300"><label for="c300">5 min</label>
   </div>
+  <label class="check" style="margin-top:12px"><input id="autoVertical" type="checkbox"> Hacer vertical cada clip (tarda y gasta batería; si no, se guardan tal cual, en horizontal)</label>
   <button id="auto" type="button" disabled style="width:100%;margin-top:14px;padding:16px">▶ Empezar automático</button>
-  <p id="estadoAuto" class="estado" style="margin-top:8px">Graba sin parar y cada clip sale ya editado con los ajustes de abajo (por defecto, vertical con fondo desenfocado), unos segundos después de terminar su trozo. Sigue aunque cierres la página o bloquees el teléfono (con termux-wake-lock). Gasta datos y espacio.</p>
+  <p id="estadoAuto" class="estado" style="margin-top:8px">Graba sin parar y cada clip aparece en cuanto termina su trozo, tal cual se ve el directo. Pulsa «Hacer vertical» o «Subir a TikTok» en los que te gusten. Sigue aunque cierres la página o bloquees el teléfono (con termux-wake-lock). Gasta datos y espacio.</p>
 </div>
 
 <details class="card">
@@ -298,7 +299,7 @@ $("auto").onclick = async () => {
   $("auto").disabled = true;
   try {
     pintarAuto(autoActivo ? await api("/api/auto", {accion: "parar"}) : await api("/api/auto", {
-      ...directo, ...ajustes(), cada: +document.querySelector('input[name="cada"]:checked').value,
+      ...directo, ...ajustes(), cada: +document.querySelector('input[name="cada"]:checked').value, auto_vertical: $("autoVertical").checked,
       titulo_directo: tituloDirecto()}));
   } catch (e) { error($("estadoAuto"), e.message); $("auto").disabled = false; }
 };
@@ -307,6 +308,9 @@ $("auto").onclick = async () => {
 refrescar(); estadoAuto();
 setInterval(() => { if (!document.hidden) { refrescar(); estadoAuto(); } }, 5000);
 
+// recuerda la casilla «Hacer vertical cada clip» en este teléfono
+try { $("autoVertical").checked = localStorage.getItem("autoVertical") === "1"; } catch {}
+$("autoVertical").onchange = () => { try { localStorage.setItem("autoVertical", $("autoVertical").checked ? "1" : "0"); } catch {} };
 const tituloDirecto = () => directo ? $("info").textContent.replace("EN DIRECTO · ", "") : "";
 
 // ---- TikTok
