@@ -332,7 +332,7 @@ con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
 
 # Vídeo 5 · ¿Qué le pasa a tu cerebro si usas el móvil 8 horas al día durante 30 días?
 
-Composición `Movil8Horas` (1080×1920, 30 fps, 95,4 s) · **vídeo final con voz, música y efectos:
+Composición `Movil8Horas` (1080×1920, 30 fps, 101,9 s) · **vídeo final con voz, música y efectos:
 `out/movil-8-horas-final.mp4`** (−14 LUFS) · sin voz: `out/movil-8-horas-efectos.mp4` · solo imagen:
 `out/movil-8-horas.mp4` · subtítulos aparte: `out/movil-8-horas.srt` (también van grabados) · texto para
 publicar: `out/movil-8-horas.txt` · guion con tiempos: `guiones/movil-8-horas.md` · texto para ElevenLabs:
