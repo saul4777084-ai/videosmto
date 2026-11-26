@@ -1,6 +1,7 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
 import base64, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.parse, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
+from concurrent.futures import ThreadPoolExecutor
 import tiktok
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -308,7 +309,7 @@ def capturar_directo(d):
 # Modo automático: el programa lee las listas de trozos del directo y, cada vez que hay trozos nuevos para un clip,
 # baja esos mismos números de trozo de vídeo y de audio (así van siempre a la par) sin recomprimir. Sigue aunque se
 # cierre la página. Editar (vertical, efectos) va aparte, con una cola de uno en uno.
-AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": "", "alto": 0, "alto_max": 0, "aviso": ""}
+AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": "", "alto": 0, "alto_max": 0, "aviso": "", "retraso": 0}
 
 # Calidad del automático: baja si la conexión no da y vuelve a subir sola cuando se recupera.
 NIVELES = (480, 720, 1080, 2160)
@@ -424,14 +425,102 @@ def leer_lista(u):
         return trozos(r.read().decode("utf-8", "replace"), u)
 
 
-def guardar_clip(d, nombre, listas, ini, fin):
-    """Baja los trozos [ini, fin) de cada pista (vídeo y audio con los mismos números) a un clip en CLIPS."""
+def bajar(url, ruta):
+    """Descarga un trozo del directo a un archivo (3 intentos)."""
+    for intento in range(3):
+        try:
+            with urllib.request.urlopen(url, timeout=20) as r, open(ruta + ".tmp", "wb") as f:
+                shutil.copyfileobj(r, f, 256 * 1024)
+            os.replace(ruta + ".tmp", ruta)
+            return
+        except OSError:  # incluye errores de red (URLError) y de HTTP
+            if intento == 2:
+                raise
+            time.sleep(1)
+
+
+class Grabacion:
+    """Trozos del directo ya bajados al teléfono, por pista (0 = vídeo, 1 = audio si van separados).
+    Se bajan según salen (cada ~2 s) y, al completar un clip, solo hay que unirlos: el clip sale al momento."""
+
+    def __init__(self, vid):
+        self.vid, self.pref = vid, f"{vid}_{int(time.time())}"
+        self.ini = self.bajado = None  # primer trozo del clip actual / siguiente trozo por bajar
+        self.duraciones, self.mapas, self.pistas, self.alto, self.ext = {}, {}, 0, 0, ".ts"
+
+    def archivo(self, k, n):
+        return f"{self.pref}_p{k}_{n}{self.ext}"
+
+    def segundos(self):
+        return sum(self.duraciones.get(n, 0) for n in range(self.ini, self.bajado)) if self.ini is not None else 0
+
+    def empezar(self, n, listas, alto):
+        """Nuevo clip desde el trozo n (también al cambiar de calidad: no se mezclan resoluciones en un clip)."""
+        self.ini = self.bajado = n
+        self.pistas, self.alto, self.mapas = len(listas), alto, {}
+        self.ext = ".m4s" if any(m for _, _, m in listas) else ".ts"
+        for k, (_, _, mapa) in enumerate(listas):  # MP4 por trozos: la cabecera va aparte y se baja una vez
+            uri = re.search(r'URI="([^"]+)"', mapa) if mapa else None
+            if uri:
+                local = f"{self.pref}_p{k}_mapa_{n}.mp4"
+                bajar(uri.group(1), os.path.join(TRABAJO, local))
+                self.mapas[k] = local
+
+    def bajar_nuevos(self, listas, fin, cada, maximo=8):
+        """Baja hasta 'maximo' trozos nuevos de cada pista, varios a la vez, sin pasarse del final del clip
+        (dura 'cada' s). Devuelve cuántos bajó."""
+        seq_v, segs_v, _ = listas[0]
+        hasta, falta = self.bajado, cada - 0.5 - self.segundos()
+        while hasta < fin and hasta - self.bajado < maximo and falta > 0:
+            falta -= segs_v[hasta - seq_v][0]
+            hasta += 1
+        tareas = [(listas[k][1][n - listas[k][0]][1], os.path.join(TRABAJO, self.archivo(k, n)))
+                  for n in range(self.bajado, hasta) for k in range(self.pistas)]
+        if tareas:
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                list(pool.map(lambda t: bajar(*t), tareas))
+        seq_v, segs_v, _ = listas[0]
+        for n in range(self.bajado, hasta):
+            self.duraciones[n] = segs_v[n - seq_v][0]
+        hecho, self.bajado = hasta - self.bajado, hasta
+        return hecho
+
+    def cerrar(self, d, minimo=5.0):
+        """Une los trozos del clip actual en un clip (si dura al menos 'minimo' s) y borra los trozos."""
+        if self.ini is None or self.bajado <= self.ini:
+            return
+        ini, fin = self.ini, self.bajado
+        try:
+            if self.segundos() >= minimo:
+                guardar_clip(d, f"{self.vid}_{time.strftime('%Y%m%d-%H%M%S')}", self, ini, fin)
+        finally:
+            for k in range(self.pistas):
+                for n in range(ini, fin):
+                    p = os.path.join(TRABAJO, self.archivo(k, n))
+                    os.remove(p) if os.path.exists(p) else None
+            for n in range(ini, fin):
+                self.duraciones.pop(n, None)
+            self.ini = fin
+
+    def limpiar(self):
+        for p in glob.glob(os.path.join(TRABAJO, self.pref + "_*")):
+            os.remove(p)
+
+
+def guardar_clip(d, nombre, g, ini, fin):
+    """Une los trozos ya bajados [ini, fin) de cada pista (vídeo y audio con los mismos números) en un clip."""
     entradas = []
-    for k, info in enumerate(listas):
-        lista_local(info, ini, fin, os.path.join(TRABAJO, f"{nombre}_{k}.m3u8"))
-        entradas += ["-protocol_whitelist", "file,http,https,tcp,tls,crypto", "-i", f"{nombre}_{k}.m3u8"]
+    for k in range(g.pistas):
+        lineas = ["#EXTM3U", "#EXT-X-VERSION:6", "#EXT-X-PLAYLIST-TYPE:VOD",
+                  f"#EXT-X-TARGETDURATION:{math.ceil(max(g.duraciones[n] for n in range(ini, fin)))}",
+                  f"#EXT-X-MEDIA-SEQUENCE:{ini}"] + ([f'#EXT-X-MAP:URI="{g.mapas[k]}"'] if k in g.mapas else [])
+        for n in range(ini, fin):
+            lineas += [f"#EXTINF:{g.duraciones[n]:.3f},", g.archivo(k, n)]
+        with open(os.path.join(TRABAJO, f"{nombre}_{k}.m3u8"), "w", encoding="utf-8") as f:
+            f.write("\n".join(lineas + ["#EXT-X-ENDLIST", ""]))
+        entradas += ["-protocol_whitelist", "file", "-i", f"{nombre}_{k}.m3u8"]
     try:
-        run(["ffmpeg", "-y", "-v", "error", *entradas, "-map", "0:v:0", "-map", f"{len(listas) - 1}:a:0?",
+        run(["ffmpeg", "-y", "-v", "error", *entradas, "-map", "0:v:0", "-map", f"{g.pistas - 1}:a:0?",
              "-c", "copy", "-movflags", "+faststart", nombre + ".mp4"], cwd=TRABAJO)
     finally:
         for p in glob.glob(os.path.join(TRABAJO, nombre + "_*.m3u8")):
@@ -448,50 +537,70 @@ def guardar_clip(d, nombre, listas, ini, fin):
         AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
+RETRASO_MAX = 45  # s por detrás del directo a partir de los que se salta al directo
+
+
 def bucle_auto(d):
-    cada, fallos, siguiente = AUTO["cada"], 0, None  # siguiente: número del próximo trozo a grabar
+    cada, fallos = AUTO["cada"], 0
     c = nueva_calidad(CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0])
-    AUTO.update(alto=c["alto"], alto_max=c["max"], aviso="")
+    AUTO.update(alto=c["alto"], alto_max=c["max"], aviso="", retraso=0)
     vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
-    while not PARAR.is_set():
+    g = Grabacion(vid)
+    try:
+        while not PARAR.is_set():
+            try:
+                if calidad_tras_espera(c, time.time()):
+                    AUTO["error"] = ""  # la conexión fue bien un rato: se vuelve a probar más calidad
+                AUTO.update(alto=c["alto"], aviso=aviso_calidad(c))
+                urls = urls_directo(d["url"], c["alto"], nuevas=fallos > 0)
+                listas = [leer_lista(u) for u in urls]
+                DIAG.update(pistas=len(urls), listas=[(seq, len(segs)) for seq, segs, _ in listas])
+                if any(seq is None or not segs for seq, segs, _ in listas):
+                    raise RuntimeError("YouTube no ha dado la lista de trozos del directo")
+                ini0, fin = max(seq for seq, _, _ in listas), min(seq + len(segs) for seq, segs, _ in listas)
+                seq_v, segs_v, _ = listas[0]
+                if g.ini is None:
+                    g.empezar(max(ini0, fin - 1), listas, c["alto"])  # se empieza por lo más reciente
+                elif g.alto != c["alto"] or g.pistas != len(listas):  # cambió la calidad: el clip se cierra aquí
+                    g.cerrar(d)
+                    g.empezar(max(g.bajado, ini0), listas, c["alto"])
+                elif g.bajado < ini0:  # esos trozos ya no están en YouTube
+                    AUTO["error"] = f"Se perdieron {ini0 - g.bajado} trozos del directo (conexión lenta)."
+                    g.cerrar(d)
+                    g.empezar(ini0, listas, c["alto"])
+                    if calidad_tras_perdida(c, time.time()):
+                        AUTO["error"] += f" Baja a {c['alto']}p un rato; volverá a subir sola si la conexión mejora."
+                retraso = sum(segs_v[n - seq_v][0] for n in range(max(g.bajado, seq_v), fin))
+                AUTO["retraso"] = round(retraso)
+                if retraso > RETRASO_MAX:  # la conexión no da para esta calidad: se salta al directo
+                    AUTO["error"] = f"Iba {retraso:.0f} s por detrás del directo (la conexión no da para {c['alto']}p): salta al directo."
+                    g.cerrar(d)
+                    if calidad_tras_perdida(c, time.time()):
+                        AUTO["error"] += f" Baja a {c['alto']}p un rato; volverá a subir sola si la conexión mejora."
+                    g.empezar(max(ini0, fin - 1), listas, c["alto"])
+                    AUTO["retraso"] = 0
+                bajados = g.bajar_nuevos(listas, fin, cada)
+                fallos = 0
+                if g.segundos() >= cada - 0.5:  # clip completo: solo queda unir los trozos ya bajados
+                    g.cerrar(d)
+                if bajados:
+                    continue  # quedan trozos por bajar: sin esperar
+            except Exception as e:
+                fallos += 1
+                AUTO["error"] = str(e)
+                DIAG["ultimas"] = [str(e)]
+                if fallos >= 3:
+                    AUTO["error"] = "Parado: el directo ha terminado o no responde (" + str(e) + ")"
+                    break
+            PARAR.wait(1)
         try:
-            if calidad_tras_espera(c, time.time()):
-                AUTO["error"] = ""  # la conexión fue bien un rato: se vuelve a probar más calidad
-            AUTO.update(alto=c["alto"], aviso=aviso_calidad(c))
-            urls = urls_directo(d["url"], c["alto"], nuevas=fallos > 0)
-            listas = [leer_lista(u) for u in urls]
-            DIAG.update(pistas=len(urls), listas=[(seq, len(segs)) for seq, segs, _ in listas])
-            if any(seq is None or not segs for seq, segs, _ in listas):
-                raise RuntimeError("YouTube no ha dado la lista de trozos del directo")
-            ini0, fin = max(seq for seq, _, _ in listas), min(seq + len(segs) for seq, segs, _ in listas)
-            if siguiente is None:
-                siguiente = max(ini0, fin - 1)  # se empieza por lo más reciente
-            elif siguiente < ini0:  # la conexión no dio y esos trozos ya no están en YouTube
-                AUTO["error"] = f"Se perdieron {ini0 - siguiente} trozos del directo (conexión lenta)."
-                siguiente = ini0
-                if calidad_tras_perdida(c, time.time()):
-                    AUTO["error"] += f" Baja a {c['alto']}p un rato; volverá a subir sola si la conexión mejora."
-                    AUTO.update(alto=c["alto"], aviso=aviso_calidad(c))
-            seq_v, segs_v, _ = listas[0]
-            k, total = siguiente, 0.0
-            while k < fin and total < cada - 0.5:
-                total += segs_v[k - seq_v][0]
-                k += 1
-            fallos = 0
-            if total >= cada - 0.5:  # ya hay trozos para un clip entero
-                guardar_clip(d, f"{vid}_{time.strftime('%Y%m%d-%H%M%S')}", listas, siguiente, k)
-                siguiente = k
-                continue
+            g.cerrar(d)  # al parar se guarda lo grabado del último clip
         except Exception as e:
-            fallos += 1
-            AUTO["error"] = str(e)
-            DIAG["ultimas"] = [str(e)]
-            if fallos >= 3:
-                AUTO["error"] = "Parado: el directo ha terminado o no responde (" + str(e) + ")"
-                break
-        PARAR.wait(2)
-    AUTO["activo"] = False
+            AUTO["error"] = "No se pudo guardar el último clip: " + str(e)
+    finally:
+        g.limpiar()
+        AUTO["activo"] = False
 
 
 def editor():
