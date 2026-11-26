@@ -35,6 +35,8 @@ import { ReelTurnoNoche } from "./TurnoNoche/Reel";
 import { DURACION_TOTAL as DURACION_TURNO_NOCHE } from "./TurnoNoche/escenas";
 import { ReelTurnoNoche2 } from "./TurnoNoche2/Reel";
 import { DURACION_TOTAL as DURACION_TURNO_NOCHE_2 } from "./TurnoNoche2/escenas";
+import { ReelTurnoNoche3 } from "./TurnoNoche3/Reel";
+import { DURACION_TOTAL as DURACION_TURNO_NOCHE_3 } from "./TurnoNoche3/escenas";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -204,6 +206,7 @@ export const RemotionRoot: React.FC = () => {
       </Folder>
       <Composition id="ReelTurnoNoche" component={ReelTurnoNoche} durationInFrames={DURACION_TURNO_NOCHE} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelTurnoNoche2" component={ReelTurnoNoche2} durationInFrames={DURACION_TURNO_NOCHE_2} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelTurnoNoche3" component={ReelTurnoNoche3} durationInFrames={DURACION_TURNO_NOCHE_3} fps={FPS} width={1080} height={1920} />
       <Composition
         id="MuestrarioSonidos"
         component={Muestrario}

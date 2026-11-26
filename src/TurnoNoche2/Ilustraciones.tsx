@@ -25,7 +25,7 @@ const Gotas: React.FC<{ semilla: string; n?: number }> = ({ semilla, n = 60 }) =
 );
 
 // borde del mostrador en primer plano, visto desde la silla
-const Mostrador: React.FC = () => (
+export const Mostrador: React.FC = () => (
   <g>
     <rect x="-20" y="1640" width="1120" height="300" fill="#8f949a" />
     <rect x="-20" y="1620" width="1120" height="30" fill="#c8ccd1" />

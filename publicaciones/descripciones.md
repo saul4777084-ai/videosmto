@@ -312,6 +312,24 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Terror #HistoriasDeTerror #Miedo #Creepy
 
+## Turno de noche — Gasolinera, parte 3 y final (68 s, sin voz) — `videos/TurnoNoche3.mp4`
+
+### Instagram Reels / TikTok
+> **Abrió la puerta a las 3:33… y alguien me escondió bajo el mostrador** 🔦🚪
+>
+> Se apagan las luces, sus pasos mojados cruzan la tienda y se detienen justo encima de ti. Por la mañana, el encargado de verdad te cuenta quién estuvo ahí abajo contigo 👁️
+>
+> Esta noche te toca otra vez… ¿volverías? 👇
+>
+> #terror #historiasdeterror #miedo #creepy #historiasanimadas #turnodenoche #parte3 #final #paranormal #parati
+
+### Facebook / YouTube Shorts
+> **Turno de noche (parte 3, final)** 🔦
+>
+> La puerta se abre, las luces se apagan y una mano helada tira de ti bajo el mostrador. El final de la gasolinera de las 3:33.
+>
+> #Terror #HistoriasDeTerror #Miedo #Creepy
+
 ---
 
 ## Consejos para publicar
