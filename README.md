@@ -330,6 +330,50 @@ con `<Cielo>`, `<Luces>`, `<Suelo>` y objetos, y regístralo en `ESCENARIOS_3D`.
 
 ---
 
+# Vídeo 6 · ¿Qué le pasa a tu cuerpo si tomas 5 cafés al día durante 30 días?
+
+Composición `Cafe30Dias` (1080×1920, 30 fps, 99,2 s) · **vídeo final con voz, música y efectos:
+`out/cafe-30-dias-final.mp4`** (−14 LUFS) · sin voz: `out/cafe-30-dias-efectos.mp4` · solo imagen:
+`out/cafe-30-dias.mp4` · subtítulos aparte: `out/cafe-30-dias.srt` (también van grabados) · texto para
+publicar: `out/cafe-30-dias.txt` · guion con tiempos: `guiones/cafe-30-dias.md` · texto para ElevenLabs:
+`guiones/cafe-30-dias-elevenlabs.txt`.
+
+La voz es de ElevenLabs (voz «Rodrigo», modelo `eleven_multilingual_v2`): `public/cafe/voz_elevenlabs.mp3`.
+
+```bash
+python3 tools/voz_cafe.py public/cafe/voz_elevenlabs.mp3   # encaja la voz: tiempos de escenas, frases y palabras
+tools/render_cafe.sh                                       # imagen por tramos (WebGL por CPU, ~2,5 h) → out/cafe-30-dias.mp4
+python3 tools/sintetizar_cafe.py                           # música + efectos + voz → out/cafe-30-dias-final.mp4
+node tools/fotos_cafe.mjs carpeta 24.5 toma:tazas@3        # fotogramas de prueba (un solo empaquetado)
+```
+
+Escenas: introducción (hombre con una taza humeante; la piel se vuelve transparente) · día 1 (el café baja por el
+esófago, cafeína en la sangre que llega al cerebro; en la superficie de una neurona la cafeína ocupa los
+receptores de adenosina y la adenosina sale despedida; el corazón se acelera con la adrenalina) · día 7 (cinco
+tazas sobre la mesa ≈ 450 mg frente al límite de 400 mg; tolerancia: brotan receptores nuevos y la adenosina
+vuelve a encajar) · día 15 (sangre de noche con cafeína todavía, curva de la cafeína a lo largo del día con vida
+media de 5 h; cerebro de noche con el sueño interrumpido) · día 30 (abstinencia: dolor de cabeza, cansancio,
+irritabilidad; cuerpo completo con nervios, palpitaciones y acidez) · final (deja la taza en la mesa, consejos y
+«DORMIR BIEN»).
+
+- La taza es **genérica** (sin marca). La cafeína es ámbar, la adenosina violeta y la adrenalina roja en todo el vídeo.
+- Las cifras son aproximadas y están en los paneles: una taza ≈ 90 mg (de 60 a 120 mg), límite de 400 mg al día
+  para un adulto sano (EFSA/FDA; 200 mg en el embarazo), vida media ≈ 5 h, abstinencia de 2 a 9 días.
+- Los instantes de cada animación (receptores, latidos, tazas, síntomas) se calculan a partir de las palabras de la
+  voz en `src/videos/cafe/VideoCafe.tsx`, y el sonido usa los mismos instantes.
+
+| Quieres cambiar… | Archivo |
+|---|---|
+| Texto de la narración y pausas | `tools/tiempos_cafe.py` (luego vuelve a generar la voz y `tools/voz_cafe.py`) |
+| Qué tomas tiene cada escena | `src/videos/cafe/plan.json` |
+| Cámaras, luces y animación de cada toma | `src/videos/cafe/tomas.tsx` |
+| Taza, adenosina, receptor de adenosina | `src/videos/cafe/objetos.tsx` |
+| Título, paneles, síntomas, consejos, cierre, subtítulos | `src/videos/cafe/hud.tsx` |
+| Música y efectos | `tools/sintetizar_cafe.py` |
+| Sin subtítulos grabados | `--props='{"subtitulos":false}'` |
+
+---
+
 # Vídeo 5 · ¿Qué le pasa a tu cerebro si usas el móvil 8 horas al día durante 30 días?
 
 Composición `Movil8Horas` (1080×1920, 30 fps, 101,9 s) · **vídeo final con voz, música y efectos:
