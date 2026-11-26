@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795480305.8992653,
-    "seen": 1795480739.1075525,
-    "ast_hash": "45133d2ecb74bdafa79f5d46baafc753",
+    "mtime": 1795718612.8520393,
+    "seen": 1795719348.0169969,
+    "ast_hash": "1b1420feb6a5ea168da3e9eb93c8a4ae",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -1026,14 +1026,14 @@
     "semantic_hash": ""
   },
   "src/comun/ReelBase.tsx": {
-    "mtime": 1795190408.4027746,
-    "seen": 1795191134.8991914,
+    "mtime": 1795561298.47559,
+    "seen": 1795719348.017058,
     "ast_hash": "5bd3103b7526882f7c067d42442f957b",
     "semantic_hash": ""
   },
   "src/comun/Subtitulos.tsx": {
-    "mtime": 1795481101.1829,
-    "seen": 1795482202.4150438,
+    "mtime": 1795561298.47559,
+    "seen": 1795719348.017059,
     "ast_hash": "36ea1ead451206213f9ccd47744a4155",
     "semantic_hash": ""
   },
@@ -2256,8 +2256,8 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1795124762.2335885,
-    "seen": 1795126110.6889122,
+    "mtime": 1795561298.4475899,
+    "seen": 1795719348.0173228,
     "ast_hash": "8ee5c78d45a29192f2adda788e778789",
     "semantic_hash": ""
   },
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795551472.9409368,
-    "seen": 1795551486.7254276,
-    "ast_hash": "75114a3088dd101781e1ef42444580de",
+    "mtime": 1795718925.3135805,
+    "seen": 1795719348.017333,
+    "ast_hash": "0e1fdde19efd87e00c3a8781d9590994",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3366,8 +3366,8 @@
     "semantic_hash": ""
   },
   "clipper/servidor.py": {
-    "mtime": 1795560981.9666767,
-    "seen": 1795561222.9395063,
+    "mtime": 1795561298.4475899,
+    "seen": 1795719348.0168738,
     "ast_hash": "354cd0ea878b9f337377cb74f45de31e",
     "semantic_hash": ""
   },
@@ -3390,14 +3390,14 @@
     "semantic_hash": ""
   },
   "clipper/README.md": {
-    "mtime": 1795561211.2275848,
-    "seen": 1795561222.939997,
+    "mtime": 1795561298.4475899,
+    "seen": 1795719348.0173297,
     "ast_hash": "e62185c1eee3a319d325f52bc191aceb",
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795561076.2446973,
-    "seen": 1795561222.9399981,
+    "mtime": 1795561298.4475899,
+    "seen": 1795719348.0173314,
     "ast_hash": "54ac930300737979614ac1967aa94bf4",
     "semantic_hash": ""
   },
@@ -3792,8 +3792,8 @@
     "semantic_hash": ""
   },
   "src/Inmovil/Ilustraciones.tsx": {
-    "mtime": 1795126090.6295335,
-    "seen": 1795126110.688593,
+    "mtime": 1795561298.47559,
+    "seen": 1795719348.016941,
     "ast_hash": "c105c856510eee2dfe3743accac2e377",
     "semantic_hash": ""
   },
@@ -4134,9 +4134,9 @@
     "semantic_hash": ""
   },
   "src/TurnoNoche2/Ilustraciones.tsx": {
-    "mtime": 1795551008.2935863,
-    "seen": 1795551486.7250924,
-    "ast_hash": "bcbe90aaab890369207c936f19db7d8d",
+    "mtime": 1795718636.8547518,
+    "seen": 1795719348.0170205,
+    "ast_hash": "a94ca34830c65a6c1bef232079bd5714",
     "semantic_hash": ""
   },
   "src/TurnoNoche2/Reel.tsx": {
@@ -4197,6 +4197,42 @@
     "mtime": 1795560898.371566,
     "seen": 1795561222.939509,
     "ast_hash": "1bebf24d144cecee3c4f705fc5772257",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche3/Ilustraciones.tsx": {
+    "mtime": 1795718799.1569905,
+    "seen": 1795719348.0170283,
+    "ast_hash": "0236853b5b8b4e2ff06714800a5ba963",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche3/Reel.tsx": {
+    "mtime": 1795718505.8731751,
+    "seen": 1795719348.0170302,
+    "ast_hash": "c9a3d515df0dfd0dec46734552880dd4",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche3/efectos.ts": {
+    "mtime": 1795718612.850932,
+    "seen": 1795719348.0170314,
+    "ast_hash": "d93750c26ea8c8d1dc89bc406be451b6",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche3/escenas.ts": {
+    "mtime": 1795718490.2833395,
+    "seen": 1795719348.0170324,
+    "ast_hash": "b746bd363b12506f462f178436990d01",
+    "semantic_hash": ""
+  },
+  "src/TurnoNoche3/guion.json": {
+    "mtime": 1795718490.2960093,
+    "seen": 1795719348.0170336,
+    "ast_hash": "780bd47ff86afae6964b4fbd909b55b4",
+    "semantic_hash": ""
+  },
+  "videos/TurnoNoche3.mp4": {
+    "mtime": 1795719327.6320589,
+    "seen": 1795719348.0176334,
+    "ast_hash": "d7ff912532129a2a08cee26ac4b9fa0f",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
