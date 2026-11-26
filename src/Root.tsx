@@ -26,6 +26,8 @@ import { ReelDesierto } from "./Desierto/Reel";
 import { DURACION_TOTAL as DURACION_DESIERTO } from "./Desierto/escenas";
 import { ReelCueva } from "./Cueva/Reel";
 import { DURACION_TOTAL as DURACION_CUEVA } from "./Cueva/escenas";
+import { ReelDeriva } from "./Deriva/Reel";
+import { DURACION_TOTAL as DURACION_DERIVA } from "./Deriva/escenas";
 import { ReelClima } from "./Clima/Reel";
 import { DURACION_TOTAL as DURACION_CLIMA } from "./Clima/escenas";
 import { ReelSahara } from "./Sahara/Reel";
@@ -149,6 +151,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ReelMovil30" component={ReelMovil30} durationInFrames={DURACION_MOVIL30} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelDesierto" component={ReelDesierto} durationInFrames={DURACION_DESIERTO} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelCueva" component={ReelCueva} durationInFrames={DURACION_CUEVA} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelDeriva" component={ReelDeriva} durationInFrames={DURACION_DERIVA} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelClima" component={ReelClima} durationInFrames={DURACION_CLIMA} fps={FPS} width={1080} height={1920} />
       <Composition
         id="ReelSahara"

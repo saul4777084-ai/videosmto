@@ -444,3 +444,29 @@ añade música en la app si lo publicas así.
 > paso a paso sobre el mapa.
 >
 > #Historia #Mapas #México #HernánCortés
+
+---
+
+## ¿Qué le pasa a tu cuerpo si te quedas a la deriva en el mar? — `videos/reel-deriva.mp4`
+~1:54 sin voz · versión «cine» como la cueva · avatar en la esquina inferior derecha · final A/B.
+
+### TikTok / Reels
+> **A la deriva en el mar, sin agua y sin nadie** 🌊🛟
+>
+> Rodeado de agua y muriéndote de sed: beber agua de mar te seca todavía más. Steven Callahan aguantó 76 días en una balsa
+> y José Salvador Alvarenga, 438 días a la deriva cruzando el Pacífico… y llegó vivo.
+>
+> Ves tierra a lo lejos: ¿nadas hacia ella (A) o te quedas en la balsa (B)? Comenta 👇
+>
+> #supervivencia #mar #cuerpohumano #datoscuriosos #sabiasque #naufragio #aprendeentiktok
+
+### Facebook / YouTube Shorts
+> **¿Qué le pasa a tu cuerpo si te quedas a la deriva en el mar?** 🌊
+>
+> El agua de mar tiene tanta sal que tus riñones gastan más agua de la que bebes para echarla: sin agua dulce aguantas
+> unos 3 días. En 1982, Steven Callahan sobrevivió 76 días en una balsa en el Atlántico con destiladores solares y un arpón.
+> Y el pescador salvadoreño José Salvador Alvarenga pasó 438 días a la deriva, de México a las Islas Marshall.
+>
+> ¿Tú qué harías: nadar hacia la costa (A) o quedarte en la balsa (B)?
+>
+> #Supervivencia #Mar #CuerpoHumano #Curiosidades

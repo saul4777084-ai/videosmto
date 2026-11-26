@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "src/Root.tsx": {
-    "mtime": 1795480809.6028361,
-    "seen": 1795480992.6195447,
-    "ast_hash": "ebcd22ac495bb5c9e6976a2c05894a88",
+    "mtime": 1795715119.3637094,
+    "seen": 1795715303.1163275,
+    "ast_hash": "d3d1bf3181ce1adac1a7b971db8dd1dc",
     "semantic_hash": ""
   },
   "src/Vaginosis/Ilustraciones.tsx": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795480963.7299998,
-    "seen": 1795480992.6198208,
-    "ast_hash": "45362183ed98be8e5d43911415039b73",
+    "mtime": 1795715249.9773738,
+    "seen": 1795715303.116901,
+    "ast_hash": "f73692273a824a27e88d5ac92fb1d582",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -3366,9 +3366,9 @@
     "semantic_hash": ""
   },
   "clipper/servidor.py": {
-    "mtime": 1795140591.5930548,
-    "seen": 1795140601.7051256,
-    "ast_hash": "ab72dc545625246763d77d29bff1c79c",
+    "mtime": 1795510573.6533747,
+    "seen": 1795715303.1159809,
+    "ast_hash": "8a4d89e23c352398a5d74c5f86a6a30a",
     "semantic_hash": ""
   },
   "scripts/voz_clonada.py": {
@@ -3390,15 +3390,15 @@
     "semantic_hash": ""
   },
   "clipper/README.md": {
-    "mtime": 1795140591.5924633,
-    "seen": 1795140601.7055476,
-    "ast_hash": "a7b3a9d2181b212f089a17161420fe29",
+    "mtime": 1795485586.511802,
+    "seen": 1795715303.116894,
+    "ast_hash": "1c4c02ecb3bf9ab16270334e464b1592",
     "semantic_hash": ""
   },
   "clipper/index.html": {
-    "mtime": 1795140591.5930548,
-    "seen": 1795140601.7055488,
-    "ast_hash": "b54a8dac4e0d32d0cb7988d404a730f4",
+    "mtime": 1795489575.0691857,
+    "seen": 1795715303.116896,
+    "ast_hash": "df571a10a245658aff9e3cf8200a8f51",
     "semantic_hash": ""
   },
   "voces/README.md": {
@@ -4086,9 +4086,9 @@
     "semantic_hash": ""
   },
   "scripts/texturas_mapa.py": {
-    "mtime": 1795306665.6119058,
-    "seen": 1795307457.6879275,
-    "ast_hash": "5dfebcea6525b2691757c41cb166ced5",
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1160076,
+    "ast_hash": "bf4c0fec986455b7e28dbe5c4b4a9411",
     "semantic_hash": ""
   },
   "src/MuestrasMapas/Muestras.tsx": {
@@ -4104,9 +4104,9 @@
     "semantic_hash": ""
   },
   "src/comun/tierra_fuentes.json": {
-    "mtime": 1795148227.6575983,
-    "seen": 1795307457.688297,
-    "ast_hash": "fffe8b53f19c15774fdb8ef91bdb945a",
+    "mtime": 1795481014.0501046,
+    "seen": 1795715303.1164029,
+    "ast_hash": "c2b9caeb8edfb38d77e55b00c3b49546",
     "semantic_hash": ""
   },
   "public/mapas/asia_alt.png": {
@@ -4440,9 +4440,9 @@
     "semantic_hash": ""
   },
   "videos/reel-deshielo.mp4": {
-    "mtime": 1795306665.6719058,
-    "seen": 1795307457.6891289,
-    "ast_hash": "8bfe5ca7c2c90c721e8017fb3a8960bb",
+    "mtime": 1795481014.1180027,
+    "seen": 1795715303.117363,
+    "ast_hash": "dad7988ab4a9fba8d7c4a991501b4743",
     "semantic_hash": ""
   },
   "videos/reel-desierto-cine.mp4": {
@@ -4452,9 +4452,9 @@
     "semantic_hash": ""
   },
   "videos/reel-mongoles.mp4": {
-    "mtime": 1795306665.7279058,
-    "seen": 1795307457.689143,
-    "ast_hash": "4887ef27511d8576bddde1e67cb1d9ea",
+    "mtime": 1795481014.1932228,
+    "seen": 1795715303.1173818,
+    "ast_hash": "4d1f3c141dfb35c7d53db6d26a9d04ef",
     "semantic_hash": ""
   },
   "src/Cueva/Ilustraciones.tsx": {
@@ -4488,9 +4488,9 @@
     "semantic_hash": ""
   },
   "src/Cueva/tiempos.json": {
-    "mtime": 1795480384.8646204,
-    "seen": 1795480992.6194234,
-    "ast_hash": "67646e0520793a57dc0d2c0e956e4d51",
+    "mtime": 1795551142.9989963,
+    "seen": 1795715303.1161096,
+    "ast_hash": "bfb241b692336f20f95af800d5d539ca",
     "semantic_hash": ""
   },
   "src/Deshielo/guion_voz.json": {
@@ -4563,6 +4563,180 @@
     "mtime": 1795367219.7130277,
     "seen": 1795480992.6200552,
     "ast_hash": "bfad32d7ed55ca16a0d8ddcd517e28e3",
+    "semantic_hash": ""
+  },
+  "src/Cortes/Ilustraciones.tsx": {
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1160822,
+    "ast_hash": "b5b0157a182ae5d2787fae0ebfb71e96",
+    "semantic_hash": ""
+  },
+  "src/Cortes/Reel.tsx": {
+    "mtime": 1795481014.0501046,
+    "seen": 1795715303.116085,
+    "ast_hash": "5827de25f0340e6c34a3b6e76e3d86ba",
+    "semantic_hash": ""
+  },
+  "src/Cortes/efectos.ts": {
+    "mtime": 1795481014.0501046,
+    "seen": 1795715303.1160867,
+    "ast_hash": "1d5a9c40115fde5efd4f07f6d1e4cba4",
+    "semantic_hash": ""
+  },
+  "src/Cortes/escenas.ts": {
+    "mtime": 1795481014.0501046,
+    "seen": 1795715303.1160893,
+    "ast_hash": "f5a91463d5869901caf12e9ded299769",
+    "semantic_hash": ""
+  },
+  "src/Cortes/guion.json": {
+    "mtime": 1795481014.0501046,
+    "seen": 1795715303.1160913,
+    "ast_hash": "cb44fdef09915b8e3a68dd4d1bbd1efc",
+    "semantic_hash": ""
+  },
+  "src/Cortes/tiempos.json": {
+    "mtime": 1795551213.0764287,
+    "seen": 1795715303.116093,
+    "ast_hash": "97810bd216229e81fe67e6275098be14",
+    "semantic_hash": ""
+  },
+  "src/Deriva/Ilustraciones.tsx": {
+    "mtime": 1795715239.433995,
+    "seen": 1795715303.1161115,
+    "ast_hash": "9e7e3643795d569f696f233c95eabcf7",
+    "semantic_hash": ""
+  },
+  "src/Deriva/Reel.tsx": {
+    "mtime": 1795715119.328944,
+    "seen": 1795715303.1161134,
+    "ast_hash": "dcdc0bc08e490b4d55e0a2053d3ed8ff",
+    "semantic_hash": ""
+  },
+  "src/Deriva/efectos.ts": {
+    "mtime": 1795715119.3274689,
+    "seen": 1795715303.1161149,
+    "ast_hash": "61f3d98bdd269122a40290cad74ac4c0",
+    "semantic_hash": ""
+  },
+  "src/Deriva/escenas.ts": {
+    "mtime": 1795714852.1238177,
+    "seen": 1795715303.116117,
+    "ast_hash": "a5c8bb5b5d31468e64341dbe819f349f",
+    "semantic_hash": ""
+  },
+  "src/Deriva/guion.json": {
+    "mtime": 1795714801.5713289,
+    "seen": 1795715303.1161184,
+    "ast_hash": "4175773ad67a1965717f9130994e846b",
+    "semantic_hash": ""
+  },
+  "src/Deriva/tiempos.json": {
+    "mtime": 1795714852.0932183,
+    "seen": 1795715303.1161206,
+    "ast_hash": "be8d41ed141071a4d9421bb8fdac816d",
+    "semantic_hash": ""
+  },
+  "src/Cortes/voz_texto.txt": {
+    "mtime": 1795481014.0501046,
+    "seen": 1795715303.1169057,
+    "ast_hash": "a310029f047d770ceb906fb452c9755f",
+    "semantic_hash": ""
+  },
+  "src/Deriva/voz_texto.txt": {
+    "mtime": 1795714801.5734546,
+    "seen": 1795715303.1169102,
+    "ast_hash": "8d3a16244b07609a54da0153166edc09",
+    "semantic_hash": ""
+  },
+  "public/mapas/mexico_alt.png": {
+    "mtime": 1795481014.0420027,
+    "seen": 1795715303.1170573,
+    "ast_hash": "728490c7d64e0d538a1ba34603ca49bc",
+    "semantic_hash": ""
+  },
+  "public/mapas/mexico_dibujo.jpg": {
+    "mtime": 1795481014.0436432,
+    "seen": 1795715303.117059,
+    "ast_hash": "7660a0b7ab55fd8e3805fe17dc2beb6e",
+    "semantic_hash": ""
+  },
+  "public/mapas/mexico_mapa.jpg": {
+    "mtime": 1795481014.0450177,
+    "seen": 1795715303.117061,
+    "ast_hash": "6680a06d3a99c8904893a118ce6c162c",
+    "semantic_hash": ""
+  },
+  "public/mapas/mexico_relieve.jpg": {
+    "mtime": 1795481014.0460026,
+    "seen": 1795715303.1170623,
+    "ast_hash": "067e4b0aa08d214103906c0ffa4e506c",
+    "semantic_hash": ""
+  },
+  "public/mapas/mexico_satelite.jpg": {
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1170642,
+    "ast_hash": "10fe75485ae8e54841068ef0bd01c2e5",
+    "semantic_hash": ""
+  },
+  "public/mapas/valle_alt.png": {
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1170905,
+    "ast_hash": "6605ecc42af171da8091930d5aa45493",
+    "semantic_hash": ""
+  },
+  "public/mapas/valle_dibujo.jpg": {
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1170921,
+    "ast_hash": "1108dd155cf6cc425cdc5985170eb861",
+    "semantic_hash": ""
+  },
+  "public/mapas/valle_mapa.jpg": {
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1170938,
+    "ast_hash": "4546ef1f1123b6404b35458c70e32947",
+    "semantic_hash": ""
+  },
+  "public/mapas/valle_relieve.jpg": {
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1170957,
+    "ast_hash": "6400ce43449e072b8a951d1262bac89c",
+    "semantic_hash": ""
+  },
+  "public/mapas/valle_satelite.jpg": {
+    "mtime": 1795481014.0467646,
+    "seen": 1795715303.1170971,
+    "ast_hash": "39b3956a0e3d4b4aa88f73c735d0ce40",
+    "semantic_hash": ""
+  },
+  "public/voz/cortes.mp3": {
+    "mtime": 1795551213.0724285,
+    "seen": 1795715303.1173158,
+    "ast_hash": "0df321cdc4f6cc7c0785d209477b910c",
+    "semantic_hash": ""
+  },
+  "public/voz/cueva.mp3": {
+    "mtime": 1795551168.9404259,
+    "seen": 1795715303.117318,
+    "ast_hash": "a1f4579a752c0183000ec21b2089422a",
+    "semantic_hash": ""
+  },
+  "videos/reel-cortes.mp4": {
+    "mtime": 1795482559.5552266,
+    "seen": 1795715303.1173558,
+    "ast_hash": "a91f10f7b3d6247840834bb75c169aa9",
+    "semantic_hash": ""
+  },
+  "videos/reel-cueva-voz.mp4": {
+    "mtime": 1795552010.804476,
+    "seen": 1795715303.1173573,
+    "ast_hash": "0c829484e6e51d5c416b2074991c3e5c",
+    "semantic_hash": ""
+  },
+  "videos/reel-cueva.mp4": {
+    "mtime": 1795481764.5140474,
+    "seen": 1795715303.1173592,
+    "ast_hash": "c2f3368c25182bcb221c006e6ac909b1",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {
