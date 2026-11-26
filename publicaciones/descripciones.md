@@ -425,7 +425,7 @@ añade música en la app si lo publicas así.
 
 ---
 
-## Hernán Cortés y la caída de Tenochtitlan (≈66 s sin voz) — `videos/reel-cortes.mp4`
+## Hernán Cortés y la caída de Tenochtitlan (59 s, con voz) — `videos/reel-cortes.mp4`
 
 ### TikTok / Reels
 > **500 españoles contra un imperio de millones** ⚔️🗺️
@@ -470,3 +470,26 @@ añade música en la app si lo publicas así.
 > ¿Tú qué harías: nadar hacia la costa (A) o quedarte en la balsa (B)?
 >
 > #Supervivencia #Mar #CuerpoHumano #Curiosidades
+
+---
+
+## Alejandro Magno (64 s, sin voz) — `videos/reel-alejandro.mp4`
+
+### TikTok / Reels
+> **Conquistó medio mundo antes de cumplir 33 años** ⚔️🗺️
+>
+> De Macedonia a la India en solo 11 años: Isos, Egipto, Gaugamela, Persépolis en llamas, los elefantes del rey Poro…
+> y ni una sola batalla perdida. Murió en Babilonia con 32 años.
+>
+> ¿Hasta dónde habría llegado si hubiera vivido más? Comenta 👇
+>
+> #historia #mapas #alejandromagno #imperiopersa #grecia #macedonia #curiosidades #sabiasque #aprendeentiktok
+
+### Facebook / YouTube Shorts
+> **El imperio de Alejandro Magno, paso a paso sobre el mapa** 🗺️
+>
+> Del 334 al 323 a. C., Alejandro cruzó a Asia con menos de 40.000 hombres, derrotó dos veces al rey persa Darío,
+> fue recibido como faraón en Egipto y llegó hasta el río Hífasis, en la India, donde su ejército se negó a seguir.
+> 5 millones de km² en 11 años.
+>
+> #Historia #Mapas #AlejandroMagno #Persia

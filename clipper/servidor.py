@@ -1,6 +1,8 @@
 """Clipper privado: pega un link de YouTube y genera clips. Uso: python servidor.py  (o --test)"""
 import base64, glob, hmac, json, math, os, queue, re, shutil, subprocess, sys, threading, time, urllib.parse, urllib.request, webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
+from concurrent.futures import ThreadPoolExecutor
+import tiktok
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CLIPS = os.path.join(AQUI, "clips")
@@ -177,14 +179,80 @@ def generar_directo(d):
 URLS = {}  # (url, altura) -> (hora, [URL HLS]): extraer en el móvil tarda mucho y las URL valen horas
 
 
+COOKIES = os.path.join(AQUI, "cookies.txt")  # cookies de YouTube (formato Netscape); en .gitignore
+
+
+def guardar_cookies(texto):
+    """Guarda el archivo cookies.txt que sube el usuario, comprobando que es de YouTube y en el formato bueno."""
+    texto = str(texto or "").replace("\r\n", "\n")
+    filas = [l.split("\t") for l in texto.splitlines() if l.strip() and not l.startswith("#") or l.startswith("#HttpOnly_")]
+    de_youtube = [f for f in filas if len(f) >= 7 and "youtube.com" in f[0]]
+    if not de_youtube:
+        raise ValueError("Ese archivo no tiene cookies de YouTube en formato cookies.txt (Netscape). "
+                         "Expórtalo con la extensión «Get cookies.txt LOCALLY» estando en youtube.com con tu cuenta iniciada.")
+    with open(COOKIES, "w", encoding="utf-8") as f:
+        f.write(texto if texto.startswith("# ") else "# Netscape HTTP Cookie File\n" + texto)
+    try:
+        os.chmod(COOKIES, 0o600)
+    except OSError:
+        pass
+    URLS.clear()  # que la próxima conexión ya use las cookies
+    return len(de_youtube)
+
+
+def estado_cookies():
+    if not os.path.isfile(COOKIES):
+        return {"cargadas": False}
+    return {"cargadas": True, "fecha": os.path.getmtime(COOKIES)}
+
+
+def extraer(url, alto, cliente=None):
+    """Pide a YouTube los formatos del vídeo. Devuelve (info, formatos elegidos, altura conseguida)."""
+    hls = "[protocol^=m3u8]"
+    # el mejor vídeo hasta 'alto' (suelto o con audio) + el audio aparte. Antes se pedía primero vídeo y audio juntos,
+    # y si YouTube solo los daba juntos en baja resolución, el clip salía a 480p aunque hubiera 1080p por separado.
+    extra = ["--extractor-args", f"youtube:player_client={cliente}"] if cliente else []
+    if os.path.isfile(COOKIES):  # sesión de YouTube: evita el bloqueo «Sign in to confirm you're not a bot»
+        extra += ["--cookies", COOKIES]
+    r = run(YTDLP + extra + ["-J", "--ignore-no-formats-error", "-S", "res,fps", "-f",
+                             f"bv*{hls}[height<={alto}]+ba{hls}/b{hls}[height<={alto}]/bv*{hls}+ba{hls}/b{hls}",
+                             "--", url])
+    info = json.loads(r.stdout)
+    # avisos de yt-dlp (bloqueos de YouTube, fallos del motor de JavaScript…): explican por qué algo no sale
+    avisos = [l.strip()[:200] for l in r.stderr.splitlines() if l.startswith(("WARNING", "ERROR"))]
+    elegidos = [f for f in info.get("requested_formats") or [info] if f.get("url")]
+    return info, elegidos, max((f.get("height") or 0 for f in elegidos), default=0), avisos
+
+
 def info_directo(url, alto):
     """Datos del vídeo; si está en directo, guarda sus URL HLS para los clips."""
-    hls = "[protocol^=m3u8]"
-    # vídeo y audio juntos o, si YouTube los da por separado, uno de cada (dos URL)
-    info = json.loads(run(YTDLP + ["-J", "--ignore-no-formats-error", "-f",
-                                   f"b{hls}[height<={alto}]/b{hls}/bv*{hls}[height<={alto}]+ba{hls}/bv*{hls}+ba{hls}",
-                                   "--", url]).stdout)
-    urls = [f["url"] for f in info.get("requested_formats") or [info] if f.get("url")]
+    probados, avisos, fallo = [], [], None
+    info, elegidos, conseguida = {}, [], 0
+    # Se prueba el cliente por defecto de yt-dlp y, si YouTube no le dice que está en directo (a veces le da una
+    # respuesta incompleta) o le da menos calidad, los de Safari, TV y móvil web. Se queda con el mejor.
+    for cliente in (None, "web_safari", "tv", "mweb"):
+        if info.get("is_live") and conseguida >= alto:
+            break
+        try:
+            otro = extraer(url, alto, cliente)
+        except Exception as e:
+            fallo = fallo or e
+            avisos.append(f"[{cliente or 'por defecto'}] {e}"[:200])
+            continue
+        probados.append(cliente or "por defecto")
+        avisos += [f"[{cliente or 'por defecto'}] {a}" for a in otro[3][:3]]
+        if not probados[1:] or (otro[0].get("is_live") and (not info.get("is_live") or (otro[1] and otro[2] > conseguida))):
+            info, elegidos, conseguida = otro[:3]
+    DIAG["avisos"] = avisos[-8:]
+    if not probados:  # ningún cliente funcionó: el error de yt-dlp explica el motivo
+        raise RuntimeError(f"yt-dlp no pudo leer el vídeo: {fallo}. Actualiza con «pip install -U --pre yt-dlp» y "
+                           "comprueba que «node --version» funciona; luego reinicia el Clipper.")
+    urls = [f["url"] for f in elegidos]
+    ofrecidas = sorted({f["height"] for f in info.get("formats") or [] if f.get("height")
+                        and str(f.get("protocol", "")).startswith("m3u8") and f.get("vcodec") != "none"})
+    v = next((f for f in elegidos if f.get("height")), {})
+    DIAG["formato"] = {"pedida": alto, "conseguida": v.get("height"), "fps": v.get("fps"), "probados": probados,
+                       "itags": [f.get("format_id") for f in elegidos], "ofrecidas": ofrecidas}
     if info.get("is_live"):
         if not urls:
             raise ValueError("YouTube no ha dado el vídeo de este directo. En Termux comprueba que «node --version» "
@@ -281,7 +349,46 @@ def capturar_directo(d):
 # Modo automático: el programa lee las listas de trozos del directo y, cada vez que hay trozos nuevos para un clip,
 # baja esos mismos números de trozo de vídeo y de audio (así van siempre a la par) sin recomprimir. Sigue aunque se
 # cierre la página. Editar (vertical, efectos) va aparte, con una cola de uno en uno.
-AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": ""}
+AUTO = {"activo": False, "cada": 60, "hechos": 0, "error": "", "url": "", "titulo": "", "alto": 0, "alto_max": 0, "aviso": "", "retraso": 0}
+
+# Calidad del automático: baja si la conexión no da y vuelve a subir sola cuando se recupera.
+NIVELES = (480, 720, 1080, 2160)
+VENTANA, ESPERA_MIN, ESPERA_MAX = 600, 300, 1800  # s: ventana de pérdidas, espera antes de probar a subir
+
+
+def nueva_calidad(alto):
+    return {"alto": alto, "max": alto, "perdidas": [], "subir_a": None, "espera": ESPERA_MIN, "subido_en": None}
+
+
+def calidad_tras_perdida(c, ahora):
+    """Se perdieron trozos. Baja un nivel si es la segunda pérdida en 10 min o si acaba de subir de nivel
+    (una pérdida suelta es un bajón puntual y no merece perder calidad). Devuelve True si bajó."""
+    c["perdidas"] = [t for t in c["perdidas"] if ahora - t < VENTANA] + [ahora]
+    probando = c["subido_en"] is not None and ahora - c["subido_en"] < VENTANA
+    if c["alto"] <= NIVELES[0] or (len(c["perdidas"]) < 2 and not probando):
+        return False
+    # si falla justo después de subir, la próxima prueba espera el doble (hasta 30 min)
+    c["espera"] = min(c["espera"] * 2, ESPERA_MAX) if probando else ESPERA_MIN
+    c["alto"] = max(n for n in NIVELES if n < c["alto"])
+    c["perdidas"], c["subido_en"], c["subir_a"] = [], None, ahora + c["espera"]
+    return True
+
+
+def calidad_tras_espera(c, ahora):
+    """Si toca, sube un nivel (sin pasar de la calidad elegida). Devuelve True si subió."""
+    if c["alto"] >= c["max"] or c["subir_a"] is None or ahora < c["subir_a"]:
+        return False
+    c["alto"] = min(n for n in NIVELES if n > c["alto"])
+    c["subido_en"], c["perdidas"] = ahora, []
+    c["subir_a"] = ahora + c["espera"] if c["alto"] < c["max"] else None
+    return True
+
+
+def aviso_calidad(c):
+    if c["alto"] >= c["max"]:
+        return ""
+    prueba = time.strftime(" · a las %H:%M prueba a subir", time.localtime(c["subir_a"])) if c["subir_a"] else ""
+    return f"Calidad bajada a {c['alto']}p por la conexión{prueba}"
 COLA, PARAR, HILO = queue.Queue(), threading.Event(), [None]
 
 
@@ -302,7 +409,22 @@ def avisar_si_va_lento(p):
                          "y vuelve a empezar.")
 
 
-DIAG = {"pistas": 0, "ultimas": [], "listas": []}
+DIAG = {"pistas": 0, "ultimas": [], "listas": [], "formato": {}, "avisos": []}
+
+
+def resumen_formato():
+    """Qué resolución se pidió, cuál dio YouTube y por qué, en una frase."""
+    f = DIAG["formato"]
+    if not f.get("conseguida"):
+        return ""
+    texto = f"{f['conseguida']}p" + (f"{round(f['fps'])}" if f.get("fps") and f["fps"] > 31 else "")
+    mejor = max(f["ofrecidas"], default=0)
+    if f["conseguida"] < min(f["pedida"], 1080) and mejor <= f["conseguida"]:
+        texto += (f" — YouTube solo da hasta {mejor}p a este aparato. Si el directo es de más calidad, actualiza "
+                  "yt-dlp («pip install -U yt-dlp») y comprueba que «node --version» funciona; luego reinicia el Clipper.")
+    elif f["conseguida"] < f["pedida"] and mejor > f["conseguida"]:
+        texto += f" (hay hasta {mejor}p, pero la calidad elegida o la conexión lo ha bajado)"
+    return texto
 
 
 def huecos(p, tipo):
@@ -327,7 +449,11 @@ def diagnostico():
     v = run(["ffmpeg", "-version"], check=False).stdout.splitlines()[:1]
     out = [f"ffmpeg: {v[0] if v else '?'}", f"pistas del directo (1 = juntas, 2 = vídeo y audio aparte): {DIAG['pistas']}",
            f"listas (primer trozo, cuántos): {DIAG['listas']}",
-           f"en cola: {COLA.qsize()} · estado: {AUTO.get('error') or 'ok'}", "", "Últimos mensajes de ffmpeg:"]
+           f"resolución: {resumen_formato() or '?'} · formatos (itag): {DIAG['formato'].get('itags')} · "
+           f"YouTube ofrece: {DIAG['formato'].get('ofrecidas')} · clientes probados: {DIAG['formato'].get('probados')}",
+           f"en cola: {COLA.qsize()} · estado: {AUTO.get('error') or 'ok'}", "", "Avisos de yt-dlp al conectar:"]
+    out += [f"  {x}" for x in DIAG["avisos"]] or ["  (ninguno)"]
+    out += ["", "Últimos mensajes de ffmpeg:"]
     out += [f"  {x[:160]}" for x in list(DIAG["ultimas"])[-8:]] or ["  (ninguno)"]
     for carpeta in (TRABAJO, CLIPS):
         archivos = sorted(glob.glob(os.path.join(carpeta, "*.mp4")) + glob.glob(os.path.join(carpeta, "*.ts")), key=os.path.getmtime)[-3:]
@@ -341,14 +467,102 @@ def leer_lista(u):
         return trozos(r.read().decode("utf-8", "replace"), u)
 
 
-def guardar_clip(d, nombre, listas, ini, fin):
-    """Baja los trozos [ini, fin) de cada pista (vídeo y audio con los mismos números) a un clip en CLIPS."""
+def bajar(url, ruta):
+    """Descarga un trozo del directo a un archivo (3 intentos)."""
+    for intento in range(3):
+        try:
+            with urllib.request.urlopen(url, timeout=20) as r, open(ruta + ".tmp", "wb") as f:
+                shutil.copyfileobj(r, f, 256 * 1024)
+            os.replace(ruta + ".tmp", ruta)
+            return
+        except OSError:  # incluye errores de red (URLError) y de HTTP
+            if intento == 2:
+                raise
+            time.sleep(1)
+
+
+class Grabacion:
+    """Trozos del directo ya bajados al teléfono, por pista (0 = vídeo, 1 = audio si van separados).
+    Se bajan según salen (cada ~2 s) y, al completar un clip, solo hay que unirlos: el clip sale al momento."""
+
+    def __init__(self, vid):
+        self.vid, self.pref = vid, f"{vid}_{int(time.time())}"
+        self.ini = self.bajado = None  # primer trozo del clip actual / siguiente trozo por bajar
+        self.duraciones, self.mapas, self.pistas, self.alto, self.ext = {}, {}, 0, 0, ".ts"
+
+    def archivo(self, k, n):
+        return f"{self.pref}_p{k}_{n}{self.ext}"
+
+    def segundos(self):
+        return sum(self.duraciones.get(n, 0) for n in range(self.ini, self.bajado)) if self.ini is not None else 0
+
+    def empezar(self, n, listas, alto):
+        """Nuevo clip desde el trozo n (también al cambiar de calidad: no se mezclan resoluciones en un clip)."""
+        self.ini = self.bajado = n
+        self.pistas, self.alto, self.mapas = len(listas), alto, {}
+        self.ext = ".m4s" if any(m for _, _, m in listas) else ".ts"
+        for k, (_, _, mapa) in enumerate(listas):  # MP4 por trozos: la cabecera va aparte y se baja una vez
+            uri = re.search(r'URI="([^"]+)"', mapa) if mapa else None
+            if uri:
+                local = f"{self.pref}_p{k}_mapa_{n}.mp4"
+                bajar(uri.group(1), os.path.join(TRABAJO, local))
+                self.mapas[k] = local
+
+    def bajar_nuevos(self, listas, fin, cada, maximo=8):
+        """Baja hasta 'maximo' trozos nuevos de cada pista, varios a la vez, sin pasarse del final del clip
+        (dura 'cada' s). Devuelve cuántos bajó."""
+        seq_v, segs_v, _ = listas[0]
+        hasta, falta = self.bajado, cada - 0.5 - self.segundos()
+        while hasta < fin and hasta - self.bajado < maximo and falta > 0:
+            falta -= segs_v[hasta - seq_v][0]
+            hasta += 1
+        tareas = [(listas[k][1][n - listas[k][0]][1], os.path.join(TRABAJO, self.archivo(k, n)))
+                  for n in range(self.bajado, hasta) for k in range(self.pistas)]
+        if tareas:
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                list(pool.map(lambda t: bajar(*t), tareas))
+        seq_v, segs_v, _ = listas[0]
+        for n in range(self.bajado, hasta):
+            self.duraciones[n] = segs_v[n - seq_v][0]
+        hecho, self.bajado = hasta - self.bajado, hasta
+        return hecho
+
+    def cerrar(self, d, minimo=5.0):
+        """Une los trozos del clip actual en un clip (si dura al menos 'minimo' s) y borra los trozos."""
+        if self.ini is None or self.bajado <= self.ini:
+            return
+        ini, fin = self.ini, self.bajado
+        try:
+            if self.segundos() >= minimo:
+                guardar_clip(d, f"{self.vid}_{time.strftime('%Y%m%d-%H%M%S')}", self, ini, fin)
+        finally:
+            for k in range(self.pistas):
+                for n in range(ini, fin):
+                    p = os.path.join(TRABAJO, self.archivo(k, n))
+                    os.remove(p) if os.path.exists(p) else None
+            for n in range(ini, fin):
+                self.duraciones.pop(n, None)
+            self.ini = fin
+
+    def limpiar(self):
+        for p in glob.glob(os.path.join(TRABAJO, self.pref + "_*")):
+            os.remove(p)
+
+
+def guardar_clip(d, nombre, g, ini, fin):
+    """Une los trozos ya bajados [ini, fin) de cada pista (vídeo y audio con los mismos números) en un clip."""
     entradas = []
-    for k, info in enumerate(listas):
-        lista_local(info, ini, fin, os.path.join(TRABAJO, f"{nombre}_{k}.m3u8"))
-        entradas += ["-protocol_whitelist", "file,http,https,tcp,tls,crypto", "-i", f"{nombre}_{k}.m3u8"]
+    for k in range(g.pistas):
+        lineas = ["#EXTM3U", "#EXT-X-VERSION:6", "#EXT-X-PLAYLIST-TYPE:VOD",
+                  f"#EXT-X-TARGETDURATION:{math.ceil(max(g.duraciones[n] for n in range(ini, fin)))}",
+                  f"#EXT-X-MEDIA-SEQUENCE:{ini}"] + ([f'#EXT-X-MAP:URI="{g.mapas[k]}"'] if k in g.mapas else [])
+        for n in range(ini, fin):
+            lineas += [f"#EXTINF:{g.duraciones[n]:.3f},", g.archivo(k, n)]
+        with open(os.path.join(TRABAJO, f"{nombre}_{k}.m3u8"), "w", encoding="utf-8") as f:
+            f.write("\n".join(lineas + ["#EXT-X-ENDLIST", ""]))
+        entradas += ["-protocol_whitelist", "file", "-i", f"{nombre}_{k}.m3u8"]
     try:
-        run(["ffmpeg", "-y", "-v", "error", *entradas, "-map", "0:v:0", "-map", f"{len(listas) - 1}:a:0?",
+        run(["ffmpeg", "-y", "-v", "error", *entradas, "-map", "0:v:0", "-map", f"{g.pistas - 1}:a:0?",
              "-c", "copy", "-movflags", "+faststart", nombre + ".mp4"], cwd=TRABAJO)
     finally:
         for p in glob.glob(os.path.join(TRABAJO, nombre + "_*.m3u8")):
@@ -357,63 +571,219 @@ def guardar_clip(d, nombre, listas, ini, fin):
     os.replace(os.path.join(TRABAJO, nombre + ".mp4"), destino)
     AUTO["hechos"] += 1
     avisar_si_va_lento(destino)
+    if not d.get("auto_vertical"):  # por defecto el clip se queda tal cual (horizontal, como el directo)
+        return
     try:
         pedir_vertical({**d, "archivo": nombre + ".mp4", "borrar_original": True})
     except Exception as e:  # el clip ya está guardado: un fallo al encolarlo no debe repetir la descarga
         AUTO["error"] = "No se pudo editar un clip: " + str(e)
 
 
+RETRASO_MAX = 45  # s por detrás del directo a partir de los que se salta al directo
+
+
 def bucle_auto(d):
-    cada, fallos, siguiente = AUTO["cada"], 0, None  # siguiente: número del próximo trozo a grabar
-    alto = CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0]
+    cada, fallos = AUTO["cada"], 0
+    c = nueva_calidad(CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0])
+    AUTO.update(alto=c["alto"], alto_max=c["max"], aviso="", retraso=0)
     vid = re.sub(r"\W", "", d.get("id", "directo"))[:20] or "directo"
     os.makedirs(TRABAJO, exist_ok=True); os.makedirs(CLIPS, exist_ok=True)
-    while not PARAR.is_set():
+    g = Grabacion(vid)
+    try:
+        while not PARAR.is_set():
+            try:
+                if calidad_tras_espera(c, time.time()):
+                    AUTO["error"] = ""  # la conexión fue bien un rato: se vuelve a probar más calidad
+                AUTO.update(alto=c["alto"], aviso=aviso_calidad(c))
+                urls = urls_directo(d["url"], c["alto"], nuevas=fallos > 0)
+                listas = [leer_lista(u) for u in urls]
+                DIAG.update(pistas=len(urls), listas=[(seq, len(segs)) for seq, segs, _ in listas])
+                if any(seq is None or not segs for seq, segs, _ in listas):
+                    raise RuntimeError("YouTube no ha dado la lista de trozos del directo")
+                ini0, fin = max(seq for seq, _, _ in listas), min(seq + len(segs) for seq, segs, _ in listas)
+                seq_v, segs_v, _ = listas[0]
+                if g.ini is None:
+                    g.empezar(max(ini0, fin - 1), listas, c["alto"])  # se empieza por lo más reciente
+                elif g.alto != c["alto"] or g.pistas != len(listas):  # cambió la calidad: el clip se cierra aquí
+                    g.cerrar(d)
+                    g.empezar(max(g.bajado, ini0), listas, c["alto"])
+                elif g.bajado < ini0:  # esos trozos ya no están en YouTube
+                    AUTO["error"] = f"Se perdieron {ini0 - g.bajado} trozos del directo (conexión lenta)."
+                    g.cerrar(d)
+                    g.empezar(ini0, listas, c["alto"])
+                    if calidad_tras_perdida(c, time.time()):
+                        AUTO["error"] += f" Baja a {c['alto']}p un rato; volverá a subir sola si la conexión mejora."
+                retraso = sum(segs_v[n - seq_v][0] for n in range(max(g.bajado, seq_v), fin))
+                AUTO["retraso"] = round(retraso)
+                if retraso > RETRASO_MAX:  # la conexión no da para esta calidad: se salta al directo
+                    AUTO["error"] = f"Iba {retraso:.0f} s por detrás del directo (la conexión no da para {c['alto']}p): salta al directo."
+                    g.cerrar(d)
+                    if calidad_tras_perdida(c, time.time()):
+                        AUTO["error"] += f" Baja a {c['alto']}p un rato; volverá a subir sola si la conexión mejora."
+                    g.empezar(max(ini0, fin - 1), listas, c["alto"])
+                    AUTO["retraso"] = 0
+                bajados = g.bajar_nuevos(listas, fin, cada)
+                fallos = 0
+                if g.segundos() >= cada - 0.5:  # clip completo: solo queda unir los trozos ya bajados
+                    g.cerrar(d)
+                if bajados:
+                    continue  # quedan trozos por bajar: sin esperar
+            except Exception as e:
+                fallos += 1
+                AUTO["error"] = str(e)
+                DIAG["ultimas"] = [str(e)]
+                if fallos >= 3:
+                    AUTO["error"] = "Parado: el directo ha terminado o no responde (" + str(e) + ")"
+                    break
+            PARAR.wait(1)
         try:
-            urls = urls_directo(d["url"], alto, nuevas=fallos > 0)
-            listas = [leer_lista(u) for u in urls]
-            DIAG.update(pistas=len(urls), listas=[(seq, len(segs)) for seq, segs, _ in listas])
-            if any(seq is None or not segs for seq, segs, _ in listas):
-                raise RuntimeError("YouTube no ha dado la lista de trozos del directo")
-            ini0, fin = max(seq for seq, _, _ in listas), min(seq + len(segs) for seq, segs, _ in listas)
-            if siguiente is None:
-                siguiente = max(ini0, fin - 1)  # se empieza por lo más reciente
-            elif siguiente < ini0:  # la conexión no dio y esos trozos ya no están en YouTube
-                AUTO["error"] = f"Se perdieron {ini0 - siguiente} trozos del directo (conexión lenta)."
-                siguiente = ini0
-                if alto > 480:
-                    alto = 720 if alto > 720 else 480
-                    AUTO["error"] += f" Ahora graba a {alto}p para que no vuelva a pasar."
-            seq_v, segs_v, _ = listas[0]
-            k, total = siguiente, 0.0
-            while k < fin and total < cada - 0.5:
-                total += segs_v[k - seq_v][0]
-                k += 1
-            fallos = 0
-            if total >= cada - 0.5:  # ya hay trozos para un clip entero
-                guardar_clip(d, f"{vid}_{time.strftime('%Y%m%d-%H%M%S')}", listas, siguiente, k)
-                siguiente = k
-                continue
+            g.cerrar(d)  # al parar se guarda lo grabado del último clip
         except Exception as e:
-            fallos += 1
-            AUTO["error"] = str(e)
-            DIAG["ultimas"] = [str(e)]
-            if fallos >= 3:
-                AUTO["error"] = "Parado: el directo ha terminado o no responde (" + str(e) + ")"
-                break
-        PARAR.wait(2)
-    AUTO["activo"] = False
+            AUTO["error"] = "No se pudo guardar el último clip: " + str(e)
+    finally:
+        g.limpiar()
+        AUTO["activo"] = False
 
 
 def editor():
     while True:
         d, nombre, entrada, seg = COLA.get()
+        original = os.path.basename(entrada)
         try:
             editar(d, nombre, entrada, seg, "")
             if d.get("borrar_original") and os.path.isfile(entrada):
                 os.remove(entrada)  # del automático solo queda el clip editado
+            if d.get("tiktok_texto") is not None:  # se pidió «Subir a TikTok» en un clip horizontal
+                marcar(original, "vertical", copia=nombre + ".mp4")
+                encolar_subida(nombre + ".mp4", d["tiktok_texto"])
         except Exception as e:
             AUTO["error"] = "No se pudo hacer vertical un clip: " + str(e)
+            if d.get("tiktok_texto") is not None:
+                marcar(original, "error", error="No se pudo hacer vertical: " + str(e))
+
+
+# Subidas a TikTok: de una en una, en cuanto el clip está listo, con un máximo por día.
+# El estado de cada clip se guarda en subidas.json para que siga ahí al reiniciar.
+RUTA_SUBIDAS = os.path.join(AQUI, "subidas.json")
+try:
+    with open(RUTA_SUBIDAS, encoding="utf-8") as f:
+        SUBIDAS = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    SUBIDAS = {"clips": {}, "publicadas": []}
+COLA_TIKTOK, CANDADO = queue.Queue(), threading.RLock()
+
+
+def marcar(archivo, estado, **datos):
+    with CANDADO:
+        SUBIDAS["clips"][archivo] = {"estado": estado, "hora": time.time(), **datos}
+        with open(RUTA_SUBIDAS + ".tmp", "w", encoding="utf-8") as f:
+            json.dump(SUBIDAS, f, ensure_ascii=False)
+        os.replace(RUTA_SUBIDAS + ".tmp", RUTA_SUBIDAS)
+
+
+def encolar_subida(archivo, texto):
+    marcar(archivo, "en_cola", texto=texto)
+    COLA_TIKTOK.put(archivo)
+
+
+def duracion(p):
+    return float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).stdout.strip())
+
+
+def es_vertical(p):
+    r = run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height:stream_side_data=rotation",
+             "-of", "json", p])
+    v = (json.loads(r.stdout).get("streams") or [{}])[0]
+    ancho, alto = v.get("width", 0), v.get("height", 0)
+    if any(abs(int(x.get("rotation", 0))) == 90 for x in v.get("side_data_list", [])):
+        ancho, alto = alto, ancho  # vídeo de móvil girado
+    return alto > ancho
+
+
+def huecos_hoy():
+    """Cuántas subidas quedan en las últimas 24 h y cuándo se libera la siguiente."""
+    with CANDADO:
+        ahora = time.time()
+        SUBIDAS["publicadas"] = [t for t in SUBIDAS["publicadas"] if ahora - t < 86400]
+        libres = int(tiktok.CONFIG["max_dia"]) - len(SUBIDAS["publicadas"])
+        return libres, (min(SUBIDAS["publicadas"]) + 86400 if SUBIDAS["publicadas"] else ahora)
+
+
+def subidor():
+    while True:
+        archivo = COLA_TIKTOK.get()
+        p = os.path.join(CLIPS, archivo)
+        texto = SUBIDAS["clips"].get(archivo, {}).get("texto", "")
+        try:
+            libres, cuando = huecos_hoy()
+            while libres <= 0:  # límite del día: espera a que haya hueco y entonces lo sube
+                marcar(archivo, "en_cola", texto=texto, nota="Límite diario alcanzado: se sube a las "
+                       + time.strftime("%H:%M", time.localtime(cuando)))
+                time.sleep(max(30, min(600, cuando - time.time() + 5)))
+                libres, cuando = huecos_hoy()
+            if not os.path.isfile(p):
+                raise ValueError("El clip se borró antes de subirlo.")
+            marcar(archivo, "subiendo", texto=texto)
+            r = tiktok.subir(p, texto, duracion(p), aviso=lambda m: marcar(archivo, "subiendo", texto=texto, nota=m))
+            with CANDADO:
+                SUBIDAS["publicadas"].append(time.time())
+            marcar(archivo, "publicado", texto=texto, **r)
+        except Exception as e:
+            marcar(archivo, "error", texto=texto, error=str(e))
+
+
+def pedir_tiktok(d):
+    """Botón «Subir a TikTok»: si el clip ya es vertical se sube; si no, se hace vertical y luego se sube."""
+    if not tiktok.conectada():
+        raise ValueError("Primero conecta tu cuenta en la tarjeta «TikTok» (abajo).")
+    archivo = os.path.basename(str(d.get("archivo", "")))  # basename: sin salir de clips/
+    p = os.path.join(CLIPS, archivo)
+    if not (p.endswith(".mp4") and os.path.isfile(p)):
+        raise ValueError("Ese clip ya no existe.")
+    if SUBIDAS["clips"].get(archivo, {}).get("estado") in ("en_cola", "subiendo", "haciendo_vertical", "publicado"):
+        raise ValueError("Este clip ya está subido o en camino.")
+    texto = tiktok.texto(str(d.get("titulo", "")).strip() or str(d.get("titulo_directo", "")).strip() or AUTO["titulo"])
+    if es_vertical(p):
+        encolar_subida(archivo, texto)
+    else:  # TikTok es vertical: con «Original» en ajustes se usa el recorte vertical
+        formato = d.get("formato") if d.get("formato") in ("vertical", "desenfocado") else "vertical"
+        marcar(archivo, "haciendo_vertical", texto=texto)
+        try:
+            pedir_vertical(dict(d, formato=formato, tiktok_texto=texto))
+        except Exception:
+            SUBIDAS["clips"].pop(archivo, None)
+            raise
+
+
+def reanudar_subidas():
+    """Al arrancar: lo que estaba en cola vuelve a la cola; lo que se cortó a medias queda como error."""
+    for archivo, e in list(SUBIDAS["clips"].items()):
+        if e["estado"] == "en_cola":
+            COLA_TIKTOK.put(archivo)
+        elif e["estado"] in ("subiendo", "haciendo_vertical"):
+            marcar(archivo, "error", texto=e.get("texto", ""), error="Se cortó al cerrar el Clipper: vuelve a pulsar «Subir a TikTok».")
+
+
+def vista_tiktok():
+    c = tiktok.CONFIG
+    libres, _ = huecos_hoy()
+    return {"conectada": tiktok.conectada(), "client_key": c["client_key"], "tiene_secreto": bool(c["client_secret"]),
+            "redirect_uri": c["redirect_uri"], "privacidad": c["privacidad"], "plantilla": c["plantilla"],
+            "max_dia": c["max_dia"], "quedan_hoy": max(0, libres), "en_cola": COLA_TIKTOK.qsize()}
+
+
+def ajustes_tiktok(d):
+    c = tiktok.CONFIG
+    for k in ("client_key", "redirect_uri", "plantilla"):
+        if k in d:
+            c[k] = str(d[k]).strip()[:2200]
+    if str(d.get("client_secret", "")).strip():  # vacío = conservar el que había
+        c["client_secret"] = str(d["client_secret"]).strip()
+    if d.get("privacidad") in tiktok.PRIVACIDADES:
+        c["privacidad"] = d["privacidad"]
+    if "max_dia" in d:
+        c["max_dia"] = min(max(int(d["max_dia"]), 1), 50)
+    tiktok.guardar()
 
 
 def pedir_vertical(d):
@@ -421,7 +791,7 @@ def pedir_vertical(d):
     p = os.path.join(CLIPS, os.path.basename(str(d.get("archivo", ""))))  # basename: sin salir de clips/
     if not (p.endswith(".mp4") and os.path.isfile(p)):
         raise ValueError("Ese clip ya no existe.")
-    dur = float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).stdout.strip())
+    dur = duracion(p)
     os.makedirs(TRABAJO, exist_ok=True)
     COLA.put((d, os.path.basename(p)[:-4] + "_vertical_" + str(int(time.time())), p, dur))
 
@@ -434,7 +804,8 @@ def lista_clips():
     clips = [p for p in glob.glob(os.path.join(CLIPS, "*.mp4"))]
     clips.sort(key=os.path.getmtime, reverse=True)
     return [{"archivo": "/clips/" + os.path.basename(p), "hora": os.path.getmtime(p),
-             "mb": round(os.path.getsize(p) / 1e6, 1)} for p in clips[:200]]
+             "mb": round(os.path.getsize(p) / 1e6, 1), "tiktok": SUBIDAS["clips"].get(os.path.basename(p))}
+            for p in clips[:200]]
 
 
 def inicio_video(p):
@@ -534,6 +905,21 @@ class App(BaseHTTPRequestHandler):
             return self.responder(200, json.dumps(estado_auto()).encode())
         if self.path == "/diagnostico":
             return self.responder(200, diagnostico().encode(), "text/plain; charset=utf-8")
+        if self.path == "/api/cookies":
+            return self.responder(200, json.dumps(estado_cookies()).encode())
+        if self.path == "/api/tiktok":
+            return self.responder(200, json.dumps(vista_tiktok()).encode())
+        if ruta == "/auth/tiktok/vuelta":  # si la Redirect URI apunta al propio Clipper, TikTok vuelve aquí
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            try:
+                tiktok.usar_codigo(self.path) if q.get("code") else None
+                msg = "✅ TikTok conectado. Ya puedes cerrar esta pestaña." if q.get("code") else \
+                    "TikTok no dio permiso: " + (q.get("error_description") or q.get("error") or ["sin motivo"])[0]
+            except Exception as e:
+                msg = "No se pudo conectar TikTok: " + str(e)
+            from html import escape
+            return self.responder(200, f'<meta charset="utf-8"><p style="font:18px system-ui;padding:20px">{escape(msg)} '
+                                       f'<a href="/">Volver al Clipper</a></p>'.encode(), "text/html; charset=utf-8")
         self.responder(404, b"{}")
 
     def do_POST(self):
@@ -554,6 +940,27 @@ class App(BaseHTTPRequestHandler):
             if self.path == "/api/vertical":  # no necesita link: trabaja sobre un clip ya guardado
                 pedir_vertical(d)
                 return self.responder(200, json.dumps(estado_auto()).encode())
+            if self.path == "/api/tiktok/subir":
+                pedir_tiktok(d)
+                return self.responder(200, json.dumps(lista_clips()).encode())
+            if self.path == "/api/tiktok/ajustes":
+                ajustes_tiktok(d)
+                return self.responder(200, json.dumps(vista_tiktok()).encode())
+            if self.path == "/api/tiktok/permiso":
+                return self.responder(200, json.dumps({"url": tiktok.url_permiso()}).encode())
+            if self.path == "/api/tiktok/codigo":
+                tiktok.usar_codigo(d.get("texto", ""))
+                return self.responder(200, json.dumps(vista_tiktok()).encode())
+            if self.path == "/api/cookies":
+                if d.get("borrar"):
+                    os.remove(COOKIES) if os.path.isfile(COOKIES) else None
+                    return self.responder(200, json.dumps(estado_cookies()).encode())
+                n = guardar_cookies(d.get("texto"))
+                return self.responder(200, json.dumps(dict(estado_cookies(), cookies=n)).encode())
+            if self.path == "/api/tiktok/desconectar":
+                tiktok.CONFIG.update(access_token="", refresh_token="", expira=0)
+                tiktok.guardar()
+                return self.responder(200, json.dumps(vista_tiktok()).encode())
             if not re.match(r"^https?://", str(d.get("url", ""))):
                 raise ValueError("Pega un link http(s) válido")
             if self.path == "/api/auto":
@@ -579,8 +986,29 @@ class App(BaseHTTPRequestHandler):
             elif self.path == "/api/directo":
                 info = info_directo(d["url"], CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0])
                 if not info.get("is_live"):
-                    raise ValueError("Este video no está en directo ahora mismo. Pega el enlace de un directo que se esté emitiendo.")
-                res = {"id": info["id"], "titulo": info.get("title")}
+                    consejo = (" Truco: pega el link del canal terminado en /live (por ejemplo "
+                               "https://www.youtube.com/@canal/live), que siempre lleva al directo que esté en marcha.")
+                    estado = info.get("live_status")
+                    if estado in ("was_live", "post_live"):
+                        raise ValueError("Este directo ya terminó (YouTube lo ha cerrado). Si el canal sigue emitiendo, "
+                                         "lo hace con otro link: entra en el directo de ahora y copia su enlace." + consejo)
+                    if estado == "is_upcoming":
+                        raise ValueError("Este directo aún no ha empezado. Vuelve a pulsar Conectar cuando empiece." + consejo)
+                    detalle = ""
+                    if any("not a bot" in a for a in DIAG["avisos"]):
+                        raise ValueError("YouTube ha bloqueado esta conexión: pide confirmar que no eres un robot. "
+                                         + ("Las cookies que subiste ya no valen: vuelve a exportarlas y súbelas. "
+                                            if os.path.isfile(COOKIES) else
+                                            "Arréglalo subiendo las cookies de tu cuenta de YouTube en la tarjeta "
+                                            "«Cookies de YouTube» (abajo). ")
+                                         + "Mientras, prueba a cambiar de wifi a datos del móvil (o al revés).")
+                    if DIAG["avisos"]:  # YouTube puso pegas: se enseñan para saber qué pasa
+                        detalle = " Lo que dice yt-dlp: " + " | ".join(DIAG["avisos"][:2]) + \
+                                  " — Prueba a actualizar: «pip install -U --pre yt-dlp» y reinicia el Clipper."
+                    raise ValueError("YouTube no dice que este vídeo esté en directo (estado: "
+                                     f"{estado or 'desconocido'}; clientes probados: {', '.join(DIAG['formato'].get('probados', []))})."
+                                     + detalle + consejo)
+                res = {"id": info["id"], "titulo": info.get("title"), "resolucion": resumen_formato()}
             elif self.path == "/api/clip_directo":
                 res = generar_directo(d)
             elif self.path == "/api/clip":
@@ -610,6 +1038,19 @@ def test():
     assert segmentos_atras("#EXTM3U\n#EXT-X-TARGETDURATION:5\n", 60) == 13
     assert segmentos_atras("#EXTM3U\n#EXT-X-TARGETDURATION:2\n", 30) == 16
     assert segmentos_atras("sin cabecera", 10) == 3
+    c = nueva_calidad(1080)
+    assert not calidad_tras_perdida(c, 0) and c["alto"] == 1080          # un corte suelto: no baja
+    assert not calidad_tras_perdida(c, 700) and c["alto"] == 1080        # otro 11 min después: tampoco
+    assert calidad_tras_perdida(c, 800) and c["alto"] == 720             # dos en 10 min: baja
+    assert not calidad_tras_espera(c, 800 + 299) and c["alto"] == 720    # aún no toca subir
+    assert calidad_tras_espera(c, 800 + 300) and c["alto"] == 1080       # 5 min bien: vuelve a 1080p
+    assert calidad_tras_perdida(c, 1200) and c["alto"] == 720            # falla nada más subir: baja ya...
+    assert c["subir_a"] == 1200 + 600                                    # ...y la próxima prueba espera el doble
+    assert calidad_tras_perdida(c, 1300) is False or c["alto"] == 480
+    c = nueva_calidad(720); calidad_tras_perdida(c, 0); calidad_tras_perdida(c, 1)
+    assert c["alto"] == 480 and not calidad_tras_perdida(c, 2)          # de 480p no baja más
+    calidad_tras_espera(c, 1 + 300)
+    assert c["alto"] == 720 and c["subir_a"] is None and not calidad_tras_espera(c, 10**6)  # no pasa de lo elegido
     # la cadena de filtros completa funciona en ffmpeg con un vídeo de prueba
     import shutil, tempfile
     if shutil.which("ffmpeg"):
@@ -633,5 +1074,7 @@ if __name__ == "__main__":
     print(f"$SANTORYU$ en http://127.0.0.1:{puerto}  (Ctrl+C para salir)")
     print("Contraseña activada (usuario: clipper)" if CLAVE else "Sin contraseña: no lo publiques con Tailscale")
     threading.Thread(target=editor, daemon=True).start()
+    threading.Thread(target=subidor, daemon=True).start()
+    reanudar_subidas()
     webbrowser.open(f"http://127.0.0.1:{puerto}")
     ThreadingHTTPServer(("127.0.0.1", puerto), App).serve_forever()

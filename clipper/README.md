@@ -2,7 +2,9 @@
 
 Clipper **en directo**: pega el link de un directo de YouTube, pulsa **Conectar** y luego **Clipear ahora** cada vez que pase algo bueno → corta los últimos 15 s – 2 min y lo edita (vertical, encuadre, título, marca de agua, zoom, barra).
 
-**Modo automático:** elige trozos de 30 s, 1, 2 o 5 min y pulsa *Empezar automático*: graba el directo sin parar y cada trozo se edita solo con los ajustes (por defecto, vertical con fondo desenfocado) y se borra el original. Sigue aunque cierres la página o bloquees el móvil (con `termux-wake-lock`) y para al pulsar *Parar* o tras 3 fallos seguidos. En cada clip, *✨ Hacer vertical* crea una copia en vertical con los ajustes (encuadre, título, marca, zoom, barra). *Clipear ahora* también guarda sin editar salvo que marques «Hacerlo vertical al cortar».
+**Modo automático:** elige trozos de 30 s, 1, 2 o 5 min y pulsa *Empezar automático*: graba el directo sin parar (baja los trozos según salen, cada 2 s) y cada clip aparece a los pocos segundos de terminar su trozo, tal cual (horizontal, sin recomprimir: tarda segundos y casi no gasta batería). Si marcas «Hacer vertical cada clip», cada trozo se edita solo con los ajustes y se borra el original. Sigue aunque cierres la página o bloquees el móvil (con `termux-wake-lock`) y para al pulsar *Parar* (guarda lo grabado del último clip) o tras 3 fallos seguidos. Si la conexión no da y se queda más de 45 s por detrás del directo, salta al directo y, si vuelve a pasar, baja la calidad un rato (vuelve a subirla sola); el estado muestra cuántos segundos va por detrás. En cada clip, *✨ Hacer vertical* crea una copia en vertical con los ajustes (encuadre, título, marca, zoom, barra). *Clipear ahora* también guarda sin editar salvo que marques «Hacerlo vertical al cortar».
+
+**Subir a TikTok:** cada clip tiene el botón *🎵 Subir a TikTok*. Si el clip ya es vertical, se sube al momento; si es horizontal, primero se hace vertical con tus ajustes y se sube solo en cuanto termina. Se suben de uno en uno, con el texto de la plantilla, y como mucho las que pongas en «Máximo al día» (si llegas al límite, espera y lo sube cuando haya hueco). El estado sale debajo de cada clip (en cola, subiendo, ✅ publicado con enlace o ❌ el error, con botón para reintentar).
 
 (El servidor conserva también el modo de vídeos normales, `/api/analizar` y `/api/clip`, aunque la página ya no lo muestra.)
 
@@ -56,6 +58,34 @@ El ordenador tiene que estar encendido y con `servidor.py` en marcha. Los clips 
 Con el servidor en marcha, abre la página en Chrome → menú ⋮ → **Instalar app** (o *Añadir a pantalla de inicio*).
 Sale el icono de $SANTORYU$ y se abre a pantalla completa, sin barra del navegador.
 La app necesita el servidor encendido (en el ordenador o en Termux); los archivos están en `clipper/app/`.
+
+## 4c. Conectar TikTok (una vez)
+
+1. Entra en https://developers.tiktok.com con tu cuenta, crea una app y añade los productos **Login Kit** y **Content Posting API** (activa *Direct Post*).
+2. Pide los permisos `user.info.basic` y `video.publish`.
+3. Registra una **Redirect URI**. Lo más cómodo es tu dirección de Tailscale terminada en `/auth/tiktok/vuelta`
+   (por ejemplo `https://mi-pc.tailxxxx.ts.net/auth/tiktok/vuelta`): así, al aceptar, TikTok vuelve al Clipper y queda conectado solo.
+   Si pones otra web (la de tu marca, por ejemplo), al aceptar copia la dirección completa de la barra (lleva `?code=…`) y pégala en «Usar código».
+4. En el Clipper, abre la tarjeta **TikTok**, pega *Client key*, *Client secret* y la *Redirect URI* y pulsa **Conectar con TikTok**.
+5. En «Publicación» escribe el texto de los clips (`{titulo}` se cambia por el título del clip o, si no tiene, el del directo), quién los ve y el máximo al día → **Guardar**.
+
+⚠️ Mientras TikTok no **audite** tu app (se pide desde su panel y tarda días o semanas), solo deja publicar en **«Solo yo»** y tu cuenta tiene que estar en **privado**. El Clipper lo detecta y los sube así; cuando aprueben la app saldrán con la privacidad que elegiste sin tocar nada.
+TikTok también limita cuántos vídeos se publican al día por API (unos 15): no subas el máximo por encima de eso.
+Las claves se guardan en `clipper/tiktok.json`, que no se sube a GitHub. No lo compartas.
+
+## 4d. Si YouTube dice «Sign in to confirm you're not a bot»
+
+YouTube ha marcado tu conexión y no deja leer los directos. Primero prueba a **cambiar de wifi a datos** (o al revés): a veces basta, y el bloqueo suele quitarse solo en unas horas.
+El arreglo que dura es darle al Clipper las **cookies de tu cuenta de YouTube** (mejor una cuenta secundaria: YouTube podría limitar la cuenta que use yt-dlp):
+
+1. Abre una **ventana de incógnito** en el navegador de un ordenador (Chrome o Firefox), entra en https://www.youtube.com e **inicia sesión**.
+2. Con la extensión **«Get cookies.txt LOCALLY»** (Chrome/Firefox), estando en youtube.com, pulsa *Export* → se descarga `cookies.txt`.
+3. **Cierra la ventana de incógnito** sin cerrar sesión (si sigues usando esa sesión, YouTube cambia las cookies y dejan de valer).
+4. Pásate el archivo al móvil (por ejemplo, mándatelo por WhatsApp o Drive y descárgalo).
+5. En el Clipper, tarjeta **Cookies de YouTube** → elige el archivo → **Subir cookies** → vuelve a pulsar **Conectar**.
+
+Sin ordenador: Firefox para Android admite extensiones; si encuentras «Get cookies.txt LOCALLY» (o «cookies.txt») para Android, haz lo mismo desde el móvil.
+Las cookies se guardan en `clipper/cookies.txt`, que no se sube a GitHub. Son como tu contraseña: no las compartas. Si al cabo de un tiempo vuelve el aviso, repite los pasos (caducan).
 
 ## 5. Sin ordenador (Android con Termux)
 
