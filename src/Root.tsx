@@ -43,6 +43,8 @@ import { MuestraDeshielo, MuestrasMapas, MUESTRAS } from "./MuestrasMapas/Muestr
 import { MuestrasEstilos, MUESTRAS_ESTILOS } from "./MuestrasMapas/Estilos";
 import { ReelDeshielo } from "./Deshielo/Reel";
 import { ReelMongoles } from "./Mongoles/Reel";
+import { ReelAlejandro } from "./Alejandro/Reel";
+import { DURACION_TOTAL as DURACION_ALEJANDRO } from "./Alejandro/escenas";
 import { ReelCortes } from "./Cortes/Reel";
 import { DURACION_TOTAL as DURACION_CORTES } from "./Cortes/escenas";
 import { DURACION_TOTAL as DURACION_MONGOLES } from "./Mongoles/escenas";
@@ -177,6 +179,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ReelDeshielo" component={ReelDeshielo} durationInFrames={DURACION_DESHIELO} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelCortes" component={ReelCortes} durationInFrames={DURACION_CORTES} fps={FPS} width={1080} height={1920} />
       <Composition id="ReelMongoles" component={ReelMongoles} durationInFrames={DURACION_MONGOLES} fps={FPS} width={1080} height={1920} />
+      <Composition id="ReelAlejandro" component={ReelAlejandro} durationInFrames={DURACION_ALEJANDRO} fps={FPS} width={1080} height={1920} />
       <Composition id="MuestrasEstilos" component={MuestrasEstilos} durationInFrames={MUESTRAS_ESTILOS * 30} fps={FPS} width={1080} height={1920} />
       <Composition id="MuestrasMapas" component={MuestrasMapas} durationInFrames={MUESTRAS * 30} fps={FPS} width={1080} height={1920} />
       <Composition id="MuestraDeshielo" component={MuestraDeshielo} durationInFrames={180} fps={FPS} width={1080} height={1920} />
