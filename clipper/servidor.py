@@ -185,28 +185,39 @@ def extraer(url, alto, cliente=None):
     # el mejor vídeo hasta 'alto' (suelto o con audio) + el audio aparte. Antes se pedía primero vídeo y audio juntos,
     # y si YouTube solo los daba juntos en baja resolución, el clip salía a 480p aunque hubiera 1080p por separado.
     extra = ["--extractor-args", f"youtube:player_client={cliente}"] if cliente else []
-    info = json.loads(run(YTDLP + extra + ["-J", "--ignore-no-formats-error", "-S", "res,fps", "-f",
-                                           f"bv*{hls}[height<={alto}]+ba{hls}/b{hls}[height<={alto}]/bv*{hls}+ba{hls}/b{hls}",
-                                           "--", url]).stdout)
+    r = run(YTDLP + extra + ["-J", "--ignore-no-formats-error", "-S", "res,fps", "-f",
+                             f"bv*{hls}[height<={alto}]+ba{hls}/b{hls}[height<={alto}]/bv*{hls}+ba{hls}/b{hls}",
+                             "--", url])
+    info = json.loads(r.stdout)
+    # avisos de yt-dlp (bloqueos de YouTube, fallos del motor de JavaScript…): explican por qué algo no sale
+    avisos = [l.strip()[:200] for l in r.stderr.splitlines() if l.startswith(("WARNING", "ERROR"))]
     elegidos = [f for f in info.get("requested_formats") or [info] if f.get("url")]
-    return info, elegidos, max((f.get("height") or 0 for f in elegidos), default=0)
+    return info, elegidos, max((f.get("height") or 0 for f in elegidos), default=0), avisos
 
 
 def info_directo(url, alto):
     """Datos del vídeo; si está en directo, guarda sus URL HLS para los clips."""
-    info, elegidos, conseguida = extraer(url, alto)
-    probados = ["por defecto"]
-    # a veces YouTube solo da 480p al cliente por defecto de yt-dlp; Safari y TV suelen dar el directo en 1080p
-    for cliente in ("web_safari", "tv"):
-        if not info.get("is_live") or conseguida >= alto:
+    probados, avisos, fallo = [], [], None
+    info, elegidos, conseguida = {}, [], 0
+    # Se prueba el cliente por defecto de yt-dlp y, si YouTube no le dice que está en directo (a veces le da una
+    # respuesta incompleta) o le da menos calidad, los de Safari, TV y móvil web. Se queda con el mejor.
+    for cliente in (None, "web_safari", "tv", "mweb"):
+        if info.get("is_live") and conseguida >= alto:
             break
         try:
             otro = extraer(url, alto, cliente)
-            probados.append(cliente)
-        except Exception:
+        except Exception as e:
+            fallo = fallo or e
+            avisos.append(f"[{cliente or 'por defecto'}] {e}"[:200])
             continue
-        if otro[0].get("is_live") and otro[1] and otro[2] > conseguida:
-            info, elegidos, conseguida = otro
+        probados.append(cliente or "por defecto")
+        avisos += [f"[{cliente or 'por defecto'}] {a}" for a in otro[3][:3]]
+        if not probados[1:] or (otro[0].get("is_live") and (not info.get("is_live") or (otro[1] and otro[2] > conseguida))):
+            info, elegidos, conseguida = otro[:3]
+    DIAG["avisos"] = avisos[-8:]
+    if not probados:  # ningún cliente funcionó: el error de yt-dlp explica el motivo
+        raise RuntimeError(f"yt-dlp no pudo leer el vídeo: {fallo}. Actualiza con «pip install -U --pre yt-dlp» y "
+                           "comprueba que «node --version» funciona; luego reinicia el Clipper.")
     urls = [f["url"] for f in elegidos]
     ofrecidas = sorted({f["height"] for f in info.get("formats") or [] if f.get("height")
                         and str(f.get("protocol", "")).startswith("m3u8") and f.get("vcodec") != "none"})
@@ -369,7 +380,7 @@ def avisar_si_va_lento(p):
                          "y vuelve a empezar.")
 
 
-DIAG = {"pistas": 0, "ultimas": [], "listas": [], "formato": {}}
+DIAG = {"pistas": 0, "ultimas": [], "listas": [], "formato": {}, "avisos": []}
 
 
 def resumen_formato():
@@ -411,7 +422,9 @@ def diagnostico():
            f"listas (primer trozo, cuántos): {DIAG['listas']}",
            f"resolución: {resumen_formato() or '?'} · formatos (itag): {DIAG['formato'].get('itags')} · "
            f"YouTube ofrece: {DIAG['formato'].get('ofrecidas')} · clientes probados: {DIAG['formato'].get('probados')}",
-           f"en cola: {COLA.qsize()} · estado: {AUTO.get('error') or 'ok'}", "", "Últimos mensajes de ffmpeg:"]
+           f"en cola: {COLA.qsize()} · estado: {AUTO.get('error') or 'ok'}", "", "Avisos de yt-dlp al conectar:"]
+    out += [f"  {x}" for x in DIAG["avisos"]] or ["  (ninguno)"]
+    out += ["", "Últimos mensajes de ffmpeg:"]
     out += [f"  {x[:160]}" for x in list(DIAG["ultimas"])[-8:]] or ["  (ninguno)"]
     for carpeta in (TRABAJO, CLIPS):
         archivos = sorted(glob.glob(os.path.join(carpeta, "*.mp4")) + glob.glob(os.path.join(carpeta, "*.ts")), key=os.path.getmtime)[-3:]
@@ -944,7 +957,13 @@ class App(BaseHTTPRequestHandler):
                                          "lo hace con otro link: entra en el directo de ahora y copia su enlace." + consejo)
                     if estado == "is_upcoming":
                         raise ValueError("Este directo aún no ha empezado. Vuelve a pulsar Conectar cuando empiece." + consejo)
-                    raise ValueError("Este video no está en directo ahora mismo. Pega el enlace de un directo que se esté emitiendo." + consejo)
+                    detalle = ""
+                    if DIAG["avisos"]:  # YouTube puso pegas: se enseñan para saber qué pasa
+                        detalle = " Lo que dice yt-dlp: " + " | ".join(DIAG["avisos"][:2]) + \
+                                  " — Prueba a actualizar: «pip install -U --pre yt-dlp» y reinicia el Clipper."
+                    raise ValueError("YouTube no dice que este vídeo esté en directo (estado: "
+                                     f"{estado or 'desconocido'}; clientes probados: {', '.join(DIAG['formato'].get('probados', []))})."
+                                     + detalle + consejo)
                 res = {"id": info["id"], "titulo": info.get("title"), "resolucion": resumen_formato()}
             elif self.path == "/api/clip_directo":
                 res = generar_directo(d)
