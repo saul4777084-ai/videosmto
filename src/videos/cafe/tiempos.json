@@ -1,0 +1,1050 @@
+{
+ "duracion": 99.18,
+ "escenas": [
+  {
+   "id": "intro",
+   "titulo": "INTRODUCCIÓN",
+   "inicio": 0.0,
+   "fin": 9.0
+  },
+  {
+   "id": "dia1",
+   "titulo": "DÍA 1",
+   "inicio": 9.0,
+   "fin": 27.83
+  },
+  {
+   "id": "dia7",
+   "titulo": "DÍA 7",
+   "inicio": 27.83,
+   "fin": 47.37
+  },
+  {
+   "id": "dia15",
+   "titulo": "DÍA 15",
+   "inicio": 47.37,
+   "fin": 62.46
+  },
+  {
+   "id": "dia30",
+   "titulo": "DÍA 30",
+   "inicio": 62.46,
+   "fin": 80.25
+  },
+  {
+   "id": "final",
+   "titulo": "FINAL",
+   "inicio": 80.25,
+   "fin": 99.18
+  }
+ ],
+ "frases": [
+  {
+   "escena": "intro",
+   "texto": "¿Qué le pasa a tu cuerpo si tomas 5 cafés al día durante 30 días?",
+   "voz": "¿Qué le pasa a tu cuerpo si tomas cinco cafés al día durante treinta días?",
+   "inicio": 0.6,
+   "fin": 4.56,
+   "pausa": 0.5,
+   "palabras": [
+    0.6,
+    0.69,
+    0.81,
+    1.01,
+    1.19,
+    1.31,
+    1.63,
+    1.89,
+    2.19,
+    2.49,
+    2.89,
+    3.07,
+    3.27,
+    3.57,
+    3.97
+   ]
+  },
+  {
+   "escena": "intro",
+   "texto": "Vamos a verlo por dentro.",
+   "voz": "Vamos a verlo por dentro.",
+   "inicio": 5.06,
+   "fin": 6.45,
+   "pausa": 0.0,
+   "palabras": [
+    5.09,
+    5.43,
+    5.63,
+    5.87,
+    6.01
+   ]
+  },
+  {
+   "escena": "dia1",
+   "texto": "Día uno. La cafeína pasa del estómago a la sangre, y en unos 45 minutos llega a tu cerebro.",
+   "voz": "Día uno. La cafeína pasa del estómago a la sangre, y en unos cuarenta y cinco minutos llega a tu cerebro.",
+   "inicio": 9.6,
+   "fin": 16.27,
+   "pausa": 0.4,
+   "palabras": [
+    9.63,
+    9.95,
+    10.85,
+    10.91,
+    11.41,
+    11.73,
+    11.93,
+    12.41,
+    12.51,
+    12.61,
+    12.93,
+    13.49,
+    13.59,
+    13.77,
+    14.29,
+    15.03,
+    15.45,
+    15.65,
+    15.75
+   ]
+  },
+  {
+   "escena": "dia1",
+   "texto": "Allí ocupa el sitio de la adenosina, la molécula que te hace sentir cansancio.",
+   "voz": "Allí ocupa el sitio de la adenosina, la molécula que te hace sentir cansancio.",
+   "inicio": 16.67,
+   "fin": 21.22,
+   "pausa": 0.4,
+   "palabras": [
+    16.7,
+    17.02,
+    17.36,
+    17.5,
+    17.78,
+    17.96,
+    18.08,
+    19.1,
+    19.18,
+    19.72,
+    19.84,
+    19.98,
+    20.12,
+    20.52
+   ]
+  },
+  {
+   "escena": "dia1",
+   "texto": "Por eso te despejas. Y sube la adrenalina: el corazón puede acelerarse un poco.",
+   "voz": "Por eso te despejas. Y sube la adrenalina: el corazón puede acelerarse un poco.",
+   "inicio": 21.62,
+   "fin": 26.93,
+   "pausa": 0.0,
+   "palabras": [
+    21.65,
+    21.89,
+    22.07,
+    22.23,
+    22.79,
+    23.39,
+    23.67,
+    23.79,
+    24.81,
+    24.93,
+    25.33,
+    25.79,
+    26.37,
+    26.55
+   ]
+  },
+  {
+   "escena": "dia7",
+   "texto": "Día siete. Cinco cafés pueden sumar unos 450 miligramos de cafeína al día.",
+   "voz": "Día siete. Cinco cafés pueden sumar unos cuatrocientos cincuenta miligramos de cafeína al día.",
+   "inicio": 28.43,
+   "fin": 34.63,
+   "pausa": 0.35,
+   "palabras": [
+    28.46,
+    29.06,
+    29.94,
+    30.2,
+    30.74,
+    31.04,
+    31.44,
+    31.6,
+    32.18,
+    33.48,
+    33.68,
+    34.16,
+    34.32
+   ]
+  },
+  {
+   "escena": "dia7",
+   "texto": "Es más de los 400 que se consideran seguros para un adulto sano.",
+   "voz": "Es más de los cuatrocientos que se consideran seguros para un adulto sano.",
+   "inicio": 34.98,
+   "fin": 39.04,
+   "pausa": 0.4,
+   "palabras": [
+    35.01,
+    35.29,
+    35.47,
+    35.61,
+    35.73,
+    36.13,
+    36.67,
+    36.79,
+    37.33,
+    37.77,
+    38.11,
+    38.31,
+    38.69
+   ]
+  },
+  {
+   "escena": "dia7",
+   "texto": "Y tu cerebro se adapta: puede fabricar más receptores de adenosina, y el mismo café ya no te despierta igual.",
+   "voz": "Y tu cerebro se adapta: puede fabricar más receptores de adenosina, y el mismo café ya no te despierta igual.",
+   "inicio": 39.44,
+   "fin": 46.47,
+   "pausa": 0.0,
+   "palabras": [
+    39.47,
+    39.69,
+    39.81,
+    40.13,
+    40.35,
+    41.25,
+    41.51,
+    41.99,
+    42.25,
+    42.83,
+    43.01,
+    43.89,
+    44.11,
+    44.21,
+    44.45,
+    44.85,
+    45.19,
+    45.45,
+    45.57,
+    46.11
+   ]
+  },
+  {
+   "escena": "dia15",
+   "texto": "Día quince. Tu cuerpo tarda unas cinco horas en eliminar la mitad de la cafeína.",
+   "voz": "Día quince. Tu cuerpo tarda unas cinco horas en eliminar la mitad de la cafeína.",
+   "inicio": 47.97,
+   "fin": 53.02,
+   "pausa": 0.4,
+   "palabras": [
+    48.0,
+    48.52,
+    49.4,
+    49.56,
+    49.9,
+    50.28,
+    50.5,
+    50.86,
+    51.16,
+    51.38,
+    51.82,
+    51.94,
+    52.14,
+    52.32,
+    52.44
+   ]
+  },
+  {
+   "escena": "dia15",
+   "texto": "El café de las cinco de la tarde sigue en tu sangre a las diez de la noche.",
+   "voz": "El café de las cinco de la tarde sigue en tu sangre a las diez de la noche.",
+   "inicio": 53.42,
+   "fin": 57.2,
+   "pausa": 0.4,
+   "palabras": [
+    53.45,
+    53.61,
+    53.85,
+    53.97,
+    54.09,
+    54.37,
+    54.53,
+    54.63,
+    54.89,
+    55.31,
+    55.49,
+    55.63,
+    55.97,
+    56.13,
+    56.31,
+    56.49,
+    56.69,
+    56.81
+   ]
+  },
+  {
+   "escena": "dia15",
+   "texto": "Duermes peor, te levantas cansado, y necesitas otro café.",
+   "voz": "Duermes peor, te levantas cansado, y necesitas otro café.",
+   "inicio": 57.6,
+   "fin": 61.56,
+   "pausa": 0.0,
+   "palabras": [
+    57.63,
+    58.05,
+    58.85,
+    58.95,
+    59.29,
+    59.77,
+    60.35,
+    60.85,
+    61.15
+   ]
+  },
+  {
+   "escena": "dia30",
+   "texto": "Día treinta. Si un día no lo tomas, puede aparecer dolor de cabeza, cansancio e irritabilidad.",
+   "voz": "Día treinta. Si un día no lo tomas, puede aparecer dolor de cabeza, cansancio e irritabilidad.",
+   "inicio": 63.06,
+   "fin": 69.91,
+   "pausa": 0.35,
+   "palabras": [
+    63.09,
+    63.61,
+    64.61,
+    64.87,
+    65.03,
+    65.21,
+    65.37,
+    65.47,
+    65.95,
+    66.37,
+    66.81,
+    67.09,
+    67.27,
+    68.15,
+    68.71,
+    69.03
+   ]
+  },
+  {
+   "escena": "dia30",
+   "texto": "Es la abstinencia de cafeína, y puede durar varios días.",
+   "voz": "Es la abstinencia de cafeína, y puede durar varios días.",
+   "inicio": 70.26,
+   "fin": 73.81,
+   "pausa": 0.4,
+   "palabras": [
+    70.3,
+    70.6,
+    70.74,
+    71.32,
+    71.44,
+    71.94,
+    72.38,
+    72.58,
+    72.92,
+    73.2
+   ]
+  },
+  {
+   "escena": "dia30",
+   "texto": "Y en dosis altas, algunas personas notan nervios, palpitaciones o acidez.",
+   "voz": "Y en dosis altas, algunas personas notan nervios, palpitaciones o acidez.",
+   "inicio": 74.21,
+   "fin": 79.35,
+   "pausa": 0.0,
+   "palabras": [
+    74.24,
+    74.5,
+    74.64,
+    74.88,
+    75.36,
+    75.74,
+    76.34,
+    76.8,
+    77.56,
+    78.18,
+    78.78
+   ]
+  },
+  {
+   "escena": "final",
+   "texto": "El café no es el enemigo: hasta 3 o 4 tazas al día se asocian incluso con beneficios.",
+   "voz": "El café no es el enemigo: hasta tres o cuatro tazas al día se asocian incluso con beneficios.",
+   "inicio": 80.85,
+   "fin": 87.14,
+   "pausa": 0.4,
+   "palabras": [
+    80.88,
+    81.44,
+    81.72,
+    82.06,
+    82.3,
+    82.42,
+    83.2,
+    83.42,
+    83.8,
+    84.06,
+    84.36,
+    84.76,
+    84.92,
+    85.14,
+    85.34,
+    85.76,
+    86.06,
+    86.36
+   ]
+  },
+  {
+   "escena": "final",
+   "texto": "La clave está en la dosis y en la hora: el último, al menos seis horas antes de dormir.",
+   "voz": "La clave está en la dosis y en la hora: el último, al menos seis horas antes de dormir.",
+   "inicio": 87.54,
+   "fin": 93.0,
+   "pausa": 0.5,
+   "palabras": [
+    87.57,
+    87.81,
+    88.09,
+    88.35,
+    88.49,
+    88.61,
+    89.05,
+    89.23,
+    89.31,
+    89.45,
+    90.19,
+    90.31,
+    91.03,
+    91.15,
+    91.46,
+    91.77,
+    92.05,
+    92.39,
+    92.57
+   ]
+  },
+  {
+   "escena": "final",
+   "texto": "La mejor energía de cada día sigue siendo dormir bien.",
+   "voz": "La mejor energía de cada día sigue siendo dormir bien.",
+   "inicio": 93.5,
+   "fin": 96.58,
+   "pausa": 0.0,
+   "palabras": [
+    93.53,
+    93.73,
+    93.97,
+    94.47,
+    94.61,
+    94.81,
+    95.09,
+    95.41,
+    95.81,
+    96.11
+   ]
+  }
+ ],
+ "subtitulos": [
+  {
+   "texto": "¿Qué le pasa a tu cuerpo",
+   "inicio": 0.6,
+   "fin": 1.63,
+   "palabras": [
+    0.6,
+    0.69,
+    0.81,
+    1.01,
+    1.19,
+    1.31
+   ]
+  },
+  {
+   "texto": "si tomas 5 cafés",
+   "inicio": 1.63,
+   "fin": 2.89,
+   "palabras": [
+    1.63,
+    1.89,
+    2.19,
+    2.49
+   ]
+  },
+  {
+   "texto": "al día durante 30 días?",
+   "inicio": 2.89,
+   "fin": 4.56,
+   "palabras": [
+    2.89,
+    3.07,
+    3.27,
+    3.57,
+    3.97
+   ]
+  },
+  {
+   "texto": "Vamos a verlo por dentro.",
+   "inicio": 5.09,
+   "fin": 6.45,
+   "palabras": [
+    5.09,
+    5.43,
+    5.63,
+    5.87,
+    6.01
+   ]
+  },
+  {
+   "texto": "Día uno.",
+   "inicio": 9.63,
+   "fin": 10.85,
+   "palabras": [
+    9.63,
+    9.95
+   ]
+  },
+  {
+   "texto": "La cafeína pasa",
+   "inicio": 10.85,
+   "fin": 11.73,
+   "palabras": [
+    10.85,
+    10.91,
+    11.41
+   ]
+  },
+  {
+   "texto": "del estómago a la sangre,",
+   "inicio": 11.73,
+   "fin": 12.93,
+   "palabras": [
+    11.73,
+    11.93,
+    12.41,
+    12.51,
+    12.61
+   ]
+  },
+  {
+   "texto": "y en unos 45 minutos",
+   "inicio": 12.93,
+   "fin": 15.03,
+   "palabras": [
+    12.93,
+    13.49,
+    13.59,
+    13.77,
+    14.29
+   ]
+  },
+  {
+   "texto": "llega a tu cerebro.",
+   "inicio": 15.03,
+   "fin": 16.27,
+   "palabras": [
+    15.03,
+    15.45,
+    15.65,
+    15.75
+   ]
+  },
+  {
+   "texto": "Allí ocupa el sitio de la adenosina,",
+   "inicio": 16.7,
+   "fin": 19.1,
+   "palabras": [
+    16.7,
+    17.02,
+    17.36,
+    17.5,
+    17.78,
+    17.96,
+    18.08
+   ]
+  },
+  {
+   "texto": "la molécula que te hace sentir cansancio.",
+   "inicio": 19.1,
+   "fin": 21.22,
+   "palabras": [
+    19.1,
+    19.18,
+    19.72,
+    19.84,
+    19.98,
+    20.12,
+    20.52
+   ]
+  },
+  {
+   "texto": "Por eso te despejas.",
+   "inicio": 21.65,
+   "fin": 22.79,
+   "palabras": [
+    21.65,
+    21.89,
+    22.07,
+    22.23
+   ]
+  },
+  {
+   "texto": "Y sube la adrenalina:",
+   "inicio": 22.79,
+   "fin": 24.81,
+   "palabras": [
+    22.79,
+    23.39,
+    23.67,
+    23.79
+   ]
+  },
+  {
+   "texto": "el corazón puede acelerarse un poco.",
+   "inicio": 24.81,
+   "fin": 26.93,
+   "palabras": [
+    24.81,
+    24.93,
+    25.33,
+    25.79,
+    26.37,
+    26.55
+   ]
+  },
+  {
+   "texto": "Día siete.",
+   "inicio": 28.46,
+   "fin": 29.94,
+   "palabras": [
+    28.46,
+    29.06
+   ]
+  },
+  {
+   "texto": "Cinco cafés pueden sumar unos 450",
+   "inicio": 29.94,
+   "fin": 32.18,
+   "palabras": [
+    29.94,
+    30.2,
+    30.74,
+    31.04,
+    31.44,
+    31.6
+   ]
+  },
+  {
+   "texto": "miligramos de cafeína al día.",
+   "inicio": 32.18,
+   "fin": 34.63,
+   "palabras": [
+    32.18,
+    33.48,
+    33.68,
+    34.16,
+    34.32
+   ]
+  },
+  {
+   "texto": "Es más de los 400",
+   "inicio": 35.01,
+   "fin": 36.13,
+   "palabras": [
+    35.01,
+    35.29,
+    35.47,
+    35.61,
+    35.73
+   ]
+  },
+  {
+   "texto": "que se consideran seguros",
+   "inicio": 36.13,
+   "fin": 37.77,
+   "palabras": [
+    36.13,
+    36.67,
+    36.79,
+    37.33
+   ]
+  },
+  {
+   "texto": "para un adulto sano.",
+   "inicio": 37.77,
+   "fin": 39.04,
+   "palabras": [
+    37.77,
+    38.11,
+    38.31,
+    38.69
+   ]
+  },
+  {
+   "texto": "Y tu cerebro se adapta:",
+   "inicio": 39.47,
+   "fin": 41.25,
+   "palabras": [
+    39.47,
+    39.69,
+    39.81,
+    40.13,
+    40.35
+   ]
+  },
+  {
+   "texto": "puede fabricar más receptores de adenosina,",
+   "inicio": 41.25,
+   "fin": 43.89,
+   "palabras": [
+    41.25,
+    41.51,
+    41.99,
+    42.25,
+    42.83,
+    43.01
+   ]
+  },
+  {
+   "texto": "y el mismo café ya",
+   "inicio": 43.89,
+   "fin": 45.19,
+   "palabras": [
+    43.89,
+    44.11,
+    44.21,
+    44.45,
+    44.85
+   ]
+  },
+  {
+   "texto": "no te despierta igual.",
+   "inicio": 45.19,
+   "fin": 46.47,
+   "palabras": [
+    45.19,
+    45.45,
+    45.57,
+    46.11
+   ]
+  },
+  {
+   "texto": "Día quince.",
+   "inicio": 48.0,
+   "fin": 49.4,
+   "palabras": [
+    48.0,
+    48.52
+   ]
+  },
+  {
+   "texto": "Tu cuerpo tarda unas cinco horas",
+   "inicio": 49.4,
+   "fin": 51.16,
+   "palabras": [
+    49.4,
+    49.56,
+    49.9,
+    50.28,
+    50.5,
+    50.86
+   ]
+  },
+  {
+   "texto": "en eliminar la mitad de la cafeína.",
+   "inicio": 51.16,
+   "fin": 53.02,
+   "palabras": [
+    51.16,
+    51.38,
+    51.82,
+    51.94,
+    52.14,
+    52.32,
+    52.44
+   ]
+  },
+  {
+   "texto": "El café de las cinco",
+   "inicio": 53.45,
+   "fin": 54.37,
+   "palabras": [
+    53.45,
+    53.61,
+    53.85,
+    53.97,
+    54.09
+   ]
+  },
+  {
+   "texto": "de la tarde sigue",
+   "inicio": 54.37,
+   "fin": 55.31,
+   "palabras": [
+    54.37,
+    54.53,
+    54.63,
+    54.89
+   ]
+  },
+  {
+   "texto": "en tu sangre",
+   "inicio": 55.31,
+   "fin": 55.97,
+   "palabras": [
+    55.31,
+    55.49,
+    55.63
+   ]
+  },
+  {
+   "texto": "a las diez de la noche.",
+   "inicio": 55.97,
+   "fin": 57.2,
+   "palabras": [
+    55.97,
+    56.13,
+    56.31,
+    56.49,
+    56.69,
+    56.81
+   ]
+  },
+  {
+   "texto": "Duermes peor, te levantas cansado,",
+   "inicio": 57.63,
+   "fin": 59.77,
+   "palabras": [
+    57.63,
+    58.05,
+    58.85,
+    58.95,
+    59.29
+   ]
+  },
+  {
+   "texto": "y necesitas otro café.",
+   "inicio": 59.77,
+   "fin": 61.56,
+   "palabras": [
+    59.77,
+    60.35,
+    60.85,
+    61.15
+   ]
+  },
+  {
+   "texto": "Día treinta.",
+   "inicio": 63.09,
+   "fin": 64.61,
+   "palabras": [
+    63.09,
+    63.61
+   ]
+  },
+  {
+   "texto": "Si un día no lo tomas,",
+   "inicio": 64.61,
+   "fin": 65.95,
+   "palabras": [
+    64.61,
+    64.87,
+    65.03,
+    65.21,
+    65.37,
+    65.47
+   ]
+  },
+  {
+   "texto": "puede aparecer dolor de cabeza,",
+   "inicio": 65.95,
+   "fin": 68.15,
+   "palabras": [
+    65.95,
+    66.37,
+    66.81,
+    67.09,
+    67.27
+   ]
+  },
+  {
+   "texto": "cansancio e irritabilidad.",
+   "inicio": 68.15,
+   "fin": 69.91,
+   "palabras": [
+    68.15,
+    68.71,
+    69.03
+   ]
+  },
+  {
+   "texto": "Es la abstinencia de cafeína,",
+   "inicio": 70.3,
+   "fin": 71.94,
+   "palabras": [
+    70.3,
+    70.6,
+    70.74,
+    71.32,
+    71.44
+   ]
+  },
+  {
+   "texto": "y puede durar varios días.",
+   "inicio": 71.94,
+   "fin": 73.81,
+   "palabras": [
+    71.94,
+    72.38,
+    72.58,
+    72.92,
+    73.2
+   ]
+  },
+  {
+   "texto": "Y en dosis altas,",
+   "inicio": 74.24,
+   "fin": 75.36,
+   "palabras": [
+    74.24,
+    74.5,
+    74.64,
+    74.88
+   ]
+  },
+  {
+   "texto": "algunas personas notan nervios,",
+   "inicio": 75.36,
+   "fin": 77.56,
+   "palabras": [
+    75.36,
+    75.74,
+    76.34,
+    76.8
+   ]
+  },
+  {
+   "texto": "palpitaciones o acidez.",
+   "inicio": 77.56,
+   "fin": 79.35,
+   "palabras": [
+    77.56,
+    78.18,
+    78.78
+   ]
+  },
+  {
+   "texto": "El café no es el enemigo:",
+   "inicio": 80.88,
+   "fin": 83.2,
+   "palabras": [
+    80.88,
+    81.44,
+    81.72,
+    82.06,
+    82.3,
+    82.42
+   ]
+  },
+  {
+   "texto": "hasta 3 o 4 tazas",
+   "inicio": 83.2,
+   "fin": 84.76,
+   "palabras": [
+    83.2,
+    83.42,
+    83.8,
+    84.06,
+    84.36
+   ]
+  },
+  {
+   "texto": "al día se asocian incluso con beneficios.",
+   "inicio": 84.76,
+   "fin": 87.14,
+   "palabras": [
+    84.76,
+    84.92,
+    85.14,
+    85.34,
+    85.76,
+    86.06,
+    86.36
+   ]
+  },
+  {
+   "texto": "La clave está",
+   "inicio": 87.57,
+   "fin": 88.35,
+   "palabras": [
+    87.57,
+    87.81,
+    88.09
+   ]
+  },
+  {
+   "texto": "en la dosis y en la hora:",
+   "inicio": 88.35,
+   "fin": 90.19,
+   "palabras": [
+    88.35,
+    88.49,
+    88.61,
+    89.05,
+    89.23,
+    89.31,
+    89.45
+   ]
+  },
+  {
+   "texto": "el último,",
+   "inicio": 90.19,
+   "fin": 91.03,
+   "palabras": [
+    90.19,
+    90.31
+   ]
+  },
+  {
+   "texto": "al menos seis horas antes de dormir.",
+   "inicio": 91.03,
+   "fin": 93.0,
+   "palabras": [
+    91.03,
+    91.15,
+    91.46,
+    91.77,
+    92.05,
+    92.39,
+    92.57
+   ]
+  },
+  {
+   "texto": "La mejor energía",
+   "inicio": 93.53,
+   "fin": 94.47,
+   "palabras": [
+    93.53,
+    93.73,
+    93.97
+   ]
+  },
+  {
+   "texto": "de cada día sigue siendo dormir bien.",
+   "inicio": 94.47,
+   "fin": 96.58,
+   "palabras": [
+    94.47,
+    94.61,
+    94.81,
+    95.09,
+    95.41,
+    95.81,
+    96.11
+   ]
+  }
+ ]
+}

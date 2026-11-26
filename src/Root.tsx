@@ -24,6 +24,7 @@ import {TOMAS as TOMAS_AYUNO_C} from './videos/ayuno/tomas';
 import {DURACION_COLA, FPS_COLA, VideoCola} from './videos/cola/VideoCola';
 import {DURACION_MOVIL, FPS_MOVIL, TOMAS_MOVIL, VideoMovil} from './videos/movil/VideoMovil';
 import {TOMAS as TOMAS_MOVIL_C} from './videos/movil/VideoMovil';
+import {DURACION_CAFE, FPS_CAFE, TOMAS as TOMAS_CAFE_C, TOMAS_CAFE, VideoCafe} from './videos/cafe/VideoCafe';
 import {calcularMetadatosResumen, FPS_RESUMEN, ResumenPelicula} from './videos/resumen/ResumenPelicula';
 import type {PropsResumen} from './videos/resumen/tipos';
 import EJEMPLO_RESUMEN from '../resumenes/nosferatu/props.json';
@@ -82,6 +83,19 @@ export const RemotionRoot: React.FC = () => {
             return <C t={f / FPS_MOVIL} d={d} />;
           };
           return <Composition key={tm.toma} id={`Movil-${tm.toma}`} component={Toma} durationInFrames={Math.max(1, Math.round(d * FPS_MOVIL))} fps={FPS_MOVIL} width={1080} height={1920} />;
+        })}
+      </Folder>
+      {/* ¿Qué le pasa a tu cuerpo si tomas 5 cafés al día durante 30 días? (3D médico) */}
+      <Composition id="Cafe30Dias" component={VideoCafe} defaultProps={{subtitulos: true, audio: false}} durationInFrames={Math.round(DURACION_CAFE * FPS_CAFE)} fps={FPS_CAFE} width={1080} height={1920} />
+      <Folder name="Cafe-Tomas">
+        {TOMAS_CAFE.map((tm) => {
+          const C = TOMAS_CAFE_C[tm.toma];
+          const d = tm.fin - tm.inicio;
+          const Toma: React.FC = () => {
+            const f = useCurrentFrame();
+            return <C t={f / FPS_CAFE} d={d} />;
+          };
+          return <Composition key={tm.toma} id={`Cafe-${tm.toma}`} component={Toma} durationInFrames={Math.max(1, Math.round(d * FPS_CAFE))} fps={FPS_CAFE} width={1080} height={1920} />;
         })}
       </Folder>
       {/* ¿Qué sucede dentro de tu cuerpo si pasas 7 días sin comer? (3D médico) */}

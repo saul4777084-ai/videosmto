@@ -1,0 +1,11 @@
+¿Qué le pasa a tu cuerpo si tomas cinco cafés al día durante treinta días? <break time="0.5s" /> Vamos a verlo por dentro.
+<break time="1.5s" />
+Día uno. La cafeína pasa del estómago a la sangre, y en unos cuarenta y cinco minutos llega a tu cerebro. <break time="0.4s" /> Allí ocupa el sitio de la adenosina, la molécula que te hace sentir cansancio. <break time="0.4s" /> Por eso te despejas. Y sube la adrenalina: el corazón puede acelerarse un poco.
+<break time="1.5s" />
+Día siete. Cinco cafés pueden sumar unos cuatrocientos cincuenta miligramos de cafeína al día. <break time="0.3s" /> Es más de los cuatrocientos que se consideran seguros para un adulto sano. <break time="0.4s" /> Y tu cerebro se adapta: puede fabricar más receptores de adenosina, y el mismo café ya no te despierta igual.
+<break time="1.5s" />
+Día quince. Tu cuerpo tarda unas cinco horas en eliminar la mitad de la cafeína. <break time="0.4s" /> El café de las cinco de la tarde sigue en tu sangre a las diez de la noche. <break time="0.4s" /> Duermes peor, te levantas cansado, y necesitas otro café.
+<break time="1.5s" />
+Día treinta. Si un día no lo tomas, puede aparecer dolor de cabeza, cansancio e irritabilidad. <break time="0.3s" /> Es la abstinencia de cafeína, y puede durar varios días. <break time="0.4s" /> Y en dosis altas, algunas personas notan nervios, palpitaciones o acidez.
+<break time="1.5s" />
+El café no es el enemigo: hasta tres o cuatro tazas al día se asocian incluso con beneficios. <break time="0.4s" /> La clave está en la dosis y en la hora: el último, al menos seis horas antes de dormir. <break time="0.5s" /> La mejor energía de cada día sigue siendo dormir bien.

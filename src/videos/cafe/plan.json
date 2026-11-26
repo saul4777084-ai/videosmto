@@ -1,0 +1,26 @@
+{
+  "_nota": "Tomas de cada escena. t = segundo de inicio dentro de la escena (las escenas y sus tiempos salen de tiempos.json, generado por tools/tiempos_cafe.py con la duración real de la locución).",
+  "escenas": {
+    "intro": [{"t": 0, "toma": "intro"}],
+    "dia1": [
+      {"t": 0, "toma": "trago"},
+      {"t": 3.3, "toma": "sangre"},
+      {"t": 5.7, "toma": "cerebro"},
+      {"t": 7.6, "toma": "receptores"},
+      {"t": 13.6, "toma": "corazon"}
+    ],
+    "dia7": [
+      {"t": 0, "toma": "tazas"},
+      {"t": 11.4, "toma": "tolerancia"}
+    ],
+    "dia15": [
+      {"t": 0, "toma": "sangreNoche"},
+      {"t": 10.0, "toma": "cerebroNoche"}
+    ],
+    "dia30": [
+      {"t": 0, "toma": "abstinencia"},
+      {"t": 11.5, "toma": "cuerpo30"}
+    ],
+    "final": [{"t": 0, "toma": "final"}]
+  }
+}
