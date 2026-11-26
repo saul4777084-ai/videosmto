@@ -1,7 +1,7 @@
-# Graph Report - wt5  (2026-11-26)
+# Graph Report - wt6  (2026-11-26)
 
 ## Corpus Check
-- 497 files · ~432,522 words
+- 497 files · ~432,608 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 26 file(s) not represented in the graph (top: .woff2 18, .geojson 4, (none) 4)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a2d333e9`
+- Built from commit: `ddf5bb21`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -291,25 +291,25 @@
 1. `Rotulo()` - 105 edges
 2. `tramo()` - 76 edges
 3. `muelle()` - 61 edges
-4. `ReelBase()` - 53 edges
-5. `Mat()` - 53 edges
-6. `Cine()` - 53 edges
+4. `Mat()` - 53 edges
+5. `Cine()` - 53 edges
+6. `ReelBase()` - 53 edges
 7. `mover()` - 51 edges
 8. `Plano()` - 51 edges
 9. `Chip()` - 42 edges
-10. `Sello()` - 38 edges
+10. `framesDe()` - 38 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Reglas del proyecto (videos para redes)` --references--> `ReelBase()`  [INFERRED]
   CLAUDE.md → src/comun/ReelBase.tsx
 - `ContadorPill()` --calls--> `alfa()`  [EXTRACTED]
   .agents/skills/becario-reels/assets/plantilla/src/piezas/basicas.tsx → .agents/skills/becario-reels/assets/plantilla/src/motor/estilos.ts
-- `PortadaCheck()` --calls--> `Portada()`  [EXTRACTED]
-  .agents/skills/becario-reels/assets/plantilla/src/Root.tsx → .agents/skills/becario-reels/assets/plantilla/src/Portada.tsx
 - `LineaPuntos()` --calls--> `lerp()`  [EXTRACTED]
   .agents/skills/becario-reels/assets/plantilla/src/piezas/basicas.tsx → .agents/skills/becario-reels/assets/plantilla/src/motor/anim.ts
 - `RAU` --calls--> `aPantalla()`  [EXTRACTED]
   src/Paises/Ilustraciones.tsx → src/comun/Globo.tsx
+- `PortadaCheck()` --calls--> `Portada()`  [EXTRACTED]
+  .agents/skills/becario-reels/assets/plantilla/src/Root.tsx → .agents/skills/becario-reels/assets/plantilla/src/Portada.tsx
 
 ## Import Cycles
 - None detected.
@@ -1359,15 +1359,15 @@ Nodes (5): Moving Map Render Stability, Plate sizing and sharpness, Required pat
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `@remotion/layout-utils` connect `motor/Subtitulos.tsx` to `plantilla/package.json`, `tarjetas.tsx`, `titular.tsx`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **Should `Colon/Ilustraciones.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.1427304964539007 - nodes in this community are weakly interconnected._
-- **Why does `@remotion/bundler` connect `fotos.mjs` to `render.mjs`, `plantilla/package.json`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `d3-geo` connect `package.json` to `Tierra.tsx`, `PiezasTierra.tsx`, `VueltaMundo/Ilustraciones.tsx`, `Sahara/Ilustraciones.tsx`, `MapaSahara.tsx`, `Mapa.tsx`, `Mongoles/Ilustraciones.tsx`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **Should `numpy` be split into smaller, more focused modules?**
   _Cohesion score 0.0802675585284281 - nodes in this community are weakly interconnected._
-- **Why does `@remotion/renderer` connect `plantilla/package.json` to `render.mjs`, `fotos.mjs`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `topojson-client` connect `package.json` to `Tierra.tsx`, `PiezasTierra.tsx`, `VueltaMundo/Ilustraciones.tsx`, `Sahara/Ilustraciones.tsx`, `MapaSahara.tsx`, `Muestras.tsx`, `Mapa.tsx`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **Should `tarjetas.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.13696715583508037 - nodes in this community are weakly interconnected._
 - **Should `remotion-markup/REFERENCE.md` be split into smaller, more focused modules?**

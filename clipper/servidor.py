@@ -936,7 +936,15 @@ class App(BaseHTTPRequestHandler):
             elif self.path == "/api/directo":
                 info = info_directo(d["url"], CALIDADES.get(d.get("calidad"), CALIDADES["buena"])[0])
                 if not info.get("is_live"):
-                    raise ValueError("Este video no está en directo ahora mismo. Pega el enlace de un directo que se esté emitiendo.")
+                    consejo = (" Truco: pega el link del canal terminado en /live (por ejemplo "
+                               "https://www.youtube.com/@canal/live), que siempre lleva al directo que esté en marcha.")
+                    estado = info.get("live_status")
+                    if estado in ("was_live", "post_live"):
+                        raise ValueError("Este directo ya terminó (YouTube lo ha cerrado). Si el canal sigue emitiendo, "
+                                         "lo hace con otro link: entra en el directo de ahora y copia su enlace." + consejo)
+                    if estado == "is_upcoming":
+                        raise ValueError("Este directo aún no ha empezado. Vuelve a pulsar Conectar cuando empiece." + consejo)
+                    raise ValueError("Este video no está en directo ahora mismo. Pega el enlace de un directo que se esté emitiendo." + consejo)
                 res = {"id": info["id"], "titulo": info.get("title"), "resolucion": resumen_formato()}
             elif self.path == "/api/clip_directo":
                 res = generar_directo(d)
