@@ -179,12 +179,41 @@ def generar_directo(d):
 URLS = {}  # (url, altura) -> (hora, [URL HLS]): extraer en el móvil tarda mucho y las URL valen horas
 
 
+COOKIES = os.path.join(AQUI, "cookies.txt")  # cookies de YouTube (formato Netscape); en .gitignore
+
+
+def guardar_cookies(texto):
+    """Guarda el archivo cookies.txt que sube el usuario, comprobando que es de YouTube y en el formato bueno."""
+    texto = str(texto or "").replace("\r\n", "\n")
+    filas = [l.split("\t") for l in texto.splitlines() if l.strip() and not l.startswith("#") or l.startswith("#HttpOnly_")]
+    de_youtube = [f for f in filas if len(f) >= 7 and "youtube.com" in f[0]]
+    if not de_youtube:
+        raise ValueError("Ese archivo no tiene cookies de YouTube en formato cookies.txt (Netscape). "
+                         "Expórtalo con la extensión «Get cookies.txt LOCALLY» estando en youtube.com con tu cuenta iniciada.")
+    with open(COOKIES, "w", encoding="utf-8") as f:
+        f.write(texto if texto.startswith("# ") else "# Netscape HTTP Cookie File\n" + texto)
+    try:
+        os.chmod(COOKIES, 0o600)
+    except OSError:
+        pass
+    URLS.clear()  # que la próxima conexión ya use las cookies
+    return len(de_youtube)
+
+
+def estado_cookies():
+    if not os.path.isfile(COOKIES):
+        return {"cargadas": False}
+    return {"cargadas": True, "fecha": os.path.getmtime(COOKIES)}
+
+
 def extraer(url, alto, cliente=None):
     """Pide a YouTube los formatos del vídeo. Devuelve (info, formatos elegidos, altura conseguida)."""
     hls = "[protocol^=m3u8]"
     # el mejor vídeo hasta 'alto' (suelto o con audio) + el audio aparte. Antes se pedía primero vídeo y audio juntos,
     # y si YouTube solo los daba juntos en baja resolución, el clip salía a 480p aunque hubiera 1080p por separado.
     extra = ["--extractor-args", f"youtube:player_client={cliente}"] if cliente else []
+    if os.path.isfile(COOKIES):  # sesión de YouTube: evita el bloqueo «Sign in to confirm you're not a bot»
+        extra += ["--cookies", COOKIES]
     r = run(YTDLP + extra + ["-J", "--ignore-no-formats-error", "-S", "res,fps", "-f",
                              f"bv*{hls}[height<={alto}]+ba{hls}/b{hls}[height<={alto}]/bv*{hls}+ba{hls}/b{hls}",
                              "--", url])
@@ -876,6 +905,8 @@ class App(BaseHTTPRequestHandler):
             return self.responder(200, json.dumps(estado_auto()).encode())
         if self.path == "/diagnostico":
             return self.responder(200, diagnostico().encode(), "text/plain; charset=utf-8")
+        if self.path == "/api/cookies":
+            return self.responder(200, json.dumps(estado_cookies()).encode())
         if self.path == "/api/tiktok":
             return self.responder(200, json.dumps(vista_tiktok()).encode())
         if ruta == "/auth/tiktok/vuelta":  # si la Redirect URI apunta al propio Clipper, TikTok vuelve aquí
@@ -920,6 +951,12 @@ class App(BaseHTTPRequestHandler):
             if self.path == "/api/tiktok/codigo":
                 tiktok.usar_codigo(d.get("texto", ""))
                 return self.responder(200, json.dumps(vista_tiktok()).encode())
+            if self.path == "/api/cookies":
+                if d.get("borrar"):
+                    os.remove(COOKIES) if os.path.isfile(COOKIES) else None
+                    return self.responder(200, json.dumps(estado_cookies()).encode())
+                n = guardar_cookies(d.get("texto"))
+                return self.responder(200, json.dumps(dict(estado_cookies(), cookies=n)).encode())
             if self.path == "/api/tiktok/desconectar":
                 tiktok.CONFIG.update(access_token="", refresh_token="", expira=0)
                 tiktok.guardar()
@@ -958,6 +995,13 @@ class App(BaseHTTPRequestHandler):
                     if estado == "is_upcoming":
                         raise ValueError("Este directo aún no ha empezado. Vuelve a pulsar Conectar cuando empiece." + consejo)
                     detalle = ""
+                    if any("not a bot" in a for a in DIAG["avisos"]):
+                        raise ValueError("YouTube ha bloqueado esta conexión: pide confirmar que no eres un robot. "
+                                         + ("Las cookies que subiste ya no valen: vuelve a exportarlas y súbelas. "
+                                            if os.path.isfile(COOKIES) else
+                                            "Arréglalo subiendo las cookies de tu cuenta de YouTube en la tarjeta "
+                                            "«Cookies de YouTube» (abajo). ")
+                                         + "Mientras, prueba a cambiar de wifi a datos del móvil (o al revés).")
                     if DIAG["avisos"]:  # YouTube puso pegas: se enseñan para saber qué pasa
                         detalle = " Lo que dice yt-dlp: " + " | ".join(DIAG["avisos"][:2]) + \
                                   " — Prueba a actualizar: «pip install -U --pre yt-dlp» y reinicia el Clipper."

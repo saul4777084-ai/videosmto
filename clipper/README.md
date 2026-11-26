@@ -73,6 +73,20 @@ La app necesita el servidor encendido (en el ordenador o en Termux); los archivo
 TikTok también limita cuántos vídeos se publican al día por API (unos 15): no subas el máximo por encima de eso.
 Las claves se guardan en `clipper/tiktok.json`, que no se sube a GitHub. No lo compartas.
 
+## 4d. Si YouTube dice «Sign in to confirm you're not a bot»
+
+YouTube ha marcado tu conexión y no deja leer los directos. Primero prueba a **cambiar de wifi a datos** (o al revés): a veces basta, y el bloqueo suele quitarse solo en unas horas.
+El arreglo que dura es darle al Clipper las **cookies de tu cuenta de YouTube** (mejor una cuenta secundaria: YouTube podría limitar la cuenta que use yt-dlp):
+
+1. Abre una **ventana de incógnito** en el navegador de un ordenador (Chrome o Firefox), entra en https://www.youtube.com e **inicia sesión**.
+2. Con la extensión **«Get cookies.txt LOCALLY»** (Chrome/Firefox), estando en youtube.com, pulsa *Export* → se descarga `cookies.txt`.
+3. **Cierra la ventana de incógnito** sin cerrar sesión (si sigues usando esa sesión, YouTube cambia las cookies y dejan de valer).
+4. Pásate el archivo al móvil (por ejemplo, mándatelo por WhatsApp o Drive y descárgalo).
+5. En el Clipper, tarjeta **Cookies de YouTube** → elige el archivo → **Subir cookies** → vuelve a pulsar **Conectar**.
+
+Sin ordenador: Firefox para Android admite extensiones; si encuentras «Get cookies.txt LOCALLY» (o «cookies.txt») para Android, haz lo mismo desde el móvil.
+Las cookies se guardan en `clipper/cookies.txt`, que no se sube a GitHub. Son como tu contraseña: no las compartas. Si al cabo de un tiempo vuelve el aviso, repite los pasos (caducan).
+
 ## 5. Sin ordenador (Android con Termux)
 
 Instalar (una vez): Termux desde F-Droid y luego

@@ -147,6 +147,17 @@ h3{margin:14px 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;le
   <p class="estado" style="margin-top:10px">Estos ajustes se usan al pulsar «Hacer vertical». Los directos no tienen subtítulos en YouTube, así que los clips salen sin ellos.</p>
 </details>
 
+<details class="card" id="yt">
+  <summary>Cookies de YouTube <span id="ytResumen" class="estado" style="display:inline;font-weight:400"></span></summary>
+  <p class="estado" style="margin-top:0">Si YouTube dice «Sign in to confirm you're not a bot», sube aquí el archivo <b>cookies.txt</b> de tu cuenta de YouTube: así yt-dlp entra como tú y no lo bloquea. Cómo sacarlo: README del Clipper, apartado 4d. Mejor con una cuenta secundaria.</p>
+  <div class="acciones">
+    <input id="ytArchivo" type="file" accept=".txt,text/plain" style="flex:1 1 100%">
+    <button id="ytSubir" type="button">Subir cookies</button>
+    <button id="ytBorrar" class="sec" type="button" hidden>Borrar cookies</button>
+  </div>
+  <p id="ytEstado" class="estado" style="margin-top:10px"></p>
+</details>
+
 <details class="card" id="tt">
   <summary>TikTok <span id="ttResumen" class="estado" style="display:inline;font-weight:400"></span></summary>
   <div id="ttConectar">
@@ -340,6 +351,22 @@ $("ttPermiso").onclick = async () => {
 $("ttUsarCodigo").onclick = async () => { if (await ttHacer("/api/tiktok/codigo", {texto: $("ttCodigo").value}, "✅ TikTok conectado.")) $("ttCodigo").value = ""; };
 $("ttGuardar").onclick = () => ttHacer("/api/tiktok/ajustes", {plantilla: $("ttPlantilla").value, privacidad: $("ttPrivacidad").value, max_dia: +$("ttMax").value}, "Guardado.");
 $("ttDesconectar").onclick = () => ttHacer("/api/tiktok/desconectar", {}, "Desconectado.");
+// ---- Cookies de YouTube
+function pintarCookies(c) {
+  $("ytResumen").textContent = c.cargadas ? `· cargadas (${new Date(c.fecha * 1000).toLocaleDateString("es")})` : "· sin cookies";
+  $("ytBorrar").hidden = !c.cargadas;
+}
+fetch("/api/cookies").then(r => r.json()).then(pintarCookies).catch(() => {});
+$("ytSubir").onclick = async () => {
+  const f = $("ytArchivo").files[0];
+  if (!f) return error($("ytEstado"), "Elige primero el archivo cookies.txt.");
+  try {
+    const r = await api("/api/cookies", {texto: await f.text()});
+    pintarCookies(r); $("ytEstado").textContent = `✅ ${r.cookies} cookies de YouTube guardadas. Pulsa Conectar otra vez.`;
+  } catch (e) { error($("ytEstado"), e.message); }
+};
+$("ytBorrar").onclick = async () => { pintarCookies(await api("/api/cookies", {borrar: true})); $("ytEstado").textContent = "Cookies borradas."; };
+
 estadoTikTok();
 setInterval(() => { if (!document.hidden) estadoTikTok(); }, 15000);
 
