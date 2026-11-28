@@ -1,10 +1,12 @@
 // "Turno de noche" (gasolinera, parte 3 y final). Sigue justo donde acabó la parte 2 (src/TurnoNoche2):
 // el falso encargado abre la puerta con tus llaves.
-// Versión sin voz: cuando llegue el audio, se alinea con scripts/alinear_voz.py (guion.json → tiempos.json)
-// y se hace como en la parte 2 (CON_VOZ = true, segundos y tiempos desde tiempos.json).
+// Voz de Aiden (ElevenLabs) en public/voz/turno-noche-3.mp3: duración de cada escena y tiempo de cada
+// palabra salen de tiempos.json (scripts/alinear_voz.py). CON_VOZ = false vuelve a la versión sin voz.
 import { Escena, framesDe } from "../comun/tipos";
+import alineado from "./tiempos.json";
 
-export const CON_VOZ = false;
+export const CON_VOZ = true;
+const COLA_FINAL = 1.6; // segundos extra al final para el cierre en iris
 
 export type Ilustracion =
   | "abre"
@@ -45,7 +47,14 @@ const SIN_VOZ: Escena<Ilustracion>[] = [
   { ilustracion: "final", segundos: 5, texto: "Esta noche te toca otra vez. ¿Volverías?", clave: ["¿Volverías?"] },
 ];
 
-export const ESCENAS: Escena<Ilustracion>[] = SIN_VOZ;
+export const ESCENAS: Escena<Ilustracion>[] = CON_VOZ
+  ? SIN_VOZ.map((e, i) => {
+      const fr = alineado.frases[i];
+      if (fr.texto !== e.texto) throw new Error(`guion.json no coincide con la escena ${i + 1}: ${fr.texto}`);
+      const ultima = i === SIN_VOZ.length - 1;
+      return { ...e, segundos: fr.segundos + (ultima ? COLA_FINAL : 0), tiempos: fr.tiempos };
+    })
+  : SIN_VOZ;
 
 export const DURACION_TOTAL = ESCENAS.reduce((t, e) => t + framesDe(e.segundos), 0);
 

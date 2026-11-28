@@ -1,0 +1,408 @@
+{
+ "duracion": 51.84,
+ "frases": [
+  {
+   "texto": "La puerta se abre.",
+   "palabras": [
+    0.0,
+    0.32,
+    0.8,
+    0.96
+   ],
+   "inicio": 0.0,
+   "segundos": 1.51,
+   "tiempos": [
+    0.0,
+    0.32,
+    0.8,
+    0.96
+   ]
+  },
+  {
+   "texto": "Y todos los fluorescentes se apagan a la vez.",
+   "palabras": [
+    1.76,
+    2.0,
+    2.32,
+    2.88,
+    3.44,
+    3.52,
+    4.08,
+    4.16,
+    4.4
+   ],
+   "inicio": 1.51,
+   "segundos": 3.2,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.81,
+    1.37,
+    1.93,
+    2.01,
+    2.57,
+    2.65,
+    2.89
+   ]
+  },
+  {
+   "texto": "En la oscuridad, solo brillan sus ojos.",
+   "palabras": [
+    4.96,
+    5.12,
+    5.28,
+    6.24,
+    6.64,
+    7.2,
+    7.44
+   ],
+   "inicio": 4.71,
+   "segundos": 3.2,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.57,
+    1.53,
+    1.93,
+    2.49,
+    2.73
+   ]
+  },
+  {
+   "texto": "La mano helada tira de ti bajo el mostrador.",
+   "palabras": [
+    8.16,
+    8.4,
+    8.72,
+    9.28,
+    9.6,
+    9.76,
+    10.0,
+    10.32,
+    10.4
+   ],
+   "inicio": 7.91,
+   "segundos": 3.2,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.81,
+    1.37,
+    1.69,
+    1.85,
+    2.09,
+    2.41,
+    2.49
+   ]
+  },
+  {
+   "texto": "«No respires.»",
+   "palabras": [
+    11.36,
+    11.68
+   ],
+   "inicio": 11.11,
+   "segundos": 1.44,
+   "tiempos": [
+    0.25,
+    0.57
+   ]
+  },
+  {
+   "texto": "Sus pasos mojados cruzan la tienda.",
+   "palabras": [
+    12.8,
+    13.12,
+    13.6,
+    14.24,
+    14.72,
+    14.88
+   ],
+   "inicio": 12.55,
+   "segundos": 2.64,
+   "tiempos": [
+    0.25,
+    0.57,
+    1.05,
+    1.69,
+    2.17,
+    2.33
+   ]
+  },
+  {
+   "texto": "Y se detienen justo encima de ti.",
+   "palabras": [
+    15.44,
+    15.68,
+    15.84,
+    16.56,
+    17.04,
+    17.52,
+    17.76
+   ],
+   "inicio": 15.19,
+   "segundos": 2.88,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.65,
+    1.37,
+    1.85,
+    2.33,
+    2.57
+   ]
+  },
+  {
+   "texto": "«Sé que estás ahí. Por algo te di las llaves.»",
+   "palabras": [
+    18.32,
+    18.72,
+    18.96,
+    19.28,
+    19.92,
+    20.16,
+    20.48,
+    20.72,
+    20.96,
+    21.12
+   ],
+   "inicio": 18.07,
+   "segundos": 3.68,
+   "tiempos": [
+    0.25,
+    0.65,
+    0.89,
+    1.21,
+    1.85,
+    2.09,
+    2.41,
+    2.65,
+    2.89,
+    3.05
+   ]
+  },
+  {
+   "texto": "Entonces, el reloj marca las 3:34.",
+   "palabras": [
+    22.0,
+    22.8,
+    23.04,
+    23.6,
+    24.0,
+    24.96
+   ],
+   "inicio": 21.75,
+   "segundos": 3.92,
+   "tiempos": [
+    0.25,
+    1.05,
+    1.29,
+    1.85,
+    2.25,
+    3.21
+   ]
+  },
+  {
+   "texto": "Silencio. Las luces vuelven. La tienda está vacía.",
+   "palabras": [
+    25.92,
+    26.96,
+    27.2,
+    27.68,
+    28.4,
+    28.64,
+    29.04,
+    29.28
+   ],
+   "inicio": 25.67,
+   "segundos": 4.08,
+   "tiempos": [
+    0.25,
+    1.29,
+    1.53,
+    2.01,
+    2.73,
+    2.97,
+    3.37,
+    3.61
+   ]
+  },
+  {
+   "texto": "Te giras para darle las gracias… y no hay nadie.",
+   "palabras": [
+    30.0,
+    30.16,
+    30.64,
+    30.88,
+    31.2,
+    31.44,
+    32.24,
+    32.48,
+    32.72,
+    32.96
+   ],
+   "inicio": 29.75,
+   "segundos": 3.6,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.89,
+    1.13,
+    1.45,
+    1.69,
+    2.49,
+    2.73,
+    2.97,
+    3.21
+   ]
+  },
+  {
+   "texto": "A las seis llega el encargado. El de verdad.",
+   "palabras": [
+    33.6,
+    33.76,
+    33.92,
+    34.32,
+    34.64,
+    34.8,
+    35.6,
+    35.84,
+    36.0
+   ],
+   "inicio": 33.35,
+   "segundos": 2.96,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.57,
+    0.97,
+    1.29,
+    1.45,
+    2.25,
+    2.49,
+    2.65
+   ]
+  },
+  {
+   "texto": "Le cuentas todo. Solo dice: «El de antes que tú abrió.»",
+   "palabras": [
+    36.56,
+    36.8,
+    37.28,
+    37.76,
+    38.16,
+    38.8,
+    39.04,
+    39.2,
+    39.52,
+    39.68,
+    39.92
+   ],
+   "inicio": 36.31,
+   "segundos": 4.08,
+   "tiempos": [
+    0.25,
+    0.49,
+    0.97,
+    1.45,
+    1.85,
+    2.49,
+    2.73,
+    2.89,
+    3.21,
+    3.37,
+    3.61
+   ]
+  },
+  {
+   "texto": "«Nunca volvimos a verle.»",
+   "palabras": [
+    40.64,
+    41.04,
+    41.68,
+    41.84
+   ],
+   "inicio": 40.39,
+   "segundos": 1.84,
+   "tiempos": [
+    0.25,
+    0.65,
+    1.29,
+    1.45
+   ]
+  },
+  {
+   "texto": "En el tablón, su foto: empleado del mes.",
+   "palabras": [
+    42.48,
+    42.64,
+    42.8,
+    43.52,
+    43.76,
+    44.4,
+    45.12,
+    45.36
+   ],
+   "inicio": 42.23,
+   "segundos": 3.44,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.57,
+    1.29,
+    1.53,
+    2.17,
+    2.89,
+    3.13
+   ]
+  },
+  {
+   "texto": "Es el hombre empapado. El que te salvó.",
+   "palabras": [
+    45.92,
+    46.08,
+    46.24,
+    46.56,
+    47.36,
+    47.6,
+    47.76,
+    47.92
+   ],
+   "inicio": 45.67,
+   "segundos": 2.72,
+   "tiempos": [
+    0.25,
+    0.41,
+    0.57,
+    0.89,
+    1.69,
+    1.93,
+    2.09,
+    2.25
+   ]
+  },
+  {
+   "texto": "Esta noche te toca otra vez. ¿Volverías?",
+   "palabras": [
+    48.64,
+    48.96,
+    49.36,
+    49.52,
+    49.92,
+    50.24,
+    50.72
+   ],
+   "inicio": 48.39,
+   "segundos": 3.45,
+   "tiempos": [
+    0.25,
+    0.57,
+    0.97,
+    1.13,
+    1.53,
+    1.85,
+    2.33
+   ]
+  }
+ ]
+}
