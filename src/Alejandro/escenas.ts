@@ -1,5 +1,5 @@
 // "Alejandro Magno" — mapa plano dibujado (aspecto de Napoleón) con el motor «Tierra». Sin avatar (vídeo de mapas).
-// Sin voz: tiempos.json es "provisional" (scripts/tiempos_sin_voz.py). Si llega una voz, se alinea con alinear_voz.py.
+// Voz: «Gerardo» (ElevenLabs, eleven_v4), alineada con alinear_voz.py sobre guion.json (la frase del 323 corregida a mano).
 // Datos: nace en Pela (Macedonia) en el 356 a. C.; Aristóteles fue su maestro desde el 343; rey en el 336, con 20 años,
 // al morir asesinado su padre Filipo II; cruza el Helesponto en el 334 con unos 37.000 hombres (Gránico); vence a Darío III
 // en Isos (333), que huye; Egipto lo acoge como faraón (332) y funda Alejandría (331); Gaugamela (331): Darío huye otra vez
