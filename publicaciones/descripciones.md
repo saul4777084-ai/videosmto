@@ -312,7 +312,7 @@ Archivo: `videos/reel-millon.mp4`
 >
 > #Terror #HistoriasDeTerror #Miedo #Creepy
 
-## Turno de noche — Gasolinera, parte 3 y final (68 s, sin voz) — `videos/TurnoNoche3.mp4`
+## Turno de noche — Gasolinera, parte 3 y final (53 s, con voz de Aiden) — `videos/TurnoNoche3.mp4`
 
 ### Instagram Reels / TikTok
 > **Abrió la puerta a las 3:33… y alguien me escondió bajo el mostrador** 🔦🚪
