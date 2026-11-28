@@ -473,7 +473,7 @@ añade música en la app si lo publicas así.
 
 ---
 
-## Alejandro Magno (64 s, sin voz) — `videos/reel-alejandro.mp4`
+## Alejandro Magno (62 s, con voz «Gerardo» de ElevenLabs) — `videos/reel-alejandro.mp4`
 
 ### TikTok / Reels
 > **Conquistó medio mundo antes de cumplir 33 años** ⚔️🗺️
