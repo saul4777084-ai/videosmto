@@ -448,7 +448,7 @@ añade música en la app si lo publicas así.
 ---
 
 ## ¿Qué le pasa a tu cuerpo si te quedas a la deriva en el mar? — `videos/reel-deriva.mp4`
-~1:54 sin voz · versión «cine» como la cueva · avatar en la esquina inferior derecha · final A/B.
+~1:42 con la voz del usuario (`videos/reel-deriva-voz.mp4`; sin voz: `videos/reel-deriva.mp4`) · versión «cine» como la cueva · avatar en la esquina inferior derecha · final A/B.
 
 ### TikTok / Reels
 > **A la deriva en el mar, sin agua y sin nadie** 🌊🛟

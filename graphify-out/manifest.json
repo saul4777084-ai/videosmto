@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "publicaciones/descripciones.md": {
-    "mtime": 1795715319.5885289,
-    "seen": 1795715346.9924512,
-    "ast_hash": "d3ad66f70331a3fdae726af322135a49",
+    "mtime": 1795829307.2539966,
+    "seen": 1795829330.6167862,
+    "ast_hash": "1ee6b17febdbc4f2336386a9d26151dd",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/public/texturas/causticas.png": {
@@ -4746,9 +4746,9 @@
     "semantic_hash": ""
   },
   "src/Deriva/Ilustraciones.tsx": {
-    "mtime": 1795715239.433995,
-    "seen": 1795715346.9920828,
-    "ast_hash": "9e7e3643795d569f696f233c95eabcf7",
+    "mtime": 1795828528.7008035,
+    "seen": 1795829330.616044,
+    "ast_hash": "cef4d96d963ad86bd8896485e41d71a8",
     "semantic_hash": ""
   },
   "src/Deriva/Reel.tsx": {
@@ -4776,9 +4776,9 @@
     "semantic_hash": ""
   },
   "src/Deriva/tiempos.json": {
-    "mtime": 1795714852.0932183,
-    "seen": 1795715346.9920886,
-    "ast_hash": "be8d41ed141071a4d9421bb8fdac816d",
+    "mtime": 1795828443.125842,
+    "seen": 1795829330.6160524,
+    "ast_hash": "7f889a39c379b65c611fadde8f6f207e",
     "semantic_hash": ""
   },
   "src/Alejandro/voz_texto.txt": {
@@ -4791,6 +4791,30 @@
     "mtime": 1795714801.5734546,
     "seen": 1795715346.9924567,
     "ast_hash": "8d3a16244b07609a54da0153166edc09",
+    "semantic_hash": ""
+  },
+  "public/voz/deriva.mp3": {
+    "mtime": 1795828455.2567382,
+    "seen": 1795829330.6170533,
+    "ast_hash": "e3173da697f093a4e4c952673b750b5b",
+    "semantic_hash": ""
+  },
+  "videos/reel-alejandro.mp4": {
+    "mtime": 1795716744.4334626,
+    "seen": 1795829330.6170695,
+    "ast_hash": "dd88e7e95e1d45e42c00e1ea9901d9bf",
+    "semantic_hash": ""
+  },
+  "videos/reel-deriva-voz.mp4": {
+    "mtime": 1795829294.140788,
+    "seen": 1795829330.6170814,
+    "ast_hash": "b50695a0e9c45c463d6257c821578e66",
+    "semantic_hash": ""
+  },
+  "videos/reel-deriva.mp4": {
+    "mtime": 1795716720.5774612,
+    "seen": 1795829330.6170826,
+    "ast_hash": "b3582b736eb903fb40f776f76b9109c0",
     "semantic_hash": ""
   },
   ".agents/skills/becario-reels/assets/plantilla/package-lock.json": {

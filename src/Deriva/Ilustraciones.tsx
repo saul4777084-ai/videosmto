@@ -330,7 +330,7 @@ const rinon: Fabrica = ({ en }) => ({ f }) => {
           return <ellipse key={i} cx={x + Math.sin(i) * 20} cy={y} rx={14} ry={20} fill={AZUL} opacity={sale * (1 - t)} />;
         })}
       </svg>
-      <T x={540} y={1040} tam={40} alinear="center" color="#cfe6ff" op={tramo(f, tsa, tsa + 6)}>
+      <T x={540} y={1130} tam={40} alinear="center" color="#cfe6ff" op={tramo(f, tsa, tsa + 6)}>
         {"PARA ECHAR LA SAL"}
       </T>
       <Rotulo f={f} inicio={tri} texto="ENTRA:  1 VASO" y={460} x={540} tam={52} fondo="rgba(5,20,40,0.85)" color={AZUL} />
